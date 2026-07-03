@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -15,6 +15,7 @@ data-class: public
 related:
   - "[[ai-refinement-hybrid]]"
   - "[[platform-stakeholder-register]]"
+  - "[[work-item-schemas]]"
 ---
 
 # AI-Augmented Refinement — Jira Work Item Pipeline
@@ -68,7 +69,7 @@ flowchart LR
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Intake & Guardrails | heavy | internal | Rovo, Copilot | inline — guardrails, persona, schemas transcribed from `reference/ai-refinement-hybrid.md` |
+| 1 | Intake & Guardrails | heavy | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all five refinable types) |
 | 2 | Context & Problem Framing | heavy | internal | Rovo, Copilot | `context-elicitation` (to-review, skill-foundry backlog) |
 | 3 | Scope & Dependencies | light | internal | Rovo, Copilot | `scope-dependency-mapper` (to-review, skill-foundry backlog) |
 | 4 | Field-by-Field Refinement | light | internal | Rovo, Copilot | `field-refinement-cadence` (to-review, skill-foundry backlog) |
@@ -118,8 +119,11 @@ per-run content.
 1. The user speaks a trigger phrase ("Run AI Refinement", "Start Refinement",
    "I want to refine").
 2. Stage 1 activates: guardrails are presented, responsibility is acknowledged,
-   and the user picks a work-item type from the hierarchy
-   (Portfolio Epic → Solution Epic → Feature → Story | Task | Spike → Sub-Task).
+   and the user picks a work-item type from the refinable set — Solution Epic,
+   Feature, Story, Task, or Spike. (The full hierarchy is Portfolio Epic →
+   Solution Epic → Feature → Story | Task | Spike → Sub-Task; portfolio epics
+   and sub-tasks are out of refinement scope and get redirected — see
+   `reference/work-item-schemas.md`.)
 3. Stages 2–5 walk the user through the selected work-item schema one field at
    a time, confirming each before advancing. The TPSO persona challenges
    incomplete requirements and enforces measurable outcomes throughout; the
@@ -154,11 +158,23 @@ operator promotion / placement in `completed-skills/`.
 | `workitem-validation` | `sp-workitem-validation` | 5 | to-review — pre-gate run passed |
 | `jira-commit` | `sp-jira-commit` | 6 | to-review — pre-gate run passed |
 
+Second gap (2026-07-03): the work-item schema registry
+(`reference/work-item-schemas.md`) completes type coverage — the source
+clipping defined only `solution_epic` and `feature`, leaving three of the five
+selectable types unrunnable. The `story`, `task`, and `spike` schemas are
+house-drafted at `to-review`: the operator ratifies the field sets (and the
+two proposed spike fields, `question_to_answer` and `timebox`) and confirms
+them against the real Jira project configuration at instantiation. Follow-up
+on ratification: add the two spike fields to `jira-commit`'s custom-field list
+as a 1.2 revision. Rationale and assumptions:
+`decision-log/2026-07-03-work-item-schema-extension.md`.
+
 ## Reference material (Layer-3)
 
 | Artifact | Location | Covers |
 |---|---|---|
-| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (claimed clipping) | Guardrails, persona, hierarchy, schemas, workflow cadence, triggers |
+| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (claimed clipping) | Guardrails, persona, hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers |
+| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all five refinable types; story/task/spike extensions; portfolio_epic / sub_task out-of-scope declarations; extension field constraints |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |

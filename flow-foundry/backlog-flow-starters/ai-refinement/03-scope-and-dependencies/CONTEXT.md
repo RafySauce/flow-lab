@@ -4,7 +4,7 @@ title: "Stage 03 — Scope & Dependencies"
 type: stage-context
 stage: 3
 review-intensity: light
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -57,6 +57,10 @@ related:
 6. **Detect scope splitting** — if the in-scope list suggests multiple deliverables, recommend splitting into child items per the hierarchy.
 7. **Identify risks** (optional for solution_epic) — flag technical, operational, or timeline risks, including any hard physical constraints surfaced by the register (e.g., Growth vs. Physical Limits).
 8. **Confirm scope package** — present in-scope, out-of-scope, dependencies, annotations, and risks to the user for approval.
+   For a `spike`, the confirmed scope package bounds the investigation: it
+   informs `question_to_answer` and the exit criteria in Stage 04 rather than
+   landing in schema fields (the spike schema carries none — see
+   `../reference/work-item-schemas.md`).
 
 ## Outputs
 
