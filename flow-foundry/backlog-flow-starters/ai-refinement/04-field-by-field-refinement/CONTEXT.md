@@ -4,18 +4,19 @@ title: "Stage 04 — Field-by-Field Refinement"
 type: stage-context
 stage: 4
 review-intensity: light
-status: to-review
+artifact-version: "1.1"
+status: living
 truth-level: to-review
 created: 2026-07-03
 updated: 2026-07-03
+owner: operator
 source: human+ai
-data-class: internal
-owner: rafael.torres
+generated-by: flow-foundry
+generated-by-version: "1.1"
+data-class: public
 related:
   - "[[ai-refinement]]"
-  - "[[skill-field-refinement-cadence]]"
-skill-dependency: skill-field-refinement-cadence
-skill-status: gap
+  - "[[field-refinement-cadence]]"
 ---
 
 # Stage 04 — Field-by-Field Refinement
@@ -24,17 +25,15 @@ skill-status: gap
 
 | Input | Source | Required |
 |---|---|---|
-| All confirmed fields from Stages 02–03 | Stages 02, 03 | Yes |
+| All confirmed fields and annotations from Stages 02–03 | Stages 02, 03 | Yes |
 | Work item schema (required/optional field list) | Stage 01 | Yes |
 | Active persona contract | Stage 01 | Yes |
-| Field definitions (summary ≤10 words, AC starters) | Source doc | Yes |
+| Field definitions (summary ≤ 10 words, AC starters) | `../reference/ai-refinement-hybrid.md` | Yes |
 
 ## Process
 
-> **⚠ SKILL GAP** — `skill-field-refinement-cadence` does not yet exist.
-> See `skill-demand/skill-field-refinement-cadence-brief.md`.
-
-When the skill is built, this stage will:
+`Layer-3: field-refinement-cadence` (skill spec in
+`skill-foundry/backlog-skill-starters/field-refinement-cadence/`, `to-review`)
 
 1. **Determine field order** — sequence remaining required fields logically:
    - Summary first (anchors everything)
@@ -48,6 +47,7 @@ When the skill is built, this stage will:
    - Due date vs. blocking dependency timelines
    - In-scope claims vs. acceptance criteria gaps
    - Type-of-work / work-category consistency (feature only)
+   - Conflict axis triggered in Stage 03 with no decision-owner recorded
 4. **Acceptance criteria refinement** — enforce the starter pattern:
    - "Must be able to…"
    - "We will know this is done when…"
@@ -60,25 +60,39 @@ When the skill is built, this stage will:
 |---|---|---|
 | Complete set of refined field values | Stage 05 | Key-value pairs |
 | Cross-field conflict report (if any) | User / Stage 05 | Advisory list |
-| Per-field confirmation log | Decision log | Conversation record |
+| Per-field confirmation log | Run decision log | Conversation record |
 
 ## Verify
+
+Cross-stage trace: every value refined here must trace to a field the Stage 01
+schema requires (or marks optional) for the selected type, and the scope-derived
+fields (`in_scope`, `out_of_scope`, `dependencies`) must match what Stage 03
+confirmed — the failure this catches is a field silently rewritten past its
+confirmed upstream content. Running this check leaves a one-line result in the
+run's decision log.
 
 - [ ] Every required field for the selected work item type has a value
 - [ ] Summary is ≤ 10 words
 - [ ] All acceptance criteria use approved starters
+- [ ] Scope fields match Stage 03's confirmed scope package
 - [ ] Cross-field conflicts were checked and resolved
 - [ ] Each field was individually confirmed by the user
 - [ ] No PII or confidential data in any field
 
 ## Review
 
-**Intensity: Light** — each field was already user-confirmed inline; review is a consistency scan.
+- **Reviewer:** operator (or delegate)
+- **Intensity:** light — each field was already user-confirmed inline; review is
+  a consistency scan.
+- **Evidence:** per-field confirmation log and a one-line entry in the run's
+  decision log.
 
-Review owner: Human (Rafael or delegate)
+## Data boundary
 
-## Data Boundary
-
-- Field values are `internal` classification.
-- Acceptance criteria may reference internal systems — acceptable at `internal`.
+- **Max data-class this stage handles:** internal
+- **Sanctioned engines for this stage:** Rovo, Copilot
+- Field values are `internal` classification; acceptance criteria may reference
+  internal systems — acceptable at `internal`.
 - No credentials, tokens, or PII in any field value.
+- A handoff into this stage from an engine outside this boundary is invalid —
+  stop and re-route.
