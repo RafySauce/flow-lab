@@ -1,4 +1,4 @@
-Generated from jira-commit/SKILL.md v1.0 — edit the spec, not the live agent.
+Generated from jira-commit/SKILL.md v1.1 — edit the spec, not the live agent.
 
 # Rovo Agent — Jira Commit
 

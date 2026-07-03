@@ -1,4 +1,4 @@
-Generated from field-refinement-cadence/SKILL.md v1.0 — edit the spec, not the live agent.
+Generated from field-refinement-cadence/SKILL.md v1.1 — edit the spec, not the live agent.
 
 # Rovo Agent — Field Refinement Cadence
 

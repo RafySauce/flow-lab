@@ -12,7 +12,7 @@ description: >
 # --- provenance (house layer) ---
 id: context-elicitation
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -41,10 +41,10 @@ flowchart LR
     Start(["Trigger: raw problem context,<br/>framed fields needed"]):::start --> Q["Step 1 — Question sequence<br/>Broad context → specific problem"]:::process
     Q --> SW["Step 2 — Stakeholder sweep<br/>Tag register entries; prompt from<br/>'what they value most'"]:::process
     SW --> V{"Answer specific<br/>enough?"}:::decision
-    V -->|No| PB["Pushback pattern<br/>Reframe; ask for failure modes"]:::halt
+    V -->|No| PB["Step 3 — Pushback pattern<br/>Reframe; ask for failure modes"]:::halt
     PB --> V
-    V -->|Yes| D["Step 3 — Draft fields<br/>problem_statement, outcomes, value"]:::process
-    D --> C["Step 4 — Confirm<br/>Explicit yes/no per field"]:::process
+    V -->|Yes| D["Step 4 — Draft fields<br/>problem_statement, outcomes, value"]:::process
+    D --> C["Step 5 — Confirm<br/>Explicit yes/no per field"]:::process
     C --> Output(["Output: confirmed fields +<br/>stakeholder tag list"]):::output
 
     classDef start fill:#1e293b,stroke:#94a3b8,color:#f1f5f9
@@ -138,9 +138,12 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
+| Rovo | adapters/rovo-agent.md | 1.1 |
+| Copilot | adapters/copilot-prompt.md | 1.1 |
 
 ## Changelog
 
+- **1.1** (2026-07-03) — Flow Diagram step labels renumbered to match the Method
+  prose one-for-one (pre-gate spec-review finding; no behavior change). Adapters
+  re-stamped — their content is unchanged by a diagram-only revision.
 - **1.0** (2026-07-03) — Initial build from `sp-context-elicitation`.

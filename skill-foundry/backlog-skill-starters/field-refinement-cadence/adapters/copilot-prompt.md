@@ -7,7 +7,7 @@ now"). Emit the block below verbatim; a human merges it through normal PR review
 ---
 
 ```markdown
-<!-- Generated from field-refinement-cadence/SKILL.md v1.0 — do not edit here; edit the spec. -->
+<!-- Generated from field-refinement-cadence/SKILL.md v1.1 — do not edit here; edit the spec. -->
 # Field Refinement Cadence (AI Refinement — Stage 04)
 
 Data boundary: max data-class internal. No credentials, tokens, or PII in any
