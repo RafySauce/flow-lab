@@ -22,6 +22,7 @@ It holds **method, templates, and sanitized exemplars only**. No employer conten
 
 ## How agents operate here
 
+0. **`CONTEXT.md` is the folder's entry point.** Every working folder carries a `CONTEXT.md` — read it before operating in that folder. `README.md` exists only at the repo root, as the public landing page. (Inside a scaffolded flowspace, a stage's `CONTEXT.md` is additionally its six-field stage contract.)
 1. **Route through the foundry specs.** Building or normalizing a flowspace → `flow-foundry/foundry-spec.md`. Building or normalizing a skill → `skill-foundry/foundry-spec.md`. Don't re-derive method the spec already defines.
 2. **Triage before building.** Classify every starter: primer-brief (clean path), foreign material (vet first — provenance, license, security), or not-worthy (recommend dropping, plainly).
 3. **Stamp everything.** Every artifact carries valid frontmatter per `methodology/provenance-spec.md`. New artifacts emit at `truth-level: draft` or `to-review`, never `verified`.
