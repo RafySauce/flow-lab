@@ -2,7 +2,7 @@
 id: work-item-schemas
 title: "Work Item Schemas — Refinable Set (House Extension)"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -28,7 +28,12 @@ loading, and on any divergence the clipping wins. The `story`, `task`, and
 `spike` schemas below are house extensions at `truth-level: to-review`:
 operator ratification, and confirmation against the real Jira project
 configuration at instantiation, are still owed (see the decision log,
-`../decision-log/2026-07-03-work-item-schema-extension.md`).
+`../decision-log/2026-07-03-work-item-schema-extension.md`). **1.1** adds
+`type_of_work`/`work_category` to `story` and `spike` (they were already on
+`feature` and `task`) per an operator-observed defect on the first on-engine
+run — see `../decision-log/2026-07-03-stage06-feedback-revision.md`; this
+lands in the same to-review bundle awaiting ratification, not a separate
+approval.
 
 ## Refinable set and out-of-scope types
 
@@ -85,6 +90,8 @@ work_item_types:
       in_scope: required
       out_of_scope: required
       acceptance_criteria: required
+      type_of_work: required
+      work_category: required
       due_date: required
 
   task:
@@ -107,6 +114,8 @@ work_item_types:
       timebox: required
       customer_business_value: required
       acceptance_criteria: required
+      type_of_work: required
+      work_category: required
       due_date: required
 ```
 
@@ -135,10 +144,12 @@ Recorded so the operator can ratify the *reasoning*, not just the field lists:
    enforces the summary limit and AC starters on every item, Stage 05 checks
    the due date on every item. A type missing any of these would make a stage
    contract conditionally meaningless.
-2. **The feature schema is the template for its children.** `story` is
-   `feature` minus the execution-classification fields; `task` keeps
-   `type_of_work` and `work_category` because tasks are the pipeline's
-   execution-shaped carrier (Stage 04's consistency check covers both).
+2. **The feature schema is the template for its children.** `story`, `task`,
+   and `spike` all carry `type_of_work` and `work_category` — every refinable
+   type traverses the Jira board workflow after commit, and the board's
+   column-transition rules key off these two fields regardless of issue type
+   (see rule 5). `story` differs from `feature`/`task` only in scope framing
+   (`in_scope`/`out_of_scope`), not in board-interaction fields.
 3. **`dependencies` is a schema field only where the source made it one**
    (`solution_epic`). For all other types, Stage 03 still classifies
    dependencies and Stage 06 still creates the Jira issue links — the source's
@@ -150,3 +161,11 @@ Recorded so the operator can ratify the *reasoning*, not just the field lists:
    `question_to_answer` and `acceptance_criteria` (exit criteria) rather than
    landing in separate fields. Alternative (add both scope fields for
    uniformity) is logged for the operator.
+5. **Board-interaction fields are required wherever the board demands them,
+   not wherever the source schema happened to define them.** `type_of_work`
+   and `work_category` are Jira board configuration requirements for moving an
+   item across workflow columns — every refinable type (`story`, `task`,
+   `spike`, in addition to `feature`) traverses that workflow once committed,
+   so every refinable type requires both fields. (Operator-observed defect,
+   NEADD-1827: a spike committed without them could not be transitioned off
+   Backlog. See `../decision-log/2026-07-03-stage06-feedback-revision.md`.)
