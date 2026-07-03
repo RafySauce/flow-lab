@@ -12,7 +12,7 @@ description: >
 # --- provenance (house layer) ---
 id: context-elicitation
 type: skill
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -38,7 +38,7 @@ inside the TPSO persona established by the flowspace's Stage 01.
 
 ```mermaid
 flowchart LR
-    Start(["Trigger: raw problem context,<br/>framed fields needed"]):::start --> Q["Step 1 — Question sequence<br/>Broad context → specific problem"]:::process
+    Start(["Trigger: raw problem context,<br/>framed fields needed"]):::start --> Q["Step 1 — Question sequence<br/>Broad → specific; steered by<br/>source-input type when present"]:::process
     Q --> SW["Step 2 — Stakeholder sweep<br/>Tag register entries; prompt from<br/>'what they value most'"]:::process
     SW --> V{"Answer specific<br/>enough?"}:::decision
     V -->|No| PB["Step 3 — Pushback pattern<br/>Reframe; ask for failure modes"]:::halt
@@ -70,7 +70,14 @@ flowchart LR
 1. **Question sequence.** Ask, in order, one at a time: what problem is being
    solved; who is affected and how; what is the business/operational value;
    what has been tried before. Narrow from broad to specific — don't ask for a
-   problem statement, build one.
+   problem statement, build one. When screened source material and its
+   input-type tag accompany the description (Stage 01 hands over four types
+   per the flowspace HUB's "Common source inputs" taxonomy), steer the
+   sequence by type: an email request or chat-stated requirement names a
+   requester or beneficiary — start the Step 2 stakeholder sweep there; a
+   vendor action notice or stated task list is solution-shaped — elicit the
+   underlying problem before accepting the actions as scope; meeting minutes
+   may hold several candidate items — split them and frame one per run.
 2. **Stakeholder sweep.** Walk the platform stakeholder register and tag every
    entry whose needs or limits define this item (note its number and
    role-type). For each tagged entry, use its "what they value most" column to
@@ -94,8 +101,10 @@ flowchart LR
 ## Inputs and grounding
 
 Reads: the selected work-item schema (from Stage 01), the platform stakeholder
-register (`reference/platform-stakeholder-register.md` in the flowspace), and
-the user's conversational input. Grounding rules: stakeholder tags must resolve
+register (`reference/platform-stakeholder-register.md` in the flowspace), the
+user's conversational input, and — when present — the Stage 01-screened source
+material with its input-type tag (email request, vendor action notice, meeting
+minutes/notes, or chat-stated requirement). Grounding rules: stakeholder tags must resolve
 to numbered register entries — never invent a stakeholder; if a relevant party
 is missing from the register, say so and flag it rather than fabricating an
 entry. Do not fabricate prior attempts, metrics, or outcomes the user didn't
@@ -133,16 +142,29 @@ A single output of this skill is acceptable when:
 5. Each field carries an explicit user confirmation.
 6. At least one pushback was applied if any user answer was vague (check the
    transcript) — vague-in, vague-out is a failed run.
+7. When source material was provided, the drafted problem statement is an
+   elicited problem — not a transcription of the request, action list, or
+   minutes it arrived in.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.1 |
-| Copilot | adapters/copilot-prompt.md | 1.1 |
+| Rovo | adapters/rovo-agent.md | 1.2 |
+| Copilot | adapters/copilot-prompt.md | 1.2 |
 
 ## Changelog
 
+- **1.2** (2026-07-03) — Question sequence steered by the source-input
+  taxonomy: when Stage 01 hands over screened material with an input-type tag
+  (email request, vendor action notice, meeting minutes/notes, chat-stated
+  requirement), the sequence starts the sweep at the named requester, recovers
+  the problem behind solution-shaped input, and splits multi-item minutes —
+  applying the revision flagged in the flowspace's
+  `decision-log/2026-07-03-input-taxonomy.md`. New review criterion: elicited,
+  not transcribed. Both adapters regenerated. Content change: pre-gate
+  evidence re-run required — see
+  `decision-log/2026-07-03-ai-refinement-skill-revision-pass.md`.
 - **1.1** (2026-07-03) — Flow Diagram step labels renumbered to match the Method
   prose one-for-one (pre-gate spec-review finding; no behavior change). Adapters
   re-stamped — their content is unchanged by a diagram-only revision.

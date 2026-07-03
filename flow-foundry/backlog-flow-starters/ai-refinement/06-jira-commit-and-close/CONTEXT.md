@@ -4,7 +4,7 @@ title: "Stage 06 — Jira Commit & Close"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -37,9 +37,11 @@ related:
 `Layer-3: jira-commit` (skill spec in
 `skill-foundry/backlog-skill-starters/jira-commit/`, `to-review`)
 
-1. **Field-to-API mapping** — translate the refined field key-value pairs into Jira API field IDs:
+1. **Field mapping, registry-driven** — translate the refined field key-value
+   pairs into Jira field IDs, the field set read from the selected type's
+   schema in `../reference/work-item-schemas.md`:
    - Standard fields: summary, description, due date, issue type
-   - Custom fields: problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria, question_to_answer, timebox (spike — map or create at instantiation per the registry)
+   - Custom fields (per the type's registry schema): problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria, question_to_answer, timebox (spike — map or create at instantiation per the registry)
 2. **Hierarchy linkage** — resolve parent-child relationships:
    - If creating a feature under a solution epic: set epic link
    - If creating a story/task/spike under a feature: set parent link
@@ -50,7 +52,9 @@ related:
    designated fields), so the item is taggable per the stakeholder register's
    usage rules.
 5. **Dry-run preview** — present the full API payload to the user in a readable format before committing.
-6. **Commit** — execute the Jira create/update API call.
+6. **Commit** — execute through the engine's native Jira capabilities first
+   (Rovo built-in create/update issue and issue-link actions); the sanctioned
+   Jira integration is the fallback for engines without them (Copilot).
 7. **Confirm success** — return the created issue key and URL to the user.
 8. **Session loop decision**:
    - "Refine another" → loop back to Stage 02 with session context retained

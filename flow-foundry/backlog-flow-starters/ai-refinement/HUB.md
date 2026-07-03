@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -62,8 +62,12 @@ flowchart LR
 > pre-run (spec review, simulated live test per adapter on synthetic data,
 > trigger check, collision check — all passing; evidence in both foundries'
 > decision logs, 2026-07-03). None is `verified` yet — on-engine live tests
-> and promotion to `completed-skills/` remain the operator's call. See Known
-> gaps.
+> and promotion to `completed-skills/` remain the operator's call. A same-day
+> revision pass (operator-instructed) bumped `context-elicitation` and
+> `jira-commit` to 1.2 — source-input-type steering; registry-grounded,
+> Rovo-native-first commit — with the pre-gate re-run recorded in
+> `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-revision-pass.md`.
+> See Known gaps.
 
 ## Stage table
 
@@ -152,11 +156,11 @@ operator promotion / placement in `completed-skills/`.
 
 | Skill (spec + adapters) | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `context-elicitation` | `sp-context-elicitation` | 2 | to-review — pre-gate run passed |
+| `context-elicitation` | `sp-context-elicitation` | 2 | to-review — 1.2 (input-type steering); pre-gate re-run passed (simulated) |
 | `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | to-review — pre-gate run passed |
 | `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | to-review — pre-gate run passed |
 | `workitem-validation` | `sp-workitem-validation` | 5 | to-review — pre-gate run passed |
-| `jira-commit` | `sp-jira-commit` | 6 | to-review — pre-gate run passed |
+| `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.2 (registry-grounded, Rovo-native-first); pre-gate re-run passed (simulated) |
 
 Second gap (2026-07-03): the work-item schema registry
 (`reference/work-item-schemas.md`) completes type coverage — the source
@@ -164,10 +168,14 @@ clipping defined only `solution_epic` and `feature`, leaving three of the five
 selectable types unrunnable. The `story`, `task`, and `spike` schemas are
 house-drafted at `to-review`: the operator ratifies the field sets (and the
 two proposed spike fields, `question_to_answer` and `timebox`) and confirms
-them against the real Jira project configuration at instantiation. Follow-up
-on ratification: add the two spike fields to `jira-commit`'s custom-field list
-as a 1.2 revision. Rationale and assumptions:
-`decision-log/2026-07-03-work-item-schema-extension.md`.
+them against the real Jira project configuration at instantiation. The logged
+follow-up — add the two spike fields to `jira-commit`'s custom-field list as a
+1.2 revision — was applied 2026-07-03 at operator instruction, ahead of
+ratification: `jira-commit` 1.2 now reads its field set from the registry per
+selected type, so the schemas themselves remain the single surface awaiting
+ratification. Rationale and assumptions:
+`decision-log/2026-07-03-work-item-schema-extension.md`; revision evidence:
+`skill-foundry/decision-log/2026-07-03-ai-refinement-skill-revision-pass.md`.
 
 ## Reference material (Layer-3)
 
