@@ -33,7 +33,7 @@ related:
 ## Process
 
 `Layer-3: workitem-validation` (skill spec in
-`skill-foundry/backlog-skill-starters/workitem-validation/`, `to-review`)
+`produced-skills/workitem-validation/`, `verified`)
 
 1. **Completeness scan** — walk the schema's required-field list and confirm every field has a non-empty value.
 2. **Constraint validation** — check each field against its constraints:
