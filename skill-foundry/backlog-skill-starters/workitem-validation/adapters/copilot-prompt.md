@@ -7,7 +7,7 @@ now"). Emit the block below verbatim; a human merges it through normal PR review
 ---
 
 ```markdown
-<!-- Generated from workitem-validation/SKILL.md v1.0 — do not edit here; edit the spec. -->
+<!-- Generated from workitem-validation/SKILL.md v1.1 — do not edit here; edit the spec. -->
 # Work Item Validation (AI Refinement — Stage 05)
 
 Data boundary: max data-class internal.

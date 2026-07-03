@@ -11,7 +11,7 @@ description: >
 # --- provenance (house layer) ---
 id: jira-commit
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -45,7 +45,8 @@ flowchart LR
     DR --> A{"User approves?"}:::decision
     A -->|No| H2["Stop — return payload<br/>for revision"]:::halt
     A -->|Yes| X["Step 4 — Commit<br/>Execute API call; confirm key + URL"]:::process
-    X --> Output(["Output: issue key + URL,<br/>loop or session summary"]):::output
+    X --> SL["Step 5 — Session loop<br/>Refine another / done"]:::process
+    SL --> Output(["Output: issue key + URL<br/>(+ session summary on close)"]):::output
 
     classDef start fill:#1e293b,stroke:#94a3b8,color:#f1f5f9
     classDef process fill:#1e3a8a,stroke:#60a5fa,color:#dbeafe
@@ -133,9 +134,14 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
+| Rovo | adapters/rovo-agent.md | 1.1 |
+| Copilot | adapters/copilot-prompt.md | 1.1 |
 
 ## Changelog
 
+- **1.1** (2026-07-03) — Flow Diagram brought to one-for-one with the Method
+  prose: the session-loop decision (Method step 5) added as its own node instead
+  of being folded into the terminal output (pre-gate spec-review finding; no
+  behavior change). Adapters re-stamped — content unchanged by a diagram-only
+  revision.
 - **1.0** (2026-07-03) — Initial build from `sp-jira-commit`.

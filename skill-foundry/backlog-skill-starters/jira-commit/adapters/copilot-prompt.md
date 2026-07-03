@@ -9,7 +9,7 @@ Emit the block below verbatim; a human merges it through normal PR review.
 ---
 
 ```markdown
-<!-- Generated from jira-commit/SKILL.md v1.0 — do not edit here; edit the spec. -->
+<!-- Generated from jira-commit/SKILL.md v1.1 — do not edit here; edit the spec. -->
 # Jira Commit (AI Refinement — Stage 06)
 
 Data boundary: max data-class internal. Never store, log, or request API

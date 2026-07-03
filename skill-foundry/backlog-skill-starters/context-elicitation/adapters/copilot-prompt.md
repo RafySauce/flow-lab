@@ -8,7 +8,7 @@ merges it through normal PR review.
 ---
 
 ```markdown
-<!-- Generated from context-elicitation/SKILL.md v1.0 — do not edit here; edit the spec. -->
+<!-- Generated from context-elicitation/SKILL.md v1.1 — do not edit here; edit the spec. -->
 # Context Elicitation (AI Refinement — Stage 02)
 
 Data boundary: max data-class internal. If PII or confidential data appears,

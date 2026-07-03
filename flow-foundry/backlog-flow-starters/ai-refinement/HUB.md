@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -55,11 +55,14 @@ flowchart LR
     classDef gap   fill:#7f1d1d,stroke:#f87171,color:#fee2e2
 ```
 
-> Stages 2–6 carry their true review-intensity colors: each stage's skill now
+> Stages 2–6 carry their true review-intensity colors: each stage's skill
 > exists as an authored spec in `skill-foundry/backlog-skill-starters/` at
-> `truth-level: to-review`. None is `verified` yet — the five-point review gate
-> (live test per adapter, trigger check, collision check) and promotion to
-> `completed-skills/` remain the operator's call. See Known gaps.
+> `truth-level: to-review`, and the five-point review gate has had an agent
+> pre-run (spec review, simulated live test per adapter on synthetic data,
+> trigger check, collision check — all passing; evidence in both foundries'
+> decision logs, 2026-07-03). None is `verified` yet — on-engine live tests
+> and promotion to `completed-skills/` remain the operator's call. See Known
+> gaps.
 
 ## Stage table
 
@@ -118,18 +121,23 @@ inconvenience.
 
 ## Known gaps
 
-All five skills demanded by this flowspace's Layer-3 triage have been authored
-and staged in `skill-foundry/backlog-skill-starters/` at `truth-level:
-to-review`. Remaining gap: none is human-promoted — each awaits the skill
-foundry's five-point review gate and operator placement in `completed-skills/`.
+All five skills demanded by this flowspace's Layer-3 triage are authored,
+staged in `skill-foundry/backlog-skill-starters/` at `truth-level: to-review`,
+and have passed an agent pre-run of the five-point review gate (2026-07-03) —
+evidence in `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-gate-prerun.md`;
+the flowspace's own validation-checklist pre-run is in
+`flow-foundry/decision-log/2026-07-03-ai-refinement-validation-prerun.md`.
+Remaining gap: the human half — on-engine live tests (the pre-run's simulated
+invocations are not engine runs), instantiation-time surface checks, and
+operator promotion / placement in `completed-skills/`.
 
 | Skill (spec + adapters) | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `context-elicitation` | `sp-context-elicitation` | 2 | built — to-review |
-| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | built — to-review |
-| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | built — to-review |
-| `workitem-validation` | `sp-workitem-validation` | 5 | built — to-review |
-| `jira-commit` | `sp-jira-commit` | 6 | built — to-review |
+| `context-elicitation` | `sp-context-elicitation` | 2 | to-review — pre-gate run passed |
+| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | to-review — pre-gate run passed |
+| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | to-review — pre-gate run passed |
+| `workitem-validation` | `sp-workitem-validation` | 5 | to-review — pre-gate run passed |
+| `jira-commit` | `sp-jira-commit` | 6 | to-review — pre-gate run passed |
 
 ## Reference material (Layer-3)
 

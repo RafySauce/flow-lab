@@ -11,7 +11,7 @@ description: >
 # --- provenance (house layer) ---
 id: workitem-validation
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -40,11 +40,11 @@ flowchart LR
     Start(["Trigger: complete refined<br/>field set from Stage 04"]):::start --> C["Step 1 — Completeness scan<br/>Walk schema required-field list"]:::process
     C --> K["Step 2 — Constraint checks<br/>Summary ≤ 10 words, AC starters,<br/>due date valid + future"]:::process
     K --> F["Step 3 — Formatting pass<br/>Strip bold, remove emoji,<br/>normalize whitespace"]:::process
-    F --> D{"Issue class?"}:::decision
+    F --> D{"Step 4 — Issue class?"}:::decision
     D -->|"formatting only"| AC["Auto-correct<br/>fix markup; log in report"]:::process
     D -->|"missing field /<br/>constraint / conflict"| H["Halt — surface to user<br/>for resolution"]:::halt
     H --> R
-    AC --> R["Step 4 — Validation report<br/>per-field pass/fail + corrections"]:::process
+    AC --> R["Step 5 — Validation report<br/>per-field pass/fail + corrections"]:::process
     R --> Output(["Output: clean payload +<br/>report + user sign-off"]):::output
 
     classDef start fill:#1e293b,stroke:#94a3b8,color:#f1f5f9
@@ -130,9 +130,12 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
+| Rovo | adapters/rovo-agent.md | 1.1 |
+| Copilot | adapters/copilot-prompt.md | 1.1 |
 
 ## Changelog
 
+- **1.1** (2026-07-03) — Flow Diagram step labels renumbered to match the Method
+  prose one-for-one (pre-gate spec-review finding; no behavior change). Adapters
+  re-stamped — content unchanged by a diagram-only revision.
 - **1.0** (2026-07-03) — Initial build from `sp-workitem-validation`.

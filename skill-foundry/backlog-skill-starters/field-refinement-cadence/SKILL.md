@@ -10,7 +10,7 @@ description: >
 # --- provenance (house layer) ---
 id: field-refinement-cadence
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -38,11 +38,12 @@ reviewed as an undifferentiated blob. It hands a complete field set to
 flowchart LR
     Start(["Trigger: confirmed framing +<br/>scope package, schema loaded"]):::start --> O["Step 1 — Order fields<br/>Summary first, AC last,<br/>rest by dependency"]:::process
     O --> F["Step 2 — Per field:<br/>present constraints, draft,<br/>confirm before advancing"]:::process
-    F --> X{"Cross-field<br/>conflict?"}:::decision
+    F --> X{"Step 3 — Cross-field<br/>conflict?"}:::decision
     X -->|Yes| R["Surface contradiction;<br/>resolve with user"]:::halt
     R --> F
-    X -->|No| A["Step 3 — AC reframing +<br/>summary ≤ 10 words"]:::process
-    A --> Output(["Output: complete refined<br/>field set + conflict report"]):::output
+    X -->|No| A1["Step 4 — AC reframing<br/>Approved starters only"]:::process
+    A1 --> A2["Step 5 — Summary ≤ 10 words<br/>Meaning-preserving rewrite"]:::process
+    A2 --> Output(["Output: complete refined<br/>field set + conflict report"]):::output
 
     classDef start fill:#1e293b,stroke:#94a3b8,color:#f1f5f9
     classDef process fill:#1e3a8a,stroke:#60a5fa,color:#dbeafe
@@ -131,9 +132,14 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
+| Rovo | adapters/rovo-agent.md | 1.1 |
+| Copilot | adapters/copilot-prompt.md | 1.1 |
 
 ## Changelog
 
+- **1.1** (2026-07-03) — Flow Diagram brought to one-for-one with the Method
+  prose: AC reframing and summary enforcement split into their own numbered
+  nodes; conflict-detection diamond numbered (pre-gate spec-review finding; no
+  behavior change). Adapters re-stamped — content unchanged by a diagram-only
+  revision.
 - **1.0** (2026-07-03) — Initial build from `sp-field-refinement-cadence`.
