@@ -4,7 +4,7 @@ title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
 artifact-version: "1.6"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
 updated: 2026-07-03
 owner: operator

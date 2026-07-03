@@ -2,7 +2,7 @@
 id: flow-foundry-spec
 title: "Flow Foundry — Method Spec"
 type: specification
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-02
@@ -69,7 +69,9 @@ For each stage, in order:
 2. **Inline a one-off** — logic genuinely specific to this flowspace goes directly in the Process field.
 3. **Flag a gap** — reusable logic with no existing skill: draft a `skill-primer-brief` into `../skill-foundry/backlog-skill-starters/`, mark the contract `Layer-3: TBD — brief filed (<brief-id>)`, and note the gap in `HUB.md`.
 
-## 5. Validation and promotion
+## 5. Staging, validation, and promotion
+
+When the scaffold, Layer-3 triage, and agent-side pre-checks are complete, the foundry moves the flowspace from `backlog-flow-starters/` to **`review-flowspaces/`** — the staging queue for quick human review, at `truth-level: to-review`. This staging move is the foundry's last act on a build; everything after it is the operator's.
 
 A flowspace promotes `to-review` → `verified` when three gates pass (checklist form in [`templates/validation-checklist.md`](templates/validation-checklist.md)):
 
@@ -77,7 +79,7 @@ A flowspace promotes `to-review` → `verified` when three gates pass (checklist
 2. **Layer-3 status declared** — every stage explicitly: referenced skill (with id), inlined one-off, or flagged gap (with brief id).
 3. **Human dry-run** — the operator walks the contracts in order and confirms: Inputs concretely scoped, Process actionable, Outputs specific enough to write the next Inputs from, Verify a real cross-stage check, Review and Data boundary consistent with the sanctioned-tool matrix.
 
-Promotion is recorded as a decision-log entry (reviewer, date, what was checked). **The foundry never self-promotes.**
+Promotion is recorded as a decision-log entry (reviewer, date, what was checked), and the operator — never the foundry — moves the flowspace from `review-flowspaces/` to `../icp-flows/`. **The foundry never self-promotes.**
 
 ## 6. Standalone re-validation (drift check)
 
@@ -95,6 +97,7 @@ On demand or on a schedule, gate 1 re-runs against any existing flowspace — pl
 
 ## Changelog
 
+- **1.3** (2026-07-03) — Operator-instructed: added the review staging queue. Finished builds now move from `backlog-flow-starters/` to `review-flowspaces/` (foundry-placed, `to-review`) to await quick human review — §5 gains the staging step. Promotion semantics unchanged: `../icp-flows/` remains human-placed, `verified` only; the staging move is the foundry's last act on a build.
 - **1.2** (2026-07-03) — Two operator-instructed changes. (a) **Invocation gate:** §1 gains Step 0 — the foundry runs only on a confirmed operator instruction; restate starter, classification, and intended outputs and get the go-ahead before building. (b) **DONE queue relocated:** completed flowspace designs now land in the repo's top-level `../icp-flows/` (was `completed-flowspaces/` inside this foundry); promotion semantics unchanged — human-placed, `verified` only. Frontmatter version also realigned with this changelog (the 1.1 entry had not been reflected in `artifact-version`).
 - **1.1** (2026-07-03) — Reinstated the Stage Flow Diagram requirement dropped in 1.0. Every `HUB.md` now carries a Mermaid `flowchart LR` per `references/flow-diagram-guide.md` (review-intensity palette, ported from the homelab node-role palette), checked at validation Gate 1. The 1.0 rationale ("Confluence rendering varies") is now a checked setup-questionnaire item and validation condition instead of a reason to skip diagrams: GitLab renders Mermaid natively, Confluence renders it only with a macro installed — both are confirmed per flowspace, and a space without the macro gets a "diagram: see mirror" note rather than a dropped diagram.
 - **1.0** (2026-07-02) — Work edition, adapted from the homelab flowspace-foundry v0.5. Kept: dual-path intake with triage, setup questionnaire, ICM 4-field stage contract with populated-vs-present, Layer-3 triage and the demand loop, 3-gate validation, standalone re-validation, human-only promotion. Changed: execution-tier map → **review-intensity map** (U-curve restored to its published human-attention meaning) + **data-boundary field** (sovereignty routing → sanctioned-tool compliance); root context file `AGENTS.md` → `HUB.md` (maps to a Confluence parent page; repo root keeps a single AGENTS.md); added surface-mapping question and mirror drift check to re-validation; contract extended 4 → 6 fields (Review, Data boundary). Dropped: Hermes runtime-router seam, Obsidian/vault graph wiring, Cowork room structure, house-voice enforcement (replaced by "consistent with workplace style guides"), mermaid palette requirements (diagrams optional — Confluence rendering varies).
