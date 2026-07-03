@@ -17,9 +17,11 @@ skill-foundry/
 ├── references/
 │   └── flow-diagram-guide.md    # Flow Diagram syntax, palette, GitLab/Confluence rendering check
 ├── backlog-skill-starters/      # INBOX: primer-briefs + foreign starters (claimed / to-review)
-├── completed-skills/            # DONE: human-verified (human-placed only)
 └── decision-log/                # non-obvious foundry calls
 ```
+
+The DONE queue lives at the repo top level: completed, human-verified skills
+land in [`../produced-skills/`](../produced-skills/) (human-placed only).
 
 ## The queue model
 
@@ -28,7 +30,7 @@ skill-primer-brief (clean intent)        ┐
   ← from a person, or from the           │──>  backlog-skill-starters/
      flow-foundry's Layer-3 gap triage   ┘         │  [triage → vet (if foreign) → author → adapt → review]
 foreign material (URL, prompt, repo)               ▼
-                                              completed-skills/    (human gate)
+                                              ../produced-skills/    (human gate; repo top level)
 ```
 
 Truth-levels track the lifecycle exactly as in the flow-foundry: `claimed` → `to-review` → `verified`, human-promoted only.

@@ -92,7 +92,7 @@ Non-obvious calls — a triage drop, a security flag, a structural choice — ge
                                                    │
                                             [HUMAN REVIEW GATE]
                                                    ▼
-                                              completed-*/           (verified, human-placed)
+                                     icp-flows/ | produced-skills/   (top level; verified, human-placed)
 
      flow-foundry ── "this stage needs a skill that doesn't exist" ──> skill-foundry backlog
      skill-foundry ── produces the skill ──> flowspace references it as Layer-3

@@ -2,11 +2,11 @@
 id: skill-foundry-spec
 title: "Skill Foundry — Method Spec"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-02
+updated: 2026-07-03
 source: human+ai
 data-class: public
 related: ["[[icp-primer]]", "[[provenance-spec]]", "[[flow-foundry-spec]]"]
@@ -19,6 +19,12 @@ The method for turning skill intent — or foreign material — into a house-sta
 ---
 
 ## 1. Intake and triage (the front door)
+
+**Step 0 — Confirm invocation.** The foundry runs only on a confirmed
+operator instruction. Before any triage, build, or revision work: restate the
+starter, its triage classification, and the intended outputs, and wait for the
+operator's explicit go-ahead. A starter merely being mentioned — or sitting in
+the backlog — is not an instruction to build it.
 
 Classify every starter before building:
 
@@ -65,7 +71,7 @@ The operator promotes `to-review` → `verified` when:
 4. **Boundary/collision check** — no overlap with an existing skill's declared territory; if overlap exists, resolve it (merge, split, or redraw boundaries) before promotion.
 5. **Evidence recorded** — the review leaves a decision-log entry (reviewer, date, what was tested).
 
-Then the operator — never the foundry — moves the skill to `completed-skills/` and deploys the adapters to their engines (Rovo agent published; Copilot files merged to the internal repo).
+Then the operator — never the foundry — moves the skill to `../produced-skills/` (the repo's top-level DONE queue) and deploys the adapters to their engines (Rovo agent published; Copilot files merged to the internal repo).
 
 ## 6. Maintenance
 
@@ -84,5 +90,6 @@ Then the operator — never the foundry — moves the skill to `completed-skills
 
 ## Changelog
 
+- **1.2** (2026-07-03) — Two operator-instructed changes. (a) **Invocation gate:** §1 gains Step 0 — the foundry runs only on a confirmed operator instruction; restate starter, classification, and intended outputs and get the go-ahead before building. (b) **DONE queue relocated:** completed skills now land in the repo's top-level `../produced-skills/` (was `completed-skills/` inside this foundry); promotion semantics unchanged — human-placed, `verified` only. Frontmatter version also realigned with this changelog (the 1.1 entry had not been reflected in `artifact-version`).
 - **1.1** (2026-07-03) — Reinstated the Flow Diagram requirement dropped in 1.0. Every skill spec now carries a Mermaid `flowchart LR` per `references/flow-diagram-guide.md` (node-role palette, ported unchanged from the homelab skill-foundry), checked at the spec-review gate. Reinstated alongside the matching flow-foundry change: GitLab renders Mermaid natively, Confluence needs a macro — both confirmed per skill rather than skipping diagrams outright.
 - **1.0** (2026-07-02) — Work edition, adapted from the homelab skill-foundry v0.2.6. Kept: dual-path intake with triage front door, foreign-material vetting, boundary discipline, human-only promotion, queue folders, provenance stamping, collision checking. Changed: the Claude skill-creator "engine room" (eval loop, benchmark scripts, `.skill` packaging) → **engine-neutral spec + per-engine adapters** with a live-test review gate, since the workplace engines (Copilot, Rovo) each have their own definition formats and no shared eval harness; execution-tier field → data-boundary section; house-voice enforcement → workplace-style consistency; graduation checklist (symlinks, slash-command index) → adapter deployment by the operator. Dropped: Hermes-baseline seam, Cowork rooms/instrumentation, traces→synthesis→agent-spec loop (decision log + quarterly synthesis remain as the audit/improvement mechanism), Obsidian vault companion docs and Connection Notes.

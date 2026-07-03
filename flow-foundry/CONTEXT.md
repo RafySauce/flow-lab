@@ -16,9 +16,11 @@ flow-foundry/
 ├── references/
 │   └── flow-diagram-guide.md    # Stage Flow Diagram syntax, palette, GitLab/Confluence rendering check
 ├── backlog-flow-starters/       # INBOX: primer-briefs + foreign starters (claimed / draft)
-├── completed-flowspaces/        # DONE: human-verified (human-placed only)
 └── decision-log/                # non-obvious foundry calls, one file per entry
 ```
+
+The DONE queue lives at the repo top level: completed, human-verified
+flowspace designs land in [`../icp-flows/`](../icp-flows/) (human-placed only).
 
 ## The queue model
 
@@ -27,7 +29,7 @@ flow-primer-brief (clean intent)   ┐
 foreign workflow material (vetted) ┘──>  backlog-flow-starters/
                                               │  [triage → scaffold → validate]
                                               ▼
-                                         completed-flowspaces/    (human gate)
+                                         ../icp-flows/    (human gate; repo top level)
 ```
 
 Truth-levels track the lifecycle: `claimed` (foreign, ingested untouched) → `draft`/`to-review` (primer-brief or post-scaffold) → `verified` (promoted by the operator after the three validation gates). **The foundry never self-promotes.**
