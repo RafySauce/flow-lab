@@ -4,7 +4,7 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -61,9 +61,9 @@ refinable set. All of it is specific to this flowspace)`
    authoritative on any divergence):
    - `solution_epic` → children: feature; required fields: summary, problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, dependencies, acceptance_criteria, due_date; optional: risks
    - `feature` → children: story, task, spike; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
-   - `story` → children: sub_task; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, due_date
+   - `story` → children: sub_task; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
    - `task` → children: sub_task; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
-   - `spike` → children: sub_task; required fields: summary, question_to_answer, timebox, customer_business_value, acceptance_criteria, due_date
+   - `spike` → children: sub_task; required fields: summary, question_to_answer, timebox, customer_business_value, acceptance_criteria, type_of_work, work_category, due_date
 
    If the user asks for a `portfolio_epic` or `sub_task`, redirect per the
    registry's out-of-scope table (portfolio epics belong to Portfolio &

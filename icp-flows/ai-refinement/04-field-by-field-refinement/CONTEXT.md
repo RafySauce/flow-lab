@@ -4,7 +4,7 @@ title: "Stage 04 — Field-by-Field Refinement"
 type: stage-context
 stage: 4
 review-intensity: light
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -40,8 +40,12 @@ related:
    - Summary first (anchors everything)
    - For a spike: question_to_answer immediately after summary (every other
      field serves answering it)
-   - Acceptance criteria last (depends on all other fields)
-   - Remaining fields ordered by dependency chain
+   - Acceptance criteria next-to-last (depends on all other fields)
+   - Due date always last (elicited only after acceptance criteria exist, so
+     the user has a concrete effort reference to commit against; a spike's
+     timebox is elicited alongside it)
+   - Remaining fields, between summary and acceptance criteria, ordered by
+     dependency chain
 2. **One field at a time** — for each field:
    a. Present the field name, its constraints (e.g., summary ≤ 10 words), and any pre-filled content from earlier stages.
    b. Draft or refine the field value.
@@ -49,14 +53,22 @@ related:
 3. **Cross-field conflict detection** — check for contradictions:
    - Due date vs. blocking dependency timelines
    - In-scope claims vs. acceptance criteria gaps
-   - Type-of-work / work-category consistency (feature and task)
+   - Type-of-work / work-category consistency (every type that carries both
+     fields — feature, task, story, spike)
    - Timebox closes on or before the due date (spike only)
    - Conflict axis triggered in Stage 03 with no decision-owner recorded
 4. **Acceptance criteria refinement** — enforce the starter pattern:
    - "Must be able to…"
    - "We will know this is done when…"
    Reframe any AC that doesn't match.
-5. **Summary enforcement** — validate ≤ 10 words; rewrite if exceeded.
+5. **Due-date elicitation** — never auto-generate or infer the due date.
+   Present the confirmed acceptance criteria as an effort reference, then ask
+   the user directly for a committed completion date. A stated deadline in
+   source material (e.g., a vendor advisory's expiration) is surfaced as a
+   reference point only — the user still confirms explicitly. For a spike,
+   obtain the timebox at the same time and validate it closes on or before the
+   confirmed due date.
+6. **Summary enforcement** — validate ≤ 10 words; rewrite if exceeded.
 
 ## Outputs
 
@@ -82,6 +94,8 @@ run's decision log.
 - [ ] Scope fields match Stage 03's confirmed scope package (where the schema
       carries them)
 - [ ] Question-to-answer and timebox meet their extension constraints (spike)
+- [ ] Due date traces to an explicit user commitment made after acceptance
+      criteria were presented — never fabricated or defaulted
 - [ ] Cross-field conflicts were checked and resolved
 - [ ] Each field was individually confirmed by the user
 - [ ] No PII or confidential data in any field

@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.7"
+artifact-version: "1.8"
 status: living
 truth-level: verified
 created: 2026-07-03
@@ -159,9 +159,9 @@ at deployment, the operator's act, recorded in each skill card.
 |---|---|---|---|
 | `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.2 (input-type steering); promoted 2026-07-03; deployment pending |
 | `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — promoted 2026-07-03; deployment pending |
-| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — promoted 2026-07-03; deployment pending |
+| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.2 (elicited due-date cadence); promoted 2026-07-03; deployment pending |
 | `workitem-validation` | `sp-workitem-validation` | 5 | verified — promoted 2026-07-03; deployment pending |
-| `jira-commit` | `sp-jira-commit` | 6 | verified — 1.2 (registry-grounded, Rovo-native-first); promoted 2026-07-03; deployment pending |
+| `jira-commit` | `sp-jira-commit` | 6 | verified — 1.3 (format translation, confirmed parent mapping, post-commit transition offer); promoted 2026-07-03; deployment pending |
 
 Second gap (2026-07-03): the work-item schema registry
 (`reference/work-item-schemas.md`) completes type coverage — the source
@@ -177,6 +177,21 @@ selected type, so the schemas themselves remain the single surface awaiting
 ratification. Rationale and assumptions:
 `decision-log/2026-07-03-work-item-schema-extension.md`; revision evidence:
 `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-revision-pass.md`.
+
+Third gap (2026-07-03): the first on-engine invocation (Rovo, NEADD-1827)
+surfaced five operator-observed defects at the commit boundary — raw
+Markdown reaching Jira fields, silent parent assignment with no user
+confirmation, a fabricated due date, no post-creation status-transition
+offer, and `story`/`spike` missing the board-required `type_of_work`/
+`work_category` fields. All five are fixed in this revision pass:
+`jira-commit` 1.2 → 1.3, `field-refinement-cadence` 1.1 → 1.2, the
+`work-item-schemas` registry 1.0 → 1.1 (story/spike field addition — bundled
+into the existing to-review ratification, not a separate approval), and
+Stages 01/04/06 CONTEXT.md updated to match. Rationale, simulated live-test
+re-run, and remaining operator items:
+`decision-log/2026-07-03-stage06-feedback-revision.md` (flowspace-side) and
+`skill-foundry/decision-log/2026-07-03-stage06-feedback-revision-pass.md`
+(gate evidence).
 
 ## Reference material (Layer-3)
 
