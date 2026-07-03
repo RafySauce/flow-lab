@@ -4,7 +4,7 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -17,6 +17,7 @@ data-class: public
 related:
   - "[[ai-refinement]]"
   - "[[ai-refinement-hybrid]]"
+  - "[[work-item-schemas]]"
 ---
 
 # Stage 01 — Intake & Guardrails
@@ -27,14 +28,16 @@ related:
 |---|---|---|
 | Trigger phrase ("Run AI Refinement", "Start Refinement", "I want to refine") | User | Yes |
 | Work item type selection (Solution Epic, Feature, Story, Task, Spike) | User | Yes |
-| Guardrails, persona contract, work-item schemas | `../reference/ai-refinement-hybrid.md` | Yes |
+| Guardrails, persona contract, field definitions | `../reference/ai-refinement-hybrid.md` | Yes |
+| Work-item schema registry (refinable set + out-of-scope types) | `../reference/work-item-schemas.md` | Yes |
 | Source material (email request, vendor action notice, meeting minutes/notes, chat-stated requirement — see HUB "Common source inputs") | User | No |
 
 ## Process
 
-`Layer-3: inline (one-off — the guardrail, persona, and schema content below is
-transcribed from ../reference/ai-refinement-hybrid.md and is specific to this
-flowspace)`
+`Layer-3: inline (one-off — the guardrail and persona content below is
+transcribed from ../reference/ai-refinement-hybrid.md; the schema bullets
+transcribe ../reference/work-item-schemas.md, the registry that completes the
+refinable set. All of it is specific to this flowspace)`
 
 1. **Trigger detection** — recognize one of the defined trigger phrases.
 2. **Responsibility acknowledgment** — present the responsibility notice and obtain explicit user confirmation:
@@ -51,9 +54,21 @@ flowspace)`
    - Identify risks and dependencies
    - Challenge incomplete requirements
    - Enforce measurable outcomes
-5. **Work item type selection** — ask the user which item type they are refining. Load the corresponding schema from `../reference/ai-refinement-hybrid.md`:
+5. **Work item type selection** — ask the user which item type they are
+   refining. Load the corresponding schema from the registry at
+   `../reference/work-item-schemas.md` (for `solution_epic` and `feature` the
+   registry transcribes `../reference/ai-refinement-hybrid.md`, which stays
+   authoritative on any divergence):
    - `solution_epic` → children: feature; required fields: summary, problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, dependencies, acceptance_criteria, due_date; optional: risks
    - `feature` → children: story, task, spike; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
+   - `story` → children: sub_task; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, due_date
+   - `task` → children: sub_task; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
+   - `spike` → children: sub_task; required fields: summary, question_to_answer, timebox, customer_business_value, acceptance_criteria, due_date
+
+   If the user asks for a `portfolio_epic` or `sub_task`, redirect per the
+   registry's out-of-scope table (portfolio epics belong to Portfolio &
+   Sourcing processes; sub-tasks are created directly in Jira under an
+   already-committed parent) — neither type enters this pipeline.
 6. **Confirm setup** — echo back: persona active, item type selected, guardrails in effect. Obtain user "proceed" before advancing.
 
 ## Outputs
@@ -69,16 +84,20 @@ flowspace)`
 
 Cross-stage trace: the schema Stage 01 hands forward is the schema Stages 02–06
 consume. Check that the loaded schema's required-field list matches the selected
-work-item type's entry in `../reference/ai-refinement-hybrid.md` field-for-field
-— the failure this catches is a downstream stage refining against a stale or
-wrong-type schema. Running this check leaves a one-line result in the run's
-decision log.
+work-item type's entry in `../reference/work-item-schemas.md` field-for-field —
+and, for `solution_epic` and `feature`, that the registry entry still matches
+`../reference/ai-refinement-hybrid.md` (the clipping is authoritative for those
+two; a divergence is a registry defect, not a schema change). The failure this
+catches is a downstream stage refining against a stale or wrong-type schema.
+Running this check leaves a one-line result in the run's decision log.
 
 - [ ] Trigger phrase was matched
 - [ ] Responsibility notice was displayed and explicitly acknowledged
 - [ ] Data safety prohibition was stated
 - [ ] Persona contract is active (all four behaviors loaded)
-- [ ] Work item type is selected and its schema matches the reference doc
+- [ ] Work item type is selected and its schema matches the registry (and the
+      clipping, for the two source-defined types); out-of-scope types were
+      redirected, not refined
 - [ ] Any source material was typed against the HUB input taxonomy and screened
       (names/addresses stripped; third-party material vetted) before advancing
 - [ ] User confirmed "proceed"

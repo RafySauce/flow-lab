@@ -4,7 +4,7 @@ title: "Stage 04 — Field-by-Field Refinement"
 type: stage-context
 stage: 4
 review-intensity: light
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -29,6 +29,7 @@ related:
 | Work item schema (required/optional field list) | Stage 01 | Yes |
 | Active persona contract | Stage 01 | Yes |
 | Field definitions (summary ≤ 10 words, AC starters) | `../reference/ai-refinement-hybrid.md` | Yes |
+| Extension field constraints (question_to_answer, timebox) | `../reference/work-item-schemas.md` | If type is spike |
 
 ## Process
 
@@ -37,6 +38,8 @@ related:
 
 1. **Determine field order** — sequence remaining required fields logically:
    - Summary first (anchors everything)
+   - For a spike: question_to_answer immediately after summary (every other
+     field serves answering it)
    - Acceptance criteria last (depends on all other fields)
    - Remaining fields ordered by dependency chain
 2. **One field at a time** — for each field:
@@ -46,7 +49,8 @@ related:
 3. **Cross-field conflict detection** — check for contradictions:
    - Due date vs. blocking dependency timelines
    - In-scope claims vs. acceptance criteria gaps
-   - Type-of-work / work-category consistency (feature only)
+   - Type-of-work / work-category consistency (feature and task)
+   - Timebox closes on or before the due date (spike only)
    - Conflict axis triggered in Stage 03 with no decision-owner recorded
 4. **Acceptance criteria refinement** — enforce the starter pattern:
    - "Must be able to…"
@@ -66,15 +70,18 @@ related:
 
 Cross-stage trace: every value refined here must trace to a field the Stage 01
 schema requires (or marks optional) for the selected type, and the scope-derived
-fields (`in_scope`, `out_of_scope`, `dependencies`) must match what Stage 03
-confirmed — the failure this catches is a field silently rewritten past its
-confirmed upstream content. Running this check leaves a one-line result in the
+fields (`in_scope`, `out_of_scope`, `dependencies` — where the selected schema
+carries them; a spike carries none) must match what Stage 03 confirmed — the
+failure this catches is a field silently rewritten past its confirmed upstream
+content. Running this check leaves a one-line result in the
 run's decision log.
 
 - [ ] Every required field for the selected work item type has a value
 - [ ] Summary is ≤ 10 words
 - [ ] All acceptance criteria use approved starters
-- [ ] Scope fields match Stage 03's confirmed scope package
+- [ ] Scope fields match Stage 03's confirmed scope package (where the schema
+      carries them)
+- [ ] Question-to-answer and timebox meet their extension constraints (spike)
 - [ ] Cross-field conflicts were checked and resolved
 - [ ] Each field was individually confirmed by the user
 - [ ] No PII or confidential data in any field

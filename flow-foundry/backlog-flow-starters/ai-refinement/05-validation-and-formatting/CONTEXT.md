@@ -4,7 +4,7 @@ title: "Stage 05 — Validation & Formatting"
 type: stage-context
 stage: 5
 review-intensity: light
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -41,6 +41,9 @@ related:
    - AC starters match approved patterns
    - Due date is a valid future date
    - Dependencies reference real items (if Jira-linked)
+   - Spike only: question_to_answer is a single question; timebox states an
+     explicit bound closing on or before the due date
+     (`../reference/work-item-schemas.md`, extension field definitions)
 3. **Formatting pass** — apply the `no_bold`, `no_emojis` rules:
    - Strip `**bold**` markers
    - Remove emoji characters

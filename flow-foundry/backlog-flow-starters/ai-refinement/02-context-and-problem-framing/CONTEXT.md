@@ -4,7 +4,7 @@ title: "Stage 02 — Context & Problem Framing"
 type: stage-context
 stage: 2
 review-intensity: heavy
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -61,6 +61,9 @@ related:
    drives this.
 4. **Draft problem statement** — synthesize user responses into a clear problem statement.
 5. **Draft business outcomes** — if the work item type is `solution_epic`, produce measurable outcomes.
+   If the type is `spike`, crystallize the elicited problem into the single
+   question the spike must answer (drafts `question_to_answer` — one
+   answerable question; if it needs "and", recommend splitting the spike).
 6. **Draft customer/business value** — produce a value statement that connects
    the problem to what the tagged stakeholders value.
 7. **Confirm framing** — present the drafted fields and the stakeholder tag list
@@ -72,6 +75,7 @@ related:
 |---|---|---|
 | Confirmed problem statement | Stages 03, 04 | Plain text |
 | Confirmed business outcomes (solution_epic only) | Stage 04 | Plain text |
+| Confirmed question-to-answer (spike only) | Stage 04 | Plain text |
 | Confirmed customer/business value | Stage 04 | Plain text |
 | Stakeholder tag list (register entry # + role-type each) | Stages 03, 06 | Tagged list |
 | Elicitation transcript (for audit) | Run decision log | Conversation record |
@@ -87,6 +91,7 @@ Running these checks leaves a one-line result in the run's decision log.
 
 - [ ] Problem statement is specific, not generic
 - [ ] Business outcomes are measurable (solution_epic)
+- [ ] Question-to-answer is a single answerable question (spike)
 - [ ] Customer/business value links to the stated problem and tagged stakeholders
 - [ ] Every stakeholder tag resolves to a register entry
 - [ ] User explicitly confirmed each drafted field

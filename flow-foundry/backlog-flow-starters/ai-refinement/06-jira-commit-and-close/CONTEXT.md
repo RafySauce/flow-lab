@@ -4,7 +4,7 @@ title: "Stage 06 — Jira Commit & Close"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -39,7 +39,7 @@ related:
 
 1. **Field-to-API mapping** — translate the refined field key-value pairs into Jira API field IDs:
    - Standard fields: summary, description, due date, issue type
-   - Custom fields: problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria
+   - Custom fields: problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria, question_to_answer, timebox (spike — map or create at instantiation per the registry)
 2. **Hierarchy linkage** — resolve parent-child relationships:
    - If creating a feature under a solution epic: set epic link
    - If creating a story/task/spike under a feature: set parent link
