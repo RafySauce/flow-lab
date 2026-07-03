@@ -4,7 +4,7 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -28,6 +28,7 @@ related:
 | Trigger phrase ("Run AI Refinement", "Start Refinement", "I want to refine") | User | Yes |
 | Work item type selection (Solution Epic, Feature, Story, Task, Spike) | User | Yes |
 | Guardrails, persona contract, work-item schemas | `../reference/ai-refinement-hybrid.md` | Yes |
+| Source material (email request, vendor action notice, meeting minutes/notes, chat-stated requirement — see HUB "Common source inputs") | User | No |
 
 ## Process
 
@@ -40,6 +41,11 @@ flowspace)`
    > "You, the user, are responsible for the output of this process and committing to the work it produces."
    > Policy reference: `<internal policy link — set at instantiation; redacted from this public design copy>`
 3. **Data safety reminder** — state the PII / confidential-data prohibition.
+   If the user brings source material, identify which common input type it is
+   (HUB "Common source inputs") and screen it before it enters the session:
+   emails and meeting minutes routinely carry names and addresses — have the
+   user strip them; vendor material is third-party — confirm it is safe to
+   ingest at data-class `internal`.
 4. **Persona activation** — load the `technical_product_service_owner` persona with its four behaviors:
    - Prioritize business and operational value
    - Identify risks and dependencies
@@ -57,6 +63,7 @@ flowspace)`
 | Acknowledged responsibility flag | Stage 02 | boolean |
 | Selected work item type + loaded schema | Stages 02–06 | YAML schema reference |
 | Active persona contract | Stages 02–06 | persona object |
+| Screened source material + input-type tag (when provided) | Stage 02 | text + type tag |
 
 ## Verify
 
@@ -72,6 +79,8 @@ decision log.
 - [ ] Data safety prohibition was stated
 - [ ] Persona contract is active (all four behaviors loaded)
 - [ ] Work item type is selected and its schema matches the reference doc
+- [ ] Any source material was typed against the HUB input taxonomy and screened
+      (names/addresses stripped; third-party material vetted) before advancing
 - [ ] User confirmed "proceed"
 
 ## Review

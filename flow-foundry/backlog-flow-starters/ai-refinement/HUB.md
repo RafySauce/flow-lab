@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -84,6 +84,21 @@ flowchart LR
   the session. A run through this band takes one work item from raw context to
   a committed Jira issue. The loop-back from Stage 6 to Stage 2 fires when the
   user says "refine another item."
+
+## Common source inputs
+
+Operator-observed taxonomy (2026-07-03) of the raw material that most often
+starts a run. All four types arrive request-shaped or solution-shaped — they
+state a task or an action, not a problem — so Stage 1 screens them against the
+data-safety guardrail and Stage 2's elicitation recovers the underlying problem
+and value rather than transcribing the request.
+
+| # | Input type | Typical carrier | Handling notes |
+|---|---|---|---|
+| 1 | Email with a direct request for support | Email thread pasted or summarized into the session | Requester maps to a stakeholder-register entry — start the Stage 2 sweep there. Emails routinely carry names and addresses: strip them before the material enters the session (Stage 1 data-safety screen). |
+| 2 | Vendor details on required actions | Vendor bulletin, advisory, or notice | Third-party material — vet before ingesting. Prescribed actions are solution-shaped: elicit the internal problem and value before accepting them as scope. Stated deadlines feed `due_date`. The vendor is not a register entry — tag the internal owning stakeholder. |
+| 3 | Meeting minutes, notes, or summaries | Notes pasted into the session | Multi-topic and multi-voice — may yield more than one work item (one run through Band ② each). Separate decisions from discussion; strip attributions per the data-safety screen. |
+| 4 | Directly stated requirement from an engineer | Chat message ("I need to go do x, y, z to help ABC") | Task-first: the stated x/y/z are candidate scope, not the problem statement. Map the named stakeholder (ABC) to the register; elicit the problem and value before accepting the task list. |
 
 ## Surfaces
 
