@@ -36,7 +36,7 @@ Eight questions, answered (or consciously deferred, with a note) before authorin
 1. **Name + slug** — kebab-case; drives the `id`, folder name, and Confluence page title.
 2. **Purpose statement** — one sentence: what problem, for whom.
 3. **Stage count and names** — known, or designed together now?
-4. **Primary surface mapping** — which Confluence space/page tree is the primary instance; which repo is the mirror.
+4. **Primary surface mapping** — which Confluence space/page tree is the primary instance; which GitLab repo is the mirror. If the target Confluence space doesn't have a Mermaid-rendering macro installed, note that now — it changes how the Stage Flow Diagram ships (see `references/flow-diagram-guide.md`).
 5. **Review-intensity per stage** — apply the U-curve default (heavy / light / heavy — ICM Fig. 5) and adjust: which stages carry judgment, which are constrained execution?
 6. **Data boundary per stage** — what `data-class` does each stage handle, and which engines are sanctioned for it?
 7. **Layer-3 status per stage** — existing skill to reference, inline one-off, or gap?
@@ -46,7 +46,7 @@ Eight questions, answered (or consciously deferred, with a note) before authorin
 
 Produce the structure per [`templates/flowspace-scaffold.md`](templates/flowspace-scaffold.md):
 
-- **`HUB.md`** (maps to the Confluence parent page): provenance frontmatter (`type: flowspace`), purpose, the stage table (number, name, review-intensity, data boundary, Layer-3 status), and links.
+- **`HUB.md`** (maps to the Confluence parent page): provenance frontmatter (`type: flowspace`), purpose, the **Stage Flow Diagram** (a Mermaid `flowchart LR`, one node per stage — per `references/flow-diagram-guide.md`), the stage table (number, name, review-intensity, data boundary, Layer-3 status), and links.
 - **One numbered folder per stage** (`01-<slug>/` …), each with a `CONTEXT.md` per [`templates/stage-context-template.md`](templates/stage-context-template.md) — the six-field contract:
   - **Inputs / Process / Outputs / Verify** — the ICM stage contract (§3.3).
   - **Review** — who reviews this stage's output, at what intensity (from the U-curve mapping), and what evidence the review leaves.
@@ -67,7 +67,7 @@ For each stage, in order:
 
 A flowspace promotes `to-review` → `verified` when three gates pass (checklist form in [`templates/validation-checklist.md`](templates/validation-checklist.md)):
 
-1. **Structural completeness** — every `CONTEXT.md` fully populated (no placeholders), `HUB.md` frontmatter valid with the stage table matching the folders one-for-one, surface mapping declared.
+1. **Structural completeness** — every `CONTEXT.md` fully populated (no placeholders), `HUB.md` frontmatter valid with the stage table matching the folders one-for-one, surface mapping declared, Stage Flow Diagram present and matching the stage table (per the checklist in `references/flow-diagram-guide.md`) with rendering confirmed on both GitLab and Confluence (or the Confluence fallback note if no macro is installed).
 2. **Layer-3 status declared** — every stage explicitly: referenced skill (with id), inlined one-off, or flagged gap (with brief id).
 3. **Human dry-run** — the operator walks the contracts in order and confirms: Inputs concretely scoped, Process actionable, Outputs specific enough to write the next Inputs from, Verify a real cross-stage check, Review and Data boundary consistent with the sanctioned-tool matrix.
 
@@ -89,4 +89,5 @@ On demand or on a schedule, gate 1 re-runs against any existing flowspace — pl
 
 ## Changelog
 
+- **1.1** (2026-07-03) — Reinstated the Stage Flow Diagram requirement dropped in 1.0. Every `HUB.md` now carries a Mermaid `flowchart LR` per `references/flow-diagram-guide.md` (review-intensity palette, ported from the homelab node-role palette), checked at validation Gate 1. The 1.0 rationale ("Confluence rendering varies") is now a checked setup-questionnaire item and validation condition instead of a reason to skip diagrams: GitLab renders Mermaid natively, Confluence renders it only with a macro installed — both are confirmed per flowspace, and a space without the macro gets a "diagram: see mirror" note rather than a dropped diagram.
 - **1.0** (2026-07-02) — Work edition, adapted from the homelab flowspace-foundry v0.5. Kept: dual-path intake with triage, setup questionnaire, ICM 4-field stage contract with populated-vs-present, Layer-3 triage and the demand loop, 3-gate validation, standalone re-validation, human-only promotion. Changed: execution-tier map → **review-intensity map** (U-curve restored to its published human-attention meaning) + **data-boundary field** (sovereignty routing → sanctioned-tool compliance); root context file `AGENTS.md` → `HUB.md` (maps to a Confluence parent page; repo root keeps a single AGENTS.md); added surface-mapping question and mirror drift check to re-validation; contract extended 4 → 6 fields (Review, Data boundary). Dropped: Hermes runtime-router seam, Obsidian/vault graph wiring, Cowork room structure, house-voice enforcement (replaced by "consistent with workplace style guides"), mermaid palette requirements (diagrams optional — Confluence rendering varies).

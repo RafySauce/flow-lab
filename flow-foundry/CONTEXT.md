@@ -13,6 +13,8 @@ flow-foundry/
 │   ├── flowspace-scaffold.md           # the output shape: HUB.md + stage folders
 │   ├── stage-context-template.md       # the 6-field stage contract
 │   └── validation-checklist.md         # the three promotion gates, as a checklist
+├── references/
+│   └── flow-diagram-guide.md    # Stage Flow Diagram syntax, palette, GitLab/Confluence rendering check
 ├── backlog-flow-starters/       # INBOX: primer-briefs + foreign starters (claimed / draft)
 ├── completed-flowspaces/        # DONE: human-verified (human-placed only)
 └── decision-log/                # non-obvious foundry calls, one file per entry

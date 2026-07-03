@@ -14,6 +14,8 @@ skill-foundry/
 │   ├── adapter-copilot.md              # emitting Copilot instructions/prompt files/agents
 │   ├── adapter-rovo.md                 # emitting Rovo agent definitions
 │   └── intake-vetting-checklist.md     # the foreign-material gate (shared with flow-foundry)
+├── references/
+│   └── flow-diagram-guide.md    # Flow Diagram syntax, palette, GitLab/Confluence rendering check
 ├── backlog-skill-starters/      # INBOX: primer-briefs + foreign starters (claimed / to-review)
 ├── completed-skills/            # DONE: human-verified (human-placed only)
 └── decision-log/                # non-obvious foundry calls

@@ -98,7 +98,7 @@ Non-obvious calls — a triage drop, a security flag, a structural choice — ge
      skill-foundry ── produces the skill ──> flowspace references it as Layer-3
 ```
 
-- **[`flow-foundry/`](flow-foundry/)** scaffolds flowspaces: stage decomposition, per-stage contracts (Inputs / Process / Outputs / Verify, plus two workplace extensions — Review and Data boundary), a review-intensity map, and validation gates. Read its [CONTEXT.md](flow-foundry/CONTEXT.md) and [foundry-spec](flow-foundry/foundry-spec.md).
+- **[`flow-foundry/`](flow-foundry/)** scaffolds flowspaces: stage decomposition, per-stage contracts (Inputs / Process / Outputs / Verify, plus two workplace extensions — Review and Data boundary), a Mermaid Stage Flow Diagram rendered on both GitLab and Confluence, a review-intensity map, and validation gates. Read its [CONTEXT.md](flow-foundry/CONTEXT.md) and [foundry-spec](flow-foundry/foundry-spec.md).
 - **[`skill-foundry/`](skill-foundry/)** authors skills as an **engine-neutral spec** plus per-engine adapters (Rovo agent definition, Copilot custom agent / prompt file). Read its [CONTEXT.md](skill-foundry/CONTEXT.md) and [foundry-spec](skill-foundry/foundry-spec.md).
 
 Both foundries share the same intake/triage/review skeleton. Neither ever self-promotes its output.
