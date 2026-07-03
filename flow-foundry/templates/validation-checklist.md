@@ -8,6 +8,8 @@ Run at promotion time (`to-review` → `verified`). All three gates pass, or the
 
 - [ ] `HUB.md` present with valid provenance frontmatter (`type: flowspace`, `owner` set, `data-class` set)
 - [ ] Stage table matches stage folders one-for-one (count, order, names)
+- [ ] Stage Flow Diagram present, matches the stage table one-for-one, and follows `references/flow-diagram-guide.md` (house palette, flat chain unless a documented band split)
+- [ ] Diagram rendering confirmed on GitLab (view the rendered `.md`, not the diff) and on Confluence (macro installed in the target space, or the page notes "diagram: see mirror")
 - [ ] Every stage has a `CONTEXT.md` with all six fields populated — no placeholder text, no template remnants
 - [ ] Review intensity set per stage; first/last stages deviate from `heavy` only with a stated reason
 - [ ] Data boundary set per stage and consistent with the employer sanctioned-tool matrix

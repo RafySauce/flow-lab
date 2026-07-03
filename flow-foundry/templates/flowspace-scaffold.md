@@ -40,6 +40,21 @@ related: []
 
 <Purpose paragraph — from the primer brief.>
 
+## Stage Flow Diagram
+
+Mermaid `flowchart LR`, one node per stage, colored by review intensity — see
+`references/flow-diagram-guide.md` for syntax, palette, and the rendering-
+compatibility checklist (GitLab native, Confluence macro-dependent).
+
+```mermaid
+flowchart LR
+    S1["1. <Stage Name><br/>review: <intensity>"]:::heavy --> S2["2. <Stage Name><br/>review: <intensity>"]:::light
+
+    classDef heavy fill:#78350f,stroke:#fbbf24,color:#fef3c7
+    classDef light fill:#1e3a8a,stroke:#60a5fa,color:#dbeafe
+    classDef gap fill:#7f1d1d,stroke:#f87171,color:#fee2e2
+```
+
 ## Stage table
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
@@ -64,4 +79,4 @@ outputs land.
 Skill-primer-briefs filed from this flowspace's Layer-3 triage, with ids and status.
 ```
 
-Rules: the stage table matches the stage folders one-for-one (checked at validation gate 1); `work/` contents are per-run and never block promotion; nothing in the scaffold self-declares `verified`.
+Rules: the stage table matches the stage folders one-for-one (checked at validation gate 1); the Stage Flow Diagram matches the stage table one-for-one (same gate); `work/` contents are per-run and never block promotion; nothing in the scaffold self-declares `verified`.

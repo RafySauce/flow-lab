@@ -30,6 +30,24 @@ related: []
 One-paragraph identity: what this skill is, what it replaces, where it sits
 relative to neighboring skills.
 
+## Flow Diagram
+
+Mermaid `flowchart LR`, flat chain, node-role palette — see
+`references/flow-diagram-guide.md` for syntax, palette, and the rendering-
+compatibility checklist (GitLab native, Confluence macro-dependent).
+
+```mermaid
+flowchart LR
+    Start(["Trigger: <input>,<br/><output> needed"]):::start --> P1["Step 1 — <name><br/><what happens>"]:::process
+    P1 --> Output(["Output: <artifact>"]):::output
+
+    classDef start fill:#1e293b,stroke:#94a3b8,color:#f1f5f9
+    classDef process fill:#1e3a8a,stroke:#60a5fa,color:#dbeafe
+    classDef decision fill:#78350f,stroke:#fbbf24,color:#fef3c7
+    classDef output fill:#14532d,stroke:#4ade80,color:#dcfce7
+    classDef halt fill:#7f1d1d,stroke:#f87171,color:#fee2e2
+```
+
 ## Triggering intent
 
 - **Fires on:** <concrete situations and phrasings>

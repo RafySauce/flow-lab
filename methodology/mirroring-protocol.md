@@ -25,7 +25,7 @@ This protocol governs the *employer-internal* instance. This public repo is not 
 | Surface | Role | Writes |
 |---|---|---|
 | **Confluence** | Primary. The authoritative copy of every flowspace, contract, decision log, and sign-off. Rovo agents read and act here natively. | Humans and Rovo agents write here. |
-| **Internal git repo** | Mirror. A markdown rendering of the Confluence structure so Copilot (chat, custom agents, coding agent) can ground on the same contracts. | Regenerated from Confluence. Copilot writes **proposals** here (branches/PRs), never direct edits to mirrored content. |
+| **Internal git repo (GitLab)** | Mirror. A markdown rendering of the Confluence structure so Copilot (chat, custom agents, coding agent) can ground on the same contracts. | Regenerated from Confluence. Copilot writes **proposals** here (branches/PRs), never direct edits to mirrored content. |
 
 **One direction of truth.** Content flows Confluence → git. Changes originating on the git side (e.g., Copilot drafts a revised stage contract) go back as a *proposal* that a human applies to Confluence; the mirror then picks it up on the next sync. Two-way silent sync is explicitly rejected — it is how mirrors diverge and audits fail.
 
@@ -38,6 +38,7 @@ This protocol governs the *employer-internal* instance. This public repo is not 
 | Flowspace | Parent page (the hub) with a child-page tree | Folder with `HUB.md` |
 | Stage | Child page per stage, numbered (`01 — Intake`, `02 — Draft`, …) | Numbered folder with `CONTEXT.md` (`01-intake/CONTEXT.md`) |
 | Stage contract fields | Page sections (Inputs / Process / Outputs / Verify / Review / Data boundary) | Same headings in `CONTEXT.md` |
+| Stage Flow Diagram | Mermaid diagram rendered by the space's Mermaid macro (if installed), else a "diagram: see mirror" note | Mermaid `flowchart LR` in `HUB.md`, rendered natively by GitLab's markdown viewer |
 | Provenance frontmatter | Page properties macro + labels (`truth-verified`, `src-human-ai`, `dc-internal`) + Status macro | Literal YAML frontmatter |
 | Decision log | Child pages under a `Decision Log` page, one per entry | `decision-log/YYYY-MM-DD-<slug>.md` |
 | Working artifacts (Layer 4) | Attachments or child pages under the stage | `NN-<stage>/work/` (may be `.gitignore`d if transient) |
@@ -63,6 +64,7 @@ A periodic (weekly, or pre-audit) comparison of the two surfaces:
 - Stage count and stage names match per flowspace.
 - `truth-level` and `updated` match per artifact (page properties vs. frontmatter).
 - No mirror file is newer than its `MIRROR-STATE.md` entry implies.
+- Stage Flow Diagram renders correctly on both surfaces: GitLab (view the rendered `.md`, not the diff) and Confluence (macro installed and displaying, or the page carries the "diagram: see mirror" fallback note — not a dead code block).
 
 Findings are a **report, not an auto-fix** — a human decides which surface is right, corrects the primary, and re-syncs. (Automating the comparison is the `mirror-drift-checker` skill gap in the backlog.)
 
