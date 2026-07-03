@@ -6,7 +6,7 @@ The production line for **flowspaces** — ICM-structured, human-reviewed, multi
 
 ```
 flow-foundry/
-├── README.md                    # this file
+├── CONTEXT.md                   # this file — read before working in this folder
 ├── foundry-spec.md              # the method: triage → setup → scaffold → validate
 ├── templates/
 │   ├── flow-primer-brief-template.md   # intake path 1: crystallized intent

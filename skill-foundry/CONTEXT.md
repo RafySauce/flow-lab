@@ -6,7 +6,7 @@ The production line for **skills** — discrete, reusable AI capability definiti
 
 ```
 skill-foundry/
-├── README.md                    # this file
+├── CONTEXT.md                   # this file — read before working in this folder
 ├── foundry-spec.md              # the method: triage → vet → author → adapt → review
 ├── templates/
 │   ├── skill-primer-brief-template.md  # intake path 1: crystallized intent
