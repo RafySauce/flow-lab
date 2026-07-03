@@ -2,7 +2,7 @@
 id: skill-foundry-spec
 title: "Skill Foundry — Method Spec"
 type: specification
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-02
@@ -59,7 +59,7 @@ Adapter rules: an adapter adds **format, not logic** — if the adapter needs be
 
 - Provenance frontmatter on the skill card (`type: skill`, `generated-by: skill-foundry`, `source`, `data-class`), per `methodology/provenance-spec.md`.
 - The skill folder: `<skill-slug>/` containing `SKILL.md` (the spec — shaped after the agentskills.io convention: `name` + `description` frontmatter, method in the body), `adapters/`, and optional `reference/`.
-- Land it in the backlog at `truth-level: to-review` and present it for review.
+- Move the built skill folder from the backlog to **`review-skills/`** — the staging queue for quick human review — at `truth-level: to-review`, and present it. The primer brief stays in the backlog as the intake record. This staging move is the foundry's last act on a build; everything after it is the operator's.
 
 ## 5. Review and promotion (human gate)
 
@@ -71,7 +71,7 @@ The operator promotes `to-review` → `verified` when:
 4. **Boundary/collision check** — no overlap with an existing skill's declared territory; if overlap exists, resolve it (merge, split, or redraw boundaries) before promotion.
 5. **Evidence recorded** — the review leaves a decision-log entry (reviewer, date, what was tested).
 
-Then the operator — never the foundry — moves the skill to `../produced-skills/` (the repo's top-level DONE queue) and deploys the adapters to their engines (Rovo agent published; Copilot files merged to the internal repo).
+Then the operator — never the foundry — moves the skill from `review-skills/` to `../produced-skills/` (the repo's top-level DONE queue) and deploys the adapters to their engines (Rovo agent published; Copilot files merged to the internal repo).
 
 ## 6. Maintenance
 
@@ -90,6 +90,7 @@ Then the operator — never the foundry — moves the skill to `../produced-skil
 
 ## Changelog
 
+- **1.3** (2026-07-03) — Operator-instructed: added the review staging queue. Finished builds now move from `backlog-skill-starters/` to `review-skills/` (foundry-placed, `to-review`) to await quick human review — §4 stages there instead of landing in the backlog. Promotion semantics unchanged: `../produced-skills/` remains human-placed, `verified` only; the staging move is the foundry's last act on a build.
 - **1.2** (2026-07-03) — Two operator-instructed changes. (a) **Invocation gate:** §1 gains Step 0 — the foundry runs only on a confirmed operator instruction; restate starter, classification, and intended outputs and get the go-ahead before building. (b) **DONE queue relocated:** completed skills now land in the repo's top-level `../produced-skills/` (was `completed-skills/` inside this foundry); promotion semantics unchanged — human-placed, `verified` only. Frontmatter version also realigned with this changelog (the 1.1 entry had not been reflected in `artifact-version`).
 - **1.1** (2026-07-03) — Reinstated the Flow Diagram requirement dropped in 1.0. Every skill spec now carries a Mermaid `flowchart LR` per `references/flow-diagram-guide.md` (node-role palette, ported unchanged from the homelab skill-foundry), checked at the spec-review gate. Reinstated alongside the matching flow-foundry change: GitLab renders Mermaid natively, Confluence needs a macro — both confirmed per skill rather than skipping diagrams outright.
 - **1.0** (2026-07-02) — Work edition, adapted from the homelab skill-foundry v0.2.6. Kept: dual-path intake with triage front door, foreign-material vetting, boundary discipline, human-only promotion, queue folders, provenance stamping, collision checking. Changed: the Claude skill-creator "engine room" (eval loop, benchmark scripts, `.skill` packaging) → **engine-neutral spec + per-engine adapters** with a live-test review gate, since the workplace engines (Copilot, Rovo) each have their own definition formats and no shared eval harness; execution-tier field → data-boundary section; house-voice enforcement → workplace-style consistency; graduation checklist (symlinks, slash-command index) → adapter deployment by the operator. Dropped: Hermes-baseline seam, Cowork rooms/instrumentation, traces→synthesis→agent-spec loop (decision log + quarterly synthesis remain as the audit/improvement mechanism), Obsidian vault companion docs and Connection Notes.

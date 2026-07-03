@@ -13,7 +13,7 @@ id: scope-dependency-mapper
 type: skill
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
 updated: 2026-07-03
 owner: operator

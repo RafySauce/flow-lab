@@ -34,7 +34,7 @@ related:
 ## Process
 
 `Layer-3: field-refinement-cadence` (skill spec in
-`skill-foundry/backlog-skill-starters/field-refinement-cadence/`, `to-review`)
+`produced-skills/field-refinement-cadence/`, `verified`)
 
 1. **Determine field order** — sequence remaining required fields logically:
    - Summary first (anchors everything)

@@ -35,7 +35,7 @@ related:
 ## Process
 
 `Layer-3: jira-commit` (skill spec in
-`skill-foundry/backlog-skill-starters/jira-commit/`, `to-review`)
+`produced-skills/jira-commit/`, `verified`)
 
 1. **Field mapping, registry-driven** — translate the refined field key-value
    pairs into Jira field IDs, the field set read from the selected type's

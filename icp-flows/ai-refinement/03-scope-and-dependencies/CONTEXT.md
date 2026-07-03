@@ -36,7 +36,7 @@ related:
 ## Process
 
 `Layer-3: scope-dependency-mapper` (skill spec in
-`skill-foundry/backlog-skill-starters/scope-dependency-mapper/`, `to-review`)
+`produced-skills/scope-dependency-mapper/`, `verified`)
 
 1. **Define in-scope** — based on the confirmed problem statement, enumerate what this work item explicitly covers.
 2. **Define out-of-scope** — explicitly state what is excluded and why, to prevent scope creep.

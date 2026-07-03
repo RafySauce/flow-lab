@@ -17,23 +17,29 @@ skill-foundry/
 ├── references/
 │   └── flow-diagram-guide.md    # Flow Diagram syntax, palette, GitLab/Confluence rendering check
 ├── backlog-skill-starters/      # INBOX: primer-briefs + foreign starters (claimed / to-review)
+├── review-skills/               # STAGED: finished builds awaiting the human gate (to-review)
 └── decision-log/                # non-obvious foundry calls
 ```
 
-The DONE queue lives at the repo top level: completed, human-verified skills
-land in [`../produced-skills/`](../produced-skills/) (human-placed only).
+Finished builds stage in [`review-skills/`](review-skills/) — the foundry's
+last move. The DONE queue lives at the repo top level: completed,
+human-verified skills land in [`../produced-skills/`](../produced-skills/)
+(human-placed only).
 
 ## The queue model
 
 ```
 skill-primer-brief (clean intent)        ┐
   ← from a person, or from the           │──>  backlog-skill-starters/
-     flow-foundry's Layer-3 gap triage   ┘         │  [triage → vet (if foreign) → author → adapt → review]
+     flow-foundry's Layer-3 gap triage   ┘         │  [triage → vet (if foreign) → author → adapt]
 foreign material (URL, prompt, repo)               ▼
-                                              ../produced-skills/    (human gate; repo top level)
+                                              review-skills/    (foundry-staged, to-review)
+                                                   │  [HUMAN GATE: five-point review]
+                                                   ▼
+                                              ../produced-skills/    (human-placed; repo top level)
 ```
 
-Truth-levels track the lifecycle exactly as in the flow-foundry: `claimed` → `to-review` → `verified`, human-promoted only.
+Truth-levels track the lifecycle exactly as in the flow-foundry: `claimed` → `to-review` → `verified`, human-promoted only. Staging a finished build in `review-skills/` is the foundry's last move; every move out of it is the operator's.
 
 ## One skill = one spec + N adapters
 

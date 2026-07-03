@@ -2,9 +2,9 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
 updated: 2026-07-03
 owner: operator
@@ -56,29 +56,27 @@ flowchart LR
     classDef gap   fill:#7f1d1d,stroke:#f87171,color:#fee2e2
 ```
 
-> Stages 2–6 carry their true review-intensity colors: each stage's skill
-> exists as an authored spec in `skill-foundry/backlog-skill-starters/` at
-> `truth-level: to-review`, and the five-point review gate has had an agent
-> pre-run (spec review, simulated live test per adapter on synthetic data,
-> trigger check, collision check — all passing; evidence in both foundries'
-> decision logs, 2026-07-03). None is `verified` yet — on-engine live tests
-> and promotion to `produced-skills/` remain the operator's call. A same-day
-> revision pass (operator-instructed) bumped `context-elicitation` and
-> `jira-commit` to 1.2 — source-input-type steering; registry-grounded,
-> Rovo-native-first commit — with the pre-gate re-run recorded in
-> `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-revision-pass.md`.
-> See Known gaps.
+> Stages 2–6 carry their true review-intensity colors: each stage's skill is
+> `truth-level: verified` and lives in `produced-skills/` (repo top level) —
+> operator promotion 2026-07-03, accepting the agent pre-run of the
+> five-point gate (spec review, simulated live test per adapter on synthetic
+> data, trigger check, collision check) and the 1.2 revision-pass re-run as
+> the review record; evidence in
+> `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-promotion.md`.
+> The simulated live tests are not engine runs: the first on-engine
+> invocation per adapter happens at deployment, which remains the operator's
+> act at instantiation. See Known gaps.
 
 ## Stage table
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
 | 1 | Intake & Guardrails | heavy | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all five refinable types) |
-| 2 | Context & Problem Framing | heavy | internal | Rovo, Copilot | `context-elicitation` (to-review, skill-foundry backlog) |
-| 3 | Scope & Dependencies | light | internal | Rovo, Copilot | `scope-dependency-mapper` (to-review, skill-foundry backlog) |
-| 4 | Field-by-Field Refinement | light | internal | Rovo, Copilot | `field-refinement-cadence` (to-review, skill-foundry backlog) |
-| 5 | Validation & Formatting | light | internal | Rovo, Copilot | `workitem-validation` (to-review, skill-foundry backlog) |
-| 6 | Jira Commit & Close | heavy | internal | Rovo, Copilot | `jira-commit` (to-review, skill-foundry backlog) |
+| 2 | Context & Problem Framing | heavy | internal | Rovo, Copilot | `context-elicitation` (verified, `produced-skills/`) |
+| 3 | Scope & Dependencies | light | internal | Rovo, Copilot | `scope-dependency-mapper` (verified, `produced-skills/`) |
+| 4 | Field-by-Field Refinement | light | internal | Rovo, Copilot | `field-refinement-cadence` (verified, `produced-skills/`) |
+| 5 | Validation & Formatting | light | internal | Rovo, Copilot | `workitem-validation` (verified, `produced-skills/`) |
+| 6 | Jira Commit & Close | heavy | internal | Rovo, Copilot | `jira-commit` (verified, `produced-skills/`) |
 
 ## Topology
 
@@ -144,23 +142,26 @@ inconvenience.
 
 ## Known gaps
 
-All five skills demanded by this flowspace's Layer-3 triage are authored,
-staged in `skill-foundry/backlog-skill-starters/` at `truth-level: to-review`,
-and have passed an agent pre-run of the five-point review gate (2026-07-03) —
-evidence in `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-gate-prerun.md`;
-the flowspace's own validation-checklist pre-run is in
-`flow-foundry/decision-log/2026-07-03-ai-refinement-validation-prerun.md`.
-Remaining gap: the human half — on-engine live tests (the pre-run's simulated
-invocations are not engine runs), instantiation-time surface checks, and
-operator promotion / placement in `produced-skills/` (repo top level).
+All five skills demanded by this flowspace's Layer-3 triage are
+`truth-level: verified` and live in `produced-skills/` — operator promotion
+2026-07-03, evidence in
+`skill-foundry/decision-log/2026-07-03-ai-refinement-skill-promotion.md`
+(accepting the five-point-gate pre-run in
+`skill-foundry/decision-log/2026-07-03-ai-refinement-skill-gate-prerun.md`);
+the flowspace design's own promotion record is
+`flow-foundry/decision-log/2026-07-03-ai-refinement-promotion.md`.
+Remaining gap: deployment — no adapter is published to a live engine yet, so
+the first on-engine invocation per adapter (the pre-run's simulated live
+tests are not engine runs) and the instantiation-time surface checks happen
+at deployment, the operator's act, recorded in each skill card.
 
 | Skill (spec + adapters) | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `context-elicitation` | `sp-context-elicitation` | 2 | to-review — 1.2 (input-type steering); pre-gate re-run passed (simulated) |
-| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | to-review — pre-gate run passed |
-| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | to-review — pre-gate run passed |
-| `workitem-validation` | `sp-workitem-validation` | 5 | to-review — pre-gate run passed |
-| `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.2 (registry-grounded, Rovo-native-first); pre-gate re-run passed (simulated) |
+| `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.2 (input-type steering); promoted 2026-07-03; deployment pending |
+| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — promoted 2026-07-03; deployment pending |
+| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — promoted 2026-07-03; deployment pending |
+| `workitem-validation` | `sp-workitem-validation` | 5 | verified — promoted 2026-07-03; deployment pending |
+| `jira-commit` | `sp-jira-commit` | 6 | verified — 1.2 (registry-grounded, Rovo-native-first); promoted 2026-07-03; deployment pending |
 
 Second gap (2026-07-03): the work-item schema registry
 (`reference/work-item-schemas.md`) completes type coverage — the source

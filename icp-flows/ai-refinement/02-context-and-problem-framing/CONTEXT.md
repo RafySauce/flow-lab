@@ -36,7 +36,7 @@ related:
 ## Process
 
 `Layer-3: context-elicitation` (skill spec in
-`skill-foundry/backlog-skill-starters/context-elicitation/`, `to-review`)
+`produced-skills/context-elicitation/`, `verified`)
 
 1. **Elicit context** — use the skill's structured question sequence to draw out:
    - What problem is being solved?

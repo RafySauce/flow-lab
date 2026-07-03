@@ -6,8 +6,9 @@ collision check, evidence recorded) and were promoted to
 `truth-level: verified` **by the operator** — the foundry never places
 anything here itself.
 
-Fed from `skill-foundry/backlog-skill-starters/`; the method that gets a skill
-here is `skill-foundry/foundry-spec.md`, and the promotion is recorded as a
+Fed from `skill-foundry/review-skills/`, where the foundry stages finished
+builds for the gate; the method that gets a skill here is
+`skill-foundry/foundry-spec.md`, and the promotion is recorded as a
 decision-log entry per `methodology/governance-and-audit.md`.
 
 Each entry is a skill folder: `<skill-slug>/SKILL.md` + `adapters/`.

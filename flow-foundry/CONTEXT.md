@@ -16,23 +16,29 @@ flow-foundry/
 ├── references/
 │   └── flow-diagram-guide.md    # Stage Flow Diagram syntax, palette, GitLab/Confluence rendering check
 ├── backlog-flow-starters/       # INBOX: primer-briefs + foreign starters (claimed / draft)
+├── review-flowspaces/           # STAGED: finished builds awaiting the human gate (to-review)
 └── decision-log/                # non-obvious foundry calls, one file per entry
 ```
 
-The DONE queue lives at the repo top level: completed, human-verified
-flowspace designs land in [`../icp-flows/`](../icp-flows/) (human-placed only).
+Finished builds stage in [`review-flowspaces/`](review-flowspaces/) — the
+foundry's last move. The DONE queue lives at the repo top level: completed,
+human-verified flowspace designs land in [`../icp-flows/`](../icp-flows/)
+(human-placed only).
 
 ## The queue model
 
 ```
 flow-primer-brief (clean intent)   ┐
 foreign workflow material (vetted) ┘──>  backlog-flow-starters/
-                                              │  [triage → scaffold → validate]
+                                              │  [triage → scaffold → pre-check]
                                               ▼
-                                         ../icp-flows/    (human gate; repo top level)
+                                         review-flowspaces/    (foundry-staged, to-review)
+                                              │  [HUMAN GATE: three validation gates]
+                                              ▼
+                                         ../icp-flows/    (human-placed; repo top level)
 ```
 
-Truth-levels track the lifecycle: `claimed` (foreign, ingested untouched) → `draft`/`to-review` (primer-brief or post-scaffold) → `verified` (promoted by the operator after the three validation gates). **The foundry never self-promotes.**
+Truth-levels track the lifecycle: `claimed` (foreign, ingested untouched) → `draft`/`to-review` (primer-brief or post-scaffold) → `verified` (promoted by the operator after the three validation gates). Staging a finished build in `review-flowspaces/` is the foundry's last move; every move out of it is the operator's. **The foundry never self-promotes.**
 
 ## Where flowspaces actually run
 

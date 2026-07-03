@@ -67,7 +67,7 @@ Workflows (flowspaces) and capabilities (skills) are built by separate productio
 Every incoming starter is classified before anything is built: a *primer-brief* (clean, crystallized intent) takes the transcription path; *foreign material* (a URL, README, someone else's prompt, a vendor template) is **vetted first** — provenance, maintenance, license, security — then normalized; and some starters are *not worthy* — saying no is a legitimate, frequent triage outcome.
 
 **5. Queues are the visible pipeline.**
-Work-products physically sit in folders that encode their state: `backlog-*` (inbox) → in progress → `completed-*` (human-placed only). The folder move *is* the completion signal; `truth-level` is the provenance that travels with the document.
+Work-products physically sit in folders that encode their state: `backlog-*` (inbox) → in progress → `review-*` (built, staged for the human gate) → the top-level DONE queues (human-placed only). The folder move *is* the completion signal; `truth-level` is the provenance that travels with the document.
 
 **6. Populated vs. present.**
 A contract field is *populated* when its content is specific, not merely filled in. "Confirm the output is good" fails; "confirm Stage 3's categories match the list established in Stage 1's outputs" passes. The test: could the next stage's owner write their Inputs section from your Outputs section without a conversation?
@@ -89,6 +89,8 @@ Non-obvious calls — a triage drop, a security flag, a structural choice — ge
                                                [TRIAGE]
                                                    │
                                               FOUNDRY BUILD          (scaffold / author / stamp)
+                                                   │
+                                 review-flowspaces/ | review-skills/  (staged; foundry-placed, to-review)
                                                    │
                                             [HUMAN REVIEW GATE]
                                                    ▼

@@ -13,7 +13,7 @@ id: workitem-validation
 type: skill
 artifact-version: "1.1"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
 updated: 2026-07-03
 owner: operator
