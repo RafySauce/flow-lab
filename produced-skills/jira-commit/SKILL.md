@@ -15,7 +15,7 @@ description: >
 # --- provenance (house layer) ---
 id: jira-commit
 type: skill
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
 truth-level: verified
 created: 2026-07-03
@@ -120,8 +120,11 @@ flowchart LR
 3. **Dry-run preview.** Present the complete payload — fields, links, labels —
    rendered as it will actually appear in Jira: headings, lists, and other
    structured content shown in their translated, target-platform form, never
-   echoed back as raw Markdown source. Commit only on explicit approval;
-   "looks fine, go" from an earlier stage does not carry forward.
+   echoed back as raw Markdown source. Present it in the persona's
+   `communication_style` (precise, analytical, structured, direct) — a
+   preview is a decision point, not a place for narrative padding. Commit
+   only on explicit approval; "looks fine, go" from an earlier stage does not
+   carry forward.
 4. **Commit and confirm.** Execute the commit through the engine's native
    Jira capabilities first: on Rovo, the built-in create issue / update issue
    / create issue link actions, with authentication and field resolution
@@ -131,12 +134,14 @@ flowchart LR
    parent not found, permission denied): report precisely, roll nothing
    forward, and never leave a partial commit unreported.
 5. **Post-commit transition offer.** After confirming the commit succeeded,
-   ask the user: "Would you like to move this item to In Progress?" (or the
-   board's equivalent active status). On confirmation, execute the transition
-   through the engine's native Jira capabilities (Rovo's transition-issue
-   action; the sanctioned connector's equivalent on Copilot). On decline,
-   leave the item in its default post-creation status. Offer once per item —
-   no re-prompting, and no transition without the user's explicit "yes."
+   ask the user directly and plainly: "Would you like to move this item to In
+   Progress?" (or the board's equivalent active status) — one clear question,
+   per the persona's `communication_style`, not a hedged suggestion. On
+   confirmation, execute the transition through the engine's native Jira
+   capabilities (Rovo's transition-issue action; the sanctioned connector's
+   equivalent on Copilot). On decline, leave the item in its default
+   post-creation status. Offer once per item — no re-prompting, and no
+   transition without the user's explicit "yes."
 6. **Session loop.** "Refine another" → retain session context (guardrails,
    persona, schemas) and return to Stage 02. "Done" → produce the session
    summary listing every created key/URL.
@@ -199,16 +204,28 @@ A single output of this skill is acceptable when:
    field-for-field (formatting translation and any accepted status transition
    are the only allowed differences from the pre-commit payload).
 8. Any API error was reported verbatim with no partial state left silent.
+9. The dry-run preview and the transition-offer question read as precise,
+   analytical, structured, and direct — no hedged phrasing on either.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.3 |
-| Copilot | adapters/copilot-prompt.md | 1.3 |
+| Rovo | adapters/rovo-agent.md | 1.4 |
+| Copilot | adapters/copilot-prompt.md | 1.4 |
 
 ## Changelog
 
+- **1.4** (2026-07-03) — Method steps 3 (dry-run preview) and 5 (post-commit
+  transition offer) tie presentation phrasing explicitly to the persona's
+  `communication_style` (precise, analytical, structured, direct), citing the
+  house amendment in `ai-refinement-hybrid.md`. New review criterion
+  (communication_style compliance on both steps). No behavior change to
+  parent-mapping or format translation — mode (fast-track/full-interactive)
+  has no bearing on this skill, since parent mapping is already always
+  interactive by design. Both adapters regenerated. Content change: pre-gate
+  evidence re-run required — see
+  `../../skill-foundry/decision-log/2026-07-03-communication-style-and-fast-track-skill-revision-pass.md`.
 - **1.3** (2026-07-03) — Operator-observed defect fixes from the first
   on-engine run (Stage 06 feedback, NEADD-1827):
   - **Format-translation gate** added to Method step 1 (and reflected in

@@ -2,7 +2,7 @@
 id: flow-foundry-spec
 title: "Flow Foundry — Method Spec"
 type: specification
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
 truth-level: to-review
 created: 2026-07-02
@@ -37,7 +37,7 @@ Every triage call that isn't obvious earns a `decision-log/` entry.
 
 ## 2. Setup questionnaire
 
-Eight questions, answered (or consciously deferred, with a note) before authoring a single stage:
+Nine questions, answered (or consciously deferred, with a note) before authoring a single stage:
 
 1. **Name + slug** — kebab-case; drives the `id`, folder name, and Confluence page title.
 2. **Purpose statement** — one sentence: what problem, for whom.
@@ -47,6 +47,7 @@ Eight questions, answered (or consciously deferred, with a note) before authorin
 6. **Data boundary per stage** — what `data-class` does each stage handle, and which engines are sanctioned for it?
 7. **Layer-3 status per stage** — existing skill to reference, inline one-off, or gap?
 8. **Intake path** — clean design from a primer-brief, or normalization of foreign material?
+9. **Stakeholder register availability** — is a stakeholder register available for this domain (whether a house register or a template instantiation)? If not, note that stakeholder-dependent stages will run in ungrounded mode — asking the user directly rather than walking a register — until one is authored.
 
 ## 3. Scaffold
 
@@ -97,6 +98,12 @@ On demand or on a schedule, gate 1 re-runs against any existing flowspace — pl
 
 ## Changelog
 
+- **1.4** (2026-07-03) — Setup questionnaire gains a ninth question: stakeholder
+  register availability for the target domain, with the ungrounded-mode
+  fallback noted as the consequence of deferring it. Operator-instructed,
+  generalizing the `ai-refinement` flowspace's domain-configurable register
+  split (`platform-stakeholder-register-template.md`) into the foundry's
+  standard intake for any future flowspace with a register dependency.
 - **1.3** (2026-07-03) — Operator-instructed: added the review staging queue. Finished builds now move from `backlog-flow-starters/` to `review-flowspaces/` (foundry-placed, `to-review`) to await quick human review — §5 gains the staging step. Promotion semantics unchanged: `../icp-flows/` remains human-placed, `verified` only; the staging move is the foundry's last act on a build.
 - **1.2** (2026-07-03) — Two operator-instructed changes. (a) **Invocation gate:** §1 gains Step 0 — the foundry runs only on a confirmed operator instruction; restate starter, classification, and intended outputs and get the go-ahead before building. (b) **DONE queue relocated:** completed flowspace designs now land in the repo's top-level `../icp-flows/` (was `completed-flowspaces/` inside this foundry); promotion semantics unchanged — human-placed, `verified` only. Frontmatter version also realigned with this changelog (the 1.1 entry had not been reflected in `artifact-version`).
 - **1.1** (2026-07-03) — Reinstated the Stage Flow Diagram requirement dropped in 1.0. Every `HUB.md` now carries a Mermaid `flowchart LR` per `references/flow-diagram-guide.md` (review-intensity palette, ported from the homelab node-role palette), checked at validation Gate 1. The 1.0 rationale ("Confluence rendering varies") is now a checked setup-questionnaire item and validation condition instead of a reason to skip diagrams: GitLab renders Mermaid natively, Confluence renders it only with a macro installed — both are confirmed per flowspace, and a space without the macro gets a "diagram: see mirror" note rather than a dropped diagram.

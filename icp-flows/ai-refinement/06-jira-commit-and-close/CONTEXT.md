@@ -4,7 +4,7 @@ title: "Stage 06 — Jira Commit & Close"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -48,11 +48,16 @@ related:
      markup — Atlassian Document Format (ADF) for Jira Cloud — before mapping
      any rich-text field. Raw Markdown syntax landing in a Jira field is a
      defect; Stage 05's "no bold, no emojis" pass does not translate
-     structural markup, so this stage owns the translation.
-2. **Hierarchy linkage** — resolve parent-child relationships. Parent mapping
-   is default behavior for every type this stage commits except
-   `portfolio_epic` (out of pipeline scope) and `solution_epic` (top of the
-   refinable set — no parent within scope):
+     structural markup, so this stage owns the translation. This is the
+     flowspace's `format_translation_gate` house amendment
+     (`../reference/ai-refinement-hybrid.md`).
+2. **Hierarchy linkage — hard carve-out, every mode, no exception.** Resolve
+   parent-child relationships. Parent mapping is default behavior for every
+   type this stage commits except `portfolio_epic` (out of pipeline scope)
+   and `solution_epic` (top of the refinable set — no parent within scope).
+   This step is never compressed or skipped by fast-track mode — the mode
+   selected at Stage 01 governs how many Stages 02–05 fields were extracted
+   versus elicited; it has no bearing here.
    - Query the target instance for existing candidates of the appropriate
      parent type (features under the selected solution epic; the epic's
      existing features for a story/task/spike).
@@ -63,7 +68,9 @@ related:
    - If creating a feature under a solution epic: set epic link. If creating
      a story/task/spike under a feature: set parent link. Set the link only
      after the user's explicit confirmation — never from an unconfirmed
-     Stage 01 hierarchy position.
+     Stage 01 hierarchy position. This is the flowspace's
+     `parent_mapping_confirmation` house amendment
+     (`../reference/ai-refinement-hybrid.md`).
    - Validate that the parent exists in Jira.
 3. **Dependency linkage** — create Jira issue links for blocking dependencies identified in Stage 03.
 4. **Stakeholder tagging** — apply the Stage 02 stakeholder tags and Stage 03
@@ -80,6 +87,8 @@ related:
 8. **Offer status transition** — ask whether to move the item to In Progress
    (or the board's equivalent active status); execute via the engine's native
    Jira capabilities on confirmation, leave the default status on decline.
+   This is the flowspace's `post_commit_transition_offer` house amendment
+   (`../reference/ai-refinement-hybrid.md`).
 9. **Session loop decision**:
    - "Refine another" → loop back to Stage 02 with session context retained
    - "Done" → close session, produce session summary
@@ -121,8 +130,11 @@ Running these checks leaves a one-line result in the run's decision log.
 ## Review
 
 - **Reviewer:** operator (or delegate)
-- **Intensity:** heavy — this is the commit boundary. An incorrect API payload
-  creates real Jira artifacts that require manual cleanup.
+- **Intensity:** heavy, unconditionally — this is the commit boundary. An
+  incorrect API payload creates real Jira artifacts that require manual
+  cleanup. Fast-track mode never compresses this stage's review, same as
+  Stage 01 — the Stage 03–05 consolidation (Stage 05's Review section) stops
+  at Stage 05 and never reaches into Stage 06.
 - **Evidence:** the approved dry-run preview, the API response captured in the
   run's decision log, and the returned issue key.
 

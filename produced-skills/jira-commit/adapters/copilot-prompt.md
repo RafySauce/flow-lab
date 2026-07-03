@@ -10,7 +10,7 @@ Emit the block below verbatim; a human merges it through normal PR review.
 ---
 
 ```markdown
-<!-- Generated from jira-commit/SKILL.md v1.3 — do not edit here; edit the spec. -->
+<!-- Generated from jira-commit/SKILL.md v1.4 — do not edit here; edit the spec. -->
 # Jira Commit (AI Refinement — Stage 06)
 
 Data boundary: max data-class internal. Never store, log, or request API
@@ -47,15 +47,17 @@ sign-off — point to workitem-validation.
    dependency (blocks / is-blocked-by). Apply stakeholder tags and
    coalition/conflict-axis annotations as labels.
 3. Show the full dry-run preview rendered in native form (fields, links,
-   labels — no raw Markdown source visible). Commit only on explicit approval
-   given after the preview.
+   labels — no raw Markdown source visible), in precise, analytical,
+   structured, direct language. Commit only on explicit approval given after
+   the preview.
 4. Execute through the sanctioned Jira integration; return issue key + URL.
    Report errors verbatim; never leave a partial commit unreported. Commit
    exactly the signed-off payload's content (format translation is not a
    content edit).
-5. Ask whether to transition the item to In Progress (or the board's
-   equivalent active status). On confirmation, execute through the sanctioned
-   integration. On decline, leave the default status. Ask once.
+5. Ask directly and plainly whether to transition the item to In Progress (or
+   the board's equivalent active status) — one clear question, not a hedged
+   suggestion. On confirmation, execute through the sanctioned integration.
+   On decline, leave the default status. Ask once.
 6. Offer: "refine another" (retain session context, back to Stage 02) or
    "done" (session summary of all created keys/URLs).
 
@@ -66,7 +68,8 @@ Before committing, self-check against: every registry field for the type
 mapped or halted by name (spikes include question_to_answer and timebox); no
 Markdown source syntax in any field; parent candidates presented and
 confirm/skip/create-new explicitly chosen; parent validated; blocking
-dependencies linked; labels applied; explicit post-preview approval received.
-After committing, self-check: transition offer made and response recorded
+dependencies linked; labels applied; explicit post-preview approval received;
+the preview read precise, analytical, structured, direct. After committing,
+self-check: transition offer made in the same style and response recorded
 before the loop question.
 ```

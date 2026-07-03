@@ -12,7 +12,7 @@ description: >
 # --- provenance (house layer) ---
 id: context-elicitation
 type: skill
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: verified
 created: 2026-07-03
@@ -71,44 +71,73 @@ flowchart LR
    solved; who is affected and how; what is the business/operational value;
    what has been tried before. Narrow from broad to specific — don't ask for a
    problem statement, build one. When screened source material and its
-   input-type tag accompany the description (Stage 01 hands over four types
-   per the flowspace HUB's "Common source inputs" taxonomy), steer the
+   input-type tag accompany the description (Stage 01 hands over one of eight
+   types per the flowspace HUB's "Common source inputs" taxonomy), steer the
    sequence by type: an email request or chat-stated requirement names a
    requester or beneficiary — start the Step 2 stakeholder sweep there; a
-   vendor action notice or stated task list is solution-shaped — elicit the
-   underlying problem before accepting the actions as scope; meeting minutes
-   may hold several candidate items — split them and frame one per run.
-2. **Stakeholder sweep.** Walk the platform stakeholder register and tag every
-   entry whose needs or limits define this item (note its number and
-   role-type). For each tagged entry, use its "what they value most" column to
-   prompt for requirements the user hasn't volunteered. *Worked example:* a DC
-   fabric-expansion item where the user names only Systems/Server — the sweep
-   surfaces Facilities (13, Adjacent: power/cooling ceilings) and Cyber (6,
-   Constraint-setter: segmentation telemetry) before those arrive as surprises.
+   vendor action notice, a stated task list, a structured requirements
+   document (SOW/PRD/BRD), or an architecture/design artifact is
+   solution-shaped — elicit the underlying problem before accepting the
+   actions, requirements, or design as scope; meeting minutes may hold several
+   candidate items — split them and frame one per run; an incident/problem
+   record is already problem-shaped — verify it names an affected party and a
+   business impact, not only a technical symptom, before drafting; an
+   unclassified document gets the full sequence with no shortcuts assumed. In
+   **fast-track mode** (Stage 01), draft problem_statement, business_outcomes
+   or question_to_answer, and customer_business_value directly from the
+   source material with a citation to where each came from, instead of asking
+   the four questions one at a time; anything not confidently draftable falls
+   back to being asked directly.
+2. **Stakeholder sweep.** If a stakeholder register is loaded for this domain
+   (Stage 01's grounding check), walk it and tag every entry whose needs or
+   limits define this item (note its number and role-type), using each
+   tagged entry's "what they value most" column to prompt for requirements
+   the user hasn't volunteered. *Worked example:* a DC fabric-expansion item
+   where the user names only Systems/Server — the sweep surfaces Facilities
+   (13, Adjacent: power/cooling ceilings) and Cyber (6, Constraint-setter:
+   segmentation telemetry) before those arrive as surprises. If Stage 01
+   flagged **ungrounded mode** (no register loaded for this domain), ask the
+   user directly who is affected and how, instead of walking a register.
+   **This step is a hard carve-out — it always runs interactively, in every
+   mode, register or no register.** Fast-track mode never extracts or skips
+   it: misidentifying who a work item affects costs more downstream than any
+   wording a fast-tracked field might get wrong.
 3. **Pushback on vagueness.** When an answer is abstract, circular, or overly
-   broad, apply a pushback pattern instead of accepting it: "it needs to work
+   broad — whether elicited or fast-track-drafted from source material —
+   apply a pushback pattern instead of accepting it: "it needs to work
    better" → "name the two most recent failures and their cost"; "everyone
    needs this" → "which register entries, specifically?" This is the persona's
-   `challenge_incomplete_requirements` behavior — precise, analytical, direct.
+   `challenge_incomplete_requirements` behavior, delivered in the persona's
+   `communication_style` — precise, analytical, structured, direct, per the
+   house amendment in `../../icp-flows/ai-refinement/reference/ai-refinement-hybrid.md`
+   — never hedged or softened past the point of being a clear reframe.
 4. **Draft the fields.** Synthesize into a problem statement (specific, not
    generic); measurable `business_outcomes` if the type is `solution_epic`; a
    `customer_business_value` statement that connects the problem to what the
    tagged stakeholders value. Quality bar: a reader who wasn't in the
    conversation can tell what's broken, for whom, and why fixing it matters.
-5. **Confirm each field.** Present drafts and the stakeholder tag list; obtain
-   an explicit yes/no per field before handing off. No batch confirmations.
+5. **Confirm each field.** Present drafts and the stakeholder tag list, in the
+   persona's `communication_style` (precise, analytical, structured, direct —
+   no narrative padding); obtain an explicit yes/no per field before handing
+   off. No batch confirmations — in fast-track mode this presentation is the
+   consolidated checkpoint's contribution from this skill, not a batch
+   confirmation shortcut: each field still gets its own explicit yes/no.
 
 ## Inputs and grounding
 
 Reads: the selected work-item schema (from Stage 01), the platform stakeholder
-register (`reference/platform-stakeholder-register.md` in the flowspace), the
-user's conversational input, and — when present — the Stage 01-screened source
-material with its input-type tag (email request, vendor action notice, meeting
-minutes/notes, or chat-stated requirement). Grounding rules: stakeholder tags must resolve
-to numbered register entries — never invent a stakeholder; if a relevant party
-is missing from the register, say so and flag it rather than fabricating an
-entry. Do not fabricate prior attempts, metrics, or outcomes the user didn't
-state; ask.
+register (`reference/platform-stakeholder-register.md` or a domain instance of
+`platform-stakeholder-register-template.md` in the flowspace, if loaded), the
+selected mode (fast-track / full-interactive, from Stage 01), the user's
+conversational input, and — when present — the Stage 01-screened source
+material with its input-type tag (any of the eight HUB "Common source inputs"
+types). Grounding rules: stakeholder tags must resolve to numbered register
+entries when grounded, or to the user's direct answer when ungrounded — never
+invent a stakeholder; if a relevant party is missing from a loaded register,
+say so and flag it rather than fabricating an entry. Do not fabricate prior
+attempts, metrics, or outcomes the user didn't state; ask. In fast-track mode,
+every extracted field carries a citation to its source location — extraction
+without a citation is treated the same as fabrication.
 
 ## Data boundary
 
@@ -140,21 +169,42 @@ A single output of this skill is acceptable when:
    they value most."
 4. Every stakeholder tag resolves to a register entry number and role-type.
 5. Each field carries an explicit user confirmation.
-6. At least one pushback was applied if any user answer was vague (check the
-   transcript) — vague-in, vague-out is a failed run.
+6. At least one pushback was applied if any user answer (or fast-track draft)
+   was vague (check the transcript) — vague-in, vague-out is a failed run.
 7. When source material was provided, the drafted problem statement is an
-   elicited problem — not a transcription of the request, action list, or
-   minutes it arrived in.
+   elicited or cited problem — not a transcription of the request, action
+   list, or minutes it arrived in.
+8. Every fast-track-extracted field carries a source citation, and the
+   stakeholder sweep (step 2) ran interactively regardless of mode.
+9. All user-facing text (questions, pushback, drafts) reads as precise,
+   analytical, structured, and direct — no narrative padding, hedging, or
+   informal phrasing.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.2 |
-| Copilot | adapters/copilot-prompt.md | 1.2 |
+| Rovo | adapters/rovo-agent.md | 1.3 |
+| Copilot | adapters/copilot-prompt.md | 1.3 |
 
 ## Changelog
 
+- **1.3** (2026-07-03) — Three changes bundled from the drift-analysis
+  revision pass. (a) Question-sequence steering broadened from four to eight
+  source-input types (adds structured requirements documents, incident/problem
+  records, architecture/design artifacts, and an unclassified catch-all) and
+  gains a fast-track extraction path (Method step 1): fields are drafted
+  directly from source material with citation instead of asked one at a time,
+  falling back to elicitation where confidence is low. (b) Method steps 3 and
+  5 (pushback, confirm/present) tie phrasing explicitly to the persona's
+  `communication_style`, citing the house amendment in
+  `ai-refinement-hybrid.md`. (c) Method step 2 (stakeholder sweep) gains an
+  ungrounded-mode conditional (ask directly when no register is loaded) and is
+  marked a hard carve-out — always interactive, regardless of mode. Two new
+  review criteria (fast-track citation + hard-carve-out check;
+  communication_style compliance). Both adapters regenerated. Content change:
+  pre-gate evidence re-run required — see
+  `../../skill-foundry/decision-log/2026-07-03-communication-style-and-fast-track-skill-revision-pass.md`.
 - **1.2** (2026-07-03) — Question sequence steered by the source-input
   taxonomy: when Stage 01 hands over screened material with an input-type tag
   (email request, vendor action notice, meeting minutes/notes, chat-stated

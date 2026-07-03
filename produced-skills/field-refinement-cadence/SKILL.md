@@ -1,17 +1,20 @@
 ---
 name: field-refinement-cadence
 description: >
-  Drives the one-field-at-a-time refinement cadence for a Jira work item:
-  dependency-aware field ordering, per-field drafting with explicit user
-  confirmation, cross-field conflict detection, acceptance-criteria starter
-  reframing, elicited (never fabricated) due-date commitment, and 10-word
-  summary enforcement. Invoke at Stage 04 of the ai-refinement flowspace. Do
-  NOT use to elicit problem context (context-elicitation) or as the final
-  validation gate (workitem-validation).
+  Drives the field-refinement cadence for a Jira work item: dependency-aware
+  field ordering, per-field drafting with explicit user confirmation,
+  cross-field conflict detection, acceptance-criteria starter reframing,
+  elicited (never fabricated) due-date commitment, and 10-word summary
+  enforcement. Cadence is conditionally scoped: one field at a time in
+  full-interactive mode and for any fast-track field that couldn't be
+  confidently extracted; consolidated presentation for fast-track's
+  confidently-extracted fields. Invoke at Stage 04 of the ai-refinement
+  flowspace. Do NOT use to elicit problem context (context-elicitation) or as
+  the final validation gate (workitem-validation).
 # --- provenance (house layer) ---
 id: field-refinement-cadence
 type: skill
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: verified
 created: 2026-07-03
@@ -27,10 +30,18 @@ related: ["[[sp-field-refinement-cadence]]", "[[ai-refinement]]", "[[work-item-s
 # Field Refinement Cadence
 
 The disciplined middle of the `ai-refinement` pipeline: it takes the confirmed
-framing and scope package from Stages 02–03 and walks the remaining schema
-fields one at a time — each drafted, constrained, and individually confirmed —
-so the ticket is built from accountable field-level decisions rather than
-reviewed as an undifferentiated blob. It hands a complete field set to
+framing and scope package from Stages 02–03 and refines the remaining schema
+fields — each drafted, constrained, and individually confirmed — so the ticket
+is built from accountable field-level decisions rather than reviewed as an
+undifferentiated blob. **Cadence is conditionally scoped, not one fixed mode:**
+in full-interactive mode, every field is walked one at a time; in fast-track
+mode (selected at Stage 01), fields the agent can confidently draft from
+source material are extracted with citation and grouped for the Stage 03–05
+consolidated checkpoint, while fields it can't confidently draft — plus
+`due_date`, always, without exception — still walk the one-at-a-time queue
+below. The accountability mechanism (an individual, explicit confirmation per
+field) never disappears; fast-track changes only where that confirmation
+happens, not whether it happens. It hands a complete field set to
 `workitem-validation`, which gates; this skill drafts.
 
 ## Flow Diagram
@@ -72,13 +83,26 @@ flowchart LR
    timebox is elicited alongside due date, at the same point, and validated
    against it). Remaining required fields, between summary and acceptance
    criteria, in schema dependency order. Never ask the user to choose an
-   order; the ordering is the skill's job.
-2. **One field at a time.** For each field: present its name, constraints
-   (e.g., summary ≤ 10 words), and any pre-filled content from Stages 02–03;
-   draft or refine the value; obtain explicit confirmation before advancing.
-   `confirm_each_step: true` is non-negotiable — batching confirmations to
-   save turns defeats the accountability mechanism. Content confirmed upstream
-   is placed, not rewritten; propose changes to it only as a flagged deviation.
+   order; the ordering is the skill's job. **In fast-track mode**, this
+   ordering governs presentation grouping, not elicitation sequence: fields
+   drafted with confidence from source material are grouped, with citations,
+   for the Stage 03–05 consolidated checkpoint; only fields not confidently
+   draftable — plus `due_date`, always — enter the one-at-a-time queue in
+   Method step 2, in the stated order.
+2. **One field at a time, for whichever fields reach this step.** In
+   full-interactive mode, every field reaches it. In fast-track mode, only
+   fields that couldn't be confidently drafted from source material, plus
+   `due_date` (a hard carve-out, see step 5), reach it — confidently-drafted
+   fields are presented at the consolidated checkpoint instead (with their
+   citations, so the user can verify the source). For each field that does
+   reach this step: present its name, constraints (e.g., summary ≤ 10 words),
+   and any pre-filled content from Stages 02–03; draft or refine the value;
+   obtain explicit confirmation before advancing. `confirm_each_step: true` is
+   non-negotiable for these fields — batching their confirmations to save
+   turns defeats the accountability mechanism; fast-track's consolidated
+   checkpoint is a different, still-individual confirmation per field, not a
+   batching of this step. Content confirmed upstream is placed, not rewritten;
+   propose changes to it only as a flagged deviation.
 3. **Cross-field conflict detection.** After each draft, check for
    contradictions: due date earlier than a blocking dependency's resolution;
    in-scope claims with no corresponding acceptance criterion; type-of-work /
@@ -90,29 +114,41 @@ flowchart LR
    or "We will know this is done when." *Worked example:* "the dashboard
    should be faster" → "We will know this is done when the capacity dashboard
    loads in under 3 seconds for the 95th percentile request." Preserve the
-   user's meaning; change the form.
-5. **Due-date elicitation.** Never auto-generate or infer a due date — it is
-   always a user commitment, obtained, not derived. Present the confirmed
+   user's meaning; change the form. Present reframed criteria in the persona's
+   `communication_style` (precise, analytical, structured, direct) regardless
+   of mode.
+5. **Due-date elicitation — hard carve-out, every mode, no exception.** Never
+   auto-generate or infer a due date, in full-interactive or fast-track — it
+   is always a user commitment, obtained, not derived. Present the confirmed
    acceptance criteria back to the user as an effort reference, then ask
    directly: "When can you commit to completing this work?" If the source
-   material states a deadline (e.g., a vendor advisory's expiration), surface
-   it as a reference point, not an answer — the user still confirms the date
-   explicitly. For spikes, obtain the timebox at the same time and validate it
-   closes on or before the confirmed due date; a timebox that doesn't close in
-   time is a conflict, surfaced and resolved before advancing (step 3). A
-   date the user never explicitly confirmed does not leave this step.
+   material states a deadline (e.g., a vendor advisory's expiration, or a
+   date in a structured requirements document), surface it as a reference
+   point, not an answer — the user still confirms the date explicitly; a date
+   being present in the source is extraction of a reference, never a
+   substitute for the user's commitment. For spikes, obtain the timebox at the
+   same time and validate it closes on or before the confirmed due date; a
+   timebox that doesn't close in time is a conflict, surfaced and resolved
+   before advancing (step 3). A date the user never explicitly confirmed does
+   not leave this step, regardless of mode. This is the flowspace's
+   `due_date_elicitation` house amendment
+   (`../../icp-flows/ai-refinement/reference/ai-refinement-hybrid.md`).
 6. **Summary enforcement.** Validate ≤ 10 words; if exceeded, propose a
    meaning-preserving rewrite and confirm it.
 
 ## Inputs and grounding
 
 Reads: confirmed outputs of Stages 02–03, the work-item schema from Stage 01,
-and the field definitions (summary limit, AC starters) in the flowspace's
-`reference/ai-refinement-hybrid.md`. Grounding rules: never invent field
-content the user hasn't supplied or confirmed upstream — draft from what
-exists and ask for what's missing; never silently alter a confirmed upstream
-value; a due date is elicited from the user, never derived or defaulted, even
-when source material states a candidate deadline.
+the selected mode (fast-track / full-interactive) from Stage 01, and the field
+definitions (summary limit, AC starters) and house amendments in the
+flowspace's `reference/ai-refinement-hybrid.md`. Grounding rules: never invent
+field content the user hasn't supplied, confirmed upstream, or cited from
+source material — draft from what exists and ask for what's missing; never
+silently alter a confirmed upstream value; a due date is elicited from the
+user, never derived or defaulted, even when source material states a
+candidate deadline, and even in fast-track mode; every fast-track-extracted
+field carries a citation to where it came from — extraction without a
+citation is treated the same as fabrication.
 
 ## Data boundary
 
@@ -138,8 +174,12 @@ A single output of this skill is acceptable when:
 
 1. Every required field for the selected type has a value; no placeholder text.
 2. Fields were presented in the stated order (summary first, AC next-to-last,
-   due date always last) — check the transcript.
-3. Each field carries an individual explicit confirmation.
+   due date always last) — check the transcript; in fast-track mode,
+   extracted fields were grouped for the consolidated checkpoint and only
+   fallback/carve-out fields entered the one-at-a-time queue.
+3. Each field carries an individual explicit confirmation — inline (step 2)
+   or at the consolidated checkpoint (fast-track extracted fields); either
+   way, no field lacks its own confirmation.
 4. All acceptance criteria use an approved starter; the summary is ≤ 10 words.
 5. All four conflict categories were checked, with any hits surfaced and
    resolved (or carried into the conflict report), not deferred silently.
@@ -147,17 +187,36 @@ A single output of this skill is acceptable when:
    deviation.
 7. The due date in the transcript traces to an explicit user commitment made
    after acceptance criteria were presented — never a value the skill
-   generated or defaulted; for spikes, the timebox closes on or before it.
+   generated or defaulted, in any mode; for spikes, the timebox closes on or
+   before it.
+8. Every fast-track-extracted field carries a source citation in the
+   transcript.
+9. All user-facing presentation (field constraints, AC reframing, due-date
+   ask) reads as precise, analytical, structured, and direct.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.2 |
-| Copilot | adapters/copilot-prompt.md | 1.2 |
+| Rovo | adapters/rovo-agent.md | 1.3 |
+| Copilot | adapters/copilot-prompt.md | 1.3 |
 
 ## Changelog
 
+- **1.3** (2026-07-03) — Two changes bundled from the drift-analysis revision
+  pass. (a) Cadence made conditionally scoped instead of a single fixed mode:
+  Method steps 1–2 now describe fast-track mode's extraction-with-citation
+  path (grouped for the Stage 03–05 consolidated checkpoint) alongside the
+  existing full-interactive one-at-a-time path — the accountability mechanism
+  (an explicit per-field confirmation) is unchanged, only where it happens
+  moves. Due-date elicitation (step 5) is explicitly marked a hard carve-out
+  that fast-track cannot relax. (b) Method steps 4 and 5 (AC reframing,
+  due-date ask) tie presentation phrasing to the persona's
+  `communication_style`, citing the house amendment in
+  `ai-refinement-hybrid.md`. Three new review criteria (citation tracking,
+  mode-aware confirmation, communication_style compliance). Both adapters
+  regenerated. Content change: pre-gate evidence re-run required — see
+  `../../skill-foundry/decision-log/2026-07-03-communication-style-and-fast-track-skill-revision-pass.md`.
 - **1.2** (2026-07-03) — Operator-observed defect fix (Stage 06 feedback,
   NEADD-1827): due date is now an explicit, elicited Method step (new step 5)
   instead of an unspecified part of "one field at a time" — the skill never
