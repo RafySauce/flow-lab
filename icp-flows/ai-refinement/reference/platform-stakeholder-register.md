@@ -2,7 +2,7 @@
 id: platform-stakeholder-register
 title: "Platform-as-a-Product — Internal Stakeholder Register"
 type: clipping
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: claimed
 created: 2026-07-03
@@ -12,6 +12,7 @@ source: human+ai
 data-class: public
 related:
   - "[[ai-refinement]]"
+  - "[[platform-stakeholder-register-template]]"
 ---
 
 > **Ingest note (house):** operator-supplied requirements-source map for the
@@ -20,7 +21,13 @@ related:
 > the generic mid-size-enterprise shape by the document's own declaration —
 > public-safe. Consumed as Layer-3 by `ai-refinement` Stages 02 (stakeholder
 > sweep) and 03 (coalition / conflict-axis annotation, escalation routing).
-> Content below this line is the source material, unreviewed (`claimed`).
+> **This file is the network-engineering instance of
+> `platform-stakeholder-register-template.md` (1.0, house):** the template
+> holds the domain-neutral structure (role-types, coalitions, conflict axes,
+> escalation rules) with placeholder entries; this file is that structure
+> populated for the network-engineering domain. A new domain instantiates
+> from the template, not from this file. Content below this line is the
+> source material, unreviewed (`claimed`).
 
 ```yaml
 title: Platform-as-a-Product — Internal Stakeholder Register

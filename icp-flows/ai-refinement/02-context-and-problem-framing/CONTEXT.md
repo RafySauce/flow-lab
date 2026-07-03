@@ -4,7 +4,7 @@ title: "Stage 02 — Context & Problem Framing"
 type: stage-context
 stage: 2
 review-intensity: heavy
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -28,10 +28,12 @@ related:
 |---|---|---|
 | Acknowledged responsibility flag | Stage 01 | Yes |
 | Selected work item type + schema | Stage 01 | Yes |
-| Active persona contract | Stage 01 | Yes |
+| Active persona contract (communication_style binding) | Stage 01 | Yes |
+| Selected mode (fast-track / full-interactive) + rationale | Stage 01 | Yes |
 | User's raw problem description / context | User | Yes |
-| Screened source material + input-type tag (email request, vendor action notice, meeting minutes/notes, chat-stated requirement) | Stage 01 | No |
-| Stakeholder register (role-types, "what they value most") | `../reference/platform-stakeholder-register.md` | Yes |
+| Screened source material + input-type tag (any of the eight HUB "Common source inputs" types) | Stage 01 | No |
+| Stakeholder register (role-types, "what they value most"), if loaded | `../reference/platform-stakeholder-register.md` or a domain instance | If grounded |
+| Stakeholder-register grounding status (grounded / ungrounded) | Stage 01 | Yes |
 
 ## Process
 
@@ -45,21 +47,45 @@ related:
    - What has been tried before (if anything)?
 
    When screened source material accompanies the description, let its type
-   (per the HUB "Common source inputs" taxonomy) steer the sequence: an email
-   request or chat-stated requirement names a requester or beneficiary — start
-   the stakeholder sweep there; vendor action notices and stated task lists
-   are solution-shaped — elicit the underlying problem before accepting the
-   actions as scope; meeting minutes may hold several candidate items — split
-   them and frame one per run.
-2. **Stakeholder sweep** — walk the stakeholder register and tag the entries
-   whose needs or limits define this item (producers, consumers,
-   constraint-setters, operators, adjacents, sponsors). Use each tagged entry's
-   "what they value most" column to prompt for requirements the user hasn't
-   volunteered.
+   (per the HUB "Common source inputs" taxonomy — email request, vendor action
+   notice, meeting minutes/notes, chat-stated requirement, structured
+   requirements document, incident/problem record, architecture/design
+   artifact, or unclassified) steer the sequence: an email request or
+   chat-stated requirement names a requester or beneficiary — start the
+   stakeholder sweep there; vendor action notices, stated task lists, and
+   structured requirements documents are solution-shaped — elicit the
+   underlying problem before accepting the actions as scope; meeting minutes
+   may hold several candidate items — split them and frame one per run; an
+   incident/problem record is already problem-shaped — verify it names an
+   affected party and a business impact rather than only a technical
+   symptom; an architecture/design artifact is solution-shaped at a systems
+   level — recover the problem it was drawn to solve; an unclassified
+   document gets the full question sequence with no shortcuts assumed.
+
+   **In fast-track mode:** draft the problem statement, business outcomes /
+   question-to-answer, and customer/business value directly from the source
+   material, citing where in the document each draft came from, instead of
+   asking the four questions above one at a time. Any of the four the agent
+   can't answer with reasonable confidence from the material falls back to
+   being asked directly — never left blank or guessed.
+2. **Stakeholder sweep** — if a stakeholder register is loaded (Stage 01's
+   grounding check), walk it and tag the entries whose needs or limits define
+   this item (producers, consumers, constraint-setters, operators, adjacents,
+   sponsors), using each tagged entry's "what they value most" column to
+   prompt for requirements the user hasn't volunteered. If Stage 01 flagged
+   **ungrounded mode** (no register loaded for this domain), ask the user
+   directly who is affected and what they need instead of walking a register —
+   degraded but functional. **This step is a hard carve-out: it is always run
+   interactively, in every mode, register or no register.** Fast-track never
+   extracts or skips the stakeholder sweep — misidentifying who a work item
+   affects costs more downstream than a wording tweak would.
 3. **Challenge vague inputs** — apply the skill's pushback patterns when answers
    are too abstract. The persona's `challenge_incomplete_requirements` behavior
-   drives this.
-4. **Draft problem statement** — synthesize user responses into a clear problem statement.
+   drives this. Applies in every mode: a fast-track-extracted draft that reads
+   as vague or generic gets pushed back on, not accepted because it was
+   extracted rather than elicited.
+4. **Draft problem statement** — synthesize user responses (or source-material
+   extraction, in fast-track) into a clear problem statement.
 5. **Draft business outcomes** — if the work item type is `solution_epic`, produce measurable outcomes.
    If the type is `spike`, crystallize the elicited problem into the single
    question the spike must answer (drafts `question_to_answer` — one
@@ -67,7 +93,11 @@ related:
 6. **Draft customer/business value** — produce a value statement that connects
    the problem to what the tagged stakeholders value.
 7. **Confirm framing** — present the drafted fields and the stakeholder tag list
-   to the user for approval before proceeding.
+   to the user for approval before proceeding. In full-interactive mode this is
+   its own checkpoint; in fast-track mode it still happens here at Stage 02 —
+   the Stage 03–05 consolidation (see those stages' Review sections) does not
+   reach back to fold Stage 02 in, since this stage's review stays heavy in
+   every mode (see Review, below).
 
 ## Outputs
 
@@ -85,25 +115,35 @@ related:
 Cross-stage trace: every field this stage confirms must be one the Stage 01
 schema requires for the selected work-item type — the failure this catches is
 drafting `business_outcomes` for a `feature` (which has no such field) or
-skipping a required field the type demands. Second trace: every stakeholder tag
-resolves to a numbered entry in `../reference/platform-stakeholder-register.md`.
-Running these checks leaves a one-line result in the run's decision log.
+skipping a required field the type demands. Second trace: in grounded mode,
+every stakeholder tag resolves to a numbered entry in the loaded register
+(`../reference/platform-stakeholder-register.md` or a domain instance of the
+template); in ungrounded mode, every tag traces to the user's direct answer
+instead. Running these checks leaves a one-line result in the run's decision log.
 
 - [ ] Problem statement is specific, not generic
 - [ ] Business outcomes are measurable (solution_epic)
 - [ ] Question-to-answer is a single answerable question (spike)
 - [ ] Customer/business value links to the stated problem and tagged stakeholders
-- [ ] Every stakeholder tag resolves to a register entry
+- [ ] Every stakeholder tag resolves to a register entry (grounded) or an
+      explicit user answer (ungrounded)
 - [ ] User explicitly confirmed each drafted field
 - [ ] If source material was provided, the problem was elicited — the drafted
       problem statement is not a transcription of the request or action list
+      (nor, in fast-track mode, an unreviewed copy of the source text)
+- [ ] If fast-track mode extracted any field, its source citation is in the
+      transcript and the user confirmed it explicitly
+- [ ] The stakeholder sweep (step 2) ran interactively regardless of mode —
+      never fast-track-extracted or skipped
 - [ ] No PII or confidential data was introduced
 
 ## Review
 
 - **Reviewer:** operator (or delegate)
-- **Intensity:** heavy — problem framing errors cascade into every downstream
-  field.
+- **Intensity:** heavy, unconditionally — problem framing errors cascade into
+  every downstream field. This does not compress in fast-track mode; the
+  Stage 03–05 consolidated checkpoint (Stage 05's Review section) never folds
+  Stage 02 in.
 - **Evidence:** user confirmation of each drafted field in-session and a
   one-line entry in the run's decision log.
 

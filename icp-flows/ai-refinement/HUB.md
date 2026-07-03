@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.8"
+artifact-version: "1.9"
 status: living
 truth-level: verified
 created: 2026-07-03
@@ -71,18 +71,30 @@ flowchart LR
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Intake & Guardrails | heavy | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all five refinable types) |
-| 2 | Context & Problem Framing | heavy | internal | Rovo, Copilot | `context-elicitation` (verified, `produced-skills/`) |
-| 3 | Scope & Dependencies | light | internal | Rovo, Copilot | `scope-dependency-mapper` (verified, `produced-skills/`) |
-| 4 | Field-by-Field Refinement | light | internal | Rovo, Copilot | `field-refinement-cadence` (verified, `produced-skills/`) |
-| 5 | Validation & Formatting | light | internal | Rovo, Copilot | `workitem-validation` (verified, `produced-skills/`) |
-| 6 | Jira Commit & Close | heavy | internal | Rovo, Copilot | `jira-commit` (verified, `produced-skills/`) |
+| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all five refinable types) |
+| 2 | Context & Problem Framing | heavy¹ | internal | Rovo, Copilot | `context-elicitation` (verified, `produced-skills/`) |
+| 3 | Scope & Dependencies | light² | internal | Rovo, Copilot | `scope-dependency-mapper` (verified, `produced-skills/`) |
+| 4 | Field-by-Field Refinement | light² | internal | Rovo, Copilot | `field-refinement-cadence` (verified, `produced-skills/`) |
+| 5 | Validation & Formatting | light² | internal | Rovo, Copilot | `workitem-validation` (verified, `produced-skills/`) |
+| 6 | Jira Commit & Close | heavy¹ | internal | Rovo, Copilot | `jira-commit` (verified, `produced-skills/`) |
+
+¹ Stays independently heavy in every mode, including fast-track — never
+compressed or folded into another stage's review.
+² In fast-track mode, Stages 3–5 fold into one consolidated draft-and-review
+checkpoint (canonically defined in Stage 05's Review section) instead of
+three separate light-review passes. In full-interactive mode, each keeps its
+own light-review pass as shown.
 
 ## Topology
 
 - **Band ① Foundation** (Stage 1): Set once per refinement session. The user
   triggers refinement, acknowledges responsibility, confirms data-safety
-  guardrails, and selects the work-item type from the hierarchy.
+  guardrails, and selects the work-item type from the hierarchy (agent-proposed
+  with rationale when source material is available, user confirms or
+  overrides). Stage 1 also assesses and proposes fast-track mode when source
+  material is detailed enough to support it, and checks whether a stakeholder
+  register is loaded for this domain — the user always controls the final
+  mode choice.
 - **Band ② Per-Item Pipeline** (Stages 2–6): Repeats for each work item in
   the session. A run through this band takes one work item from raw context to
   a committed Jira issue. The loop-back from Stage 6 to Stage 2 fires when the
@@ -90,11 +102,15 @@ flowchart LR
 
 ## Common source inputs
 
-Operator-observed taxonomy (2026-07-03) of the raw material that most often
-starts a run. All four types arrive request-shaped or solution-shaped — they
-state a task or an action, not a problem — so Stage 1 screens them against the
-data-safety guardrail and Stage 2's elicitation recovers the underlying problem
-and value rather than transcribing the request.
+Operator-observed taxonomy (2026-07-03; broadened 2026-07-03) of the raw
+material that most often starts a run. Most types arrive request-shaped or
+solution-shaped — they state a task or an action, not a problem — so Stage 1
+screens them against the data-safety guardrail and Stage 2's elicitation
+recovers the underlying problem and value rather than transcribing the
+request. Two of the eight (incident/problem records, and the catch-all) are
+already problem-shaped or unknown-shaped — Stage 1's screening still applies
+to all eight, but Stage 2's "recover the problem" framing is only literally
+true of the request/solution-shaped rows.
 
 | # | Input type | Typical carrier | Handling notes |
 |---|---|---|---|
@@ -102,6 +118,10 @@ and value rather than transcribing the request.
 | 2 | Vendor details on required actions | Vendor bulletin, advisory, or notice | Third-party material — vet before ingesting. Prescribed actions are solution-shaped: elicit the internal problem and value before accepting them as scope. Stated deadlines feed `due_date`. The vendor is not a register entry — tag the internal owning stakeholder. |
 | 3 | Meeting minutes, notes, or summaries | Notes pasted into the session | Multi-topic and multi-voice — may yield more than one work item (one run through Band ② each). Separate decisions from discussion; strip attributions per the data-safety screen. |
 | 4 | Directly stated requirement from an engineer | Chat message ("I need to go do x, y, z to help ABC") | Task-first: the stated x/y/z are candidate scope, not the problem statement. Map the named stakeholder (ABC) to the register; elicit the problem and value before accepting the task list. |
+| 5 | Structured requirements document | SOW, PRD, or BRD pasted or attached | Solution-shaped and often detailed enough to trigger Stage 1's fast-track proposal — elicit the underlying problem before accepting stated requirements as scope; verify stakeholders named in the document against the register rather than assuming coverage. Often carries a stated timeline — surface it as a `due_date` reference point only, per the due-date elicitation rule. |
+| 6 | Incident or problem record | Postmortem, problem ticket, or RCA summary | Already problem-shaped — verify it names an affected party and business impact, not only a technical symptom. High PII/confidential risk if it includes customer or user detail: screen closely. |
+| 7 | Architecture or design artifact | ADR, design doc, or diagram description | Solution-shaped at a systems level — recover the problem the design was drawn to solve before accepting its structure as scope. May name multiple stakeholders across the design's integration points — sweep broadly. |
+| 8 | Unclassified document | Anything not matching rows 1–7 | Catch-all: screen for PII/confidential content at the strictest level of the set, determine whether it reads as problem-shaped or solution-shaped, and handle accordingly — get the full Stage 2 question sequence with no shortcuts assumed from its shape. |
 
 ## Surfaces
 
@@ -121,16 +141,27 @@ per-run content.
 1. The user speaks a trigger phrase ("Run AI Refinement", "Start Refinement",
    "I want to refine").
 2. Stage 1 activates: guardrails are presented, responsibility is acknowledged,
-   and the user picks a work-item type from the refinable set — Solution Epic,
-   Feature, Story, Task, or Spike. (The full hierarchy is Portfolio Epic →
-   Solution Epic → Feature → Story | Task | Spike → Sub-Task; portfolio epics
-   and sub-tasks are out of refinement scope and get redirected — see
-   `reference/work-item-schemas.md`.)
-3. Stages 2–5 walk the user through the selected work-item schema one field at
-   a time, confirming each before advancing. The TPSO persona challenges
-   incomplete requirements and enforces measurable outcomes throughout; the
-   stakeholder register drives whose needs are elicited (Stage 2) and which
-   coalition/conflict-axis annotations the item carries (Stage 3).
+   and a work-item type is selected from the refinable set — Solution Epic,
+   Feature, Story, Task, or Spike — either agent-proposed with rationale (when
+   source material is available) or user-selected directly. (The full
+   hierarchy is Portfolio Epic → Solution Epic → Feature → Story | Task |
+   Spike → Sub-Task; portfolio epics and sub-tasks are out of refinement scope
+   and get redirected — see `reference/work-item-schemas.md`.) Stage 1 also
+   proposes fast-track mode when the source material supports it and checks
+   stakeholder-register availability; the user always makes the final mode
+   and grounding-path call.
+3. Stages 2–5 walk the user through the selected work-item schema. In
+   full-interactive mode, this is one field at a time with confirmation at
+   every step; in fast-track mode, fields the agent can confidently draft from
+   the source material are extracted with citation and presented together at
+   a consolidated checkpoint, while unextractable fields and the hard
+   carve-outs (stakeholder sweep, coalition/conflict-axis annotation, due-date
+   elicitation) stay interactive regardless of mode. The TPSO persona
+   challenges incomplete requirements, enforces measurable outcomes, and
+   holds every user-facing output to its communication_style throughout; the
+   stakeholder register (where loaded for the domain) drives whose needs are
+   elicited (Stage 2) and which coalition/conflict-axis annotations the item
+   carries (Stage 3) — absent a register, these run in ungrounded mode.
 4. Stage 5 validates completeness against the schema and applies formatting
    rules (no bold, no emojis).
 5. Stage 6 presents the finished artifact for final human approval, then
@@ -157,11 +188,11 @@ at deployment, the operator's act, recorded in each skill card.
 
 | Skill (spec + adapters) | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.2 (input-type steering); promoted 2026-07-03; deployment pending |
-| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — promoted 2026-07-03; deployment pending |
-| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.2 (elicited due-date cadence); promoted 2026-07-03; deployment pending |
+| `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.3 (input-taxonomy steering broadened to eight types, communication_style citation, ungrounded-mode stakeholder sweep); promoted 2026-07-03; deployment pending |
+| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — 1.1 (ungrounded-mode coalition/conflict-axis conditional); promoted 2026-07-03; deployment pending |
+| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.3 (conditionally-scoped cadence: fast-track consolidation vs. one-at-a-time, communication_style citation); promoted 2026-07-03; deployment pending |
 | `workitem-validation` | `sp-workitem-validation` | 5 | verified — promoted 2026-07-03; deployment pending |
-| `jira-commit` | `sp-jira-commit` | 6 | verified — 1.3 (format translation, confirmed parent mapping, post-commit transition offer); promoted 2026-07-03; deployment pending |
+| `jira-commit` | `sp-jira-commit` | 6 | verified — 1.4 (communication_style citation on dry-run preview and transition offer; format translation, confirmed parent mapping, post-commit transition offer carried from 1.3); promoted 2026-07-03; deployment pending |
 
 Second gap (2026-07-03): the work-item schema registry
 (`reference/work-item-schemas.md`) completes type coverage — the source
@@ -183,7 +214,7 @@ surfaced five operator-observed defects at the commit boundary — raw
 Markdown reaching Jira fields, silent parent assignment with no user
 confirmation, a fabricated due date, no post-creation status-transition
 offer, and `story`/`spike` missing the board-required `type_of_work`/
-`work_category` fields. All five are fixed in this revision pass:
+`work_category` fields. All five are fixed in that revision pass:
 `jira-commit` 1.2 → 1.3, `field-refinement-cadence` 1.1 → 1.2, the
 `work-item-schemas` registry 1.0 → 1.1 (story/spike field addition — bundled
 into the existing to-review ratification, not a separate approval), and
@@ -193,12 +224,38 @@ re-run, and remaining operator items:
 `skill-foundry/decision-log/2026-07-03-stage06-feedback-revision-pass.md`
 (gate evidence).
 
+Gap update (2026-07-03, drift-analysis revision pass): the same five house
+amendments backported into `reference/ai-refinement-hybrid.md`, plus
+communication_style enforcement, a broadened source-input taxonomy, a
+domain-configurable stakeholder register, and fast-track mode, are all new
+spec-only capabilities across Stages 01–06 and four produced skills
+(`context-elicitation` 1.3, `scope-dependency-mapper` 1.1,
+`field-refinement-cadence` 1.3, `jira-commit` 1.4) — none of it has run
+on-engine. Fast-track mode in particular introduces new behavior (agent-side
+extraction, mode selection, consolidated review) that the NEADD-1827 pre-run
+never exercised. Two new operator-facing prep artifacts scope what deployment
+and validation still require: `reference/confluence-instantiation-guide.md`
+(REC-01/02/10) and `reference/on-engine-validation-checklist.md` (REC-09) —
+both prepared, neither executed; publishing to Confluence, deploying live
+Rovo agents, and running the on-engine validation matrix remain the
+operator's acts. Rationale:
+`decision-log/2026-07-03-fast-track-mode.md`,
+`decision-log/2026-07-03-communication-style-enforcement.md`,
+`decision-log/2026-07-03-source-input-taxonomy-expansion.md`,
+`decision-log/2026-07-03-stakeholder-register-domain-split.md`,
+`decision-log/2026-07-03-hybrid-clipping-house-amendments.md`,
+`decision-log/2026-07-03-deployment-artifacts-prepared.md`; gate evidence:
+`skill-foundry/decision-log/2026-07-03-communication-style-and-fast-track-skill-revision-pass.md`.
+
 ## Reference material (Layer-3)
 
 | Artifact | Location | Covers |
 |---|---|---|
-| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (claimed clipping) | Guardrails, persona, hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers |
+| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, five house-proven amendments |
 | Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all five refinable types; story/task/spike extensions; portfolio_epic / sub_task out-of-scope declarations; extension field constraints |
-| Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
+| Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
+| Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (to-review, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |
+| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (to-review, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |
+| On-Engine Validation Checklist | `reference/on-engine-validation-checklist.md` (to-review, house extension) | Per-type, per-check matrix for REC-09 (first on-engine validation run) — prepared, not executed |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |

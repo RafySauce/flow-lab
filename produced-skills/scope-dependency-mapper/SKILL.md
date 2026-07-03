@@ -11,7 +11,7 @@ description: >
 # --- provenance (house layer) ---
 id: scope-dependency-mapper
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: verified
 created: 2026-07-03
@@ -79,13 +79,20 @@ flowchart LR
    live. *Worked example:* a badging-platform item tagged with Corporate
    Services (5) must be checked against IAM (7) and HR/HRIS (14) — the Identity
    Backbone coalition — for lifecycle-feed dependencies.
-3. **Coalition and conflict-axis annotation.** Per the register's usage rules:
-   name the coalition the item satisfies (batch those stakeholders' input;
-   expect fast consensus) and the conflict axis it triggers. A triggered axis
-   requires a named decision-owner and recorded rationale; if unresolved, emit
-   an escalation advisory — producer ⟷ constraint-setter conflicts to IT
-   Leadership (16), "worth doing at all" conflicts to Portfolio & Sourcing (17).
-   The skill routes; it never decides the conflict.
+3. **Coalition and conflict-axis annotation.** If a stakeholder register is
+   loaded for this domain: per its usage rules, name the coalition the item
+   satisfies (batch those stakeholders' input; expect fast consensus) and the
+   conflict axis it triggers. A triggered axis requires a named decision-owner
+   and recorded rationale; if unresolved, emit an escalation advisory —
+   producer ⟷ constraint-setter conflicts to IT Leadership (16), "worth doing
+   at all" conflicts to Portfolio & Sourcing (17). If Stage 01 flagged
+   **ungrounded mode** (no register loaded for this domain), ask the user
+   directly whether any parties or priorities are in tension over this item,
+   and record what they say in the same shape — a named tension plus a
+   decision-owner — without inventing a coalition or axis name the register
+   doesn't provide. **This step is a hard carve-out: it always runs
+   interactively, in every mode, register or no register.** The skill routes;
+   it never decides the conflict.
 4. **Split detection and risks.** If in-scope covers multiple distinct
    deliverables, recommend decomposition per the work-item hierarchy. Flag
    technical, operational, and timeline risks (optional for `solution_epic`);
@@ -97,11 +104,14 @@ flowchart LR
 ## Inputs and grounding
 
 Reads: Stage 02 outputs (confirmed problem statement, value, stakeholder tag
-list), the work-item schema from Stage 01, and the platform stakeholder
-register. Grounding rules: coalition and conflict-axis names must be quoted
-from the register — never invent a coalition; dependencies must name real
-systems/teams the user or register surfaced, not plausible-sounding ones; say
-"none identified" rather than pad the risk list.
+list), the work-item schema from Stage 01, the stakeholder-register grounding
+status from Stage 01, and the platform stakeholder register (or its domain
+instance), if loaded. Grounding rules: in grounded mode, coalition and
+conflict-axis names must be quoted from the register — never invent a
+coalition; in ungrounded mode, name the tension in the user's own terms rather
+than forcing a register vocabulary that doesn't exist for this domain.
+Dependencies must name real systems/teams the user or register surfaced, not
+plausible-sounding ones; say "none identified" rather than pad the risk list.
 
 ## Data boundary
 
@@ -128,20 +138,31 @@ A single output of this skill is acceptable when:
 3. Every dependency carries exactly one classification (blocking /
    informational), and at least the tagged Adjacent/Constraint-setter entries
    were swept (check the transcript).
-4. Coalition and conflict-axis annotations quote register entries; every
-   triggered axis has a decision-owner or an escalation advisory naming the
-   correct escalation target.
+4. Coalition and conflict-axis annotations quote register entries (grounded)
+   or the user's direct answer (ungrounded); every triggered axis has a
+   decision-owner or an escalation advisory naming the correct escalation
+   target.
 5. Split detection was evaluated with a stated result (recommended or not, and
    why).
-6. The user explicitly confirmed the package.
+6. Step 3 (coalition/conflict-axis annotation) ran interactively regardless of
+   mode — never fast-track-extracted or skipped.
+7. The user explicitly confirmed the package.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
+| Rovo | adapters/rovo-agent.md | 1.1 |
+| Copilot | adapters/copilot-prompt.md | 1.1 |
 
 ## Changelog
 
+- **1.1** (2026-07-03) — Method step 3 (coalition/conflict-axis annotation)
+  gains an ungrounded-mode conditional: absent a loaded stakeholder register
+  for this domain, ask the user directly and record the tension/decision-owner
+  in the same shape rather than forcing register vocabulary. Marked a hard
+  carve-out — always interactive, in every mode. New review criterion (step 3
+  ran interactively regardless of mode). Both adapters regenerated. Content
+  change: pre-gate evidence re-run required — see
+  `../../skill-foundry/decision-log/2026-07-03-communication-style-and-fast-track-skill-revision-pass.md`.
 - **1.0** (2026-07-03) — Initial build from `sp-scope-dependency-mapper`.

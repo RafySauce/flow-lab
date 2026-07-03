@@ -2,9 +2,9 @@
 id: ai-refinement-hybrid
 title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: claimed
+truth-level: to-review
 created: 2026-07-03
 updated: 2026-07-03
 owner: operator
@@ -18,8 +18,16 @@ related:
 > uploaded by the operator and captured as-is per the clipping convention —
 > except that one internal Confluence URL (the responsibility-notice policy
 > link) is redacted below for public-repo safety; restore it at instantiation
-> in employer tenancy. Content below this line is the source material,
-> unreviewed (`claimed`).
+> in employer tenancy. Content from here through `## Triggers` is the source
+> material, unchanged since ingest. The `## House Amendments` section below it
+> is new as of 1.1: five behavioral rules the flowspace proved necessary
+> through on-engine operation, appended rather than merged into the source
+> text so a future diff against the real external document stays possible —
+> see `decision-log/2026-07-03-hybrid-clipping-house-amendments.md`. Because
+> the file now carries substantive house-authored content alongside the
+> clipping, `truth-level` moves from `claimed` to `to-review`: the source
+> material itself is still unreviewed, and the amendments are house-authored
+> pending the same operator sign-off as the rest of the flowspace.
 
 # AI Refinement – Hybrid Definition (Markdown + YAML)
 
@@ -152,3 +160,76 @@ triggers:
     - "Start Refinement"
     - "I want to refine"
 ```
+
+---
+
+## House Amendments (2026-07-03)
+
+Five rules below are house-authored, discovered through the flowspace's first
+on-engine invocation (Rovo, NEADD-1827) and the resulting feedback revision —
+none were in the original ingest. They are recorded here, rather than left
+implicit in stage contracts and skill specs, so a future revision of the real
+external source document can absorb them instead of losing them to drift. See
+`decision-log/2026-07-03-hybrid-clipping-house-amendments.md` for the decision
+to backport them directly into this clipping.
+
+```yaml
+house_amendments:
+  due_date_elicitation:
+    rule: >
+      due_date is always elicited explicitly from the user, after acceptance
+      criteria exist to serve as an effort reference. Never auto-generated,
+      inferred, or defaulted — a deadline named in source material is a
+      reference point only, never a substitute for explicit user commitment.
+    origin: NEADD-1827, defect 3 (fabricated due date)
+
+  post_commit_transition_offer:
+    rule: >
+      After a successful Jira commit, the user is offered the option to
+      transition the item to In Progress (or the board's equivalent active
+      status). Offered once; no re-prompting; no transition without explicit
+      "yes."
+    origin: NEADD-1827, defect 4 (no post-creation transition offer)
+
+  parent_mapping_confirmation:
+    rule: >
+      For any type with a parent in the hierarchy, candidate parents are
+      queried live from the target instance and presented to the user, who
+      must confirm a specific parent, skip (no parent yet), or request a new
+      parent be created. A hierarchy position is never carried forward and
+      set silently.
+    origin: NEADD-1827, defect 2 (silent parent assignment)
+
+  format_translation_gate:
+    rule: >
+      Markdown structure (headings, bullet lists, code blocks) is translated
+      into the target platform's native markup — Atlassian Document Format
+      (ADF) for Jira Cloud — before any rich-text field is committed. Raw
+      Markdown syntax reaching a committed field is a defect, not an
+      acceptable degradation.
+    origin: NEADD-1827, defect 1 (raw Markdown reaching Jira fields)
+
+  communication_style_enforcement:
+    rule: >
+      The persona contract's communication_style list (precise, analytical,
+      structured, direct) is binding, not descriptive, on every user-facing
+      text a stage or skill produces — questions, pushback, drafts, previews,
+      reports — across every stage of the pipeline. Output that is verbose,
+      narrative, informal, or hedging violates the persona contract.
+    origin: drift analysis, 2026-07-03 (communication_style was defined but
+      never operationalized in any stage or skill)
+```
+
+---
+
+## Changelog
+
+- **1.1** (2026-07-03) — Added the House Amendments section: five rules
+  proven necessary by on-engine operation and a drift analysis, appended
+  below the unchanged source material rather than merged into it. Bumped
+  `truth-level` from `claimed` to `to-review` to reflect the file's mixed
+  provenance (unreviewed source + house amendments pending sign-off). See
+  `decision-log/2026-07-03-hybrid-clipping-house-amendments.md`.
+- **1.0** (2026-07-03) — Initial ingest, captured as-is per the clipping
+  convention (responsibility-notice policy link redacted for the public
+  mirror).

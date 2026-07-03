@@ -4,7 +4,7 @@ title: "Stage 05 — Validation & Formatting"
 type: stage-context
 stage: 5
 review-intensity: light
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -28,6 +28,8 @@ related:
 | Complete set of refined field values | Stage 04 | Yes |
 | Work item schema (required/optional fields) | Stage 01 | Yes |
 | Formatting rules (no bold, no emojis) | `../reference/ai-refinement-hybrid.md` | Yes |
+| Active persona contract (communication_style binding) | Stage 01 | Yes |
+| Selected mode (fast-track / full-interactive) | Stage 01 | Yes |
 | Cross-field conflict report (if any) | Stage 04 | If exists |
 
 ## Process
@@ -44,6 +46,13 @@ related:
    - Spike only: question_to_answer is a single question; timebox states an
      explicit bound closing on or before the due date
      (`../reference/work-item-schemas.md`, extension field definitions)
+   - **Communication style** — drafted field text (problem statement,
+     acceptance criteria, value statements, any free-text field) reads as
+     precise, analytical, structured, and direct, per the persona's
+     `communication_style` house amendment
+     (`../reference/ai-refinement-hybrid.md`). Verbose, narrative, hedging, or
+     informal phrasing is a constraint violation, not a style preference —
+     flag it the same as a missing AC starter.
 3. **Formatting pass** — apply the `no_bold`, `no_emojis` rules:
    - Strip `**bold**` markers
    - Remove emoji characters
@@ -72,7 +81,8 @@ the validator silently rewriting content or a required field lost between
 stages. Running this check leaves a one-line result in the run's decision log.
 
 - [ ] Every required field passes completeness check
-- [ ] All constraints pass (summary length, AC format, date validity)
+- [ ] All constraints pass (summary length, AC format, date validity,
+      communication_style)
 - [ ] No bold or emoji characters remain in any field
 - [ ] Auto-corrections are logged in the validation report and touch formatting only
 - [ ] Any halt-level issues were surfaced and resolved with the user
@@ -85,6 +95,23 @@ stages. Running this check leaves a one-line result in the run's decision log.
   report is accurate.
 - **Evidence:** the validation report itself plus a one-line entry in the run's
   decision log.
+
+**Fast-track consolidation (canonical definition).** In fast-track mode,
+Stages 03, 04, and 05 do not each get their own light-review pass. Instead,
+one consolidated draft-and-review checkpoint — presented here, at the end of
+Stage 05 — covers all three together: the confirmed scope/dependency package
+(Stage 03), the complete field set with source citations for anything
+extracted (Stage 04), and this stage's validation report. The user reviews
+and confirms (or edits) the combined package once, rather than three times.
+This consolidation applies **only** to Stages 03–05. It never reaches into
+Stage 02 (heavy, always its own checkpoint — see Stage 02's Review section)
+or Stage 06 (heavy, always its own checkpoint — see Stage 06's Review
+section), and it never substitutes for the hard carve-outs that stay
+interactive regardless of mode: Stage 02's stakeholder sweep, Stage 03's
+coalition/conflict-axis annotation, Stage 04's due-date elicitation, and
+Stage 06's parent-mapping confirmation. In full-interactive mode, Stages
+03–05 keep their own separate light-review passes as described in each
+stage's own Review section.
 
 ## Data boundary
 
