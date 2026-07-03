@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.5"
+artifact-version: "1.6"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -62,7 +62,7 @@ flowchart LR
 > pre-run (spec review, simulated live test per adapter on synthetic data,
 > trigger check, collision check — all passing; evidence in both foundries'
 > decision logs, 2026-07-03). None is `verified` yet — on-engine live tests
-> and promotion to `completed-skills/` remain the operator's call. A same-day
+> and promotion to `produced-skills/` remain the operator's call. A same-day
 > revision pass (operator-instructed) bumped `context-elicitation` and
 > `jira-commit` to 1.2 — source-input-type steering; registry-grounded,
 > Rovo-native-first commit — with the pre-gate re-run recorded in
@@ -152,7 +152,7 @@ the flowspace's own validation-checklist pre-run is in
 `flow-foundry/decision-log/2026-07-03-ai-refinement-validation-prerun.md`.
 Remaining gap: the human half — on-engine live tests (the pre-run's simulated
 invocations are not engine runs), instantiation-time surface checks, and
-operator promotion / placement in `completed-skills/`.
+operator promotion / placement in `produced-skills/` (repo top level).
 
 | Skill (spec + adapters) | Primer brief | Target stage | Status |
 |---|---|---|---|

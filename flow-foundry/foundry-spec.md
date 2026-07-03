@@ -2,11 +2,11 @@
 id: flow-foundry-spec
 title: "Flow Foundry — Method Spec"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-02
+updated: 2026-07-03
 source: human+ai
 data-class: public
 related: ["[[icp-primer]]", "[[provenance-spec]]", "[[skill-foundry-spec]]"]
@@ -19,6 +19,12 @@ The method for turning a crystallized workflow intent (or a foreign workflow art
 ---
 
 ## 1. Intake and triage (the front door)
+
+**Step 0 — Confirm invocation.** The foundry runs only on a confirmed
+operator instruction. Before any triage, scaffold, or revision work: restate
+the starter, its triage classification, and the intended outputs, and wait for
+the operator's explicit go-ahead. A starter merely being mentioned — or
+sitting in the backlog — is not an instruction to build it.
 
 The first move on any starter is to classify it:
 
@@ -89,5 +95,6 @@ On demand or on a schedule, gate 1 re-runs against any existing flowspace — pl
 
 ## Changelog
 
+- **1.2** (2026-07-03) — Two operator-instructed changes. (a) **Invocation gate:** §1 gains Step 0 — the foundry runs only on a confirmed operator instruction; restate starter, classification, and intended outputs and get the go-ahead before building. (b) **DONE queue relocated:** completed flowspace designs now land in the repo's top-level `../icp-flows/` (was `completed-flowspaces/` inside this foundry); promotion semantics unchanged — human-placed, `verified` only. Frontmatter version also realigned with this changelog (the 1.1 entry had not been reflected in `artifact-version`).
 - **1.1** (2026-07-03) — Reinstated the Stage Flow Diagram requirement dropped in 1.0. Every `HUB.md` now carries a Mermaid `flowchart LR` per `references/flow-diagram-guide.md` (review-intensity palette, ported from the homelab node-role palette), checked at validation Gate 1. The 1.0 rationale ("Confluence rendering varies") is now a checked setup-questionnaire item and validation condition instead of a reason to skip diagrams: GitLab renders Mermaid natively, Confluence renders it only with a macro installed — both are confirmed per flowspace, and a space without the macro gets a "diagram: see mirror" note rather than a dropped diagram.
 - **1.0** (2026-07-02) — Work edition, adapted from the homelab flowspace-foundry v0.5. Kept: dual-path intake with triage, setup questionnaire, ICM 4-field stage contract with populated-vs-present, Layer-3 triage and the demand loop, 3-gate validation, standalone re-validation, human-only promotion. Changed: execution-tier map → **review-intensity map** (U-curve restored to its published human-attention meaning) + **data-boundary field** (sovereignty routing → sanctioned-tool compliance); root context file `AGENTS.md` → `HUB.md` (maps to a Confluence parent page; repo root keeps a single AGENTS.md); added surface-mapping question and mirror drift check to re-validation; contract extended 4 → 6 fields (Review, Data boundary). Dropped: Hermes runtime-router seam, Obsidian/vault graph wiring, Cowork room structure, house-voice enforcement (replaced by "consistent with workplace style guides"), mermaid palette requirements (diagrams optional — Confluence rendering varies).
