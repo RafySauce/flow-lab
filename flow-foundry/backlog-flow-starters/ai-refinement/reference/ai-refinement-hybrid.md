@@ -1,3 +1,26 @@
+---
+id: ai-refinement-hybrid
+title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
+type: clipping
+artifact-version: "1.0"
+status: living
+truth-level: claimed
+created: 2026-07-03
+updated: 2026-07-03
+owner: operator
+source: human+ai
+data-class: public
+related:
+  - "[[ai-refinement]]"
+---
+
+> **Ingest note (house):** foreign starter for the `ai-refinement` flowspace,
+> uploaded by the operator and captured as-is per the clipping convention —
+> except that one internal Confluence URL (the responsibility-notice policy
+> link) is redacted below for public-repo safety; restore it at instantiation
+> in employer tenancy. Content below this line is the source material,
+> unreviewed (`claimed`).
+
 # AI Refinement – Hybrid Definition (Markdown + YAML)
 
 This document is the authoritative definition of the AI‑Augmented Refinement workflow.
@@ -20,7 +43,7 @@ guardrails:
     text: >
       You, the user, are responsible for the output of this process
       and committing to the work it produces.
-    link: https://mtbtools.atlassian.net/wiki/x/S4BNTgE
+    link: <internal policy link — redacted for public mirror>
 
   data_safety:
     prohibit:

@@ -4,18 +4,19 @@ title: "Stage 05 — Validation & Formatting"
 type: stage-context
 stage: 5
 review-intensity: light
-status: to-review
+artifact-version: "1.1"
+status: living
 truth-level: to-review
 created: 2026-07-03
 updated: 2026-07-03
+owner: operator
 source: human+ai
-data-class: internal
-owner: rafael.torres
+generated-by: flow-foundry
+generated-by-version: "1.1"
+data-class: public
 related:
   - "[[ai-refinement]]"
-  - "[[skill-workitem-validation]]"
-skill-dependency: skill-workitem-validation
-skill-status: gap
+  - "[[workitem-validation]]"
 ---
 
 # Stage 05 — Validation & Formatting
@@ -26,15 +27,13 @@ skill-status: gap
 |---|---|---|
 | Complete set of refined field values | Stage 04 | Yes |
 | Work item schema (required/optional fields) | Stage 01 | Yes |
-| Formatting rules (no bold, no emojis) | Source doc | Yes |
+| Formatting rules (no bold, no emojis) | `../reference/ai-refinement-hybrid.md` | Yes |
 | Cross-field conflict report (if any) | Stage 04 | If exists |
 
 ## Process
 
-> **⚠ SKILL GAP** — `skill-workitem-validation` does not yet exist.
-> See `skill-demand/skill-workitem-validation-brief.md`.
-
-When the skill is built, this stage will:
+`Layer-3: workitem-validation` (skill spec in
+`skill-foundry/backlog-skill-starters/workitem-validation/`, `to-review`)
 
 1. **Completeness scan** — walk the schema's required-field list and confirm every field has a non-empty value.
 2. **Constraint validation** — check each field against its constraints:
@@ -57,25 +56,38 @@ When the skill is built, this stage will:
 | Output | Consumed by | Format |
 |---|---|---|
 | Validated + formatted work item payload | Stage 06 | Key-value pairs (clean) |
-| Validation report | User / decision log | Structured pass/fail |
+| Validation report | User / run decision log | Structured pass/fail |
 | User sign-off confirmation | Stage 06 | Boolean |
 
 ## Verify
 
+Cross-stage trace: the validated payload's field set must equal Stage 04's
+refined field set (no field added, dropped, or content-changed by the
+formatting pass — formatting alters markup only), and every required field in
+the Stage 01 schema must appear in the payload — the failure this catches is
+the validator silently rewriting content or a required field lost between
+stages. Running this check leaves a one-line result in the run's decision log.
+
 - [ ] Every required field passes completeness check
 - [ ] All constraints pass (summary length, AC format, date validity)
 - [ ] No bold or emoji characters remain in any field
-- [ ] Auto-corrections are logged in the validation report
-- [ ] Any halt-level issues were surfaced and resolved with user
+- [ ] Auto-corrections are logged in the validation report and touch formatting only
+- [ ] Any halt-level issues were surfaced and resolved with the user
 - [ ] User explicitly signed off on the final payload
 
 ## Review
 
-**Intensity: Light** — validation is largely mechanical; review confirms the report is accurate.
+- **Reviewer:** operator (or delegate)
+- **Intensity:** light — validation is largely mechanical; review confirms the
+  report is accurate.
+- **Evidence:** the validation report itself plus a one-line entry in the run's
+  decision log.
 
-Review owner: Human (Rafael or delegate)
+## Data boundary
 
-## Data Boundary
-
+- **Max data-class this stage handles:** internal
+- **Sanctioned engines for this stage:** Rovo, Copilot
 - Validated payload is `internal` — ready for Jira but not for external sharing.
 - Validation report may reference field values — same `internal` classification.
+- A handoff into this stage from an engine outside this boundary is invalid —
+  stop and re-route.
