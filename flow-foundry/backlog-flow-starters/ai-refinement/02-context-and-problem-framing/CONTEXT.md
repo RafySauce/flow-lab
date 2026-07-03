@@ -4,7 +4,7 @@ title: "Stage 02 — Context & Problem Framing"
 type: stage-context
 stage: 2
 review-intensity: heavy
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -30,6 +30,7 @@ related:
 | Selected work item type + schema | Stage 01 | Yes |
 | Active persona contract | Stage 01 | Yes |
 | User's raw problem description / context | User | Yes |
+| Screened source material + input-type tag (email request, vendor action notice, meeting minutes/notes, chat-stated requirement) | Stage 01 | No |
 | Stakeholder register (role-types, "what they value most") | `../reference/platform-stakeholder-register.md` | Yes |
 
 ## Process
@@ -42,6 +43,14 @@ related:
    - Who is affected and how?
    - What is the business / operational value?
    - What has been tried before (if anything)?
+
+   When screened source material accompanies the description, let its type
+   (per the HUB "Common source inputs" taxonomy) steer the sequence: an email
+   request or chat-stated requirement names a requester or beneficiary — start
+   the stakeholder sweep there; vendor action notices and stated task lists
+   are solution-shaped — elicit the underlying problem before accepting the
+   actions as scope; meeting minutes may hold several candidate items — split
+   them and frame one per run.
 2. **Stakeholder sweep** — walk the stakeholder register and tag the entries
    whose needs or limits define this item (producers, consumers,
    constraint-setters, operators, adjacents, sponsors). Use each tagged entry's
@@ -81,6 +90,8 @@ Running these checks leaves a one-line result in the run's decision log.
 - [ ] Customer/business value links to the stated problem and tagged stakeholders
 - [ ] Every stakeholder tag resolves to a register entry
 - [ ] User explicitly confirmed each drafted field
+- [ ] If source material was provided, the problem was elicited — the drafted
+      problem statement is not a transcription of the request or action list
 - [ ] No PII or confidential data was introduced
 
 ## Review
