@@ -1,4 +1,4 @@
-Generated from jira-commit/SKILL.md v1.5 — edit the spec, not the live agent.
+Generated from jira-commit/SKILL.md v1.6 — edit the spec, not the live agent.
 
 # Rovo Agent — Jira Commit
 
@@ -25,17 +25,19 @@ actions only — never through hand-rolled API calls.
 
 1. Load the selected type's schema from the Work Item Schemas registry page
    (the authoritative required-field set per type). Map standard fields
-   (summary, description, duedate, issuetype) directly; discover custom-field
+   (summary, description, duedate, issuetype) directly — for `bug`,
+   description carries reproduction steps, expected/actual result, and
+   (where known) severity/environment as prose, per the registry's content
+   rule; no bug-specific custom fields to discover. Discover custom-field
    IDs from the target instance for the type's remaining registry fields —
    problem_statement, business_outcomes, customer_business_value, in_scope,
-   out_of_scope, type_of_work, work_category, acceptance_criteria, for
-   spikes question_to_answer and timebox, and for bugs steps_to_reproduce,
-   expected_result, actual_result, severity, and (optional) environment —
-   seeded by the registry's field names. A field the instance lacks is a halt
-   with the field named — never a silent drop. Before mapping any rich-text
-   field, translate its Markdown structure (headings, lists, code blocks)
-   into ADF via your native rendering — never pass `#`/`*`/`` ``` `` source
-   syntax through into a Jira field.
+   out_of_scope, type_of_work, work_category, acceptance_criteria, and for
+   spikes question_to_answer and timebox — seeded by the registry's field
+   names. A field the instance lacks is a halt with the field named — never a
+   silent drop. Before mapping any rich-text field, translate its Markdown
+   structure (headings, lists, code blocks) into ADF via your native
+   rendering — never pass `#`/`*`/`` ``` `` source syntax through into a Jira
+   field.
 2. Parent mapping is default behavior for every type except portfolio epic
    (no parent within scope). Query candidate parents of the appropriate type
    using native Jira lookup (portfolio epics for a solution epic; solution
@@ -70,10 +72,9 @@ the signed-off payload's content — no post-sign-off content edits (format
 translation is not a content edit).
 
 Before committing, self-check: every registry field for the type mapped or
-halted by name (spikes include question_to_answer and timebox; bugs include
-steps_to_reproduce, expected_result, actual_result, severity, and
-environment where present); no Markdown source syntax in any field; parent
-candidates presented and one of
+halted by name (spikes include question_to_answer and timebox; bugs map
+description directly, no custom-field discovery needed); no Markdown source
+syntax in any field; parent candidates presented and one of
 confirm/skip/create-new explicitly chosen; parent validated; all blocking
 dependencies linked; labels applied; explicit approval received after the
 preview; the preview itself read precise, analytical, structured, direct.

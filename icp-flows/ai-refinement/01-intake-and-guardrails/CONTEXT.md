@@ -4,7 +4,7 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -70,21 +70,23 @@ refinable set. All of it is specific to this flowspace)`
    `communication_style_enforcement`.
 5. **Work item type selection** — if source material is available, propose a
    work-item type with a stated rationale (which content in the document
-   reads as a portfolio epic's investment-case framing, a solution epic's
-   outcome-level framing, a feature's scoped capability, a story/task's
-   execution-shaped ask, a spike's open question, or a bug's reported defect);
-   the user confirms or overrides. Without source material,
-   ask the user directly. Load the corresponding schema from the registry at
-   `../reference/work-item-schemas.md` (for `solution_epic` and `feature` the
-   registry transcribes `../reference/ai-refinement-hybrid.md`, which stays
-   authoritative on any divergence):
-   - `portfolio_epic` → children: solution_epic; required fields: summary, problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, dependencies, acceptance_criteria, due_date; optional: risks
+   reads as a portfolio epic's enterprise-wide strategic goal — potentially
+   spanning organizations and years, containing solution epics rather than
+   features directly — a solution epic's narrower outcome-level framing, a
+   feature's scoped capability, a story/task's execution-shaped ask, a
+   spike's open question, or a bug's reported defect); the user confirms or
+   overrides. Without source material, ask the user directly. Load the
+   corresponding schema from the registry at `../reference/work-item-schemas.md`
+   (for `solution_epic` and `feature` the registry transcribes
+   `../reference/ai-refinement-hybrid.md`, which stays authoritative on any
+   divergence):
+   - `portfolio_epic` → children: solution_epic; required fields: summary, problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, dependencies, acceptance_criteria, due_date; optional: risks — same required-field set as `solution_epic`, one hierarchy level up
    - `solution_epic` → children: feature; required fields: summary, problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, dependencies, acceptance_criteria, due_date; optional: risks
    - `feature` → children: story, task, spike, bug; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
    - `story` → children: sub_task; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
    - `task` → children: sub_task; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
    - `spike` → children: sub_task; required fields: summary, question_to_answer, timebox, customer_business_value, acceptance_criteria, type_of_work, work_category, due_date
-   - `bug` → children: sub_task; required fields: summary, steps_to_reproduce, expected_result, actual_result, severity, customer_business_value, acceptance_criteria, type_of_work, work_category, due_date; optional: environment
+   - `bug` → children: sub_task; required fields: summary, description, customer_business_value, acceptance_criteria, type_of_work, work_category, due_date — `description` carries steps to reproduce, expected result, actual result, and (where known) severity and environment as prose, not as separate fields (see the registry's Extension field definitions)
 
    If the user asks for a `sub_task`, redirect per the registry's out-of-scope
    table (sub-tasks are created directly in Jira under an already-committed

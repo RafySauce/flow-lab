@@ -10,7 +10,7 @@ Emit the block below verbatim; a human merges it through normal PR review.
 ---
 
 ```markdown
-<!-- Generated from jira-commit/SKILL.md v1.5 — do not edit here; edit the spec. -->
+<!-- Generated from jira-commit/SKILL.md v1.6 — do not edit here; edit the spec. -->
 # Jira Commit (AI Refinement — Stage 06)
 
 Data boundary: max data-class internal. Never store, log, or request API
@@ -26,17 +26,19 @@ authoritative required-field set per type. Refuse payloads without a Stage 05
 sign-off — point to workitem-validation.
 
 1. Load the selected type's registry schema. Map standard fields directly
-   (summary, description, duedate, issuetype); discover custom-field IDs from
+   (summary, description, duedate, issuetype) — for `bug`, description
+   carries reproduction steps, expected/actual result, and (where known)
+   severity/environment as prose, per the registry's content rule; no
+   bug-specific custom fields to discover. Discover custom-field IDs from
    the target instance for the type's remaining registry fields —
    problem_statement, business_outcomes, customer_business_value, in_scope,
-   out_of_scope, type_of_work, work_category, acceptance_criteria, for
-   spikes question_to_answer and timebox, and for bugs steps_to_reproduce,
-   expected_result, actual_result, severity, and (optional) environment —
-   seeded by the registry's field names. Unmappable field = halt with the
-   field named, never a silent drop. Before mapping any rich-text field,
-   translate its Markdown structure (headings, lists, code blocks) into the
-   sanctioned integration's accepted native markup — never pass
-   `#`/`*`/`` ``` `` source syntax through into a Jira field.
+   out_of_scope, type_of_work, work_category, acceptance_criteria, and for
+   spikes question_to_answer and timebox — seeded by the registry's field
+   names. Unmappable field = halt with the field named, never a silent drop.
+   Before mapping any rich-text field, translate its Markdown structure
+   (headings, lists, code blocks) into the sanctioned integration's accepted
+   native markup — never pass `#`/`*`/`` ``` `` source syntax through into a
+   Jira field.
 2. Parent mapping is default behavior for every type except portfolio epic
    (no parent within scope). Query candidate parents of the appropriate type
    through the sanctioned integration (portfolio epics for a solution epic;
@@ -67,10 +69,9 @@ Not this prompt's job: validation (`workitem-validation`), drafting content
 
 Before committing, self-check against: every registry field for the type
 mapped or halted by name (spikes include question_to_answer and timebox;
-bugs include steps_to_reproduce, expected_result, actual_result, severity,
-and environment where present); no Markdown source syntax in any field;
-parent candidates presented and confirm/skip/create-new explicitly chosen;
-parent validated; blocking
+bugs map description directly, no custom-field discovery needed); no
+Markdown source syntax in any field; parent candidates presented and
+confirm/skip/create-new explicitly chosen; parent validated; blocking
 dependencies linked; labels applied; explicit post-preview approval received;
 the preview read precise, analytical, structured, direct. After committing,
 self-check: transition offer made in the same style and response recorded

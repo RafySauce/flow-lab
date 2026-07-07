@@ -2,7 +2,7 @@
 id: work-item-schemas
 title: "Work Item Schemas — Refinable Set (House Extension)"
 type: specification
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -45,7 +45,14 @@ registry does not defer to the clipping; the divergence is a new type
 addition beyond the clipping's original scope, not a disagreement about the
 two source-defined schemas' own fields, so the "clipping wins on divergence"
 rule in the paragraph above continues to apply only to `solution_epic` and
-`feature`'s field lists.
+`feature`'s field lists. **1.3** (operator feedback) simplifies `bug` from
+four bug-specific custom fields down to a single standard `description`
+field (steps to reproduce, expected result, actual result, severity, and
+environment now fold into that one field's content instead of living as
+separate custom fields) and confirms `portfolio_epic`'s field set is
+unchanged — the operator affirmed it should carry every field `solution_epic`
+carries, which 1.2 already implemented; see
+`../decision-log/2026-07-07-bug-field-simplification-and-portfolio-epic-confirmation.md`.
 
 ## Refinable set and out-of-scope types
 
@@ -54,13 +61,13 @@ Spike | Bug) → Sub-Task. This pipeline refines seven of the eight:
 
 | Type | Refinable here | Why / where instead |
 |---|---|---|
-| `portfolio_epic` | Yes | House extension below — brought into scope 2026-07-07 (see decision log), superseding the original 2026-07-03 out-of-scope call. |
+| `portfolio_epic` | Yes | House extension below — an enterprise-wide strategic goal aligned to enterprise priorities, containing (and spanning) `solution_epic`s that can cross organizational boundaries, on a horizon of years rather than a single delivery cycle. Brought into scope 2026-07-07 (see decision log), superseding the original 2026-07-03 out-of-scope call. |
 | `solution_epic` | Yes | Source-defined schema (clipping authoritative). |
 | `feature` | Yes | Source-defined schema (clipping authoritative). |
 | `story` | Yes | House extension below. |
 | `task` | Yes | House extension below. |
 | `spike` | Yes | House extension below. |
-| `bug` | Yes | House extension below — peer of `story`/`task`/`spike` under `feature`. |
+| `bug` | Yes | House extension below — peer of `story`/`task`/`spike` under `feature`; reported defect captured as summary + description + acceptance criteria, same shape discipline as every other type. |
 | `sub_task` | No | Execution breakdown created directly in Jira under an already-committed parent; carries no independent business value to elicit, so the pipeline adds nothing. If selected at Stage 01, redirect. |
 
 ## Schemas
@@ -68,6 +75,10 @@ Spike | Bug) → Sub-Task. This pipeline refines seven of the eight:
 ```yaml
 work_item_types:
   # --- house extension (to-review; operator to ratify) ---
+  # Enterprise-wide strategic goal aligned to enterprise priorities; contains
+  # (and can span) solution epics across organizational boundaries, on a
+  # multi-year horizon. Carries the same required fields as solution_epic —
+  # operator-confirmed 2026-07-07, see decision log.
   portfolio_epic:
     children: [solution_epic]
     fields:
@@ -152,23 +163,25 @@ work_item_types:
     children: [sub_task]
     fields:
       summary: required
-      steps_to_reproduce: required
-      expected_result: required
-      actual_result: required
-      severity: required
+      description: required # standard Jira field — steps to reproduce,
+        # expected result, actual result, severity, and environment (where
+        # known) are content within this one field, not separate fields
       customer_business_value: required
       acceptance_criteria: required
       type_of_work: required
       work_category: required
       due_date: required
-      environment: optional
 ```
 
 ## Extension field definitions
 
-Fields below exist only in the `spike` and `bug` schemas; their constraints
-extend the clipping's `field_definitions` block (Stage 04 refines against
-them, Stage 05 validates them):
+The `question_to_answer`/`timebox` pair exists only in the `spike` schema;
+their constraints extend the clipping's `field_definitions` block (Stage 04
+refines against them, Stage 05 validates them). `bug`'s `description` is a
+standard Jira field, not a custom one, but carries its own content
+constraint below for the same reason — Stage 04 drafts against it and Stage
+05 checks it — even though the field itself isn't a registry-specific custom
+field:
 
 ```yaml
 field_definitions_extension:
@@ -177,18 +190,15 @@ field_definitions_extension:
   timebox:
     rule: states an explicit bound (a duration or an end date); the timebox
       must close on or before due_date
-  steps_to_reproduce:
-    rule: a numbered sequence a third party can follow without asking a
-      clarifying question — no "sometimes" or "occasionally" steps
-  expected_result:
-    rule: states the correct behavior, independent of the failure — must read
-      as true regardless of whether the bug is ever fixed
-  actual_result:
-    rule: states the observed failure; must contradict expected_result on at
-      least one concrete point (that contradiction is the bug)
-  severity:
-    rule: one of blocker | critical | major | minor — sets board triage
-      priority; not the same axis as work_category
+  description: # bug-specific content rule — no other current type schemas
+    # this field, so this rule applies only when the selected type is `bug`
+    rule: must state, as identifiable parts of the text, numbered steps to
+      reproduce (no "sometimes" or "occasionally" steps), the expected
+      result, and the actual result — the two results must contradict each
+      other on at least one concrete point, since that contradiction is the
+      bug; should also state severity (blocker | critical | major | minor)
+      and environment where known, folded into the same field rather than
+      tracked separately
 ```
 
 ## Derivation rules (how the extension fields were chosen)
@@ -227,18 +237,38 @@ Recorded so the operator can ratify the *reasoning*, not just the field lists:
    defect, NEADD-1827: a spike committed without them could not be
    transitioned off Backlog. See
    `../decision-log/2026-07-03-stage06-feedback-revision.md`.)
-6. **`portfolio_epic` mirrors `solution_epic`'s field set exactly.** Both sit
-   at outcome-level framing above the delivery hierarchy's execution types —
-   `solution_epic` was already the template the clipping chose for that
-   framing (problem statement, measurable business outcomes, dependencies,
-   optional risks), so `portfolio_epic` reuses it rather than inventing a
-   parallel set. The only new thing `portfolio_epic` contributes is its
-   position at the top of `children` chains, not new field shape.
-7. **`bug`'s scope contract is its reproduction triad, not `in_scope`/
-   `out_of_scope`.** Same pattern as rule 4's spike carve-out: a bug is
-   bounded by what actually happened (`steps_to_reproduce`, `expected_result`,
-   `actual_result`), not by a scope statement written before the defect was
-   understood. `severity` is required because it drives board triage
-   independently of `work_category`; `environment` stays optional because not
-   every defect report captures it, and its absence should not block
-   refinement.
+6. **`portfolio_epic` mirrors `solution_epic`'s field set exactly — operator-
+   confirmed, not just house-derived.** Both sit at outcome-level framing
+   above the delivery hierarchy's execution types — `solution_epic` was
+   already the template the clipping chose for that framing (problem
+   statement, measurable business outcomes, dependencies, optional risks), so
+   `portfolio_epic` reuses it rather than inventing a parallel set. This holds
+   even though a portfolio epic operates at a larger scale than a solution
+   epic — it can span multiple organizations and a multi-year horizon, versus
+   a solution epic's narrower, typically single-organization scope — because
+   the *field discipline* (a stated problem, measurable outcomes, a value
+   statement, explicit dependencies, an exit condition) doesn't change with
+   scale; only the content behind each field gets larger. `due_date` on a
+   multi-year item reads as a target/horizon date, not a sprint-scale
+   commitment, but the field stays required — the `due_date_elicitation` house
+   amendment's discipline (elicited from the user, never inferred) applies
+   regardless of how far out that date is. The only new thing `portfolio_epic`
+   contributes structurally is its position at the top of `children` chains,
+   not new field shape.
+7. **`bug` carries the same three-field shape as every other type —
+   summary, one content field, acceptance criteria — not a bespoke set of
+   defect-specific custom fields.** The original 1.2 draft gave `bug` four
+   dedicated custom fields (`steps_to_reproduce`, `expected_result`,
+   `actual_result`, `severity`) plus optional `environment`, reasoning by
+   analogy to `spike`'s `question_to_answer`/`timebox` custom fields (rule 4).
+   Operator feedback (2026-07-07) simplified this: `bug` uses the standard
+   Jira `description` field to hold the reproduction detail, expected/actual
+   result, severity, and environment as prose, rather than tracking each as
+   its own custom field — trading structured, individually-mappable fields
+   for a smaller, more consistent schema shape (summary + description +
+   acceptance criteria, same skeleton `story`/`task` already use via
+   `in_scope`/`out_of_scope` in place of `description`). The content
+   constraint that used to live on four separate fields now lives on
+   `description` alone (see Extension field definitions, above) so Stage 04/05
+   still check for it — the requirement to state reproduction steps and a
+   result contradiction didn't go away, only the field boundary around it did.

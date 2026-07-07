@@ -4,7 +4,7 @@ title: "Stage 06 — Jira Commit & Close"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -41,8 +41,12 @@ related:
 1. **Field mapping, registry-driven, format-translated** — translate the
    refined field key-value pairs into Jira field IDs, the field set read from
    the selected type's schema in `../reference/work-item-schemas.md`:
-   - Standard fields: summary, description, due date, issue type
-   - Custom fields (per the type's registry schema): problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria, question_to_answer, timebox (spike), steps_to_reproduce, expected_result, actual_result, severity, environment (bug — map or create at instantiation per the registry)
+   - Standard fields: summary, description, due date, issue type — for `bug`,
+     `description` carries steps to reproduce, expected result, actual
+     result, and (where known) severity and environment as prose, per the
+     registry's Extension field definitions; no bug-specific custom fields
+     to discover
+   - Custom fields (per the type's registry schema): problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria, question_to_answer, timebox (spike — map or create at instantiation per the registry)
    - Format-translation gate: convert the payload's Markdown structure
      (headings, bullet lists, code blocks) into the target platform's native
      markup — Atlassian Document Format (ADF) for Jira Cloud — before mapping

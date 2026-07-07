@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.10"
+artifact-version: "1.11"
 status: living
 truth-level: verified
 created: 2026-07-03
@@ -260,7 +260,14 @@ resolve, `portfolio_epic` is the new no-parent top). None of this has run
 on-engine or been re-gated — the four touched skills move to
 `truth-level: to-review` until a gate re-run closes that alongside the
 existing schema-ratification gap. Rationale and assumptions:
-`decision-log/2026-07-07-portfolio-epic-and-bug-type-extension.md`.
+`decision-log/2026-07-07-portfolio-epic-and-bug-type-extension.md`. Same-day
+operator feedback then simplified `bug` further: `steps_to_reproduce`/
+`expected_result`/`actual_result`/`severity`/`environment` collapsed from
+four custom fields into one standard `description` field (still content-
+constrained — see the registry's Extension field definitions), and
+`portfolio_epic`'s already-matching field set was confirmed rather than
+changed. See
+`decision-log/2026-07-07-bug-field-simplification-and-portfolio-epic-confirmation.md`.
 
 ## Reference material (Layer-3)
 

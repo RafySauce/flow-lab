@@ -7,7 +7,7 @@ now"). Emit the block below verbatim; a human merges it through normal PR review
 ---
 
 ```markdown
-<!-- Generated from field-refinement-cadence/SKILL.md v1.4 — do not edit here; edit the spec. -->
+<!-- Generated from field-refinement-cadence/SKILL.md v1.5 — do not edit here; edit the spec. -->
 # Field Refinement Cadence (AI Refinement — Stage 04)
 
 Data boundary: max data-class internal. No credentials, tokens, or PII in any
@@ -37,8 +37,9 @@ and selected mode handed to you.
 3. Check conflicts after each draft: due date vs. blocking dependencies;
    in-scope without matching AC; type-of-work / work-category consistency
    (every type that carries both fields — feature, task, story, spike, bug);
-   for bugs, expected_result contradicting actual_result; triggered conflict
-   axis without a decision-owner. Surface hits immediately.
+   for bugs, a within-field check that description's stated actual result
+   contradicts its own stated expected result; triggered conflict axis
+   without a decision-owner. Surface hits immediately.
 4. Reframe AC to "Must be able to" / "We will know this is done when,"
    preserving meaning, presented precisely and directly.
 5. Due date — hard carve-out, every mode: never auto-generate or infer it, in

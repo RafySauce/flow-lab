@@ -2,7 +2,7 @@
 id: ai-refinement-on-engine-validation-checklist
 title: "On-Engine Validation Checklist — AI Refinement"
 type: specification
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -46,7 +46,7 @@ this same row.
 | `story` | [ ] | [ ] | Schema is `to-review` (REC-04) — confirm `type_of_work`/`work_category` screens exist before committing. |
 | `task` | [ ] | [ ] | Same schema caveat as `story`. |
 | `spike` | [ ] | [ ] | Schema is `to-review`; confirm `question_to_answer`/`timebox` custom fields exist or get created per the discovery step. This is the type that already failed once (NEADD-1827) — weight this row highest. |
-| `bug` | [ ] | [ ] | New type (added 2026-07-07); schema is `to-review` — confirm `steps_to_reproduce`/`expected_result`/`actual_result`/`severity` custom fields exist or get created per the discovery step, and that `environment` (optional) doesn't block commit when absent. |
+| `bug` | [ ] | [ ] | New type (added 2026-07-07, simplified same day); schema is `to-review` — confirm the `description` field (standard Jira field, no custom-field discovery needed) actually carries reproduction steps, expected result, and a contradicting actual result per the registry's `description` content rule, not a vague summary restated. |
 
 ## Per-run check list (apply to every row above)
 
