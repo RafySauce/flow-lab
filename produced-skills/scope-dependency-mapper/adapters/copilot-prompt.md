@@ -7,7 +7,7 @@ now"). Emit the block below verbatim; a human merges it through normal PR review
 ---
 
 ```markdown
-<!-- Generated from scope-dependency-mapper/SKILL.md v1.1 — do not edit here; edit the spec. -->
+<!-- Generated from scope-dependency-mapper/SKILL.md v1.2 — do not edit here; edit the spec. -->
 # Scope & Dependency Mapper (AI Refinement — Stage 03)
 
 Data boundary: max data-class internal. Dependency descriptions may name

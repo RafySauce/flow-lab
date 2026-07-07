@@ -2,11 +2,11 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.9"
+artifact-version: "1.10"
 status: living
 truth-level: verified
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-07
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -71,7 +71,7 @@ flowchart LR
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all five refinable types) |
+| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all seven refinable types) |
 | 2 | Context & Problem Framing | heavy¹ | internal | Rovo, Copilot | `context-elicitation` (verified, `produced-skills/`) |
 | 3 | Scope & Dependencies | light² | internal | Rovo, Copilot | `scope-dependency-mapper` (verified, `produced-skills/`) |
 | 4 | Field-by-Field Refinement | light² | internal | Rovo, Copilot | `field-refinement-cadence` (verified, `produced-skills/`) |
@@ -141,12 +141,12 @@ per-run content.
 1. The user speaks a trigger phrase ("Run AI Refinement", "Start Refinement",
    "I want to refine").
 2. Stage 1 activates: guardrails are presented, responsibility is acknowledged,
-   and a work-item type is selected from the refinable set — Solution Epic,
-   Feature, Story, Task, or Spike — either agent-proposed with rationale (when
-   source material is available) or user-selected directly. (The full
-   hierarchy is Portfolio Epic → Solution Epic → Feature → Story | Task |
-   Spike → Sub-Task; portfolio epics and sub-tasks are out of refinement scope
-   and get redirected — see `reference/work-item-schemas.md`.) Stage 1 also
+   and a work-item type is selected from the refinable set — Portfolio Epic,
+   Solution Epic, Feature, Story, Task, Spike, or Bug — either agent-proposed
+   with rationale (when source material is available) or user-selected
+   directly. (The full hierarchy is Portfolio Epic → Solution Epic → Feature →
+   Story | Task | Spike | Bug → Sub-Task; only sub-tasks are out of refinement
+   scope and get redirected — see `reference/work-item-schemas.md`.) Stage 1 also
    proposes fast-track mode when the source material supports it and checks
    stakeholder-register availability; the user always makes the final mode
    and grounding-path call.
@@ -247,12 +247,27 @@ operator's acts. Rationale:
 `decision-log/2026-07-03-deployment-artifacts-prepared.md`; gate evidence:
 `skill-foundry/decision-log/2026-07-03-communication-style-and-fast-track-skill-revision-pass.md`.
 
+Fourth gap (2026-07-07): the refinable set grew by two types — `portfolio_epic`
+(now the top of the hierarchy, parent of `solution_epic`, superseding the
+2026-07-03 out-of-scope call) and `bug` (a new peer of `story`/`task`/`spike`
+under `feature`). Both are house extensions at `truth-level: to-review` in
+`reference/work-item-schemas.md`, same status as `story`/`task`/`spike` before
+ratification. Stages 01, 02, 03, and 06, and the `jira-commit`,
+`context-elicitation`, `scope-dependency-mapper`, and `field-refinement-cadence`
+skill specs were updated to route the two new types (Stage 06's hierarchy
+linkage in particular changes shape: `solution_epic` now has a parent to
+resolve, `portfolio_epic` is the new no-parent top). None of this has run
+on-engine or been re-gated — the four touched skills move to
+`truth-level: to-review` until a gate re-run closes that alongside the
+existing schema-ratification gap. Rationale and assumptions:
+`decision-log/2026-07-07-portfolio-epic-and-bug-type-extension.md`.
+
 ## Reference material (Layer-3)
 
 | Artifact | Location | Covers |
 |---|---|---|
 | AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, five house-proven amendments |
-| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all five refinable types; story/task/spike extensions; portfolio_epic / sub_task out-of-scope declarations; extension field constraints |
+| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
 | Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (to-review, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |
 | Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (to-review, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |

@@ -1,4 +1,4 @@
-Generated from scope-dependency-mapper/SKILL.md v1.1 — edit the spec, not the live agent.
+Generated from scope-dependency-mapper/SKILL.md v1.2 — edit the spec, not the live agent.
 
 # Rovo Agent — Scope & Dependency Mapper
 

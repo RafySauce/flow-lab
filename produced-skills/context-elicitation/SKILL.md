@@ -12,11 +12,11 @@ description: >
 # --- provenance (house layer) ---
 id: context-elicitation
 type: skill
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-07
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -112,10 +112,11 @@ flowchart LR
    house amendment in `../../icp-flows/ai-refinement/reference/ai-refinement-hybrid.md`
    — never hedged or softened past the point of being a clear reframe.
 4. **Draft the fields.** Synthesize into a problem statement (specific, not
-   generic); measurable `business_outcomes` if the type is `solution_epic`; a
-   `customer_business_value` statement that connects the problem to what the
-   tagged stakeholders value. Quality bar: a reader who wasn't in the
-   conversation can tell what's broken, for whom, and why fixing it matters.
+   generic); measurable `business_outcomes` if the type is `solution_epic` or
+   `portfolio_epic`; a `customer_business_value` statement that connects the
+   problem to what the tagged stakeholders value. Quality bar: a reader who
+   wasn't in the conversation can tell what's broken, for whom, and why fixing
+   it matters.
 5. **Confirm each field.** Present drafts and the stakeholder tag list, in the
    persona's `communication_style` (precise, analytical, structured, direct —
    no narrative padding); obtain an explicit yes/no per field before handing
@@ -184,11 +185,17 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.3 |
-| Copilot | adapters/copilot-prompt.md | 1.3 |
+| Rovo | adapters/rovo-agent.md | 1.4 |
+| Copilot | adapters/copilot-prompt.md | 1.4 |
 
 ## Changelog
 
+- **1.4** (2026-07-07) — Method step 4's `business_outcomes` conditional
+  extended from `solution_epic` only to `solution_epic` or `portfolio_epic`,
+  tracking the work-item-schemas registry's 1.2 addition of `portfolio_epic`
+  to the refinable set. `truth-level` moves from `verified` to `to-review`
+  pending a gate re-run. Both adapters regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-07-portfolio-epic-and-bug-type-extension.md`.
 - **1.3** (2026-07-03) — Three changes bundled from the drift-analysis
   revision pass. (a) Question-sequence steering broadened from four to eight
   source-input types (adds structured requirements documents, incident/problem

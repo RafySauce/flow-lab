@@ -14,11 +14,11 @@ description: >
 # --- provenance (house layer) ---
 id: field-refinement-cadence
 type: skill
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-07
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -107,9 +107,11 @@ flowchart LR
    contradictions: due date earlier than a blocking dependency's resolution;
    in-scope claims with no corresponding acceptance criterion; type-of-work /
    work-category inconsistency (every type that carries both fields per the
-   work-item-schemas registry — feature, task, story, and spike); a conflict
-   axis triggered in Stage 03 with no decision-owner recorded. Surface
-   conflicts immediately — don't defer them to validation.
+   work-item-schemas registry — feature, task, story, spike, and bug); a
+   conflict axis triggered in Stage 03 with no decision-owner recorded; for
+   bugs, expected_result and actual_result stating the same outcome (no
+   contradiction means no bug). Surface conflicts immediately — don't defer
+   them to validation.
 4. **Acceptance-criteria reframing.** Every criterion begins "Must be able to"
    or "We will know this is done when." *Worked example:* "the dashboard
    should be faster" → "We will know this is done when the capacity dashboard
@@ -198,11 +200,19 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.3 |
-| Copilot | adapters/copilot-prompt.md | 1.3 |
+| Rovo | adapters/rovo-agent.md | 1.4 |
+| Copilot | adapters/copilot-prompt.md | 1.4 |
 
 ## Changelog
 
+- **1.4** (2026-07-07) — Method step 3's type-of-work/work-category
+  consistency check list extended from feature/task/story/spike to include
+  `bug` (tracks the work-item-schemas registry's 1.2 addition), plus a new
+  bug-specific conflict check (expected_result must contradict actual_result).
+  `truth-level` moves from `verified` to `to-review` pending a gate re-run.
+  Adapter version stamps bumped (neither adapter enumerates the type list
+  explicitly). See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-07-portfolio-epic-and-bug-type-extension.md`.
 - **1.3** (2026-07-03) — Two changes bundled from the drift-analysis revision
   pass. (a) Cadence made conditionally scoped instead of a single fixed mode:
   Method steps 1–2 now describe fast-track mode's extraction-with-citation

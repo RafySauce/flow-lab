@@ -4,11 +4,11 @@ title: "Stage 06 — Jira Commit & Close"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.5"
+artifact-version: "1.6"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-07
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -42,7 +42,7 @@ related:
    refined field key-value pairs into Jira field IDs, the field set read from
    the selected type's schema in `../reference/work-item-schemas.md`:
    - Standard fields: summary, description, due date, issue type
-   - Custom fields (per the type's registry schema): problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria, question_to_answer, timebox (spike — map or create at instantiation per the registry)
+   - Custom fields (per the type's registry schema): problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria, question_to_answer, timebox (spike), steps_to_reproduce, expected_result, actual_result, severity, environment (bug — map or create at instantiation per the registry)
    - Format-translation gate: convert the payload's Markdown structure
      (headings, bullet lists, code blocks) into the target platform's native
      markup — Atlassian Document Format (ADF) for Jira Cloud — before mapping
@@ -53,20 +53,22 @@ related:
      (`../reference/ai-refinement-hybrid.md`).
 2. **Hierarchy linkage — hard carve-out, every mode, no exception.** Resolve
    parent-child relationships. Parent mapping is default behavior for every
-   type this stage commits except `portfolio_epic` (out of pipeline scope)
-   and `solution_epic` (top of the refinable set — no parent within scope).
-   This step is never compressed or skipped by fast-track mode — the mode
-   selected at Stage 01 governs how many Stages 02–05 fields were extracted
-   versus elicited; it has no bearing here.
+   type this stage commits except `portfolio_epic` (top of the refinable
+   set — no parent within scope). This step is never compressed or skipped
+   by fast-track mode — the mode selected at Stage 01 governs how many
+   Stages 02–05 fields were extracted versus elicited; it has no bearing
+   here.
    - Query the target instance for existing candidates of the appropriate
-     parent type (features under the selected solution epic; the epic's
-     existing features for a story/task/spike).
+     parent type (portfolio epics for a solution epic; solution epics for a
+     feature; the epic's existing features for a story/task/spike/bug).
    - Present the candidates to the user (key, summary, status) and obtain
      one of: confirm a specific parent, skip (no parent yet), or request a
      new parent be created (spawns a new Band 2 run for that type; this
      commit resumes once the new parent exists).
-   - If creating a feature under a solution epic: set epic link. If creating
-     a story/task/spike under a feature: set parent link. Set the link only
+   - If creating a solution epic under a portfolio epic: set parent link (or
+     the instance's epic-of-epic mechanism, per its configuration). If
+     creating a feature under a solution epic: set epic link. If creating a
+     story/task/spike/bug under a feature: set parent link. Set the link only
      after the user's explicit confirmation — never from an unconfirmed
      Stage 01 hierarchy position. This is the flowspace's
      `parent_mapping_confirmation` house amendment

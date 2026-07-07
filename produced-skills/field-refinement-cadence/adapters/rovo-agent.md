@@ -1,4 +1,4 @@
-Generated from field-refinement-cadence/SKILL.md v1.3 — edit the spec, not the live agent.
+Generated from field-refinement-cadence/SKILL.md v1.4 — edit the spec, not the live agent.
 
 # Rovo Agent — Field Refinement Cadence
 
@@ -40,7 +40,8 @@ field value.
 3. After each draft, check for conflicts: due date vs. blocking dependency
    timelines; in-scope claims without matching acceptance criteria;
    type-of-work / work-category consistency (every type that carries both
-   fields — feature, task, story, spike); a triggered conflict axis with no
+   fields — feature, task, story, spike, bug); for bugs, expected_result
+   contradicting actual_result; a triggered conflict axis with no
    recorded decision-owner. Surface hits immediately.
 4. Reframe acceptance criteria to begin "Must be able to" or "We will know
    this is done when," preserving meaning, presented precisely and directly.
