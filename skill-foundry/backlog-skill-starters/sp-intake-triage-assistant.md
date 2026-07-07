@@ -3,10 +3,10 @@ id: sp-intake-triage-assistant
 title: "Skill Primer Brief — Intake Triage Assistant"
 type: skill-primer-brief
 artifact-version: "1.0"
-status: living
+status: dead
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-02
+updated: 2026-07-07
 owner: operator
 source: human+ai
 data-class: public
@@ -14,6 +14,10 @@ related: ["[[flow-foundry-spec]]", "[[skill-foundry-spec]]"]
 ---
 
 # Skill Primer Brief — Intake Triage Assistant
+
+> **Dropped 2026-07-07 — not skill-worthy at current volume.** Kept for
+> record per `governance-and-audit.md` §7; not built. Reason and
+> re-file condition: `decision-log/2026-07-07-skill-starter-triage-drop.md`.
 
 ## Purpose
 
