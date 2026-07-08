@@ -15,11 +15,11 @@ description: >
 # --- provenance (house layer) ---
 id: jira-commit
 type: skill
-artifact-version: "1.4"
+artifact-version: "1.6"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-07
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -82,7 +82,10 @@ flowchart LR
    type's schema from the flowspace's `reference/work-item-schemas.md` — the
    registry is the authoritative required-field set per type; the payload's
    completeness was gated upstream against it. Map standard fields
-   (`summary`, `description`, `duedate`, `issuetype`) directly. Map every
+   (`summary`, `description`, `duedate`, `issuetype`) directly — for `bug`,
+   `description` is where reproduction steps, expected/actual result, and
+   (where known) severity/environment live, per the registry's content rule
+   for that field; no bug-specific custom fields to discover. Map every
    remaining registry field for the type — problem_statement,
    business_outcomes, customer_business_value, in_scope, out_of_scope,
    type_of_work, work_category, acceptance_criteria, and for spikes
@@ -100,12 +103,12 @@ flowchart LR
    Passing Markdown source syntax into a Jira field verbatim is a defect, not
    an acceptable degradation.
 2. **Linkage resolution.** Parent mapping is default behavior for every
-   committed type except `portfolio_epic` (out of pipeline scope) and
-   `solution_epic` (top of the refinable set — no parent within scope):
-   query the target instance, via the engine's native Jira lookup, for
-   existing candidates of the appropriate parent type for the item's
-   hierarchy level (features under the selected solution epic; the epic's
-   existing features for a story/task/spike). Present the candidates to the
+   committed type except `portfolio_epic` (top of the refinable set — no
+   parent within scope): query the target instance, via the engine's native
+   Jira lookup, for existing candidates of the appropriate parent type for
+   the item's hierarchy level (portfolio epics for a solution epic; solution
+   epics for a feature; the epic's existing features for a
+   story/task/spike/bug). Present the candidates to the
    user with enough context to choose — key, summary, status — and obtain one
    of: confirm a specific parent, skip (a backlog-level item with no parent
    yet), or request a new parent be created (which halts this commit and
@@ -185,13 +188,14 @@ platform's actual response, never a presumed success.
 A single output of this skill is acceptable when:
 
 1. Every field in the selected type's registry schema maps to a resolved Jira
-   field ID (spike runs include question_to_answer and timebox), or the run
+   field ID (spike runs include question_to_answer and timebox; bug runs map
+   `description` directly, no custom-field discovery needed), or the run
    halted naming the unmapped field.
 2. No Markdown source syntax (heading markers, bullet/list markers, code
    fences) appears in any committed field — fetched-back content shows
    platform-native structure, not literal `#`/`*`/`` ``` `` characters.
-3. For any type except `portfolio_epic`/`solution_epic`, the transcript shows
-   candidate parents presented to the user and one of confirm/skip/create-new
+3. For any type except `portfolio_epic`, the transcript shows candidate
+   parents presented to the user and one of confirm/skip/create-new
    explicitly chosen before the parent link was set; the parent was validated
    to exist before commit.
 4. Every Stage 03 blocking dependency appears as an issue link; stakeholder
@@ -211,11 +215,32 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.4 |
-| Copilot | adapters/copilot-prompt.md | 1.4 |
+| Rovo | adapters/rovo-agent.md | 1.6 |
+| Copilot | adapters/copilot-prompt.md | 1.6 |
 
 ## Changelog
 
+- **1.6** (2026-07-07) — Operator feedback simplified `bug`'s field mapping:
+  Method step 1 and Review criterion 1 no longer enumerate
+  steps_to_reproduce/expected_result/actual_result/severity/environment as
+  custom fields to discover — `bug` maps `description` directly, same as
+  every other type's standard-field mapping, since 1.5's four bug-specific
+  custom fields were folded into that one standard field per the
+  work-item-schemas registry's 1.3 revision. No change to Method step 2
+  (parent-mapping exception list, already `portfolio_epic` only as of 1.5).
+  Both adapters regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-07-bug-field-simplification-and-portfolio-epic-confirmation.md`.
+- **1.5** (2026-07-07) — Type-coverage extension: `portfolio_epic` moves from
+  "excluded, no parent within scope" to "top of the refinable set, still no
+  parent within scope" in Method step 2's linkage exception list (`solution_epic`
+  now resolves a parent — portfolio epics — like every other non-top type);
+  Method step 1's custom-field enumeration gains the `bug` fields
+  (steps_to_reproduce, expected_result, actual_result, severity, environment);
+  Review criteria 1 and 3 updated to match. `truth-level` moves from `verified`
+  to `to-review` pending a gate re-run — this is a content change without a
+  simulated pre-gate pass, logged honestly rather than assumed clean. Both
+  adapters regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-07-portfolio-epic-and-bug-type-extension.md`.
 - **1.4** (2026-07-03) — Method steps 3 (dry-run preview) and 5 (post-commit
   transition offer) tie presentation phrasing explicitly to the persona's
   `communication_style` (precise, analytical, structured, direct), citing the

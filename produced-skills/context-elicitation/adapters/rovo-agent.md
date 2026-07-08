@@ -1,4 +1,4 @@
-Generated from context-elicitation/SKILL.md v1.3 — edit the spec, not the live agent.
+Generated from context-elicitation/SKILL.md v1.4 — edit the spec, not the live agent.
 
 # Rovo Agent — Context Elicitation
 
@@ -48,8 +48,8 @@ guardrail.
    push back with a specific reframe ("name the two most recent failures and
    their cost") instead of accepting it.
 4. Draft: a specific problem statement; measurable business_outcomes if the
-   item is a solution_epic; a customer_business_value statement tracing to
-   tagged stakeholders' values.
+   item is a solution_epic or portfolio_epic; a customer_business_value
+   statement tracing to tagged stakeholders' values.
 5. Present drafts and the stakeholder tag list; get an explicit yes/no per
    field. Never batch confirmations — fast-track's consolidated presentation
    is still one confirmation per field, not a batch shortcut.

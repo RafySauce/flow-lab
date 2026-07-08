@@ -4,11 +4,11 @@ title: "Stage 02 — Context & Problem Framing"
 type: stage-context
 stage: 2
 review-intensity: heavy
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-07
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -86,7 +86,8 @@ related:
    extracted rather than elicited.
 4. **Draft problem statement** — synthesize user responses (or source-material
    extraction, in fast-track) into a clear problem statement.
-5. **Draft business outcomes** — if the work item type is `solution_epic`, produce measurable outcomes.
+5. **Draft business outcomes** — if the work item type is `solution_epic` or
+   `portfolio_epic`, produce measurable outcomes.
    If the type is `spike`, crystallize the elicited problem into the single
    question the spike must answer (drafts `question_to_answer` — one
    answerable question; if it needs "and", recommend splitting the spike).
@@ -104,7 +105,7 @@ related:
 | Output | Consumed by | Format |
 |---|---|---|
 | Confirmed problem statement | Stages 03, 04 | Plain text |
-| Confirmed business outcomes (solution_epic only) | Stage 04 | Plain text |
+| Confirmed business outcomes (solution_epic, portfolio_epic) | Stage 04 | Plain text |
 | Confirmed question-to-answer (spike only) | Stage 04 | Plain text |
 | Confirmed customer/business value | Stage 04 | Plain text |
 | Stakeholder tag list (register entry # + role-type each) | Stages 03, 06 | Tagged list |
@@ -122,7 +123,7 @@ template); in ungrounded mode, every tag traces to the user's direct answer
 instead. Running these checks leaves a one-line result in the run's decision log.
 
 - [ ] Problem statement is specific, not generic
-- [ ] Business outcomes are measurable (solution_epic)
+- [ ] Business outcomes are measurable (solution_epic, portfolio_epic)
 - [ ] Question-to-answer is a single answerable question (spike)
 - [ ] Customer/business value links to the stated problem and tagged stakeholders
 - [ ] Every stakeholder tag resolves to a register entry (grounded) or an

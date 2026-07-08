@@ -11,11 +11,11 @@ description: >
 # --- provenance (house layer) ---
 id: scope-dependency-mapper
 type: skill
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-07
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -95,9 +95,9 @@ flowchart LR
    it never decides the conflict.
 4. **Split detection and risks.** If in-scope covers multiple distinct
    deliverables, recommend decomposition per the work-item hierarchy. Flag
-   technical, operational, and timeline risks (optional for `solution_epic`);
-   treat register hard constraints (e.g., Growth vs. Physical Limits) as
-   non-negotiable risks, not tradeoffs.
+   technical, operational, and timeline risks (optional for `solution_epic`
+   and `portfolio_epic`); treat register hard constraints (e.g., Growth vs.
+   Physical Limits) as non-negotiable risks, not tradeoffs.
 5. **Confirm the package.** Present in-scope, out-of-scope, dependencies,
    annotations, risks, and any advisories; obtain explicit user confirmation.
 
@@ -152,11 +152,18 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.1 |
-| Copilot | adapters/copilot-prompt.md | 1.1 |
+| Rovo | adapters/rovo-agent.md | 1.2 |
+| Copilot | adapters/copilot-prompt.md | 1.2 |
 
 ## Changelog
 
+- **1.2** (2026-07-07) — Method step 4's risks-optional conditional extended
+  from `solution_epic` only to `solution_epic` and `portfolio_epic`, tracking
+  the work-item-schemas registry's 1.2 addition of `portfolio_epic` to the
+  refinable set. `truth-level` moves from `verified` to `to-review` pending a
+  gate re-run. Adapter version stamps bumped (no prose change — neither
+  adapter names `solution_epic` explicitly). See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-07-portfolio-epic-and-bug-type-extension.md`.
 - **1.1** (2026-07-03) — Method step 3 (coalition/conflict-axis annotation)
   gains an ungrounded-mode conditional: absent a loaded stakeholder register
   for this domain, ask the user directly and record the tension/decision-owner

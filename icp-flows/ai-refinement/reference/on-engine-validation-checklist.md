@@ -2,11 +2,11 @@
 id: ai-refinement-on-engine-validation-checklist
 title: "On-Engine Validation Checklist — AI Refinement"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-07
 owner: operator
 source: human+ai
 data-class: public
@@ -40,11 +40,13 @@ this same row.
 
 | Type | Full-interactive run | Fast-track run | Notes |
 |---|---|---|---|
-| `solution_epic` | [ ] | [ ] | No parent in scope (Stage 06 skips linkage) — confirm the skip is clean, not a silent no-op. |
+| `portfolio_epic` | [ ] | [ ] | No parent in scope (Stage 06 skips linkage) — confirm the skip is clean, not a silent no-op. New type (added 2026-07-07); schema is `to-review` — weight this row and `bug` highest alongside `spike`. |
+| `solution_epic` | [ ] | [ ] | Parent = portfolio epic (as of 2026-07-07 — previously no parent); confirm candidate query returns real portfolio epics, and that skip (no parent yet) still works cleanly for the operator's transition period before portfolio epics exist in the target project. |
 | `feature` | [ ] | [ ] | Parent = solution epic; confirm candidate query returns real epics. |
 | `story` | [ ] | [ ] | Schema is `to-review` (REC-04) — confirm `type_of_work`/`work_category` screens exist before committing. |
 | `task` | [ ] | [ ] | Same schema caveat as `story`. |
 | `spike` | [ ] | [ ] | Schema is `to-review`; confirm `question_to_answer`/`timebox` custom fields exist or get created per the discovery step. This is the type that already failed once (NEADD-1827) — weight this row highest. |
+| `bug` | [ ] | [ ] | New type (added 2026-07-07, simplified same day); schema is `to-review` — confirm the `description` field (standard Jira field, no custom-field discovery needed) actually carries reproduction steps, expected result, and a contradicting actual result per the registry's `description` content rule, not a vague summary restated. |
 
 ## Per-run check list (apply to every row above)
 
@@ -78,7 +80,7 @@ this same row.
 - [ ] **ADF format translation** — dry-run preview and the fetched-back
       committed issue both show rendered structure, zero raw Markdown
       syntax (`#`, `*`, code fences) in any field.
-- [ ] **Parent mapping** — for every type except `solution_epic`, candidate
+- [ ] **Parent mapping** — for every type except `portfolio_epic`, candidate
       parents were queried and presented; user's confirm/skip/create-new
       choice is explicit in the transcript; no silently-carried-forward
       hierarchy position.

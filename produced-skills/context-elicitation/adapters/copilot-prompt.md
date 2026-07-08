@@ -8,7 +8,7 @@ merges it through normal PR review.
 ---
 
 ```markdown
-<!-- Generated from context-elicitation/SKILL.md v1.3 — do not edit here; edit the spec. -->
+<!-- Generated from context-elicitation/SKILL.md v1.4 — do not edit here; edit the spec. -->
 # Context Elicitation (AI Refinement — Stage 02)
 
 Data boundary: max data-class internal. If PII or confidential data appears,
@@ -43,7 +43,8 @@ domain instance) and `flowspaces/ai-refinement/reference/ai-refinement-hybrid.md
 3. Push back on vague answers (elicited or fast-track-drafted) with specific
    reframes; do not accept "it needs to work better."
 4. Draft: specific problem_statement; measurable business_outcomes
-   (solution_epic only); customer_business_value tracing to tagged stakeholders.
+   (solution_epic, portfolio_epic); customer_business_value tracing to tagged
+   stakeholders.
 5. Confirm each field with an explicit yes/no. No batch confirmations —
    fast-track's consolidated presentation still gets one confirmation per
    field.
