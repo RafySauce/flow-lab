@@ -3,10 +3,10 @@ id: sp-mirror-drift-checker
 title: "Skill Primer Brief — Mirror Drift Checker"
 type: skill-primer-brief
 artifact-version: "1.0"
-status: living
+status: dead
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-02
+updated: 2026-07-07
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -16,6 +16,11 @@ related: ["[[mirroring-protocol]]"]
 ---
 
 # Skill Primer Brief — Mirror Drift Checker
+
+> **Dropped 2026-07-07 — premature; no live Confluence⇄git mirror deployed
+> yet.** Kept for record per `governance-and-audit.md` §7; not built. Re-file
+> once the dual-surface deployment is real. Reason:
+> `decision-log/2026-07-07-skill-starter-triage-drop.md`.
 
 ## Purpose
 
