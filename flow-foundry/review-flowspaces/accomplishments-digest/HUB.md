@@ -2,7 +2,7 @@
 id: accomplishments-digest
 title: "Accomplishments Digest — Jira & Confluence Performance-Review Prep"
 type: flowspace
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-08
@@ -17,6 +17,7 @@ related:
   - "[[sp-jira-accomplishments-gatherer]]"
   - "[[sp-confluence-contribution-gatherer]]"
   - "[[sp-accomplishments-drafter]]"
+  - "[[accomplishments-docx-finisher]]"
 ---
 
 # Accomplishments Digest — Jira & Confluence Performance-Review Prep
@@ -37,6 +38,7 @@ flowchart LR
     S2 --> S3["3. Gather — Confluence &amp; Collaboration<br/>review: light"]:::light
     S3 --> S4["4. Draft<br/>review: light"]:::light
     S4 --> S5["5. Align &amp; Publish<br/>review: heavy"]:::heavy
+    S5 --> S6["6. Handoff to Copilot<br/>review: light"]:::light
 
     classDef heavy fill:#78350f,stroke:#fbbf24,color:#fef3c7
     classDef light fill:#1e3a8a,stroke:#60a5fa,color:#dbeafe
@@ -45,7 +47,13 @@ flowchart LR
 
 > Stages 2, 3, and 4 are colored by their intended `light` review intensity, not
 > `gap` — the skills they lean on are flagged Layer-3 gaps (briefs filed, not yet
-> built) rather than missing entirely. See Known gaps.
+> built) rather than missing entirely. See Known gaps. The diagram keeps the
+> flat-chain convention (`references/flow-diagram-guide.md` — no branching
+> without a documented topology split) even though Stage 6 is optional in
+> practice: Stage 5's publish is already the flow's complete, terminal
+> artifact, and Stage 6 only runs when the engineer also wants the
+> Copilot-produced, stylized Word version. Optionality is documented in the
+> Stage table and Stage 6's own `CONTEXT.md`, not encoded as a diagram branch.
 
 ## Stage table
 
@@ -56,6 +64,7 @@ flowchart LR
 | 3 | Gather — Confluence & Collaboration | light | internal | Rovo | `sp-confluence-contribution-gatherer` (gap — brief filed) |
 | 4 | Draft | light | internal | Rovo, Copilot | `sp-accomplishments-drafter` (gap — brief filed) |
 | 5 | Align & Publish | heavy | internal | Rovo, Copilot | inline — human judgment, no skill |
+| 6 | Handoff to Copilot (optional) | light | internal | Rovo | inline — see `reference/handoff-to-copilot-template.md` |
 
 ## Surfaces
 
@@ -83,7 +92,14 @@ digests with Stage 1's narrative into the house document shape. Stage 5 is the
 engineer's own edit pass against their Stage 1 framing before anything is
 shared — human inspects at every stage boundary, and this boundary in
 particular is the one that keeps the document from reading as AI-generated
-ticket-listing rather than the engineer's own account of their work.
+ticket-listing rather than the engineer's own account of their work. Stage 5's
+published document is the flow's complete, terminal artifact. If the engineer
+also wants a stylized Word version — for a promo packet, or a manager who
+wants a polished document rather than a Confluence page — Stage 6 packages
+that same published, approved document as a handoff (never the pre-review
+Stage 4 draft) and hands it to the companion `accomplishments-docx-finisher`
+flowspace, which enriches presentation only and ends with its own heavy
+human-review stage before that version is shared.
 
 ## Known gaps
 
@@ -104,10 +120,22 @@ brief's own open question about per-tenant activity-history depth (comment/
 review visibility) is unresolved — Stage 3's contract flags it as a capability
 check to run at instantiation, not an assumption baked into the design.
 
+Third gap (2026-07-08, 1.0 → 1.1 revision): Stage 6 (Handoff to Copilot) added
+on operator instruction — a second output artifact was requested: the
+Confluence-published document handed off to a companion, Copilot-primary
+flowspace (`accomplishments-docx-finisher`, staged alongside this one in
+`review-flowspaces/`) that adds repo/file-context enrichment and produces a
+final, stylized Word document. Stage 6 is `Layer-3: inline`, not a skill gap,
+per its `CONTEXT.md`; the receiving flowspace carries its own two skill gaps.
+Rationale: `decision-log/2026-07-08-copilot-handoff-revision.md`.
+
 ## Reference material (Layer-3)
 
 | Artifact | Location | Covers |
 |---|---|---|
 | Flow Primer Brief | `../../backlog-flow-starters/fp-accomplishments-digest.md` | Original crystallized intent this flowspace was built from |
+| Handoff Template | `reference/handoff-to-copilot-template.md` | Flow-specific instantiation of the mirroring-protocol §5 handoff shape, for Stage 6 |
+| Companion flowspace | `../accomplishments-docx-finisher/HUB.md` | Receives Stage 6's handoff; produces the stylized Word document |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |
+| Mirroring Protocol | `methodology/mirroring-protocol.md` | Handoff artifact shape (§5) this flowspace's Stage 6 follows |
