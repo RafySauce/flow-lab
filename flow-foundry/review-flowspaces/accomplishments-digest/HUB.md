@@ -1,0 +1,113 @@
+---
+id: accomplishments-digest
+title: "Accomplishments Digest — Jira & Confluence Performance-Review Prep"
+type: flowspace
+artifact-version: "1.0"
+status: living
+truth-level: to-review
+created: 2026-07-08
+updated: 2026-07-08
+owner: operator
+source: human+ai
+generated-by: flow-foundry
+generated-by-version: "1.4"
+data-class: public
+related:
+  - "[[fp-accomplishments-digest]]"
+  - "[[sp-jira-accomplishments-gatherer]]"
+  - "[[sp-confluence-contribution-gatherer]]"
+  - "[[sp-accomplishments-drafter]]"
+---
+
+# Accomplishments Digest — Jira & Confluence Performance-Review Prep
+
+This flowspace turns a review period's worth of Jira and Confluence activity into
+a single, readable accomplishments document an engineer can hand to their
+manager. It exists because the raw material — closed tickets, authored docs,
+review comments — is scattered, ticket-shaped, and easy to under-sell; the
+flow's job is to gather it faithfully, reframe it in outcome terms grouped by
+theme, and carry the engineer's own read on impact rather than substitute an
+agent's guess for it. One run = one finished document for one review cycle.
+
+## Stage Flow Diagram
+
+```mermaid
+flowchart LR
+    S1["1. Frame<br/>review: heavy"]:::heavy --> S2["2. Gather — Jira<br/>review: light"]:::light
+    S2 --> S3["3. Gather — Confluence &amp; Collaboration<br/>review: light"]:::light
+    S3 --> S4["4. Draft<br/>review: light"]:::light
+    S4 --> S5["5. Align &amp; Publish<br/>review: heavy"]:::heavy
+
+    classDef heavy fill:#78350f,stroke:#fbbf24,color:#fef3c7
+    classDef light fill:#1e3a8a,stroke:#60a5fa,color:#dbeafe
+    classDef gap fill:#7f1d1d,stroke:#f87171,color:#fee2e2
+```
+
+> Stages 2, 3, and 4 are colored by their intended `light` review intensity, not
+> `gap` — the skills they lean on are flagged Layer-3 gaps (briefs filed, not yet
+> built) rather than missing entirely. See Known gaps.
+
+## Stage table
+
+| # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
+|---|---|---|---|---|---|
+| 1 | Frame | heavy | internal | Rovo, Copilot | inline — human judgment, no skill |
+| 2 | Gather — Jira | light | internal | Rovo | `sp-jira-accomplishments-gatherer` (gap — brief filed) |
+| 3 | Gather — Confluence & Collaboration | light | internal | Rovo | `sp-confluence-contribution-gatherer` (gap — brief filed) |
+| 4 | Draft | light | internal | Rovo, Copilot | `sp-accomplishments-drafter` (gap — brief filed) |
+| 5 | Align & Publish | heavy | internal | Rovo, Copilot | inline — human judgment, no skill |
+
+## Surfaces
+
+- **Primary:** `<Confluence space set at instantiation>` — an `Accomplishments`
+  page tree, one page per review cycle per engineer. Confirm the Mermaid macro
+  is installed in the target space before this diagram ships to the Confluence
+  primary; absent that, the page notes "diagram: see mirror."
+- **Mirror:** `<internal repo>` → `flows/accomplishments-digest/`.
+
+This public copy is the sanitized *design*; instantiation happens in employer
+tenancy per `methodology/mirroring-protocol.md`. At instantiation, add the
+per-stage `work/` folders (Layer-4, transient, one set per review cycle) and
+the `handoffs/` folder — deliberately absent here since they only ever hold
+per-run content.
+
+## Run procedure
+
+The engineer starts a run ahead of a scheduled review. Stage 1 sets the period,
+audience, and the engineer's own framing of what mattered — this is the
+heaviest-judgment stage and the one place the agent should ask more than it
+tells. Stages 2 and 3 gather in parallel or in sequence (no dependency between
+them) against the period Stage 1 set, each landing a theme-grouped, outcome-
+framed digest rather than a raw activity list. Stage 4 synthesizes the two
+digests with Stage 1's narrative into the house document shape. Stage 5 is the
+engineer's own edit pass against their Stage 1 framing before anything is
+shared — human inspects at every stage boundary, and this boundary in
+particular is the one that keeps the document from reading as AI-generated
+ticket-listing rather than the engineer's own account of their work.
+
+## Known gaps
+
+Three skill-primer-briefs filed from this flowspace's Layer-3 triage, all
+`truth-level: to-review` in `skill-foundry/backlog-skill-starters/`, none yet
+built:
+
+| Skill (gap) | Primer brief | Target stage | Status |
+|---|---|---|---|
+| Jira accomplishments gatherer | `sp-jira-accomplishments-gatherer` | 2 | brief filed, not built |
+| Confluence contribution gatherer | `sp-confluence-contribution-gatherer` | 3 | brief filed, not built |
+| Accomplishments drafter | `sp-accomplishments-drafter` | 4 | brief filed, not built |
+
+Until these land in `produced-skills/`, Stages 2–4 run as manual/ungrounded
+conversation against these contracts rather than a defined skill invocation —
+usable, but slower and less consistent run to run. Second gap: the primer
+brief's own open question about per-tenant activity-history depth (comment/
+review visibility) is unresolved — Stage 3's contract flags it as a capability
+check to run at instantiation, not an assumption baked into the design.
+
+## Reference material (Layer-3)
+
+| Artifact | Location | Covers |
+|---|---|---|
+| Flow Primer Brief | `../../backlog-flow-starters/fp-accomplishments-digest.md` | Original crystallized intent this flowspace was built from |
+| Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
+| Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |
