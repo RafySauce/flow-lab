@@ -4,9 +4,9 @@ title: "Skill Primer Brief — Field Refinement Cadence"
 type: skill-primer-brief
 artifact-version: "1.1"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-07
 owner: operator
 source: human+ai
 generated-by: flow-foundry

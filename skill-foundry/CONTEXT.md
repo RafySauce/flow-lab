@@ -18,13 +18,17 @@ skill-foundry/
 │   └── flow-diagram-guide.md    # Flow Diagram syntax, palette, GitLab/Confluence rendering check
 ├── backlog-skill-starters/      # INBOX: primer-briefs + foreign starters (claimed / to-review)
 ├── review-skills/               # STAGED: finished builds awaiting the human gate (to-review)
+├── completed-skill-starters/    # DONE record: primer briefs whose skill was promoted (verified)
 └── decision-log/                # non-obvious foundry calls
 ```
 
 Finished builds stage in [`review-skills/`](review-skills/) — the foundry's
 last move. The DONE queue lives at the repo top level: completed,
 human-verified skills land in [`../produced-skills/`](../produced-skills/)
-(human-placed only).
+(human-placed only). When the operator promotes a skill there, its primer
+brief moves out of the backlog into
+[`completed-skill-starters/`](completed-skill-starters/) at the same time —
+the intake record's terminal home.
 
 ## The queue model
 
@@ -37,9 +41,12 @@ foreign material (URL, prompt, repo)               ▼
                                                    │  [HUMAN GATE: five-point review]
                                                    ▼
                                               ../produced-skills/    (human-placed; repo top level)
+                                                   │
+                                                   ▼ (same moment, primer brief only)
+                                              completed-skill-starters/    (verified; terminal record)
 ```
 
-Truth-levels track the lifecycle exactly as in the flow-foundry: `claimed` → `to-review` → `verified`, human-promoted only. Staging a finished build in `review-skills/` is the foundry's last move; every move out of it is the operator's.
+Truth-levels track the lifecycle exactly as in the flow-foundry: `claimed` → `to-review` → `verified`, human-promoted only. Staging a finished build in `review-skills/` is the foundry's last move; every move out of it is the operator's — including relocating the primer brief from the backlog to `completed-skill-starters/` when the skill is promoted.
 
 ## One skill = one spec + N adapters
 

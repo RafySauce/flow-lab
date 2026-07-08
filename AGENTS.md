@@ -18,7 +18,7 @@ It holds **method, templates, and sanitized exemplars only**. No employer conten
 | `methodology/mirroring-protocol.md` | Confluence ⇄ git mapping rules, the handoff artifact, drift checks. |
 | `methodology/governance-and-audit.md` | The gates: data classification at intake, human-only verified promotion, decision logging, review evidence. |
 | `flow-foundry/` | Builds flowspaces. `foundry-spec.md` is the method; `templates/` are the molds; `backlog-flow-starters/` is the WIP queue; finished builds stage in `review-flowspaces/` for the human gate — promoted designs land in `icp-flows/`. |
-| `skill-foundry/` | Builds skills. `foundry-spec.md` is the method; `templates/` include the engine-neutral skill spec plus Copilot and Rovo adapters; `backlog-skill-starters/` is the WIP queue; finished builds stage in `review-skills/` for the human gate — promoted skills land in `produced-skills/`. |
+| `skill-foundry/` | Builds skills. `foundry-spec.md` is the method; `templates/` include the engine-neutral skill spec plus Copilot and Rovo adapters; `backlog-skill-starters/` is the WIP queue; finished builds stage in `review-skills/` for the human gate — promoted skills land in `produced-skills/`, and their primer brief moves to `completed-skill-starters/` at the same time. |
 | `icp-flows/` | DONE queue for flowspaces: designs that passed the three gates and were promoted `verified` by the operator. Human-placed only. |
 | `produced-skills/` | DONE queue for skills: specs + adapters that passed the five-point gate and were promoted `verified` by the operator. Human-placed only. |
 
@@ -34,6 +34,7 @@ It holds **method, templates, and sanitized exemplars only**. No employer conten
 | Review a **finished** skill awaiting promotion | `skill-foundry/review-skills/` |
 | Use a **completed** flowspace | `icp-flows/` |
 | Use a **completed** skill | `produced-skills/` |
+| See a completed skill's intake record | `skill-foundry/completed-skill-starters/` |
 | Stamp or check frontmatter | `methodology/provenance-spec.md` |
 | Map Confluence ⇄ git / check drift | `methodology/mirroring-protocol.md` |
 | Know which gate applies | `methodology/governance-and-audit.md` |

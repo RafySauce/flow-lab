@@ -2,11 +2,11 @@
 id: skill-foundry-spec
 title: "Skill Foundry — Method Spec"
 type: specification
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-03
+updated: 2026-07-07
 source: human+ai
 data-class: public
 related: ["[[icp-primer]]", "[[provenance-spec]]", "[[flow-foundry-spec]]"]
@@ -59,7 +59,7 @@ Adapter rules: an adapter adds **format, not logic** — if the adapter needs be
 
 - Provenance frontmatter on the skill card (`type: skill`, `generated-by: skill-foundry`, `source`, `data-class`), per `methodology/provenance-spec.md`.
 - The skill folder: `<skill-slug>/` containing `SKILL.md` (the spec — shaped after the agentskills.io convention: `name` + `description` frontmatter, method in the body), `adapters/`, and optional `reference/`.
-- Move the built skill folder from the backlog to **`review-skills/`** — the staging queue for quick human review — at `truth-level: to-review`, and present it. The primer brief stays in the backlog as the intake record. This staging move is the foundry's last act on a build; everything after it is the operator's.
+- Move the built skill folder from the backlog to **`review-skills/`** — the staging queue for quick human review — at `truth-level: to-review`, and present it. The primer brief stays in the backlog as the intake record while the build is under review. This staging move is the foundry's last act on a build; everything after it is the operator's — including, at promotion, relocating the primer brief itself: when the operator promotes the skill from `review-skills/` to `../produced-skills/` (§5), the primer brief moves from `backlog-skill-starters/` to **`completed-skill-starters/`** at the same time, with its `truth-level` bumped to `verified` to match.
 
 ## 5. Review and promotion (human gate)
 
@@ -90,6 +90,7 @@ Then the operator — never the foundry — moves the skill from `review-skills/
 
 ## Changelog
 
+- **1.4** (2026-07-07) — Operator-instructed: added the `completed-skill-starters/` queue. §4 now moves the primer brief from `backlog-skill-starters/` to `completed-skill-starters/` at the moment its skill is promoted to `../produced-skills/`, bumping `truth-level` to `verified` to match — replacing the prior rule that the primer brief stays in the backlog permanently. Formalizes a manual relocation the operator had already done for the seven briefs behind the built `ai-refinement` skills plus `contract-reviewer` and `provenance-stamper`.
 - **1.3** (2026-07-03) — Operator-instructed: added the review staging queue. Finished builds now move from `backlog-skill-starters/` to `review-skills/` (foundry-placed, `to-review`) to await quick human review — §4 stages there instead of landing in the backlog. Promotion semantics unchanged: `../produced-skills/` remains human-placed, `verified` only; the staging move is the foundry's last act on a build.
 - **1.2** (2026-07-03) — Two operator-instructed changes. (a) **Invocation gate:** §1 gains Step 0 — the foundry runs only on a confirmed operator instruction; restate starter, classification, and intended outputs and get the go-ahead before building. (b) **DONE queue relocated:** completed skills now land in the repo's top-level `../produced-skills/` (was `completed-skills/` inside this foundry); promotion semantics unchanged — human-placed, `verified` only. Frontmatter version also realigned with this changelog (the 1.1 entry had not been reflected in `artifact-version`).
 - **1.1** (2026-07-03) — Reinstated the Flow Diagram requirement dropped in 1.0. Every skill spec now carries a Mermaid `flowchart LR` per `references/flow-diagram-guide.md` (node-role palette, ported unchanged from the homelab skill-foundry), checked at the spec-review gate. Reinstated alongside the matching flow-foundry change: GitLab renders Mermaid natively, Confluence needs a macro — both confirmed per skill rather than skipping diagrams outright.

@@ -5,7 +5,7 @@
 This repository contains two *foundries* — repeatable production lines for AI-assisted work:
 
 - **`flow-foundry/`** — builds *flowspaces*: multi-stage, human-reviewed AI workflows expressed as folder structure and markdown contracts.
-- **`skill-foundry/`** — builds *skills*: discrete, reusable AI capability definitions, authored once in an engine-neutral spec and adapted to whichever engine will run them (Rovo agent, Copilot custom agent, Copilot prompt file).
+- **`skill-foundry/`** — builds *skills*: discrete, reusable AI capability definitions, authored once in an engine-neutral spec and adapted to whichever engine will run them (Rovo agent, Copilot custom agent, Copilot prompt file). Promoted skills' primer briefs land in `skill-foundry/completed-skill-starters/` as the terminal intake record.
 
 The repository holds the **method, templates, and sanitized exemplars only**. Instantiated flowspaces containing real work content live inside your employer's tenancy (Confluence + an internal git mirror) — never here. See [Governance](#governance-your-work-is-your-responsibility).
 
@@ -95,6 +95,10 @@ Non-obvious calls — a triage drop, a security flag, a structural choice — ge
                                             [HUMAN REVIEW GATE]
                                                    ▼
                                      icp-flows/ | produced-skills/   (top level; verified, human-placed)
+                                                                          │
+                                                                          ▼ (skills only; same moment)
+                                                        skill-foundry/completed-skill-starters/
+                                                             (primer brief's terminal record, verified)
 
      flow-foundry ── "this stage needs a skill that doesn't exist" ──> skill-foundry backlog
      skill-foundry ── produces the skill ──> flowspace references it as Layer-3

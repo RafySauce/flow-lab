@@ -4,9 +4,9 @@ title: "Skill Primer Brief — Provenance Stamper"
 type: skill-primer-brief
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-02
-updated: 2026-07-02
+updated: 2026-07-07
 owner: operator
 source: human+ai
 data-class: public
