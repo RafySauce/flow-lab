@@ -18,8 +18,11 @@ changed Y's on-call process") rather than a page-title list. Before relying on
 the collaboration-signal slice, check whether the target Confluence instance
 actually exposes comment/mention history at the needed granularity — if not,
 narrow to authored-pages-only and say so explicitly rather than presenting a
-thin result as complete. `Layer-3: TBD — skill-primer-brief filed
-(sp-confluence-contribution-gatherer)`.
+thin result as complete. Run this check once per tenant per
+`../reference/confluence-activity-history-capability-check.md` rather than
+rediscovering it live every run. `Layer-3: skill built, staged in
+skill-foundry/review-skills/confluence-contribution-gatherer/ —
+sp-confluence-contribution-gatherer` awaiting operator promotion.
 
 ## Outputs
 

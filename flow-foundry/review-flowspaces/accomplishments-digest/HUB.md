@@ -6,7 +6,7 @@ artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-07-14
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -103,22 +103,29 @@ human-review stage before that version is shared.
 
 ## Known gaps
 
-Three skill-primer-briefs filed from this flowspace's Layer-3 triage, all
-`truth-level: to-review` in `skill-foundry/backlog-skill-starters/`, none yet
-built:
+Three skills built from this flowspace's Layer-3 triage, all
+`truth-level: to-review` and staged in `skill-foundry/review-skills/`,
+awaiting the operator's five-point promotion gate (`skill-foundry/foundry-
+spec.md` §5) before they land in `produced-skills/`:
 
 | Skill (gap) | Primer brief | Target stage | Status |
 |---|---|---|---|
-| Jira accomplishments gatherer | `sp-jira-accomplishments-gatherer` | 2 | brief filed, not built |
-| Confluence contribution gatherer | `sp-confluence-contribution-gatherer` | 3 | brief filed, not built |
-| Accomplishments drafter | `sp-accomplishments-drafter` | 4 | brief filed, not built |
+| Jira accomplishments gatherer | `sp-jira-accomplishments-gatherer` | 2 | built, staged in `review-skills/jira-accomplishments-gatherer/` — awaiting promotion |
+| Confluence contribution gatherer | `sp-confluence-contribution-gatherer` | 3 | built, staged in `review-skills/confluence-contribution-gatherer/` — awaiting promotion |
+| Accomplishments drafter | `sp-accomplishments-drafter` | 4 | built, staged in `review-skills/accomplishments-drafter/` — awaiting promotion |
 
-Until these land in `produced-skills/`, Stages 2–4 run as manual/ungrounded
-conversation against these contracts rather than a defined skill invocation —
-usable, but slower and less consistent run to run. Second gap: the primer
-brief's own open question about per-tenant activity-history depth (comment/
-review visibility) is unresolved — Stage 3's contract flags it as a capability
-check to run at instantiation, not an assumption baked into the design.
+Until these are promoted to `produced-skills/`, Stages 2–4 still run as
+manual/ungrounded conversation against these contracts in practice — staging
+closes the build gap, not the deployment gap. See
+`skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-batch.md`
+and its companion gate-pre-run entry for what's built and simulation-tested
+so far. Second gap: the primer brief's own open question about per-tenant
+activity-history depth (comment/review visibility) is now operationalized as
+a one-time-per-tenant probe at
+`reference/confluence-activity-history-capability-check.md`, rather than a
+standing unknown — Stage 3's contract and the gatherer skill both already
+implement all three of that checklist's fallback modes; the checklist just
+tells the operator which mode a given tenant is actually in.
 
 Third gap (2026-07-08, 1.0 → 1.1 revision): Stage 6 (Handoff to Copilot) added
 on operator instruction — a second output artifact was requested: the
@@ -135,6 +142,7 @@ Rationale: `decision-log/2026-07-08-copilot-handoff-revision.md`.
 |---|---|---|
 | Flow Primer Brief | `../../backlog-flow-starters/fp-accomplishments-digest.md` | Original crystallized intent this flowspace was built from |
 | Handoff Template | `reference/handoff-to-copilot-template.md` | Flow-specific instantiation of the mirroring-protocol §5 handoff shape, for Stage 6 |
+| Confluence Activity-History Capability Check | `reference/confluence-activity-history-capability-check.md` | One-time-per-tenant probe resolving Stage 3's flagged capability check |
 | Companion flowspace | `../accomplishments-docx-finisher/HUB.md` | Receives Stage 6's handoff; produces the stylized Word document |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |

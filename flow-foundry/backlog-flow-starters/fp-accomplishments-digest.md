@@ -6,7 +6,7 @@ artifact-version: "1.0"
 status: living
 truth-level: to-review
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-07-14
 owner: operator
 source: human+ai
 data-class: public
@@ -52,5 +52,5 @@ Primary: the engineer's personal or team Confluence space, an `Accomplishments` 
 
 ## Open questions
 
-- Does the target org's Jira/Confluence instance expose enough activity history (comments, review participation) to make the collaboration-signal slice reliable, or does stage 3 need to fall back to a narrower "authored pages only" scope per instance? (Resolve at instantiation — flagged in stage 3's contract as a per-tenant capability check, not assumed.)
+- Does the target org's Jira/Confluence instance expose enough activity history (comments, review participation) to make the collaboration-signal slice reliable, or does stage 3 need to fall back to a narrower "authored pages only" scope per instance? **Operationalized 2026-07-14**: the per-tenant probe is now a concrete checklist at `../review-flowspaces/accomplishments-digest/reference/confluence-activity-history-capability-check.md`, and Stage 3's contract plus the `confluence-contribution-gatherer` skill already implement all three of its fallback modes. Still resolved per-tenant, not here — this repo can operationalize the check, not answer it for every org.
 - Should promotion-packet runs (higher stakes, wider audience) get a distinct stricter mode, or is stage 5's heavy review sufficient across all review types? Deferred — no evidence yet that they need to diverge.

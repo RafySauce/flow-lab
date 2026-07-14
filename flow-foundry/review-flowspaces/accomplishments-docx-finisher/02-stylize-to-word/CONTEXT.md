@@ -12,14 +12,16 @@ Apply the house Word template/branding — headings, theme structure, and
 typography consistent with the `accomplishments-document-shape.md` structure
 the source flow already used, so the Word version reads as the same document
 in a different format, not a re-authored one. If no house template exists yet
-at the target instance, use a clean, minimal default (consistent heading
-hierarchy, no more than one accent color, legible body type) and flag the
-missing house template as a note rather than inventing house branding on the
-fly. Preserve Stage 1's flagged-additions markers through to the styled
-output in a form Stage 3 can still identify (e.g. a distinct character style
-or a trailing "Enrichment notes" appendix) — styling must not erase the
-traceability Stage 1 built. `Layer-3: TBD — skill-primer-brief filed
-(sp-accomplishments-docx-stylizer)`.
+at the target instance, apply the concrete fallback defined in
+`../reference/docx-minimal-default-style.md` (heading sizes, one neutral
+accent color, body type, margins) and flag the missing house template as a
+note rather than inventing house branding on the fly. Preserve Stage 1's
+flagged-additions markers through to the styled output in a form Stage 3 can
+still identify (e.g. a distinct character style or a trailing "Enrichment
+notes" appendix) — styling must not erase the traceability Stage 1 built.
+`Layer-3: skill built, staged in
+skill-foundry/review-skills/accomplishments-docx-stylizer/ —
+sp-accomplishments-docx-stylizer` awaiting operator promotion.
 
 ## Outputs
 

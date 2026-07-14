@@ -6,7 +6,7 @@ artifact-version: "1.0"
 status: living
 truth-level: to-review
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-07-14
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -90,20 +90,28 @@ the source flow already owns that surface.
 
 ## Known gaps
 
-Two skill-primer-briefs filed from this flowspace's Layer-3 triage, both
-`truth-level: to-review` in `skill-foundry/backlog-skill-starters/`, neither
-yet built:
+Two skills built from this flowspace's Layer-3 triage, both
+`truth-level: to-review` and staged in `skill-foundry/review-skills/`,
+awaiting the operator's five-point promotion gate (`skill-foundry/foundry-
+spec.md` §5) before they land in `produced-skills/`:
 
 | Skill (gap) | Primer brief | Target stage | Status |
 |---|---|---|---|
-| Repo context enricher | `sp-repo-context-enricher` | 1 | brief filed, not built |
-| Accomplishments docx stylizer | `sp-accomplishments-docx-stylizer` | 2 | brief filed, not built |
+| Repo context enricher | `sp-repo-context-enricher` | 1 | built, staged in `review-skills/repo-context-enricher/` — awaiting promotion |
+| Accomplishments docx stylizer | `sp-accomplishments-docx-stylizer` | 2 | built, staged in `review-skills/accomplishments-docx-stylizer/` — awaiting promotion |
 
-Until these land in `produced-skills/`, Stages 1–2 run as manual/ungrounded
-conversation against these contracts. Second gap: the house Word
-template/branding asset this flowspace depends on (Stage 2) doesn't exist yet
-in this public repo — it's an instantiation-time asset the operator sources
-for their own org, per the primer brief's open questions.
+Until these are promoted to `produced-skills/`, Stages 1–2 still run as
+manual/ungrounded conversation against these contracts in practice — staging
+closes the build gap, not the deployment gap. Both skills declare Copilot as
+their only sanctioned engine (no Rovo adapter) — see
+`skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-batch.md`
+for why. Second gap: the house Word template/branding asset this flowspace
+depends on (Stage 2) still doesn't exist in this public repo — that's an
+instantiation-time, employer-specific asset no public method repo can hold —
+but Stage 2 now has a concrete, brand-neutral fallback to apply until one is
+sourced: `reference/docx-minimal-default-style.md`, wired into the
+`accomplishments-docx-stylizer` skill's Method as its default behavior, not
+left as an unstyled placeholder.
 
 ## Reference material (Layer-3)
 
@@ -112,6 +120,7 @@ for their own org, per the primer brief's open questions.
 | Flow Primer Brief | `../../backlog-flow-starters/fp-accomplishments-docx-finisher.md` | Original crystallized intent this flowspace was built from |
 | Source flowspace | `../accomplishments-digest/HUB.md` | The Rovo-primary flow this one is a companion to |
 | Handoff Template | `../accomplishments-digest/reference/handoff-to-copilot-template.md` | The exact handoff shape Stage 1 receives |
+| Docx Minimal Default Style | `reference/docx-minimal-default-style.md` | Stage 2's brand-neutral fallback until a house Word template is sourced |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |
 | Mirroring Protocol | `methodology/mirroring-protocol.md` | Handoff artifact shape (§5) this flowspace consumes |
