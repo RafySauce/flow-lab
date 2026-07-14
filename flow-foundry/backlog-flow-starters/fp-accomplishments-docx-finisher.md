@@ -6,7 +6,7 @@ artifact-version: "1.0"
 status: living
 truth-level: to-review
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-07-14
 owner: operator
 source: human+ai
 data-class: public
@@ -81,8 +81,14 @@ the ICP structure entirely once Stage 3 shares it.
 ## Open questions
 
 - Where does the house Word template/branding live, and who owns keeping it
-  current? Not resolved here — Stage 2's contract flags it as an
-  instantiation-time asset to source, not assumed to already exist.
+  current? Still not resolved here — that's an instantiation-time,
+  employer-specific asset no public method repo can hold. **Partially
+  addressed 2026-07-14**: Stage 2 now has a concrete, brand-neutral fallback
+  it applies until a house template is sourced —
+  `../review-flowspaces/accomplishments-docx-finisher/reference/docx-minimal-default-style.md`
+  — so the flowspace no longer produces an undefined or ad hoc look in the
+  meantime; sourcing and owning the real house template is still the
+  operator's open task.
 - Does every target org sanction Copilot with the repo access Stage 1 needs,
   or does this flowspace need a narrower "no repo access, text-only
   restyling" fallback mode? Deferred — no evidence yet that it's needed;

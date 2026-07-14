@@ -20,8 +20,9 @@ placement or visible emphasis within their themes rather than folded in
 anonymously among tracker-sourced items. Match tone and detail level to
 Stage 1's stated audience. Carry forward every thin-coverage or unavailable-
 signal flag from Stages 2–3 as an explicit note rather than silently smoothing
-over the gap. `Layer-3: TBD — skill-primer-brief filed
-(sp-accomplishments-drafter)`.
+over the gap. `Layer-3: skill built, staged in
+skill-foundry/review-skills/accomplishments-drafter/ —
+sp-accomplishments-drafter` awaiting operator promotion.
 
 ## Outputs
 

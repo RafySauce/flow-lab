@@ -22,7 +22,9 @@ flagged as a note for the engineer to decide whether it belongs in a future
 `accomplishments-digest` run, not smuggled into this one. Every addition made
 must be flagged distinctly (e.g. an inline marker or a separate "Added by
 Stage 1" list) so Stage 3 can scrutinize exactly what changed.
-`Layer-3: TBD — skill-primer-brief filed (sp-repo-context-enricher)`.
+`Layer-3: skill built, staged in
+skill-foundry/review-skills/repo-context-enricher/ —
+sp-repo-context-enricher` awaiting operator promotion.
 
 ## Outputs
 
