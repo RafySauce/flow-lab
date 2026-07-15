@@ -5,21 +5,22 @@ description: >
   selected type's schema in the work-item-schemas registry — translating
   Markdown into the target platform's native markup — resolves hierarchy
   (with explicit user confirmation of the parent) and dependency links,
-  applies stakeholder tags as labels, shows a mandatory dry-run preview
-  rendered in native form, executes the commit through the engine's native
-  Jira capabilities, offers a post-commit status transition, and manages the
-  session loop/close decision. Invoke at Stage 06 of the ai-refinement
-  flowspace with a signed-off Stage 05 payload in hand. Do NOT use to validate
-  the payload (workitem-validation) or for bulk imports/edits of existing
-  issues outside a refinement run.
+  applies stakeholder tags plus the mandatory refine-ai-built and planning
+  labels as labels, shows a mandatory dry-run preview rendered in native form
+  (with a per-item planning-quarter override for gated types), executes the
+  commit through the engine's native Jira capabilities, offers a post-commit
+  status transition, and manages the session loop/close decision. Invoke at
+  Stage 06 of the ai-refinement flowspace with a signed-off Stage 05 payload
+  in hand. Do NOT use to validate the payload (workitem-validation) or for
+  bulk imports/edits of existing issues outside a refinement run.
 # --- provenance (house layer) ---
 id: jira-commit
 type: skill
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-07
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -119,15 +120,23 @@ flowchart LR
    at commit time. Queue blocks / is-blocked-by links for every Stage 03
    blocking dependency. Apply Stage 02/03 stakeholder tags and
    coalition/conflict-axis annotations as Jira labels (or the instance's
-   designated fields).
+   designated fields), plus the flowspace's `mandatory_labels` house
+   amendment: `refine-ai-built` on every item, and — for `feature`, `story`,
+   `task`, `spike`, `bug` only — the session's `<team_code>-<yyyy>-q<n>`
+   planning label resolved at Stage 01 (`portfolio_epic`/`solution_epic` are
+   exempt). If Stage 05 recorded an explicit bypass of a missing or malformed
+   label, carry that exception forward into the preview rather than
+   fabricating a compliant-looking value.
 3. **Dry-run preview.** Present the complete payload — fields, links, labels —
    rendered as it will actually appear in Jira: headings, lists, and other
    structured content shown in their translated, target-platform form, never
-   echoed back as raw Markdown source. Present it in the persona's
-   `communication_style` (precise, analytical, structured, direct) — a
-   preview is a decision point, not a place for narrative padding. Commit
-   only on explicit approval; "looks fine, go" from an earlier stage does not
-   carry forward.
+   echoed back as raw Markdown source. For a gated type, surface the resolved
+   planning label (and any Stage 05 bypass, plainly) and offer a per-item
+   quarter override for the item that targets a different quarter than the
+   session default. Present it in the persona's `communication_style`
+   (precise, analytical, structured, direct) — a preview is a decision
+   point, not a place for narrative padding. Commit only on explicit
+   approval; "looks fine, go" from an earlier stage does not carry forward.
 4. **Commit and confirm.** Execute the commit through the engine's native
    Jira capabilities first: on Rovo, the built-in create issue / update issue
    / create issue link actions, with authentication and field resolution
@@ -199,7 +208,9 @@ A single output of this skill is acceptable when:
    explicitly chosen before the parent link was set; the parent was validated
    to exist before commit.
 4. Every Stage 03 blocking dependency appears as an issue link; stakeholder
-   tags appear as labels.
+   tags appear as labels; `refine-ai-built` and, for gated types, a
+   well-formed planning label appear as labels — or an explicit Stage 05
+   bypass is shown plainly in the dry-run preview, never fabricated.
 5. The transcript shows the dry-run preview (in rendered, native-markup form)
    and the user's explicit approval *after* it.
 6. The transcript shows the post-commit transition offer and the user's
@@ -215,11 +226,21 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.6 |
-| Copilot | adapters/copilot-prompt.md | 1.6 |
+| Rovo | adapters/rovo-agent.md | 1.7 |
+| Copilot | adapters/copilot-prompt.md | 1.7 |
 
 ## Changelog
 
+- **1.7** (2026-07-15) — Method step 2's labeling now applies the flowspace's
+  `mandatory_labels` house amendment: `refine-ai-built` on every item, and
+  the session's `<team_code>-<yyyy>-q<n>` planning label (from Stage 01) on
+  `feature`/`story`/`task`/`spike`/`bug`, carrying forward any explicit
+  Stage 05 label bypass rather than fabricating a value. Method step 3's
+  dry-run preview surfaces the resolved planning label and a per-item
+  quarter override for gated types. Review criterion 4 updated to match.
+  `truth-level` stays `to-review` — content change, gate re-run still owed.
+  Both adapters regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-15-provenance-and-planning-labels.md`.
 - **1.6** (2026-07-07) — Operator feedback simplified `bug`'s field mapping:
   Method step 1 and Review criterion 1 no longer enumerate
   steps_to_reproduce/expected_result/actual_result/severity/environment as

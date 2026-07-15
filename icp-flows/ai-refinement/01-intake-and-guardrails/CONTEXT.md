@@ -4,11 +4,11 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.7"
+artifact-version: "1.8"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-07
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -33,6 +33,7 @@ related:
 | Work-item schema registry (refinable set + out-of-scope types) | `../reference/work-item-schemas.md` | Yes |
 | Source material (see HUB "Common source inputs" — email request, vendor action notice, meeting minutes/notes, chat-stated requirement, structured requirements document, incident/problem record, architecture/design artifact, or unclassified) | User | No |
 | Stakeholder register, if one is loaded for this domain | `../reference/platform-stakeholder-register.md` or a domain instance of `platform-stakeholder-register-template.md` | No |
+| Existing Jira labels for the target project/space (live query, for team_code inference) | Jira (via native lookup) | Yes |
 
 ## Process
 
@@ -91,7 +92,30 @@ refinable set. All of it is specific to this flowspace)`
    If the user asks for a `sub_task`, redirect per the registry's out-of-scope
    table (sub-tasks are created directly in Jira under an already-committed
    parent) — that type alone stays out of this pipeline.
-6. **Fast-track assessment** — assess whether the available source material is
+6. **Provenance and planning-label resolution** — every committed item
+   carries `refine-ai-built`; items at feature level and below (`feature`,
+   `story`, `task`, `spike`, `bug`) additionally carry a
+   `<team_code>-<yyyy>-q<n>` planning label (`portfolio_epic`/`solution_epic`
+   are exempt from this second label's gate — multi-year/multi-quarter
+   outcome horizon — though one may still be attached if the user volunteers
+   a quarter for them). Resolve both pieces of the planning label here, once
+   per session:
+   - **team_code** — query the target Jira project/space live for existing
+     labels matching (or closely resembling — different separator, casing)
+     the `<code>-<yyyy>-q<n>` shape. One distinct code found: propose it,
+     citing the matching labels as rationale. Multiple distinct codes found:
+     present all as candidates. None found: ask the user directly. In every
+     case the user confirms the proposed code or supplies a different one
+     explicitly — never silently accepted from the query.
+   - **planning quarter** — ask directly: "What quarter do you plan to do
+     this work?" Normalize free-text answers ("Q4 2026", "next quarter") to
+     the canonical `<yyyy>-q<n>` form. Applies to every gated item in the
+     session by default; Stage 06 offers a per-item override at its dry-run
+     preview for an item that targets a different quarter.
+
+   This is the flowspace's `mandatory_labels` house amendment
+   (`../reference/ai-refinement-hybrid.md`).
+7. **Fast-track assessment** — assess whether the available source material is
    detailed and structured enough to populate most of the selected type's
    required fields with reasonable confidence. If so, propose **fast-track
    mode** with a stated rationale: which fields look extractable and from
@@ -104,18 +128,19 @@ refinable set. All of it is specific to this flowspace)`
    document and presented together (Stages 02–05 detail the mode's effect
    per step; due-date elicitation and Stage 06 parent-mapping confirmation
    stay interactive in every mode, without exception).
-7. **Stakeholder-register grounding check** — confirm whether a stakeholder
+8. **Stakeholder-register grounding check** — confirm whether a stakeholder
    register is loaded for this domain (`../reference/platform-stakeholder-register.md`
    or a domain instance of `platform-stakeholder-register-template.md`). If
    none is loaded, flag **ungrounded mode**: Stage 02's stakeholder sweep and
    Stage 03's coalition/conflict-axis annotation ask the user directly who is
    affected and what tensions apply, instead of walking a register — a
    degraded but functional path, not a blocked one.
-8. **Confirm setup** — echo back: persona active (communication_style
+9. **Confirm setup** — echo back: persona active (communication_style
    binding), item type selected (+ rationale, if agent-proposed), mode
    selected (fast-track or full-interactive, + rationale), stakeholder-register
-   grounding status, guardrails in effect. Obtain user "proceed" before
-   advancing.
+   grounding status, guardrails in effect, resolved team_code and planning
+   quarter (or the exemption, if the selected type is `portfolio_epic` or
+   `solution_epic`). Obtain user "proceed" before advancing.
 
 ## Outputs
 
@@ -127,6 +152,8 @@ refinable set. All of it is specific to this flowspace)`
 | Screened source material + input-type tag (when provided) | Stage 02 | text + type tag |
 | Selected mode (fast-track / full-interactive) + rationale | Stages 02–06 | text |
 | Stakeholder-register grounding status (grounded / ungrounded) | Stages 02, 03 | boolean + register reference |
+| Resolved team_code (+ query rationale) | Stage 06 | text |
+| Resolved planning quarter (session default) | Stage 06 | text (`<yyyy>-q<n>`) |
 
 ## Verify
 
@@ -156,6 +183,12 @@ Running this check leaves a one-line result in the run's decision log.
       full-interactive) is explicit — never assumed
 - [ ] Stakeholder-register availability was checked and the grounding status
       (grounded / ungrounded) recorded for Stages 02–03
+- [ ] team_code was resolved via live query with explicit user confirmation
+      (or a direct ask, if the query found no candidates) — never silently
+      assumed from the query or carried forward from a prior session
+- [ ] Planning quarter was elicited once, normalized to `<yyyy>-q<n>`, and
+      recorded for Stage 06 (or the type's exemption was recorded, for
+      `portfolio_epic`/`solution_epic`)
 - [ ] User confirmed "proceed"
 
 ## Review
@@ -172,5 +205,9 @@ Running this check leaves a one-line result in the run's decision log.
 - **Sanctioned engines for this stage:** Rovo, Copilot
 - No PII or confidential data enters the session at this stage; if it appears,
   halt per the data-safety guardrail.
+- Team-code inference queries the target Jira project/space live (read-only
+  label search) via the engine's native Jira capabilities — the same access
+  class Stage 06 already uses for parent-candidate queries; no write action
+  occurs at this stage.
 - A handoff into this stage from an engine outside this boundary is invalid —
   stop and re-route.

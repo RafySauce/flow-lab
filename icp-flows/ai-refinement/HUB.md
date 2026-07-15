@@ -2,11 +2,11 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.11"
+artifact-version: "1.12"
 status: living
 truth-level: verified
 created: 2026-07-03
-updated: 2026-07-07
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -269,12 +269,39 @@ constrained — see the registry's Extension field definitions), and
 changed. See
 `decision-log/2026-07-07-bug-field-simplification-and-portfolio-epic-confirmation.md`.
 
+Fifth gap (2026-07-15): a sixth house amendment, `mandatory_labels`, adds
+`refine-ai-built` (every committed item) and a `<team_code>-<yyyy>-q<n>`
+planning label (`feature`/`story`/`task`/`spike`/`bug` only —
+`portfolio_epic`/`solution_epic` are exempt) to
+`ai-refinement-hybrid.md` (1.1 → 1.2). Unlike the first five amendments, this
+one was raised directly by the operator, not discovered through on-engine
+defect feedback. Stages 01 (1.7 → 1.8), 05 (1.3 → 1.4), and 06 (1.7 → 1.8)
+were updated to resolve, gate, and apply the labels respectively; team_code
+is resolved via a live Stage 01 query of the target Jira project/space
+(mirroring the `parent_mapping_confirmation` query-then-confirm pattern)
+rather than fixed config. `work-item-schemas.md` (1.3 → 1.4) gains a
+cross-cutting note — no field-set changes. The `jira-commit` skill
+(1.6 → 1.7, stays `to-review`) and the `workitem-validation` skill
+(1.1 → 1.2, `verified` → `to-review` — its first behavior change since
+initial promotion) were updated and both adapters regenerated; neither has
+run on-engine with this change, so both carry the re-gate obligation forward
+alongside the existing schema-ratification gap. Rationale, the enforcement
+tier (Stage 05 treats a missing/malformed label as warn-and-bypass, not a
+hard halt — deliberately narrower than the existing auto-correct/halt
+split), and the team_code live-inference mechanism:
+`decision-log/2026-07-15-provenance-and-planning-labels.md`. That same log
+also records a value-delivery decomposition capability — grounded in an
+operator-provided value-delivery deck, designed but explicitly **not**
+built in this change — handed off as
+`skill-foundry/backlog-skill-starters/sp-value-decomposition.md` for a
+future skill-foundry build.
+
 ## Reference material (Layer-3)
 
 | Artifact | Location | Covers |
 |---|---|---|
-| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, five house-proven amendments |
-| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints |
+| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, six house amendments (five on-engine-proven, one operator-raised) |
+| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints; mandatory-label cross-cutting note |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
 | Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (to-review, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |
 | Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (to-review, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |
