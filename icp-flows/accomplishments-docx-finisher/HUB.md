@@ -2,11 +2,11 @@
 id: accomplishments-docx-finisher
 title: "Accomplishments Docx Finisher — Copilot Word Styling Companion"
 type: flowspace
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-08
-updated: 2026-07-14
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -46,14 +46,21 @@ flowchart LR
 > primer brief): the framing judgment already happened upstream at
 > `accomplishments-digest` Stage 5. Stage 3 carries the compensating heavy
 > review, re-checking Stage 1's additions against the handoff's exclusion
-> list before anything is shared.
+> list before anything is shared. Both stages' skills are now
+> `truth-level: verified` and live in `produced-skills/` (operator
+> promotion 2026-07-15, accepting the five-point gate's agent pre-run and
+> its simulated live tests as the review record; evidence in
+> `skill-foundry/decision-log/2026-07-15-accomplishments-digest-skill-batch-promotion.md`).
+> The simulated live tests are not engine runs — the first on-engine
+> invocation per adapter happens at deployment, which remains the
+> operator's act at instantiation. See Known gaps.
 
 ## Stage table
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Receive & Enrich | light¹ | internal | Copilot | `sp-repo-context-enricher` (gap — brief filed) |
-| 2 | Stylize to Word | light | internal | Copilot | `sp-accomplishments-docx-stylizer` (gap — brief filed) |
+| 1 | Receive & Enrich | light¹ | internal | Copilot | `repo-context-enricher` (verified, `produced-skills/`) |
+| 2 | Stylize to Word | light | internal | Copilot | `accomplishments-docx-stylizer` (verified, `produced-skills/`) |
 | 3 | Align & Publish | heavy | internal | Copilot | inline — human judgment, no skill |
 
 ¹ Deviates from the U-curve "first stage heavy" default — see diagram note above.
@@ -90,22 +97,26 @@ the source flow already owns that surface.
 
 ## Known gaps
 
-Two skills built from this flowspace's Layer-3 triage, both
-`truth-level: to-review` and staged in `skill-foundry/review-skills/`,
-awaiting the operator's five-point promotion gate (`skill-foundry/foundry-
-spec.md` §5) before they land in `produced-skills/`:
-
-| Skill (gap) | Primer brief | Target stage | Status |
-|---|---|---|---|
-| Repo context enricher | `sp-repo-context-enricher` | 1 | built, staged in `review-skills/repo-context-enricher/` — awaiting promotion |
-| Accomplishments docx stylizer | `sp-accomplishments-docx-stylizer` | 2 | built, staged in `review-skills/accomplishments-docx-stylizer/` — awaiting promotion |
-
-Until these are promoted to `produced-skills/`, Stages 1–2 still run as
-manual/ungrounded conversation against these contracts in practice — staging
-closes the build gap, not the deployment gap. Both skills declare Copilot as
-their only sanctioned engine (no Rovo adapter) — see
+Both skills demanded by Stages 1–2's Layer-3 triage are
+`truth-level: verified` and live in `produced-skills/` — operator (RJT)
+promotion 2026-07-15, evidence in
+`skill-foundry/decision-log/2026-07-15-accomplishments-digest-skill-batch-promotion.md`
+(accepting the five-point-gate pre-run in
+`skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-gate-prerun.md`).
+Remaining gap: deployment — no adapter is published to a live engine yet, so
+the first on-engine invocation per adapter (the pre-run's simulated live
+tests are not engine runs) happens at deployment, the operator's act,
+recorded then. Both skills declare Copilot as their only sanctioned engine
+(no Rovo adapter) — see
 `skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-batch.md`
-for why. Second gap: the house Word template/branding asset this flowspace
+for why.
+
+| Skill | Primer brief | Target stage | Status |
+|---|---|---|---|
+| `repo-context-enricher` | `sp-repo-context-enricher` | 1 | verified — promoted 2026-07-15; deployment pending |
+| `accomplishments-docx-stylizer` | `sp-accomplishments-docx-stylizer` | 2 | verified — promoted 2026-07-15; deployment pending |
+
+Second gap: the house Word template/branding asset this flowspace
 depends on (Stage 2) still doesn't exist in this public repo — that's an
 instantiation-time, employer-specific asset no public method repo can hold —
 but Stage 2 now has a concrete, brand-neutral fallback to apply until one is
@@ -117,7 +128,7 @@ left as an unstyled placeholder.
 
 | Artifact | Location | Covers |
 |---|---|---|
-| Flow Primer Brief | `../../backlog-flow-starters/fp-accomplishments-docx-finisher.md` | Original crystallized intent this flowspace was built from |
+| Flow Primer Brief | `flow-foundry/backlog-flow-starters/fp-accomplishments-docx-finisher.md` | Original crystallized intent this flowspace was built from |
 | Source flowspace | `../accomplishments-digest/HUB.md` | The Rovo-primary flow this one is a companion to |
 | Handoff Template | `../accomplishments-digest/reference/handoff-to-copilot-template.md` | The exact handoff shape Stage 1 receives |
 | Docx Minimal Default Style | `reference/docx-minimal-default-style.md` | Stage 2's brand-neutral fallback until a house Word template is sourced |

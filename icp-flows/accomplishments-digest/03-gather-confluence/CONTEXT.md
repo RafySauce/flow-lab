@@ -20,9 +20,9 @@ actually exposes comment/mention history at the needed granularity — if not,
 narrow to authored-pages-only and say so explicitly rather than presenting a
 thin result as complete. Run this check once per tenant per
 `../reference/confluence-activity-history-capability-check.md` rather than
-rediscovering it live every run. `Layer-3: skill built, staged in
-skill-foundry/review-skills/confluence-contribution-gatherer/ —
-sp-confluence-contribution-gatherer` awaiting operator promotion.
+rediscovering it live every run. `Layer-3: confluence-contribution-gatherer`
+(skill spec in `produced-skills/confluence-contribution-gatherer/`,
+`verified`).
 
 ## Outputs
 

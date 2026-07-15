@@ -19,9 +19,9 @@ id: jira-accomplishments-gatherer
 type: skill
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-14
-updated: 2026-07-14
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: skill-foundry
