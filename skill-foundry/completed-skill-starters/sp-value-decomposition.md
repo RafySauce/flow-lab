@@ -2,9 +2,9 @@
 id: sp-value-decomposition
 title: "Skill Primer Brief — Value Decomposition"
 type: skill-primer-brief
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-15
 updated: 2026-07-15
 owner: operator
