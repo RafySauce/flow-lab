@@ -80,7 +80,7 @@ A flowspace promotes `to-review` → `verified` when three gates pass (checklist
 2. **Layer-3 status declared** — every stage explicitly: referenced skill (with id), inlined one-off, or flagged gap (with brief id).
 3. **Human dry-run** — the operator walks the contracts in order and confirms: Inputs concretely scoped, Process actionable, Outputs specific enough to write the next Inputs from, Verify a real cross-stage check, Review and Data boundary consistent with the sanctioned-tool matrix.
 
-Promotion is recorded as a decision-log entry (reviewer, date, what was checked), and the operator — never the foundry — moves the flowspace from `review-flowspaces/` to `../icp-flows/`. **The foundry never self-promotes.**
+Promotion is recorded as a decision-log entry (reviewer, date, what was checked), and the operator — never the foundry — moves the flowspace from `review-flowspaces/` to `../icp-flows/`. **The foundry never self-promotes.** At the same time, the operator adds or updates the flowspace's row in the "Available flowspaces" table in `../icp-flows/CONTEXT.md`, so the capability catalog never drifts out of sync with what's actually promoted.
 
 ## 6. Standalone re-validation (drift check)
 
