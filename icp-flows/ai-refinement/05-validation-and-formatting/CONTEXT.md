@@ -4,11 +4,11 @@ title: "Stage 05 — Validation & Formatting"
 type: stage-context
 stage: 5
 review-intensity: light
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -31,14 +31,24 @@ related:
 | Active persona contract (communication_style binding) | Stage 01 | Yes |
 | Selected mode (fast-track / full-interactive) | Stage 01 | Yes |
 | Cross-field conflict report (if any) | Stage 04 | If exists |
+| Resolved team_code + session planning quarter | Stage 01 | Yes |
 
 ## Process
 
 `Layer-3: workitem-validation` (skill spec in
-`produced-skills/workitem-validation/`, `verified`)
+`produced-skills/workitem-validation/`, `to-review` as of 1.2 — mandatory-label
+check added, gate re-run owed)
 
 1. **Completeness scan** — walk the schema's required-field list and confirm every field has a non-empty value.
-2. **Constraint validation** — check each field against its constraints:
+2. **Mandatory label check** — distinct from schema completeness (labels are
+   not schema fields, per `../reference/work-item-schemas.md`'s cross-cutting
+   note): `refine-ai-built` must be present for every type; for `feature`,
+   `story`, `task`, `spike`, `bug` the `<team_code>-<yyyy>-q<n>` planning
+   label resolved at Stage 01 must also be present and well-formed
+   (`portfolio_epic`/`solution_epic` are exempt from this second check). This
+   check is a warn-and-bypass, not a hard halt (see step 4) — the one check
+   in this gate that isn't a stop.
+3. **Constraint validation** — check each field against its constraints:
    - Summary ≤ 10 words
    - AC starters match approved patterns
    - Due date is a valid future date
@@ -53,22 +63,23 @@ related:
      (`../reference/ai-refinement-hybrid.md`). Verbose, narrative, hedging, or
      informal phrasing is a constraint violation, not a style preference —
      flag it the same as a missing AC starter.
-3. **Formatting pass** — apply the `no_bold`, `no_emojis` rules:
+4. **Formatting pass** — apply the `no_bold`, `no_emojis` rules:
    - Strip `**bold**` markers
    - Remove emoji characters
    - Normalize whitespace and list formatting
-4. **Auto-correct vs. halt decision tree**:
-   - **Auto-correct**: formatting violations, minor whitespace — fix silently and note in report
-   - **Halt**: missing required fields, constraint violations, unresolved cross-field conflicts — present to user for resolution
-5. **Validation report** — produce a structured pass/fail report for user review.
-6. **User sign-off** — user confirms the validated, formatted work item is ready for Jira commit.
+5. **Auto-correct vs. halt vs. warn-bypass decision tree**:
+   - **Auto-correct**: formatting violations, minor whitespace — fix silently and note in report.
+   - **Halt**: missing required fields, constraint violations, unresolved cross-field conflicts — present to user for resolution, no fix attempted.
+   - **Warn-and-bypass**: a missing or malformed mandatory label (step 2) — present the specific defect (which label, why it's malformed) and let the user either fix it (an updated Stage 01 resolution or a Stage 06 override) or explicitly accept the bypass and proceed. A bypass is always recorded in the validation report as a named exception — never a silent pass. This tier exists only for the mandatory-label check; nothing else moves into it without a spec amendment. When in doubt between halt and auto-correct, halt.
+6. **Validation report** — produce a structured pass/fail report for user review, naming any accepted mandatory-label bypass explicitly.
+7. **User sign-off** — user confirms the validated, formatted work item is ready for Jira commit.
 
 ## Outputs
 
 | Output | Consumed by | Format |
 |---|---|---|
 | Validated + formatted work item payload | Stage 06 | Key-value pairs (clean) |
-| Validation report | User / run decision log | Structured pass/fail |
+| Validation report (incl. any named label bypass) | User / run decision log | Structured pass/fail |
 | User sign-off confirmation | Stage 06 | Boolean |
 
 ## Verify
@@ -86,6 +97,12 @@ stages. Running this check leaves a one-line result in the run's decision log.
 - [ ] No bold or emoji characters remain in any field
 - [ ] Auto-corrections are logged in the validation report and touch formatting only
 - [ ] Any halt-level issues were surfaced and resolved with the user
+- [ ] `refine-ai-built` presence was checked for the item; for
+      `feature`/`story`/`task`/`spike`/`bug`, the `<team_code>-<yyyy>-q<n>`
+      planning label's presence and well-formedness were also checked
+- [ ] Any missing/malformed mandatory label produced a warn-and-bypass, never
+      a silent pass — and any accepted bypass is named in the report with its
+      specific defect
 - [ ] User explicitly signed off on the final payload
 
 ## Review

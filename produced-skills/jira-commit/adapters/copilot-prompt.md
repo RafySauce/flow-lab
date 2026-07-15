@@ -10,7 +10,7 @@ Emit the block below verbatim; a human merges it through normal PR review.
 ---
 
 ```markdown
-<!-- Generated from jira-commit/SKILL.md v1.6 — do not edit here; edit the spec. -->
+<!-- Generated from jira-commit/SKILL.md v1.7 — do not edit here; edit the spec. -->
 # Jira Commit (AI Refinement — Stage 06)
 
 Data boundary: max data-class internal. Never store, log, or request API
@@ -48,11 +48,19 @@ sign-off — point to workitem-validation.
    link — never carry forward an unconfirmed hierarchy position. "Create new"
    halts this commit and starts a new Band 2 run for the parent type. Link
    every blocking dependency (blocks / is-blocked-by). Apply stakeholder tags
-   and coalition/conflict-axis annotations as labels.
+   and coalition/conflict-axis annotations as labels, plus the mandatory
+   labels: `refine-ai-built` on every item, and — for story/task/spike/bug/
+   feature only — the session's `<team_code>-<yyyy>-q<n>` planning label
+   resolved at Stage 01 (portfolio epics and solution epics are exempt). If
+   Stage 05 recorded an explicit bypass of a missing or malformed label,
+   carry that exception into the preview — never fabricate a
+   compliant-looking value.
 3. Show the full dry-run preview rendered in native form (fields, links,
    labels — no raw Markdown source visible), in precise, analytical,
-   structured, direct language. Commit only on explicit approval given after
-   the preview.
+   structured, direct language. For a gated type, surface the resolved
+   planning label (and any Stage 05 bypass, plainly) and offer a per-item
+   quarter override for an item targeting a different quarter than the
+   session default. Commit only on explicit approval given after the preview.
 4. Execute through the sanctioned Jira integration; return issue key + URL.
    Report errors verbatim; never leave a partial commit unreported. Commit
    exactly the signed-off payload's content (format translation is not a
@@ -72,8 +80,9 @@ mapped or halted by name (spikes include question_to_answer and timebox;
 bugs map description directly, no custom-field discovery needed); no
 Markdown source syntax in any field; parent candidates presented and
 confirm/skip/create-new explicitly chosen; parent validated; blocking
-dependencies linked; labels applied; explicit post-preview approval received;
-the preview read precise, analytical, structured, direct. After committing,
-self-check: transition offer made in the same style and response recorded
-before the loop question.
+dependencies linked; labels applied — including refine-ai-built and, for
+gated types, the well-formed planning label or an explicit named Stage 05
+bypass; explicit post-preview approval received; the preview read precise,
+analytical, structured, direct. After committing, self-check: transition
+offer made in the same style and response recorded before the loop question.
 ```

@@ -2,11 +2,11 @@
 id: work-item-schemas
 title: "Work Item Schemas — Refinable Set (House Extension)"
 type: specification
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-07
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -53,6 +53,11 @@ separate custom fields) and confirms `portfolio_epic`'s field set is
 unchanged — the operator affirmed it should carry every field `solution_epic`
 carries, which 1.2 already implemented; see
 `../decision-log/2026-07-07-bug-field-simplification-and-portfolio-epic-confirmation.md`.
+**1.4** adds a cross-cutting note (see "Mandatory labels," below) that every
+committed item carries the two labels defined by the `mandatory_labels` house
+amendment in `ai-refinement-hybrid.md` — no `fields:` changes for any type,
+since labels aren't schema fields; see
+`../decision-log/2026-07-15-provenance-and-planning-labels.md`.
 
 ## Refinable set and out-of-scope types
 
@@ -69,6 +74,19 @@ Spike | Bug) → Sub-Task. This pipeline refines seven of the eight:
 | `spike` | Yes | House extension below. |
 | `bug` | Yes | House extension below — peer of `story`/`task`/`spike` under `feature`; reported defect captured as summary + description + acceptance criteria, same shape discipline as every other type. |
 | `sub_task` | No | Execution breakdown created directly in Jira under an already-committed parent; carries no independent business value to elicit, so the pipeline adds nothing. If selected at Stage 01, redirect. |
+
+## Mandatory labels (cross-cutting; house extension, 2026-07-15)
+
+Every item this pipeline commits carries the two labels defined by the
+`mandatory_labels` house amendment in `ai-refinement-hybrid.md`:
+`refine-ai-built` (all seven refinable types, every mode) and, for `feature`,
+`story`, `task`, `spike`, `bug` only, a `<team_code>-<yyyy>-q<n>` planning
+label (`portfolio_epic`/`solution_epic` sit at a multi-year/multi-quarter
+outcome horizon and are exempt from the second label's gate). These are Jira
+labels, not schema fields, so no `fields:` entry changes below — Stage 01
+resolves both label components, Stage 05 runs a distinct mandatory-label
+check (a warn-and-bypass gate, not a hard halt), and Stage 06 applies them at
+commit. See `../decision-log/2026-07-15-provenance-and-planning-labels.md`.
 
 ## Schemas
 

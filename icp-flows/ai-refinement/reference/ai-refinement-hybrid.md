@@ -2,11 +2,11 @@
 id: ai-refinement-hybrid
 title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-15
 owner: operator
 source: human+ai
 data-class: public
@@ -27,7 +27,11 @@ related:
 > the file now carries substantive house-authored content alongside the
 > clipping, `truth-level` moves from `claimed` to `to-review`: the source
 > material itself is still unreviewed, and the amendments are house-authored
-> pending the same operator sign-off as the rest of the flowspace.
+> pending the same operator sign-off as the rest of the flowspace. **1.2**
+> adds a sixth amendment, `mandatory_labels` — unlike the first five, it
+> wasn't discovered through on-engine defect feedback but raised directly by
+> the operator (provenance + planning-quarter traceability); see
+> `decision-log/2026-07-15-provenance-and-planning-labels.md`.
 
 # AI Refinement – Hybrid Definition (Markdown + YAML)
 
@@ -163,15 +167,19 @@ triggers:
 
 ---
 
-## House Amendments (2026-07-03)
+## House Amendments (2026-07-03; sixth added 2026-07-15)
 
-Five rules below are house-authored, discovered through the flowspace's first
-on-engine invocation (Rovo, NEADD-1827) and the resulting feedback revision —
-none were in the original ingest. They are recorded here, rather than left
-implicit in stage contracts and skill specs, so a future revision of the real
-external source document can absorb them instead of losing them to drift. See
+The first five rules below are house-authored, discovered through the
+flowspace's first on-engine invocation (Rovo, NEADD-1827) and the resulting
+feedback revision — none were in the original ingest. They are recorded here,
+rather than left implicit in stage contracts and skill specs, so a future
+revision of the real external source document can absorb them instead of
+losing them to drift. See
 `decision-log/2026-07-03-hybrid-clipping-house-amendments.md` for the decision
-to backport them directly into this clipping.
+to backport them directly into this clipping. The sixth (`mandatory_labels`)
+was added 2026-07-15, raised directly by the operator rather than discovered
+through on-engine defect feedback — see
+`decision-log/2026-07-15-provenance-and-planning-labels.md`.
 
 ```yaml
 house_amendments:
@@ -218,12 +226,49 @@ house_amendments:
       narrative, informal, or hedging violates the persona contract.
     origin: drift analysis, 2026-07-03 (communication_style was defined but
       never operationalized in any stage or skill)
+
+  mandatory_labels:
+    rule: >
+      Every item this pipeline commits carries refine-ai-built (literal,
+      lowercase) as a provenance label, applied at Stage 06 regardless of
+      type or mode. Items at feature level and below — feature, story, task,
+      spike, bug — additionally carry a planning label
+      <team_code>-<yyyy>-q<n> (e.g. ddi-2026-q4); portfolio_epic and
+      solution_epic sit at a multi-year/multi-quarter outcome horizon and are
+      exempt from this second label's gate (one may still be attached if the
+      user volunteers a quarter for them). team_code is never hardcoded or
+      silently assumed: Stage 01 queries the target Jira project/space live
+      for existing labels matching (or closely resembling — different
+      separator, casing) the <code>-<yyyy>-q<n> shape, proposes the distinct
+      code(s) found with that evidence as rationale, or asks the user
+      directly if none exist — the same query-then-confirm discipline as
+      parent_mapping_confirmation, applied to a label instead of a hierarchy
+      link. The planning quarter is elicited once per session ("What quarter
+      do you plan to do this work?"), normalized from free text to the
+      canonical <yyyy>-q<n> form, applied to every gated item by default,
+      with a per-item override offered at Stage 06's dry-run preview for the
+      rare item that targets a different quarter. Stage 05 checks both
+      labels for gated types at sign-off: a missing or malformed label warns
+      the user with the specific defect and requires an explicit override to
+      proceed uncorrected — a softer gate than a hard halt, but never a
+      silent pass.
+    origin: 2026-07-15, operator request for build provenance and
+      planning-quarter traceability across every committed item.
 ```
 
 ---
 
 ## Changelog
 
+- **1.2** (2026-07-15) — Added a sixth house amendment, `mandatory_labels`:
+  `refine-ai-built` provenance on every committed item plus a
+  `<team_code>-<yyyy>-q<n>` planning label on `feature`/`story`/`task`/
+  `spike`/`bug` (portfolio_epic/solution_epic exempt from the gate).
+  team_code is resolved via a live Stage 01 query of the target project/space
+  rather than fixed config; the quarter is elicited once per session with a
+  Stage 06 per-item override; Stage 05 enforces both as a warn-and-bypass
+  gate, not a hard halt. Raised directly by the operator, not discovered
+  on-engine. See `decision-log/2026-07-15-provenance-and-planning-labels.md`.
 - **1.1** (2026-07-03) — Added the House Amendments section: five rules
   proven necessary by on-engine operation and a drift analysis, appended
   below the unchanged source material rather than merged into it. Bumped
