@@ -4,9 +4,9 @@ title: "Confluence Instantiation Guide — AI Refinement"
 type: specification
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-07-03
+updated: 2026-07-15
 owner: operator
 source: human+ai
 data-class: public

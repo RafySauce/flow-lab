@@ -4,7 +4,7 @@ title: "Work Item Schemas — Refinable Set (House Extension)"
 type: specification
 artifact-version: "1.4"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
 updated: 2026-07-15
 owner: operator

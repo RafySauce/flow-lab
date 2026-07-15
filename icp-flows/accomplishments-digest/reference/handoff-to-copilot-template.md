@@ -4,9 +4,9 @@ title: "Handoff Template — Accomplishments Digest to Docx Finisher"
 type: template
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: flow-foundry

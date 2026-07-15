@@ -16,9 +16,9 @@ id: field-refinement-cadence
 type: skill
 artifact-version: "1.5"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-07-07
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: skill-foundry
