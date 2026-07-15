@@ -19,9 +19,8 @@ note rather than inventing house branding on the fly. Preserve Stage 1's
 flagged-additions markers through to the styled output in a form Stage 3 can
 still identify (e.g. a distinct character style or a trailing "Enrichment
 notes" appendix) — styling must not erase the traceability Stage 1 built.
-`Layer-3: skill built, staged in
-skill-foundry/review-skills/accomplishments-docx-stylizer/ —
-sp-accomplishments-docx-stylizer` awaiting operator promotion.
+`Layer-3: accomplishments-docx-stylizer` (skill spec in
+`produced-skills/accomplishments-docx-stylizer/`, `verified`).
 
 ## Outputs
 

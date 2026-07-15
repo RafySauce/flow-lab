@@ -17,9 +17,8 @@ theme reframe from ticket titles to outcomes: "shipped X, which enabled Y" or
 summaries. Ticket counts are supporting evidence, not the headline. Flag any
 theme where the tracker data looks thin relative to what the engineer's Stage
 1 framing implied — that's a signal for Stage 4 to lean more on the narrative,
-not a gap to silently paper over. `Layer-3: skill built, staged in
-skill-foundry/review-skills/jira-accomplishments-gatherer/ —
-sp-jira-accomplishments-gatherer` awaiting operator promotion.
+not a gap to silently paper over. `Layer-3: jira-accomplishments-gatherer`
+(skill spec in `produced-skills/jira-accomplishments-gatherer/`, `verified`).
 
 ## Outputs
 

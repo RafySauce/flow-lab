@@ -4,9 +4,9 @@ title: "Skill Primer Brief — Confluence Contribution Gatherer"
 type: skill-primer-brief
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: flow-foundry

@@ -2,11 +2,11 @@
 id: accomplishments-digest
 title: "Accomplishments Digest — Jira & Confluence Performance-Review Prep"
 type: flowspace
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-08
-updated: 2026-07-14
+updated: 2026-07-15
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -46,23 +46,29 @@ flowchart LR
 ```
 
 > Stages 2, 3, and 4 are colored by their intended `light` review intensity, not
-> `gap` — the skills they lean on are flagged Layer-3 gaps (briefs filed, not yet
-> built) rather than missing entirely. See Known gaps. The diagram keeps the
-> flat-chain convention (`references/flow-diagram-guide.md` — no branching
-> without a documented topology split) even though Stage 6 is optional in
-> practice: Stage 5's publish is already the flow's complete, terminal
-> artifact, and Stage 6 only runs when the engineer also wants the
-> Copilot-produced, stylized Word version. Optionality is documented in the
-> Stage table and Stage 6's own `CONTEXT.md`, not encoded as a diagram branch.
+> `gap` — the skills they lean on now are `truth-level: verified` and live in
+> `produced-skills/` (operator promotion 2026-07-15, accepting the five-point
+> gate's agent pre-run and its simulated live tests as the review record;
+> evidence in
+> `skill-foundry/decision-log/2026-07-15-accomplishments-digest-skill-batch-promotion.md`).
+> The simulated live tests are not engine runs — the first on-engine
+> invocation per adapter happens at deployment, which remains the operator's
+> act at instantiation. See Known gaps. The diagram keeps the flat-chain
+> convention (`references/flow-diagram-guide.md` — no branching without a
+> documented topology split) even though Stage 6 is optional in practice:
+> Stage 5's publish is already the flow's complete, terminal artifact, and
+> Stage 6 only runs when the engineer also wants the Copilot-produced,
+> stylized Word version. Optionality is documented in the Stage table and
+> Stage 6's own `CONTEXT.md`, not encoded as a diagram branch.
 
 ## Stage table
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
 | 1 | Frame | heavy | internal | Rovo, Copilot | inline — human judgment, no skill |
-| 2 | Gather — Jira | light | internal | Rovo | `sp-jira-accomplishments-gatherer` (gap — brief filed) |
-| 3 | Gather — Confluence & Collaboration | light | internal | Rovo | `sp-confluence-contribution-gatherer` (gap — brief filed) |
-| 4 | Draft | light | internal | Rovo, Copilot | `sp-accomplishments-drafter` (gap — brief filed) |
+| 2 | Gather — Jira | light | internal | Rovo | `jira-accomplishments-gatherer` (verified, `produced-skills/`) |
+| 3 | Gather — Confluence & Collaboration | light | internal | Rovo | `confluence-contribution-gatherer` (verified, `produced-skills/`) |
+| 4 | Draft | light | internal | Rovo, Copilot | `accomplishments-drafter` (verified, `produced-skills/`) |
 | 5 | Align & Publish | heavy | internal | Rovo, Copilot | inline — human judgment, no skill |
 | 6 | Handoff to Copilot (optional) | light | internal | Rovo | inline — see `reference/handoff-to-copilot-template.md` |
 
@@ -103,23 +109,25 @@ human-review stage before that version is shared.
 
 ## Known gaps
 
-Three skills built from this flowspace's Layer-3 triage, all
-`truth-level: to-review` and staged in `skill-foundry/review-skills/`,
-awaiting the operator's five-point promotion gate (`skill-foundry/foundry-
-spec.md` §5) before they land in `produced-skills/`:
+All three skills demanded by Stages 2–4's Layer-3 triage are
+`truth-level: verified` and live in `produced-skills/` — operator (RJT)
+promotion 2026-07-15, evidence in
+`skill-foundry/decision-log/2026-07-15-accomplishments-digest-skill-batch-promotion.md`
+(accepting the five-point-gate pre-run in
+`skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-gate-prerun.md`).
+Remaining gap: deployment — no adapter is published to a live engine yet, so
+the first on-engine invocation per adapter (the pre-run's simulated live
+tests are not engine runs) and confirming whether a Copilot-side
+Jira/Confluence connector is sanctioned both happen at deployment, the
+operator's act, recorded then.
 
-| Skill (gap) | Primer brief | Target stage | Status |
+| Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
-| Jira accomplishments gatherer | `sp-jira-accomplishments-gatherer` | 2 | built, staged in `review-skills/jira-accomplishments-gatherer/` — awaiting promotion |
-| Confluence contribution gatherer | `sp-confluence-contribution-gatherer` | 3 | built, staged in `review-skills/confluence-contribution-gatherer/` — awaiting promotion |
-| Accomplishments drafter | `sp-accomplishments-drafter` | 4 | built, staged in `review-skills/accomplishments-drafter/` — awaiting promotion |
+| `jira-accomplishments-gatherer` | `sp-jira-accomplishments-gatherer` | 2 | verified — promoted 2026-07-15; deployment pending |
+| `confluence-contribution-gatherer` | `sp-confluence-contribution-gatherer` | 3 | verified — promoted 2026-07-15; deployment pending |
+| `accomplishments-drafter` | `sp-accomplishments-drafter` | 4 | verified — promoted 2026-07-15; deployment pending |
 
-Until these are promoted to `produced-skills/`, Stages 2–4 still run as
-manual/ungrounded conversation against these contracts in practice — staging
-closes the build gap, not the deployment gap. See
-`skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-batch.md`
-and its companion gate-pre-run entry for what's built and simulation-tested
-so far. Second gap: the primer brief's own open question about per-tenant
+Second gap: the primer brief's own open question about per-tenant
 activity-history depth (comment/review visibility) is now operationalized as
 a one-time-per-tenant probe at
 `reference/confluence-activity-history-capability-check.md`, rather than a
@@ -140,7 +148,7 @@ Rationale: `decision-log/2026-07-08-copilot-handoff-revision.md`.
 
 | Artifact | Location | Covers |
 |---|---|---|
-| Flow Primer Brief | `../../backlog-flow-starters/fp-accomplishments-digest.md` | Original crystallized intent this flowspace was built from |
+| Flow Primer Brief | `flow-foundry/backlog-flow-starters/fp-accomplishments-digest.md` | Original crystallized intent this flowspace was built from |
 | Handoff Template | `reference/handoff-to-copilot-template.md` | Flow-specific instantiation of the mirroring-protocol §5 handoff shape, for Stage 6 |
 | Confluence Activity-History Capability Check | `reference/confluence-activity-history-capability-check.md` | One-time-per-tenant probe resolving Stage 3's flagged capability check |
 | Companion flowspace | `../accomplishments-docx-finisher/HUB.md` | Receives Stage 6's handoff; produces the stylized Word document |
