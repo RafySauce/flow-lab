@@ -2,11 +2,11 @@
 id: provenance-spec
 title: "Provenance Spec — Canonical Artifact Schema (Work Edition)"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-02
+updated: 2026-07-15
 source: human+ai
 data-class: public
 related: ["[[icp-primer]]", "[[governance-and-audit]]"]
@@ -80,6 +80,13 @@ In the **Confluence primary**, these fields map to page properties and labels (s
 
 - **`related`** — sibling document ids, as a flat list. Kept deliberately simple; no wikilink/entity-graph machinery in this edition.
 
+### Stage-context extension
+
+Two additional fields, mandatory on `type: stage-context` only:
+
+- **`stage`** — the stage's position (integer) within its flowspace, matching the numbered folder (`stage: 3` in `03-scope-and-dependencies/CONTEXT.md`).
+- **`review-intensity`** — `heavy | light`, the U-curve review-intensity map made operational (`icp-primer.md` §3.9): how much human attention this stage is expected to need. Set once when the flowspace is scaffolded; a foundry proposes it, the operator confirms it.
+
 ---
 
 ## Type enum
@@ -89,6 +96,7 @@ In the **Confluence primary**, these fields map to page properties and labels (s
 | `specification` | A spec, plan, or schema (this document is one) | `draft` |
 | `template` | A reusable mold other documents are stamped from | `verified` |
 | `flowspace` | An ICM-structured workflow workspace (the hub card of one) | `to-review` |
+| `stage-context` | A stage's `CONTEXT.md` within an instantiated flowspace — the six-field stage contract itself, not just its hub | `to-review` |
 | `flow-primer-brief` | Crystallized flowspace intent → flow-foundry intake | `to-review` |
 | `skill` | The card for a built skill (spec + adapters) | `to-review` |
 | `skill-primer-brief` | Crystallized skill intent → skill-foundry intake | `to-review` |
@@ -115,4 +123,5 @@ Rules any validator (or reviewing human) must apply beyond the flat field list:
 
 ## Changelog
 
+- **1.1** (2026-07-15) — Added `stage-context` to the Type enum and the Stage-context extension fields (`stage`, `review-intensity`), documenting the schema every instantiated flowspace's stage `CONTEXT.md` has been stamped with since the ai-refinement and documentarian builds — the spec had not yet caught up to house practice.
 - **1.0** (2026-07-02) — Initial work edition. Derived from the private homelab DNA spec v1.5: kept identity, lifecycle, provenance, and `related`; dropped Obsidian graph fields (`aliases`, entity `## Connections`), homelab classification (`domain`, `phase`, `systems`), and the `execution-tier` routing field; added `owner`, `data-class`, and the review-evidence rule.
