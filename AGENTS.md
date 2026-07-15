@@ -26,6 +26,7 @@ It holds **method, templates, and sanitized exemplars only**. No employer conten
 
 | You need to… | Go to |
 |---|---|
+| See what flows/skills are available and what they do | `icp-flows/CONTEXT.md` and `produced-skills/CONTEXT.md` (capability tables) |
 | Build or normalize a flowspace | `flow-foundry/foundry-spec.md` (confirm invocation first — rule 2) |
 | Build or revise a skill | `skill-foundry/foundry-spec.md` (confirm invocation first — rule 2) |
 | See flowspaces in progress | `flow-foundry/backlog-flow-starters/` |

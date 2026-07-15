@@ -1,5 +1,18 @@
 # ICP Flows (DONE)
 
+## Available flowspaces
+
+| Flow | What it does | Use it when |
+|---|---|---|
+| [`ai-refinement`](ai-refinement/HUB.md) | Turns a rough idea into a Jira-ready work item through disciplined, per-field refinement with the TPSO persona, stakeholder grounding, and explicit confirmation at every step — one run = one committed work item. | You need to refine and commit a new (or decomposed) Jira work item. |
+| [`documentarian`](documentarian/HUB.md) | Produces, updates, and maintains operational documentation (SOPs, MOPs, runbooks, SADs, ServiceNow KB articles, meeting pages) from evidence in Jira, Confluence, transcripts, and delivered work; hands candidate work items back to `ai-refinement`. | You need to create, update, or hand over custody of a piece of operational documentation. |
+| [`accomplishments-digest`](accomplishments-digest/HUB.md) | Turns a review period's Jira and Confluence activity into a single, outcome-framed accomplishments document grouped by theme, carrying the engineer's own read on impact. | You're prepping for a performance review and need a first-draft accomplishments document. |
+| [`accomplishments-docx-finisher`](accomplishments-docx-finisher/HUB.md) | Companion to `accomplishments-digest`: turns an already human-approved accomplishments document into a final, house-branded `.docx`, adding supporting (not new) evidence via Copilot repo access. | You've approved an `accomplishments-digest` output and need it as a finished, styled Word file. |
+
+Each flow's `HUB.md` frontmatter and opening paragraph are the source of truth for the summaries above; if they ever disagree, the `HUB.md` wins.
+
+---
+
 The repo's top-level landing zone for **completed flowspaces**: designs that
 passed all three validation gates (structural completeness, Layer-3 status
 declared, human dry-run) and were promoted to `truth-level: verified` **by the

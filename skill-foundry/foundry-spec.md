@@ -71,7 +71,7 @@ The operator promotes `to-review` → `verified` when:
 4. **Boundary/collision check** — no overlap with an existing skill's declared territory; if overlap exists, resolve it (merge, split, or redraw boundaries) before promotion.
 5. **Evidence recorded** — the review leaves a decision-log entry (reviewer, date, what was tested).
 
-Then the operator — never the foundry — moves the skill from `review-skills/` to `../produced-skills/` (the repo's top-level DONE queue) and deploys the adapters to their engines (Rovo agent published; Copilot files merged to the internal repo).
+Then the operator — never the foundry — moves the skill from `review-skills/` to `../produced-skills/` (the repo's top-level DONE queue) and deploys the adapters to their engines (Rovo agent published; Copilot files merged to the internal repo). At the same time, the operator adds or updates the skill's row in the "Available skills" table in `../produced-skills/CONTEXT.md`, so the capability catalog never drifts out of sync with what's actually promoted.
 
 ## 6. Maintenance
 
