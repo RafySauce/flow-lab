@@ -77,7 +77,7 @@ Quarterly (or before any formal review), run and record:
 
 1. **Structural re-validation** — re-run validation gate 1 against promoted flowspaces (`flow-foundry/foundry-spec.md` §6); report findings, never re-promote.
 2. **Gate sampling** — pick N recent `verified` artifacts; confirm each has review evidence (provenance rule 5).
-3. **Classification sampling** — pick N artifacts; confirm `data-class` matches content and no boundary was crossed. A grep for missing or invalid `data-class` frontmatter across the instance repo is a cheap starting list.
+3. **Classification sampling** — pick N artifacts; confirm `data-class` matches content and no boundary was crossed. A grep for missing or invalid `data-class` frontmatter across the source-repo is a cheap starting list.
 4. **Backlog hygiene** — starters stuck in backlogs older than a set age are re-triaged or dropped.
 5. **Decision-log synthesis** — read the quarter's entries; propose foundry/spec revisions from what they teach.
 

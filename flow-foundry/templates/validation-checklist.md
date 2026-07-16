@@ -13,7 +13,7 @@ Run at promotion time (`to-review` → `verified`). All three gates pass, or the
 - [ ] Every stage has a `CONTEXT.md` with all six fields populated — no placeholder text, no template remnants
 - [ ] Review intensity set per stage; first/last stages deviate from `heavy` only with a stated reason
 - [ ] Data boundary set per stage and consistent with the employer sanctioned-tool matrix
-- [ ] Source of truth declared (instance GitLab repo/path) and external systems touched listed, per the HUB skeleton
+- [ ] Source-repo declared (GitLab repo/path) and external systems touched listed, per the HUB skeleton
 
 ## Gate 2 — Layer-3 status declared
 

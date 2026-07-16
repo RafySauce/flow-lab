@@ -42,7 +42,7 @@ Nine questions, answered (or consciously deferred, with a note) before authoring
 1. **Name + slug** — kebab-case; drives the `id` and folder name.
 2. **Purpose statement** — one sentence: what problem, for whom.
 3. **Stage count and names** — known, or designed together now?
-4. **Source-of-truth mapping** — which internal GitLab repo (and path) the instance will live in — the sole source of truth (`methodology/mirroring-protocol.md`) — and which external systems (Confluence, Jira, ServiceNow, …) the flow will read from or write to, as far as known.
+4. **Source-repo mapping** — which internal GitLab repo (and path) is the instance's source-repo — the sole source of truth (`methodology/mirroring-protocol.md`) — and which external systems (Confluence, Jira, ServiceNow, …) the flow will read from or write to, as far as known.
 5. **Review-intensity per stage** — apply the U-curve default (heavy / light / heavy — ICM Fig. 5) and adjust: which stages carry judgment, which are constrained execution?
 6. **Data boundary per stage** — what `data-class` does each stage handle, and which engines are sanctioned for it?
 7. **Layer-3 status per stage** — existing skill to reference, inline one-off, or gap?
@@ -76,7 +76,7 @@ When the scaffold, Layer-3 triage, and agent-side pre-checks are complete, the f
 
 A flowspace promotes `to-review` → `verified` when three gates pass (checklist form in [`templates/validation-checklist.md`](templates/validation-checklist.md)):
 
-1. **Structural completeness** — every `CONTEXT.md` fully populated (no placeholders), `HUB.md` frontmatter valid with the stage table matching the folders one-for-one, source-of-truth mapping declared, Stage Flow Diagram present and matching the stage table (per the checklist in `references/flow-diagram-guide.md`) with rendering confirmed on GitLab.
+1. **Structural completeness** — every `CONTEXT.md` fully populated (no placeholders), `HUB.md` frontmatter valid with the stage table matching the folders one-for-one, source-repo mapping declared, Stage Flow Diagram present and matching the stage table (per the checklist in `references/flow-diagram-guide.md`) with rendering confirmed on GitLab.
 2. **Layer-3 status declared** — every stage explicitly: referenced skill (with id), inlined one-off, or flagged gap (with brief id).
 3. **Human dry-run** — the operator walks the contracts in order and confirms: Inputs concretely scoped, Process actionable, Outputs specific enough to write the next Inputs from, Verify a real cross-stage check, Review and Data boundary consistent with the sanctioned-tool matrix.
 
@@ -98,7 +98,7 @@ On demand or on a schedule, gate 1 re-runs against any existing flowspace. Outpu
 
 ## Changelog
 
-- **1.5** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `mirroring-protocol.md` 2.0). Setup questionnaire's "primary surface mapping" (Confluence space + git mirror) is now "source-of-truth mapping" (instance GitLab repo/path + external systems touched); the scaffold's `## Surfaces` section becomes `## Source of truth`; gate 1 and re-validation drop the Confluence rendering fallback and the mirror drift check (one surface — GitLab renders Mermaid natively; nothing to drift). Decision: `decision-log/2026-07-16-gitlab-sole-source-of-truth.md`.
+- **1.5** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `mirroring-protocol.md` 2.0). Setup questionnaire's "primary surface mapping" (Confluence space + git mirror) is now "source-repo mapping" (the instance's GitLab repo/path + external systems touched — "source-repo" is the operator-confirmed house term); the scaffold's `## Surfaces` section becomes `## Source-repo`; gate 1 and re-validation drop the Confluence rendering fallback and the mirror drift check (one surface — GitLab renders Mermaid natively; nothing to drift). Decision: `decision-log/2026-07-16-gitlab-sole-source-of-truth.md`.
 - **1.4** (2026-07-03) — Setup questionnaire gains a ninth question: stakeholder
   register availability for the target domain, with the ungrounded-mode
   fallback noted as the consequence of deferring it. Operator-instructed,

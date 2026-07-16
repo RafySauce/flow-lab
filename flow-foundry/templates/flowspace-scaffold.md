@@ -1,6 +1,6 @@
 # Flowspace Scaffold — the output shape
 
-What the flow-foundry produces for one flowspace. This folder tree, as markdown with YAML frontmatter, *is* the instance form — an instantiated flowspace lives in the internal GitLab repository, the sole source of truth (`methodology/mirroring-protocol.md`).
+What the flow-foundry produces for one flowspace. This folder tree, as markdown with YAML frontmatter, *is* the instance form — an instantiated flowspace lives in the source-repo, the internal GitLab repository that is the sole source of truth (`methodology/mirroring-protocol.md`).
 
 ```
 <flowspace-slug>/
@@ -63,9 +63,9 @@ flowchart LR
 | 2 | <name> | light | internal | Copilot | inline |
 | … | | | | | |
 
-## Source of truth
+## Source-repo
 
-- **Instance:** <internal GitLab repo / path> — the sole source of truth for this flowspace
+- **Source-repo:** <internal GitLab repo / path> — the sole source of truth for this flowspace
 - **External systems touched:** <the Confluence/Jira/ServiceNow (or other) targets this flow reads from or writes to, if any — with the stage(s) that touch them>
 
 ## Run procedure

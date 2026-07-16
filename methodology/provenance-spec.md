@@ -41,7 +41,7 @@ related: []                         # sibling document ids
 ---
 ```
 
-In an instantiated GitLab instance and in this repo alike, these fields are literal YAML frontmatter — the single surface means there is no page-property mapping (see `mirroring-protocol.md`).
+In an instantiated source-repo and in this repo alike, these fields are literal YAML frontmatter — the single surface means there is no page-property mapping (see `mirroring-protocol.md`).
 
 ---
 

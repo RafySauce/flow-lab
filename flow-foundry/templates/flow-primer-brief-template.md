@@ -44,9 +44,9 @@ The classes of data each run touches, and any stage-specific boundaries you alre
 
 Capabilities the stages will lean on: existing skills to reference, logic that's one-off, and suspected gaps (candidate skill-primer-briefs).
 
-## Source of truth
+## Source-repo
 
-Which internal GitLab repo/path the instance will live in (the sole source of truth), and which external systems (Confluence, Jira, ServiceNow, …) the flow will read from or write to.
+Which internal GitLab repo/path the instance will live in (the source-repo — the sole source of truth), and which external systems (Confluence, Jira, ServiceNow, …) the flow will read from or write to.
 
 ## Open questions
 

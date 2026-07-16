@@ -4,7 +4,7 @@ How to translate an engine-neutral skill spec into a Rovo agent definition. Same
 
 ## When Rovo is the right engine
 
-Both engines ground on the same GitLab instance — the sole source of truth (`methodology/mirroring-protocol.md`) — so "it needs repo access" is not, by itself, an engine assignment. Assign per skill, on real constraints:
+Both engines ground on the same source-repo — the GitLab sole source of truth (`methodology/mirroring-protocol.md`) — Rovo through the Rovo GitLab connector, Copilot natively. So "it needs repo access" is not, by itself, an engine assignment. Assign per skill, on real constraints:
 
 - **The invoking users work in Atlassian surfaces** (Rovo chat in Confluence/Jira), not in an IDE or a GitHub surface.
 - The skill **acts on Atlassian objects as external systems** (creates pages, updates issues, comments) — Rovo does this natively.
@@ -18,7 +18,7 @@ When no such constraint decides it, emit both adapters from the same spec — th
 |---|---|
 | `name` + `description` | Agent name + description — keep the fire / don't-fire cases in the description; users and Rovo routing both read it |
 | Method | Agent instructions, near-verbatim. Lead with the role sentence, then the steps |
-| Inputs and grounding | Knowledge scoping: the GitLab instance paths the agent grounds on, plus any external-system scopes (specific Confluence spaces / Jira projects) it may read. Scope **narrowly** — grounding scope is a data-boundary control, not a convenience setting |
+| Inputs and grounding | Knowledge scoping: the source-repo paths the agent grounds on (granted through the Rovo GitLab connector), plus any external-system scopes (specific Confluence spaces / Jira projects) it may read. Scope **narrowly** — grounding scope is a data-boundary control, not a convenience setting |
 | Data boundary | Enforced structurally: knowledge scope + permitted actions define what the agent can touch. Instructions restate the boundary as a stop rule |
 | What this skill is not | Instructions, kept intact, phrased as refusals-with-redirects ("if asked to X, decline and point to Y") |
 | Review criteria | Instructions footer: self-check before responding — and unchanged as the human reviewer's checklist |

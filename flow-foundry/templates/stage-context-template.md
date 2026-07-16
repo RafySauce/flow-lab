@@ -4,7 +4,7 @@
 
 ## Inputs
 
-What this stage receives. Concrete scope: named artifacts, specific fields, or defined outputs of the preceding stage — with their locations (instance repo path, or an external-system link where the artifact lives there). "Whatever the previous stage produces" fails this field.
+What this stage receives. Concrete scope: named artifacts, specific fields, or defined outputs of the preceding stage — with their locations (source-repo path, or an external-system link where the artifact lives there). "Whatever the previous stage produces" fails this field.
 
 ## Process
 

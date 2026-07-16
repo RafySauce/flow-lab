@@ -1,6 +1,6 @@
 ---
 id: mirroring-protocol
-title: "Source of Truth Protocol — GitLab Single Surface"
+title: "Source-Repo Protocol — GitLab as the Sole Source of Truth"
 type: specification
 artifact-version: "2.0"
 status: living
@@ -12,9 +12,9 @@ data-class: public
 related: ["[[icp-primer]]", "[[provenance-spec]]", "[[governance-and-audit]]"]
 ---
 
-# Source of Truth Protocol
+# Source-Repo Protocol
 
-**GitLab is the sole source of truth for an ICP instance.** One instance = one internal GitLab repository. Every flowspace, stage contract, decision log, and sign-off lives there as markdown with literal YAML frontmatter, in exactly the folder shapes this repo's templates define. There is no Confluence system-of-record, no regenerated mirror, and no dual-surface split.
+**GitLab is the sole source of truth for an ICP instance.** One instance = one internal GitLab repository — the **source-repo**, the house term the rest of this repository uses for it. Every flowspace, stage contract, decision log, and sign-off lives there as markdown with literal YAML frontmatter, in exactly the folder shapes this repo's templates define. There is no Confluence system-of-record, no regenerated mirror, and no dual-surface split.
 
 This protocol governs the *employer-internal* instance. This public repo is not an instance; it holds method only.
 
@@ -26,7 +26,7 @@ This protocol governs the *employer-internal* instance. This public repo is not 
 
 | Surface | Role | Writes |
 |---|---|---|
-| **Internal GitLab repository** | The ICP instance. The authoritative copy of every flowspace, contract, decision log, and sign-off. Both sanctioned engines — Rovo and Copilot — ground on it and operate against it. | Humans write directly or via merge request. Agents propose changes as branches/MRs; direct silent edits to `verified` content are never sanctioned. |
+| **The source-repo (internal GitLab repository)** | The ICP instance. The authoritative copy of every flowspace, contract, decision log, and sign-off. Both sanctioned engines ground on it and operate against it — Rovo reads it through the **Rovo GitLab connector**; Copilot grounds on it natively. | Humans write directly or via merge request. Agents propose changes as branches/MRs; direct silent edits to `verified` content are never sanctioned. |
 | **This public repo (flow-lab)** | Method, templates, and sanitized exemplars only. | Not an instance surface; employer content never enters it. |
 
 With one surface there is nothing to mirror, nothing to sync, and no cross-surface drift to check: **the repository history is the audit trail.**
@@ -53,7 +53,7 @@ The machinery the old dual-surface model implemented by hand, git provides nativ
 
 ## 4. The handoff artifact (Rovo ⇄ Copilot)
 
-Both engines operate against the same repository, so a handoff no longer crosses surfaces — but work still crosses *engines* mid-flow, and the handoff record keeps that legible. It travels as a file in the instance repo, `handoffs/YYYY-MM-DD-<flowspace>-s<N>.md`:
+Both engines operate against the same source-repo, so a handoff no longer crosses surfaces — but work still crosses *engines* mid-flow, and the handoff record keeps that legible. It travels as a file in the source-repo, `handoffs/YYYY-MM-DD-<flowspace>-s<N>.md`:
 
 ```markdown
 ---
@@ -92,6 +92,6 @@ Rules unchanged from v1: the handoff **names its human owner**; the receiving en
 
 ## Changelog
 
-- **2.0** (2026-07-16) — **Architecture correction: GitLab is the sole source of truth.** Retitled from "Mirroring Protocol — Atlassian Primary ⇄ Copilot Git Mirror" (filename and `id` kept stable so existing references resolve). Removed the Confluence-primary/git-mirror split and everything that existed to serve it: the structure mapping (old §2), the sync procedure and `MIRROR-STATE.md` (old §3), the drift check (old §4), and Confluence-native mechanics (old §7). Added: external-systems section (Confluence/Jira/ServiceNow as integration targets), git-native change discipline. Kept: the Rovo⇄Copilot handoff artifact (simplified to single-surface paths) and the what-does-not-enter rules. Rationale and impact: `flow-foundry/decision-log/2026-07-16-gitlab-sole-source-of-truth.md`.
+- **2.0** (2026-07-16) — **Architecture correction: GitLab is the sole source of truth.** Retitled from "Mirroring Protocol — Atlassian Primary ⇄ Copilot Git Mirror" to "Source-Repo Protocol" (filename and `id` kept stable so existing references resolve); operator confirmed **source-repo** as the house term for the instance repository, and that Rovo's read access to it is via the Rovo GitLab connector. Removed the Confluence-primary/git-mirror split and everything that existed to serve it: the structure mapping (old §2), the sync procedure and `MIRROR-STATE.md` (old §3), the drift check (old §4), and Confluence-native mechanics (old §7). Added: external-systems section (Confluence/Jira/ServiceNow as integration targets), git-native change discipline. Kept: the Rovo⇄Copilot handoff artifact (simplified to single-surface paths) and the what-does-not-enter rules. Rationale and impact: `flow-foundry/decision-log/2026-07-16-gitlab-sole-source-of-truth.md`.
 - **1.1** (2026-07-03) — Added §7, Confluence-native mechanics. *(Superseded by 2.0.)*
 - **1.0** (2026-07-02) — Initial dual-surface protocol. *(Superseded by 2.0.)*

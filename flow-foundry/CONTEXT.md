@@ -42,7 +42,7 @@ Truth-levels track the lifecycle: `claimed` (foreign, ingested untouched) → `d
 
 ## Where flowspaces actually run
 
-This public repo holds the foundry itself and *sanitized exemplars only*. Real flowspaces are instantiated in employer tenancy — an internal GitLab repository, the sole source of truth for the instance, which both Rovo and Copilot ground on — per [`methodology/mirroring-protocol.md`](../methodology/mirroring-protocol.md). A completed flowspace here means the *design* is done and generic; instances live where the work lives.
+This public repo holds the foundry itself and *sanitized exemplars only*. Real flowspaces are instantiated in employer tenancy — the source-repo, an internal GitLab repository that is the sole source of truth for the instance, which both engines ground on (Rovo via the GitLab connector, Copilot natively) — per [`methodology/mirroring-protocol.md`](../methodology/mirroring-protocol.md). A completed flowspace here means the *design* is done and generic; instances live where the work lives.
 
 ## The demand loop
 
