@@ -20,10 +20,10 @@ to add bands.
 
 This requirement was dropped when this foundry was first ported from the homelab
 skill-foundry ("Confluence rendering varies" — see `foundry-spec.md` changelog) and
-is now reinstated: rendering compatibility is a checked item at review time, not a
-reason to skip the diagram. See the rendering-compatibility table in the sibling
-flow-foundry guide — it applies here unchanged (GitLab native, Confluence
-macro-dependent).
+is now reinstated. With GitLab as the sole source of truth
+(`methodology/mirroring-protocol.md`) the old concern is gone: GitLab renders
+Mermaid natively, and rendering is confirmed by viewing the rendered `.md` at
+review time — see the rendering section in the sibling flow-foundry guide.
 
 ---
 
@@ -122,5 +122,5 @@ flowchart LR
       collapse two real steps into one node)
 - [ ] All five `classDef` roles use the exact house hex values (start/process/
       decision/output/halt) — no invented colors, no unstyled nodes
-- [ ] **Rendering confirmed on both surfaces** — see the flow-foundry guide's
-      rendering-compatibility table (GitLab native; Confluence macro-dependent)
+- [ ] **Rendering confirmed on GitLab** by viewing the rendered `.md` file (not
+      the diff) — GitLab renders Mermaid natively

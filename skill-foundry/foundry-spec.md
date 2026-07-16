@@ -2,11 +2,11 @@
 id: skill-foundry-spec
 title: "Skill Foundry — Method Spec"
 type: specification
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-07
+updated: 2026-07-16
 source: human+ai
 data-class: public
 related: ["[[icp-primer]]", "[[provenance-spec]]", "[[flow-foundry-spec]]"]
@@ -65,13 +65,13 @@ Adapter rules: an adapter adds **format, not logic** — if the adapter needs be
 
 The operator promotes `to-review` → `verified` when:
 
-1. **Spec review** — purpose sharp, triggering intent specific (name the misfire cases), boundaries explicit, review criteria usable, Flow Diagram present and matching the Method prose one-for-one (per `references/flow-diagram-guide.md`), with rendering confirmed on GitLab and on Confluence (or the macro-missing fallback noted).
+1. **Spec review** — purpose sharp, triggering intent specific (name the misfire cases), boundaries explicit, review criteria usable, Flow Diagram present and matching the Method prose one-for-one (per `references/flow-diagram-guide.md`), with rendering confirmed on GitLab.
 2. **Live test on the target engine** — at least one real invocation per adapter, on `public`/synthetic data, judged against the spec's review criteria.
 3. **Trigger check** — the skill fires on its intended situations and *not* on its near-misses.
 4. **Boundary/collision check** — no overlap with an existing skill's declared territory; if overlap exists, resolve it (merge, split, or redraw boundaries) before promotion.
 5. **Evidence recorded** — the review leaves a decision-log entry (reviewer, date, what was tested).
 
-Then the operator — never the foundry — moves the skill from `review-skills/` to `../produced-skills/` (the repo's top-level DONE queue) and deploys the adapters to their engines (Rovo agent published; Copilot files merged to the internal repo). At the same time, the operator adds or updates the skill's row in the "Available skills" table in `../produced-skills/CONTEXT.md`, so the capability catalog never drifts out of sync with what's actually promoted.
+Then the operator — never the foundry — moves the skill from `review-skills/` to `../produced-skills/` (the repo's top-level DONE queue) and deploys the adapters to their engines (Rovo agent published; Copilot files merged to the internal instance repo). At the same time, the operator adds or updates the skill's row in the "Available skills" table in `../produced-skills/CONTEXT.md`, so the capability catalog never drifts out of sync with what's actually promoted.
 
 ## 6. Maintenance
 
@@ -90,6 +90,7 @@ Then the operator — never the foundry — moves the skill from `review-skills/
 
 ## Changelog
 
+- **1.5** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `mirroring-protocol.md` 2.0). Spec-review gate drops the Confluence rendering fallback (one surface; GitLab renders Mermaid natively). `templates/adapter-rovo.md`'s "when Rovo is the right engine" rule re-derived: both engines ground on the GitLab instance, so engine assignment now turns on where the invoking users work, which external systems the skill acts on, and the sanctioned-tool matrix — never on repo access alone. Decision: `decision-log/2026-07-16-gitlab-sole-source-of-truth.md` (flow-foundry log).
 - **1.4** (2026-07-07) — Operator-instructed: added the `completed-skill-starters/` queue. §4 now moves the primer brief from `backlog-skill-starters/` to `completed-skill-starters/` at the moment its skill is promoted to `../produced-skills/`, bumping `truth-level` to `verified` to match — replacing the prior rule that the primer brief stays in the backlog permanently. Formalizes a manual relocation the operator had already done for the seven briefs behind the built `ai-refinement` skills plus `contract-reviewer` and `provenance-stamper`.
 - **1.3** (2026-07-03) — Operator-instructed: added the review staging queue. Finished builds now move from `backlog-skill-starters/` to `review-skills/` (foundry-placed, `to-review`) to await quick human review — §4 stages there instead of landing in the backlog. Promotion semantics unchanged: `../produced-skills/` remains human-placed, `verified` only; the staging move is the foundry's last act on a build.
 - **1.2** (2026-07-03) — Two operator-instructed changes. (a) **Invocation gate:** §1 gains Step 0 — the foundry runs only on a confirmed operator instruction; restate starter, classification, and intended outputs and get the go-ahead before building. (b) **DONE queue relocated:** completed skills now land in the repo's top-level `../produced-skills/` (was `completed-skills/` inside this foundry); promotion semantics unchanged — human-placed, `verified` only. Frontmatter version also realigned with this changelog (the 1.1 entry had not been reflected in `artifact-version`).

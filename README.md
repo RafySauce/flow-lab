@@ -7,7 +7,9 @@ This repository contains two *foundries* — repeatable production lines for AI-
 - **`flow-foundry/`** — builds *flowspaces*: multi-stage, human-reviewed AI workflows expressed as folder structure and markdown contracts.
 - **`skill-foundry/`** — builds *skills*: discrete, reusable AI capability definitions, authored once in an engine-neutral spec and adapted to whichever engine will run them (Rovo agent, Copilot custom agent, Copilot prompt file). Promoted skills' primer briefs land in `skill-foundry/completed-skill-starters/` as the terminal intake record.
 
-The repository holds the **method, templates, and sanitized exemplars only**. Instantiated flowspaces containing real work content live inside your employer's tenancy (Confluence + an internal git mirror) — never here. See [Governance](#governance-your-work-is-your-responsibility).
+The repository holds the **method, templates, and sanitized exemplars only**. Instantiated flowspaces containing real work content live inside your employer's tenancy (an internal GitLab repository — the sole source of truth for an instance) — never here. See [Governance](#governance-your-work-is-your-responsibility).
+
+**New here?** If someone pointed you at this repo, you're here for one of two reasons: to *use* something a foundry already built, or to *build* your own instance of this methodology. [Using what's already built](#using-whats-already-built) covers the first — and says plainly what "using" can and can't mean from this public repo alone. [Building your own instance](#building-your-own-instance) covers the second. Either way: nothing in `icp-flows/` or `produced-skills/` is a directly runnable agent — each is a sanitized design a human instantiates into their own GitLab instance first.
 
 ---
 
@@ -16,10 +18,11 @@ The repository holds the **method, templates, and sanitized exemplars only**. In
 1. [The methodology: ICM in brief](#the-methodology-icm-in-brief)
 2. [How I apply it (house practice)](#how-i-apply-it-house-practice)
 3. [The two foundries](#the-two-foundries)
-4. [The dual-surface model: Atlassian primary, Copilot mirror](#the-dual-surface-model-atlassian-primary-copilot-mirror)
-5. [How to use this yourself](#how-to-use-this-yourself)
-6. [Governance: your work is your responsibility](#governance-your-work-is-your-responsibility)
-7. [Sources and citations](#sources-and-citations)
+4. [The single-surface model: GitLab as the source of truth](#the-single-surface-model-gitlab-as-the-source-of-truth)
+5. [Using what's already built](#using-whats-already-built)
+6. [Building your own instance](#building-your-own-instance)
+7. [Governance: your work is your responsibility](#governance-your-work-is-your-responsibility)
+8. [Sources and citations](#sources-and-citations)
 
 ---
 
@@ -104,36 +107,44 @@ Non-obvious calls — a triage drop, a security flag, a structural choice — ge
      skill-foundry ── produces the skill ──> flowspace references it as Layer-3
 ```
 
-- **[`flow-foundry/`](flow-foundry/)** scaffolds flowspaces: stage decomposition, per-stage contracts (Inputs / Process / Outputs / Verify, plus two workplace extensions — Review and Data boundary), a Mermaid Stage Flow Diagram rendered on both GitLab and Confluence, a review-intensity map, and validation gates. Read its [CONTEXT.md](flow-foundry/CONTEXT.md) and [foundry-spec](flow-foundry/foundry-spec.md).
+- **[`flow-foundry/`](flow-foundry/)** scaffolds flowspaces: stage decomposition, per-stage contracts (Inputs / Process / Outputs / Verify, plus two workplace extensions — Review and Data boundary), a Mermaid Stage Flow Diagram rendered natively by GitLab, a review-intensity map, and validation gates. Read its [CONTEXT.md](flow-foundry/CONTEXT.md) and [foundry-spec](flow-foundry/foundry-spec.md).
 - **[`skill-foundry/`](skill-foundry/)** authors skills as an **engine-neutral spec** plus per-engine adapters (Rovo agent definition, Copilot custom agent / prompt file). Read its [CONTEXT.md](skill-foundry/CONTEXT.md) and [foundry-spec](skill-foundry/foundry-spec.md).
 
 Both foundries share the same intake/triage/review skeleton. Neither ever self-promotes its output.
 
 ---
 
-## The dual-surface model: Atlassian primary, Copilot mirror
+## The single-surface model: GitLab as the source of truth
 
-This edition of the foundries is built for a constraint common in enterprise environments: **the sanctioned AI tools are GitHub Copilot (and Copilot agents) and Atlassian Rovo**, and knowledge lives in Confluence/Jira while code lives in git.
-
-The design response:
+This edition of the foundries is built for a constraint common in enterprise environments: **the sanctioned AI tools are GitHub Copilot (and Copilot agents) and Atlassian Rovo.** Both engines operate against one surface:
 
 | Surface | Role | What lives there |
 |---|---|---|
-| **Confluence (Atlassian)** | **System of record.** The primary ICP instance. | Flowspace page trees, stage contracts as pages, decision logs, review sign-offs. Rovo agents operate here natively. |
-| **Internal git repo** | **Copilot mirror.** | A markdown mirror of the Confluence structure so Copilot (chat, agents, coding agent) can read the same contracts. Handoffs between Rovo and Copilot travel through this mirror. |
+| **Internal GitLab repository** | **Sole source of truth.** The ICP instance. | Flowspace folders, stage contracts, decision logs, review sign-offs — markdown with YAML frontmatter, in the folder shapes this repo's templates define. Both Rovo and Copilot ground on it and operate against it. |
+| **Confluence / Jira / ServiceNow** | **External systems.** Integration targets, not record surfaces. | The workplace apps flows and skills read from and write to — Jira work items, Confluence pages, ServiceNow KB articles — subject to each stage's data boundary. The methodology's own documents never live here. |
 | **This public repo (flow-lab)** | **Method only.** | Foundry specs, templates, sanitized exemplars. No employer content, ever. |
 
-The mapping rules, handoff artifact, and drift checks are specified in [`methodology/mirroring-protocol.md`](methodology/mirroring-protocol.md). The short version: folder ↔ page tree, `HUB.md` ↔ parent page, stage `CONTEXT.md` ↔ child page, frontmatter ↔ page properties/labels; the git mirror is regenerated from Confluence (one direction of truth), and a periodic drift check compares the two.
+The single-surface rules, the external-system boundary, and the Rovo⇄Copilot handoff artifact are specified in [`methodology/mirroring-protocol.md`](methodology/mirroring-protocol.md) (the source-of-truth protocol). The short version: one instance = one GitLab repo; git history is the audit trail (there is nothing to mirror, sync, or drift-check); external systems are read and written by skills at declared data boundaries, but never host the ICP structure itself.
 
 ---
 
-## How to use this yourself
+## Using what's already built
+
+Every promoted flow and skill is listed in a catalog table — [`icp-flows/CONTEXT.md`](icp-flows/CONTEXT.md) (flows) and [`produced-skills/CONTEXT.md`](produced-skills/CONTEXT.md) (skills) — one row each, "what it does" and "use it when," linking to the full design.
+
+**These are sanitized designs, not running agents.** Each one assumes a private, employer-side GitLab instance — the sole source of truth for that flow/skill — that this public repo does not and cannot contain. Adding flow-lab to a Rovo or Copilot chat lets you read the designs; it does not make any of them executable.
+
+The smallest path from browsing to using one: pick a flow or skill from the catalog, then follow [Building your own instance](#building-your-own-instance) below to stand up your own instance and carry that design over — its `HUB.md` (or `SKILL.md`) is written to transfer as-is, with every instantiation-time gap already marked.
+
+---
+
+## Building your own instance
 
 1. **Read the methodology folder** — [`icp-primer.md`](methodology/icp-primer.md) (the method, with citations), [`provenance-spec.md`](methodology/provenance-spec.md) (the frontmatter schema), [`governance-and-audit.md`](methodology/governance-and-audit.md) (the gates you must not skip).
-2. **Stand up your surfaces.** Create a Confluence space (or section) for your primary ICP instance, and an internal repo for the Copilot mirror. Copy this repo's `flow-foundry/` and `skill-foundry/` trees into them as the starting structure.
+2. **Stand up your instance.** Create an internal GitLab repository as your ICP instance — the sole source of truth. Copy this repo's `flow-foundry/` and `skill-foundry/` trees into it as the starting structure.
 3. **Run the flow-foundry on your first real workflow.** Pick a genuinely repeatable, multi-stage process with human review points (a report cycle, an intake process, a review pipeline). Fill in a [flow-primer-brief](flow-foundry/templates/flow-primer-brief-template.md), then follow [flow-foundry/foundry-spec.md](flow-foundry/foundry-spec.md) to scaffold it.
 4. **Let flowspace gaps drive skill builds.** When a stage needs a capability that doesn't exist, file a [skill-primer-brief](skill-foundry/templates/skill-primer-brief-template.md) into the skill-foundry backlog and build it there — engine-neutral spec first, then the adapter for the engine that stage runs on.
-5. **Hold the gates.** Data-classification check at intake. Human review before anything is `verified`. Decision log entries for non-obvious calls. Drift check on the mirror.
+5. **Hold the gates.** Data-classification check at intake. Human review before anything is `verified` — changes to verified content ride merge requests. Decision log entries for non-obvious calls.
 6. **Adapt the enums, keep the skeleton.** Your document types, data classes, and stage names will differ. The skeleton — triage front door, stage contracts, human gate, queues — is the part that transfers.
 
 You do **not** need Copilot or Rovo specifically. The specs are engine-neutral by design; the adapters are the only engine-specific parts, and writing a new adapter (for Claude, Gemini Enterprise, a local model) is a template exercise.

@@ -33,8 +33,8 @@ relative to neighboring skills.
 ## Flow Diagram
 
 Mermaid `flowchart LR`, flat chain, node-role palette — see
-`references/flow-diagram-guide.md` for syntax, palette, and the rendering-
-compatibility checklist (GitLab native, Confluence macro-dependent).
+`references/flow-diagram-guide.md` for syntax, palette, and the rendering
+check (GitLab renders Mermaid natively).
 
 ```mermaid
 flowchart LR

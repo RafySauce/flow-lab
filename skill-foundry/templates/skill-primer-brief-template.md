@@ -32,7 +32,7 @@ Best current understanding of how the skill should work: steps, quality bar, kno
 
 ## Inputs and data boundary
 
-What context/sources the skill needs (pages, boards, repos, documents). Max `data-class` it will handle. Which engine(s) it should run on — and note if that's a constraint (e.g., "must be Rovo: the data never leaves Atlassian").
+What context/sources the skill needs (pages, boards, repos, documents). Max `data-class` it will handle. Which engine(s) it should run on — and note if that's a constraint with its reason (e.g., "must be Rovo: the invoking users work in Atlassian chat," or "this data class isn't sanctioned for Copilot per the employer matrix"). Both engines ground on the GitLab source of truth, so repo access alone is never the constraint.
 
 ## Demand source
 

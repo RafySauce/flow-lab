@@ -1,10 +1,10 @@
 # Stage <N> — <Stage Name> (`CONTEXT.md`)
 
-> The six-field stage contract: the ICM four (Inputs / Process / Outputs / Verify) plus two workplace extensions (Review / Data boundary). Every field must be **populated, not merely present** — the test throughout: could the next stage's owner write their Inputs from your Outputs without a conversation? In the Confluence primary, these are the six sections of the stage's page.
+> The six-field stage contract: the ICM four (Inputs / Process / Outputs / Verify) plus two workplace extensions (Review / Data boundary). Every field must be **populated, not merely present** — the test throughout: could the next stage's owner write their Inputs from your Outputs without a conversation?
 
 ## Inputs
 
-What this stage receives. Concrete scope: named artifacts, specific fields, or defined outputs of the preceding stage — with their locations (Confluence link and/or mirror path). "Whatever the previous stage produces" fails this field.
+What this stage receives. Concrete scope: named artifacts, specific fields, or defined outputs of the preceding stage — with their locations (instance repo path, or an external-system link where the artifact lives there). "Whatever the previous stage produces" fails this field.
 
 ## Process
 

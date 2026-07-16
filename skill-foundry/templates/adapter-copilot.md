@@ -20,7 +20,7 @@ Most foundry skills land as a **prompt file** (capability) or a **custom agent**
 |---|---|
 | `description` frontmatter | The prompt file / agent description — Copilot routes on it, keep the fire / don't-fire cases in it |
 | Method | The body, near-verbatim; tighten prose, don't add steps |
-| Inputs and grounding | Body: name the repo paths/mirror folders to read; state the no-fabrication rules |
+| Inputs and grounding | Body: name the instance repo paths to read; state the no-fabrication rules |
 | Data boundary | A header line in the body: max data-class and a hard stop instruction if content exceeds it. **Also enforced by humans** — Copilot seeing the instruction is not the control, the sanctioned-tool matrix is |
 | What this skill is not | Body, kept intact — this is what prevents scope creep in long sessions |
 | Review criteria | Body footer: "before presenting output, self-check against: …" — and unchanged as the human's checklist |
@@ -28,5 +28,5 @@ Most foundry skills land as a **prompt file** (capability) or a **custom agent**
 ## Emit rules
 
 1. Header comment in the emitted file: `Generated from <skill-slug>/SKILL.md v<version> — do not edit here; edit the spec.`
-2. Emitted files go to the **internal** mirror repo (or the product repo the skill serves), through normal PR review — the foundry emits, a human merges.
+2. Emitted files go to the **internal** instance repo — the GitLab source of truth — (or the product repo the skill serves), through normal MR/PR review — the foundry emits, a human merges.
 3. On spec change, regenerate every Copilot artifact and note the version bump; skew between spec and adapter is drift.

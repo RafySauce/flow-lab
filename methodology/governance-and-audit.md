@@ -2,11 +2,11 @@
 id: governance-and-audit
 title: "Governance and Audit — The Gates"
 type: specification
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-03
+updated: 2026-07-16
 source: human+ai
 data-class: public
 related: ["[[provenance-spec]]", "[[mirroring-protocol]]"]
@@ -29,7 +29,7 @@ The controls that make an AI-heavy pipeline defensible: what gets checked, by wh
 Before any content enters an AI tool or an ICP structure:
 
 1. Classify it (`data-class`: public / internal / confidential / restricted — or your employer's scheme).
-2. Check the classification against the **sanctioned-tool matrix** — a one-page, employer-policy-derived table of which data classes may enter which tools (Rovo, Copilot, each surface). Maintain yours internally; this repo deliberately does not guess at it.
+2. Check the classification against the **sanctioned-tool matrix** — a one-page, employer-policy-derived table of which data classes may enter which tools (Rovo, Copilot, each external system). Maintain yours internally; this repo deliberately does not guess at it.
 3. Stamp `data-class` in the artifact's frontmatter/page properties. Highest-classified content in the document sets the class.
 
 A stage's **Data boundary** field (stage-contract extension) re-applies this check per stage: what class may this stage's engine see? A handoff into a stage whose boundary excludes the receiving engine is invalid.
@@ -42,7 +42,7 @@ External starters (vendor prompts, public repos, colleagues' templates, READMEs)
 
 `truth-level: verified` is promoted only by a human, only with evidence:
 
-- **Who** reviewed, **when**, and **what they checked** — recorded as a decision-log entry (git mirror) or a sign-off comment/property (Confluence). A Confluence version change-comment naming the reviewer is acceptable *supplementary* evidence alongside either of those (see `mirroring-protocol.md` §7), but does not by itself satisfy the rule — it still needs who/when/what-checked.
+- **Who** reviewed, **when**, and **what they checked** — recorded as a decision-log entry. A merge-request approval naming the reviewer is acceptable *supplementary* evidence alongside it (see `mirroring-protocol.md` §3), but does not by itself satisfy the rule — it still needs who/when/what-checked.
 - For flowspaces: the three validation gates in `flow-foundry/foundry-spec.md` (structural completeness, Layer-3 status declared, human dry-run).
 - For skills: the review checklist in `skill-foundry/foundry-spec.md`, including a live test on the target engine.
 - The `Verify` field of a stage contract defines the check; **running it leaves a record** — a one-line result in the run's decision log, not a silent nod.
@@ -75,9 +75,9 @@ The `source` field (`human` / `human+ai` / `ai`) is the disclosure mechanism, st
 
 Quarterly (or before any formal review), run and record:
 
-1. **Drift check** on the Confluence⇄git mirror (`mirroring-protocol.md` §4) — can be CQL-driven (`mirroring-protocol.md` §7) rather than manual page-by-page review.
+1. **Structural re-validation** — re-run validation gate 1 against promoted flowspaces (`flow-foundry/foundry-spec.md` §6); report findings, never re-promote.
 2. **Gate sampling** — pick N recent `verified` artifacts; confirm each has review evidence (provenance rule 5).
-3. **Classification sampling** — pick N artifacts; confirm `data-class` matches content and no boundary was crossed. CQL can surface pages missing a `data-class` label as a starting list (`mirroring-protocol.md` §7).
+3. **Classification sampling** — pick N artifacts; confirm `data-class` matches content and no boundary was crossed. A grep for missing or invalid `data-class` frontmatter across the instance repo is a cheap starting list.
 4. **Backlog hygiene** — starters stuck in backlogs older than a set age are re-triaged or dropped.
 5. **Decision-log synthesis** — read the quarter's entries; propose foundry/spec revisions from what they teach.
 
@@ -87,5 +87,6 @@ The audit pass produces one decision-log entry summarizing findings and actions.
 
 ## Changelog
 
-- **1.1** (2026-07-03) — Noted CQL-driven drift/classification sampling and Confluence version change-comments as supplementary (not sufficient) review evidence, per `mirroring-protocol.md` §7.
+- **1.2** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `mirroring-protocol.md` 2.0): sanctioned-tool matrix wording now names external systems rather than mirror surfaces; supplementary review evidence is MR approval rather than Confluence change-comments; the audit pass's mirror drift check (moot with one surface) is replaced by structural re-validation of promoted flowspaces; CQL-driven sampling replaced by frontmatter greps.
+- **1.1** (2026-07-03) — Noted CQL-driven drift/classification sampling and Confluence version change-comments as supplementary (not sufficient) review evidence, per `mirroring-protocol.md` §7. *(Superseded by 1.2.)*
 - **1.0** (2026-07-02) — Initial gates.

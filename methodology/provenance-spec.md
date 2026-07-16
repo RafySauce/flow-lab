@@ -2,11 +2,11 @@
 id: provenance-spec
 title: "Provenance Spec — Canonical Artifact Schema (Work Edition)"
 type: specification
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-15
+updated: 2026-07-16
 source: human+ai
 data-class: public
 related: ["[[icp-primer]]", "[[governance-and-audit]]"]
@@ -41,7 +41,7 @@ related: []                         # sibling document ids
 ---
 ```
 
-In the **Confluence primary**, these fields map to page properties and labels (see `mirroring-protocol.md`). In the **git mirror** and this repo, they are literal YAML frontmatter.
+In an instantiated GitLab instance and in this repo alike, these fields are literal YAML frontmatter — the single surface means there is no page-property mapping (see `mirroring-protocol.md`).
 
 ---
 
@@ -116,12 +116,13 @@ Rules any validator (or reviewing human) must apply beyond the flat field list:
 2. `type: clipping` implies `truth-level: claimed` and `source: ai` or external — a clipping marked `verified` is a contradiction.
 3. `generated-by` and `generated-by-version` travel together.
 4. `truth-level: claimed` never pairs with `source: human`.
-5. `truth-level: verified` requires review evidence — a decision-log entry or Confluence sign-off naming reviewer and date (see `governance-and-audit.md`). Verified without evidence is invalid.
+5. `truth-level: verified` requires review evidence — a decision-log entry naming reviewer and date (see `governance-and-audit.md`). Verified without evidence is invalid.
 6. `data-class` above `public` is invalid **in this repository** — such content belongs in employer tenancy.
 
 ---
 
 ## Changelog
 
+- **1.2** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `mirroring-protocol.md` 2.0): removed the Confluence page-property/label mapping (frontmatter is always literal YAML) and the Confluence sign-off variant of review evidence (rule 5 — decision-log entry only). Schema fields unchanged.
 - **1.1** (2026-07-15) — Added `stage-context` to the Type enum and the Stage-context extension fields (`stage`, `review-intensity`), documenting the schema every instantiated flowspace's stage `CONTEXT.md` has been stamped with since the ai-refinement and documentarian builds — the spec had not yet caught up to house practice.
 - **1.0** (2026-07-02) — Initial work edition. Derived from the private homelab DNA spec v1.5: kept identity, lifecycle, provenance, and `related`; dropped Obsidian graph fields (`aliases`, entity `## Connections`), homelab classification (`domain`, `phase`, `systems`), and the `execution-tier` routing field; added `owner`, `data-class`, and the review-evidence rule.

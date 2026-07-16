@@ -4,11 +4,13 @@ How to translate an engine-neutral skill spec into a Rovo agent definition. Same
 
 ## When Rovo is the right engine
 
-- The skill's inputs live in Confluence/Jira and its **data boundary says the content shouldn't leave Atlassian**.
-- The skill acts *on* Atlassian objects (creates pages, updates issues, comments).
-- The users who invoke it work in Atlassian, not in an IDE.
+Both engines ground on the same GitLab instance — the sole source of truth (`methodology/mirroring-protocol.md`) — so "it needs repo access" is not, by itself, an engine assignment. Assign per skill, on real constraints:
 
-If the skill is code-shaped or repo-grounded, it's a Copilot skill; if it's both, emit both adapters from the same spec.
+- **The invoking users work in Atlassian surfaces** (Rovo chat in Confluence/Jira), not in an IDE or a GitHub surface.
+- The skill **acts on Atlassian objects as external systems** (creates pages, updates issues, comments) — Rovo does this natively.
+- The **data boundary names Rovo**: the employer's sanctioned-tool matrix admits this skill's data class into Rovo (and possibly not into Copilot).
+
+When no such constraint decides it, emit both adapters from the same spec — the spec is the asset; engines are deployment targets.
 
 ## Mapping the spec
 
@@ -16,7 +18,7 @@ If the skill is code-shaped or repo-grounded, it's a Copilot skill; if it's both
 |---|---|
 | `name` + `description` | Agent name + description — keep the fire / don't-fire cases in the description; users and Rovo routing both read it |
 | Method | Agent instructions, near-verbatim. Lead with the role sentence, then the steps |
-| Inputs and grounding | Knowledge scoping: the specific Confluence spaces / Jira projects the agent may read. Scope **narrowly** — grounding scope is a data-boundary control, not a convenience setting |
+| Inputs and grounding | Knowledge scoping: the GitLab instance paths the agent grounds on, plus any external-system scopes (specific Confluence spaces / Jira projects) it may read. Scope **narrowly** — grounding scope is a data-boundary control, not a convenience setting |
 | Data boundary | Enforced structurally: knowledge scope + permitted actions define what the agent can touch. Instructions restate the boundary as a stop rule |
 | What this skill is not | Instructions, kept intact, phrased as refusals-with-redirects ("if asked to X, decline and point to Y") |
 | Review criteria | Instructions footer: self-check before responding — and unchanged as the human reviewer's checklist |

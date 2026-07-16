@@ -2,11 +2,11 @@
 id: flow-foundry-spec
 title: "Flow Foundry — Method Spec"
 type: specification
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-03
+updated: 2026-07-16
 source: human+ai
 data-class: public
 related: ["[[icp-primer]]", "[[provenance-spec]]", "[[skill-foundry-spec]]"]
@@ -39,10 +39,10 @@ Every triage call that isn't obvious earns a `decision-log/` entry.
 
 Nine questions, answered (or consciously deferred, with a note) before authoring a single stage:
 
-1. **Name + slug** — kebab-case; drives the `id`, folder name, and Confluence page title.
+1. **Name + slug** — kebab-case; drives the `id` and folder name.
 2. **Purpose statement** — one sentence: what problem, for whom.
 3. **Stage count and names** — known, or designed together now?
-4. **Primary surface mapping** — which Confluence space/page tree is the primary instance; which GitLab repo is the mirror. If the target Confluence space doesn't have a Mermaid-rendering macro installed, note that now — it changes how the Stage Flow Diagram ships (see `references/flow-diagram-guide.md`).
+4. **Source-of-truth mapping** — which internal GitLab repo (and path) the instance will live in — the sole source of truth (`methodology/mirroring-protocol.md`) — and which external systems (Confluence, Jira, ServiceNow, …) the flow will read from or write to, as far as known.
 5. **Review-intensity per stage** — apply the U-curve default (heavy / light / heavy — ICM Fig. 5) and adjust: which stages carry judgment, which are constrained execution?
 6. **Data boundary per stage** — what `data-class` does each stage handle, and which engines are sanctioned for it?
 7. **Layer-3 status per stage** — existing skill to reference, inline one-off, or gap?
@@ -53,7 +53,7 @@ Nine questions, answered (or consciously deferred, with a note) before authoring
 
 Produce the structure per [`templates/flowspace-scaffold.md`](templates/flowspace-scaffold.md):
 
-- **`HUB.md`** (maps to the Confluence parent page): provenance frontmatter (`type: flowspace`), purpose, the **Stage Flow Diagram** (a Mermaid `flowchart LR`, one node per stage — per `references/flow-diagram-guide.md`), the stage table (number, name, review-intensity, data boundary, Layer-3 status), and links.
+- **`HUB.md`**: provenance frontmatter (`type: flowspace`), purpose, the **Stage Flow Diagram** (a Mermaid `flowchart LR`, one node per stage — per `references/flow-diagram-guide.md`), the stage table (number, name, review-intensity, data boundary, Layer-3 status), and links.
 - **One numbered folder per stage** (`01-<slug>/` …), each with a `CONTEXT.md` per [`templates/stage-context-template.md`](templates/stage-context-template.md) — the six-field contract:
   - **Inputs / Process / Outputs / Verify** — the ICM stage contract (§3.3).
   - **Review** — who reviews this stage's output, at what intensity (from the U-curve mapping), and what evidence the review leaves.
@@ -76,7 +76,7 @@ When the scaffold, Layer-3 triage, and agent-side pre-checks are complete, the f
 
 A flowspace promotes `to-review` → `verified` when three gates pass (checklist form in [`templates/validation-checklist.md`](templates/validation-checklist.md)):
 
-1. **Structural completeness** — every `CONTEXT.md` fully populated (no placeholders), `HUB.md` frontmatter valid with the stage table matching the folders one-for-one, surface mapping declared, Stage Flow Diagram present and matching the stage table (per the checklist in `references/flow-diagram-guide.md`) with rendering confirmed on both GitLab and Confluence (or the Confluence fallback note if no macro is installed).
+1. **Structural completeness** — every `CONTEXT.md` fully populated (no placeholders), `HUB.md` frontmatter valid with the stage table matching the folders one-for-one, source-of-truth mapping declared, Stage Flow Diagram present and matching the stage table (per the checklist in `references/flow-diagram-guide.md`) with rendering confirmed on GitLab.
 2. **Layer-3 status declared** — every stage explicitly: referenced skill (with id), inlined one-off, or flagged gap (with brief id).
 3. **Human dry-run** — the operator walks the contracts in order and confirms: Inputs concretely scoped, Process actionable, Outputs specific enough to write the next Inputs from, Verify a real cross-stage check, Review and Data boundary consistent with the sanctioned-tool matrix.
 
@@ -84,7 +84,7 @@ Promotion is recorded as a decision-log entry (reviewer, date, what was checked)
 
 ## 6. Standalone re-validation (drift check)
 
-On demand or on a schedule, gate 1 re-runs against any existing flowspace — plus the mirror drift check (`methodology/mirroring-protocol.md` §4) if the flowspace is instantiated. Output is a **report, not a re-promotion**: findings go to the operator, who decides whether drift warrants a re-scaffold. Re-validation never changes `truth-level`.
+On demand or on a schedule, gate 1 re-runs against any existing flowspace. Output is a **report, not a re-promotion**: findings go to the operator, who decides whether drift warrants a re-scaffold. Re-validation never changes `truth-level`.
 
 ## 7. What this foundry is not
 
@@ -98,6 +98,7 @@ On demand or on a schedule, gate 1 re-runs against any existing flowspace — pl
 
 ## Changelog
 
+- **1.5** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `mirroring-protocol.md` 2.0). Setup questionnaire's "primary surface mapping" (Confluence space + git mirror) is now "source-of-truth mapping" (instance GitLab repo/path + external systems touched); the scaffold's `## Surfaces` section becomes `## Source of truth`; gate 1 and re-validation drop the Confluence rendering fallback and the mirror drift check (one surface — GitLab renders Mermaid natively; nothing to drift). Decision: `decision-log/2026-07-16-gitlab-sole-source-of-truth.md`.
 - **1.4** (2026-07-03) — Setup questionnaire gains a ninth question: stakeholder
   register availability for the target domain, with the ungrounded-mode
   fallback noted as the consequence of deferring it. Operator-instructed,

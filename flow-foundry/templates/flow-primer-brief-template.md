@@ -44,9 +44,9 @@ The classes of data each run touches, and any stage-specific boundaries you alre
 
 Capabilities the stages will lean on: existing skills to reference, logic that's one-off, and suspected gaps (candidate skill-primer-briefs).
 
-## Surfaces
+## Source of truth
 
-Where the primary instance will live (Confluence space/page) and which repo mirrors it.
+Which internal GitLab repo/path the instance will live in (the sole source of truth), and which external systems (Confluence, Jira, ServiceNow, …) the flow will read from or write to.
 
 ## Open questions
 
