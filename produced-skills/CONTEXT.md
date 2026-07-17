@@ -18,6 +18,8 @@
 | [`contract-reviewer`](contract-reviewer/SKILL.md) | Pre-reviews a flowspace's stage contracts against the populated-vs-present standard, emitting a severity-ranked findings report. | A flowspace reaches `to-review`, on "pre-review these contracts," or a re-validation pass. |
 | [`provenance-stamper`](provenance-stamper/SKILL.md) | Stamps and validates provenance frontmatter against `methodology/provenance-spec.md`, inferring what it can and asking for owner/data-class. | On "stamp this," "is this schema-compliant," creating any new ICP artifact, or a batch check across a folder/page tree. |
 
+> **Before you invoke one:** everything above is a sanitized *design*, not a live agent. Each skill assumes an employer-side source-repo (the GitLab instance that is the sole source of truth for that skill) and, for the adapter you want, an actually deployed Rovo agent or Copilot custom agent/prompt file — none of which exist in this public repo. Opening a `SKILL.md` shows the design and its adapters; deploying one is the operator's act (see the note at the bottom of this page). See [`README.md`'s "Using what's already built"](../README.md#using-whats-already-built) for the path from design to running instance.
+
 Each skill's `SKILL.md` `description` frontmatter is the source of truth for the summaries above (it also states what each skill is *not* for) — if they ever disagree, the `SKILL.md` wins.
 
 ---

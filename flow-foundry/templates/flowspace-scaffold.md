@@ -1,10 +1,10 @@
 # Flowspace Scaffold — the output shape
 
-What the flow-foundry produces for one flowspace. Git-mirror form shown; the Confluence primary is the same tree as pages per `methodology/mirroring-protocol.md` §2.
+What the flow-foundry produces for one flowspace. This folder tree, as markdown with YAML frontmatter, *is* the instance form — an instantiated flowspace lives in the source-repo, the internal GitLab repository that is the sole source of truth (`methodology/mirroring-protocol.md`).
 
 ```
 <flowspace-slug>/
-├── HUB.md                  # the flowspace card — Confluence parent page equivalent
+├── HUB.md                  # the flowspace card — the hub the stage folders hang off
 ├── 01-<stage-slug>/
 │   ├── CONTEXT.md          # six-field stage contract (see stage-context-template.md)
 │   └── work/               # Layer-4 working artifacts for runs (transient; may be gitignored)
@@ -13,7 +13,7 @@ What the flow-foundry produces for one flowspace. Git-mirror form shown; the Con
 ├── …
 ├── reference/              # Layer-3 material: stable rules, style guides, skill pointers
 ├── decision-log/           # this instance's logged calls, YYYY-MM-DD-<slug>.md
-└── handoffs/               # Rovo⇄Copilot handoff records (mirroring-protocol §5)
+└── handoffs/               # Rovo⇄Copilot handoff records (mirroring-protocol §4)
 ```
 
 ## HUB.md skeleton
@@ -43,8 +43,8 @@ related: []
 ## Stage Flow Diagram
 
 Mermaid `flowchart LR`, one node per stage, colored by review intensity — see
-`references/flow-diagram-guide.md` for syntax, palette, and the rendering-
-compatibility checklist (GitLab native, Confluence macro-dependent).
+`references/flow-diagram-guide.md` for syntax, palette, and the rendering
+check (GitLab renders Mermaid natively).
 
 ```mermaid
 flowchart LR
@@ -63,10 +63,10 @@ flowchart LR
 | 2 | <name> | light | internal | Copilot | inline |
 | … | | | | | |
 
-## Surfaces
+## Source-repo
 
-- **Primary:** <Confluence space / parent page>
-- **Mirror:** <internal repo / path>
+- **Source-repo:** <internal GitLab repo / path> — the sole source of truth for this flowspace
+- **External systems touched:** <the Confluence/Jira/ServiceNow (or other) targets this flow reads from or writes to, if any — with the stage(s) that touch them>
 
 ## Run procedure
 

@@ -6,7 +6,7 @@ artifact-version: "1.0"
 status: dead
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-07
+updated: 2026-07-16
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -21,6 +21,11 @@ related: ["[[mirroring-protocol]]"]
 > yet.** Kept for record per `governance-and-audit.md` §7; not built. Re-file
 > once the dual-surface deployment is real. Reason:
 > `decision-log/2026-07-07-skill-starter-triage-drop.md`.
+>
+> **Obsolete by architecture change, 2026-07-16:** GitLab is now the sole
+> source of truth (`mirroring-protocol.md` 2.0) — there is no mirror and never
+> will be, so the re-file condition above is permanently false. Do not rebuild.
+> See `flow-foundry/decision-log/2026-07-16-gitlab-sole-source-of-truth.md`.
 
 ## Purpose
 
