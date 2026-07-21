@@ -4,11 +4,11 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.8"
+artifact-version: "1.9"
 status: living
 truth-level: verified
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -31,7 +31,9 @@ related:
 | Work item type (agent-proposed from source material when available, otherwise user-selected) | User + agent | Yes |
 | Guardrails, persona contract, field definitions, house amendments | `../reference/ai-refinement-hybrid.md` | Yes |
 | Work-item schema registry (refinable set + out-of-scope types) | `../reference/work-item-schemas.md` | Yes |
-| Source material (see HUB "Common source inputs" — email request, vendor action notice, meeting minutes/notes, chat-stated requirement, structured requirements document, incident/problem record, architecture/design artifact, or unclassified) | User | No |
+| Source material (see HUB "Common source inputs" — email request, vendor action notice, meeting minutes/notes, chat-stated requirement, structured requirements document, incident/problem record, architecture/design artifact, prior completed work record, or unclassified) | User | No |
+| User-supplied context material (Confluence pages/links, exported Miro content, PDF files, email content, meeting notes) | User, prompted at the supporting-context research step | No |
+| Confluence/Jira search results for the confirmed research scope (read-only, engine-native) | Confluence + Jira (via native lookup) | No |
 | Stakeholder register, if one is loaded for this domain | `../reference/platform-stakeholder-register.md` or a domain instance of `platform-stakeholder-register-template.md` | No |
 | Existing Jira labels for the target project/space (live query, for team_code inference) | Jira (via native lookup) | Yes |
 
@@ -48,9 +50,10 @@ refinable set. All of it is specific to this flowspace)`
    > Policy reference: `<internal policy link — set at instantiation; redacted from this public design copy>`
 3. **Data safety reminder** — state the PII / confidential-data prohibition.
    If the user brings source material, identify which common input type it is
-   (HUB "Common source inputs" — now eight types, including structured
+   (HUB "Common source inputs" — now nine types, including structured
    requirements documents, incident/problem records, architecture/design
-   artifacts, and a catch-all "unclassified document" row) and screen it
+   artifacts, prior completed work records, and a catch-all "unclassified
+   document" row) and screen it
    before it enters the session: emails and meeting minutes routinely carry
    names and addresses — have the user strip them; vendor material and
    third-party SOWs are external — confirm safe to ingest at data-class
@@ -92,7 +95,40 @@ refinable set. All of it is specific to this flowspace)`
    If the user asks for a `sub_task`, redirect per the registry's out-of-scope
    table (sub-tasks are created directly in Jira under an already-committed
    parent) — that type alone stays out of this pipeline.
-6. **Provenance and planning-label resolution** — every committed item
+6. **Supporting-context research** — the pipeline's active look for grounding
+   documents (`supporting_context_research` house amendment,
+   `../reference/ai-refinement-hybrid.md`):
+   - **Context prompt** — ask the user for material they already hold:
+     Confluence documents or links, exported Miro content, PDF files, email
+     content, meeting notes. Each supplied item is typed against the HUB
+     taxonomy and screened per step 3 before it enters the session.
+   - **Work-focus inference** — classify the work's focus from the user's
+     initial prompt and supplied material, stating the rationale, and select
+     the document-target profile: **engineering/enhancement** → architecture,
+     data, and topology documentation — SAD (systems architecture diagram)
+     first, then HLD/LLD, ADRs, data models, network/topology diagrams;
+     **operations** (OS upgrades, hardware refreshes, maintenance) →
+     runbooks, MOPs/SOPs, upgrade/refresh guides, and especially prior
+     completed processes of the same type in the same areas (closed Jira
+     items, closure notes, past change records); **mixed/unclear** → propose
+     both sets and let the user trim.
+   - **Propose research scope** — name the Confluence spaces, Jira projects,
+     search terms, and document types to be searched (read-only, via the
+     engine's native Confluence/Jira capabilities — the same access class as
+     the team_code query below and Stage 06's parent-candidate query). The
+     user confirms, trims, or redirects the scope before any search runs.
+   - **Hunt and present** — run the confirmed searches; present findings as a
+     candidate list (title, location, why it looks relevant); the user
+     selects what enters the session. Every selected document passes the
+     step 3 data-safety screen and gets a taxonomy type tag. If the user
+     asks to widen the hunt (more Confluence spaces, more Jira projects),
+     repeat with the widened scope — every widening explicitly
+     user-confirmed, never silently expanded.
+   - **Record** — note what was sought, found, selected, and *not found*. A
+     missing expected document (e.g., no SAD for an engineering-focused item)
+     is a recorded gap for Stages 02–03 to work around, never a blocker and
+     never silently substituted with invented content.
+7. **Provenance and planning-label resolution** — every committed item
    carries `refine-ai-built`; items at feature level and below (`feature`,
    `story`, `task`, `spike`, `bug`) additionally carry a
    `<team_code>-<yyyy>-q<n>` planning label (`portfolio_epic`/`solution_epic`
@@ -115,7 +151,8 @@ refinable set. All of it is specific to this flowspace)`
 
    This is the flowspace's `mandatory_labels` house amendment
    (`../reference/ai-refinement-hybrid.md`).
-7. **Fast-track assessment** — assess whether the available source material is
+8. **Fast-track assessment** — assess whether the available source material —
+   including the supporting-context document set gathered in step 6 — is
    detailed and structured enough to populate most of the selected type's
    required fields with reasonable confidence. If so, propose **fast-track
    mode** with a stated rationale: which fields look extractable and from
@@ -128,19 +165,21 @@ refinable set. All of it is specific to this flowspace)`
    document and presented together (Stages 02–05 detail the mode's effect
    per step; due-date elicitation and Stage 06 parent-mapping confirmation
    stay interactive in every mode, without exception).
-8. **Stakeholder-register grounding check** — confirm whether a stakeholder
+9. **Stakeholder-register grounding check** — confirm whether a stakeholder
    register is loaded for this domain (`../reference/platform-stakeholder-register.md`
    or a domain instance of `platform-stakeholder-register-template.md`). If
    none is loaded, flag **ungrounded mode**: Stage 02's stakeholder sweep and
    Stage 03's coalition/conflict-axis annotation ask the user directly who is
    affected and what tensions apply, instead of walking a register — a
    degraded but functional path, not a blocked one.
-9. **Confirm setup** — echo back: persona active (communication_style
-   binding), item type selected (+ rationale, if agent-proposed), mode
-   selected (fast-track or full-interactive, + rationale), stakeholder-register
-   grounding status, guardrails in effect, resolved team_code and planning
-   quarter (or the exemption, if the selected type is `portfolio_epic` or
-   `solution_epic`). Obtain user "proceed" before advancing.
+10. **Confirm setup** — echo back: persona active (communication_style
+    binding), item type selected (+ rationale, if agent-proposed), work-focus
+    classification and supporting-context research result (documents in the
+    session + recorded gaps), mode selected (fast-track or full-interactive,
+    + rationale), stakeholder-register grounding status, guardrails in
+    effect, resolved team_code and planning quarter (or the exemption, if the
+    selected type is `portfolio_epic` or `solution_epic`). Obtain user
+    "proceed" before advancing.
 
 ## Outputs
 
@@ -150,6 +189,9 @@ refinable set. All of it is specific to this flowspace)`
 | Selected work item type + loaded schema (+ agent rationale, if proposed) | Stages 02–06 | YAML schema reference + text |
 | Active persona contract (communication_style binding) | Stages 02–06 | persona object |
 | Screened source material + input-type tag (when provided) | Stage 02 | text + type tag |
+| Work-focus classification (engineering/enhancement, operations, or mixed) + rationale | Stages 02, 03 | text |
+| Supporting-context document set (each item typed + screened) | Stages 02, 03 | tagged document list |
+| Research record (sought / found / selected / not found) | Stages 02, 03; run decision log | text |
 | Selected mode (fast-track / full-interactive) + rationale | Stages 02–06 | text |
 | Stakeholder-register grounding status (grounded / ungrounded) | Stages 02, 03 | boolean + register reference |
 | Resolved team_code (+ query rationale) | Stage 06 | text |
@@ -175,9 +217,21 @@ Running this check leaves a one-line result in the run's decision log.
       clipping, for the two source-defined types); out-of-scope types were
       redirected, not refined; if agent-proposed, the rationale is in the
       transcript and the user's confirm/override is recorded
-- [ ] Any source material was typed against the HUB input taxonomy (all eight
-      types, including the unclassified catch-all) and screened
-      (names/addresses stripped; third-party material vetted) before advancing
+- [ ] Any source material was typed against the HUB input taxonomy (all nine
+      types, including the prior-completed-work row and the unclassified
+      catch-all) and screened (names/addresses stripped; third-party material
+      vetted) before advancing
+- [ ] The user was prompted for held context material (Confluence, Miro
+      exports, PDFs, email content) and the work-focus classification + its
+      rationale are in the transcript
+- [ ] The research scope (spaces, projects, terms, document types) was
+      user-confirmed *before* any search ran, and every subsequent widening
+      was explicitly user-confirmed — no silent scope expansion
+- [ ] Every document entering the session (user-supplied or search-selected)
+      carries a taxonomy type tag and passed the data-safety screen
+- [ ] The research record notes what was sought, found, selected, and not
+      found — expected-but-missing documents (e.g., no SAD for an
+      engineering-focused item) recorded as gaps, not blockers
 - [ ] If fast-track was proposed, the rationale (which fields, from where) is
       in the transcript and the user's mode choice (fast-track or
       full-interactive) is explicit — never assumed
@@ -209,5 +263,10 @@ Running this check leaves a one-line result in the run's decision log.
   label search) via the engine's native Jira capabilities — the same access
   class Stage 06 already uses for parent-candidate queries; no write action
   occurs at this stage.
+- Supporting-context research adds a read-only Confluence/Jira search surface
+  in the same engine-native access class — search scope is user-confirmed
+  before any query runs, results are capped at data-class `internal`, and
+  every retrieved document passes the data-safety screen before entering the
+  session; no write action occurs.
 - A handoff into this stage from an engine outside this boundary is invalid —
   stop and re-route.

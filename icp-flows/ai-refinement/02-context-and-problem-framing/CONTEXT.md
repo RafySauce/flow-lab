@@ -4,11 +4,11 @@ title: "Stage 02 — Context & Problem Framing"
 type: stage-context
 stage: 2
 review-intensity: heavy
-artifact-version: "1.5"
+artifact-version: "1.6"
 status: living
 truth-level: verified
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -31,7 +31,9 @@ related:
 | Active persona contract (communication_style binding) | Stage 01 | Yes |
 | Selected mode (fast-track / full-interactive) + rationale | Stage 01 | Yes |
 | User's raw problem description / context | User | Yes |
-| Screened source material + input-type tag (any of the eight HUB "Common source inputs" types) | Stage 01 | No |
+| Screened source material + input-type tag (any of the nine HUB "Common source inputs" types) | Stage 01 | No |
+| Supporting-context document set (typed + screened) + research record (sought/found/not found) | Stage 01 | No |
+| Work-focus classification (engineering/enhancement, operations, or mixed) + rationale | Stage 01 | No |
 | Stakeholder register (role-types, "what they value most"), if loaded | `../reference/platform-stakeholder-register.md` or a domain instance | If grounded |
 | Stakeholder-register grounding status (grounded / ungrounded) | Stage 01 | Yes |
 
@@ -50,17 +52,25 @@ related:
    (per the HUB "Common source inputs" taxonomy — email request, vendor action
    notice, meeting minutes/notes, chat-stated requirement, structured
    requirements document, incident/problem record, architecture/design
-   artifact, or unclassified) steer the sequence: an email request or
-   chat-stated requirement names a requester or beneficiary — start the
-   stakeholder sweep there; vendor action notices, stated task lists, and
-   structured requirements documents are solution-shaped — elicit the
-   underlying problem before accepting the actions as scope; meeting minutes
-   may hold several candidate items — split them and frame one per run; an
-   incident/problem record is already problem-shaped — verify it names an
-   affected party and a business impact rather than only a technical
-   symptom; an architecture/design artifact is solution-shaped at a systems
-   level — recover the problem it was drawn to solve; an unclassified
-   document gets the full question sequence with no shortcuts assumed.
+   artifact, prior completed work record, or unclassified) steer the
+   sequence: an email request or chat-stated requirement names a requester or
+   beneficiary — start the stakeholder sweep there; vendor action notices,
+   stated task lists, and structured requirements documents are
+   solution-shaped — elicit the underlying problem before accepting the
+   actions as scope; meeting minutes may hold several candidate items — split
+   them and frame one per run; an incident/problem record is already
+   problem-shaped — verify it names an affected party and a business impact
+   rather than only a technical symptom; an architecture/design artifact
+   (SAD, HLD/LLD, ADR, data model, topology diagram) is solution-shaped at a
+   systems level — recover the problem it was drawn to solve; a prior
+   completed work record is precedent-shaped — it answers "what has been
+   tried before" and offers scope/effort reference, after verifying it
+   matches this item's process type and area; an unclassified document gets
+   the full question sequence with no shortcuts assumed. Documents in the
+   Stage 01 supporting-context set steer the same way, by their type tags —
+   and the research record's *not-found* entries are worth naming to the user
+   where they matter (an engineering item with no SAD found means integration
+   context rests entirely on elicitation).
 
    **In fast-track mode:** draft the problem statement, business outcomes /
    question-to-answer, and customer/business value directly from the source
@@ -72,7 +82,12 @@ related:
    grounding check), walk it and tag the entries whose needs or limits define
    this item (producers, consumers, constraint-setters, operators, adjacents,
    sponsors), using each tagged entry's "what they value most" column to
-   prompt for requirements the user hasn't volunteered. If Stage 01 flagged
+   prompt for requirements the user hasn't volunteered. When the
+   supporting-context set holds architecture material (a SAD, HLD/LLD, or
+   topology diagram), use its integration points and named
+   systems/components as candidate prompts for the sweep — cited to the
+   document; candidates propose, the register walk and the user's
+   confirmation decide. If Stage 01 flagged
    **ungrounded mode** (no register loaded for this domain), ask the user
    directly who is affected and what they need instead of walking a register —
    degraded but functional. **This step is a hard carve-out: it is always run
@@ -132,6 +147,10 @@ instead. Running these checks leaves a one-line result in the run's decision log
 - [ ] If source material was provided, the problem was elicited — the drafted
       problem statement is not a transcription of the request or action list
       (nor, in fast-track mode, an unreviewed copy of the source text)
+- [ ] Any stakeholder candidates seeded from supporting-context documents
+      (SAD integration points, prior-record parties) are cited to their
+      source document and were confirmed via the sweep — never silently
+      accepted from a document
 - [ ] If fast-track mode extracted any field, its source citation is in the
       transcript and the user confirmed it explicitly
 - [ ] The stakeholder sweep (step 2) ran interactively regardless of mode —

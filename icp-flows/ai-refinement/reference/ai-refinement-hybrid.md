@@ -2,11 +2,11 @@
 id: ai-refinement-hybrid
 title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-21
 owner: operator
 source: human+ai
 data-class: public
@@ -31,7 +31,14 @@ related:
 > adds a sixth amendment, `mandatory_labels` — unlike the first five, it
 > wasn't discovered through on-engine defect feedback but raised directly by
 > the operator (provenance + planning-quarter traceability); see
-> `decision-log/2026-07-15-provenance-and-planning-labels.md`.
+> `decision-log/2026-07-15-provenance-and-planning-labels.md`. **1.3** adds a
+> seventh, `supporting_context_research` — also operator-raised: the pipeline
+> now actively looks for grounding documents (SAD and other relevant
+> documentation, profiled by work focus) instead of only classifying what the
+> user pastes in; see
+> `decision-log/2026-07-21-supporting-context-research.md`. `truth-level`
+> returns to `to-review`: the new amendment is house-authored pending
+> operator sign-off.
 
 # AI Refinement – Hybrid Definition (Markdown + YAML)
 
@@ -167,7 +174,7 @@ triggers:
 
 ---
 
-## House Amendments (2026-07-03; sixth added 2026-07-15)
+## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21)
 
 The first five rules below are house-authored, discovered through the
 flowspace's first on-engine invocation (Rovo, NEADD-1827) and the resulting
@@ -179,7 +186,9 @@ losing them to drift. See
 to backport them directly into this clipping. The sixth (`mandatory_labels`)
 was added 2026-07-15, raised directly by the operator rather than discovered
 through on-engine defect feedback — see
-`decision-log/2026-07-15-provenance-and-planning-labels.md`.
+`decision-log/2026-07-15-provenance-and-planning-labels.md`. The seventh
+(`supporting_context_research`) was added 2026-07-21, also operator-raised —
+see `decision-log/2026-07-21-supporting-context-research.md`.
 
 ```yaml
 house_amendments:
@@ -254,12 +263,59 @@ house_amendments:
       silent pass.
     origin: 2026-07-15, operator request for build provenance and
       planning-quarter traceability across every committed item.
+
+  supporting_context_research:
+    rule: >
+      Refinement does not rely solely on whatever material the user pastes
+      in: at intake, after the work-item type is selected, the pipeline runs
+      a supporting-context research step. First, the user is prompted for
+      context they already hold — Confluence documents, exported Miro
+      content, PDF files, email content, meeting notes — each item typed
+      against the source-input taxonomy and screened by the data-safety
+      guardrail before it enters the session. Second, the agent infers the
+      work focus from the user's initial prompt and supplied material and
+      states its rationale: an engineering or enhancement focus targets
+      architecture, data, and topology documentation — SAD (systems
+      architecture diagram) first, then HLD/LLD design documents, ADRs, data
+      models, and network/topology diagrams; an operations focus (OS
+      upgrades, hardware refreshes, maintenance) targets runbooks, MOPs/SOPs,
+      upgrade and refresh guides, and especially prior completed processes of
+      the same type in the same areas (closed Jira items, closure notes,
+      past change records); a mixed or unclear focus proposes both sets for
+      the user to trim. Third, the agent proposes a concrete research scope —
+      which Confluence spaces, Jira projects, search terms, and document
+      types it intends to search, read-only, via the engine's native
+      Confluence/Jira capabilities — and the user confirms, trims, or
+      redirects that scope before any search runs. Search results are
+      presented as a candidate list (title, location, relevance rationale);
+      the user selects what enters the session, and every selected document
+      is screened and taxonomy-typed like user-supplied material. The user
+      may widen the hunt to further Confluence documents or Jira projects;
+      each widening is explicitly user-confirmed — the agent never expands
+      its own search scope silently. What was sought, found, selected, and
+      not found is recorded; a missing expected document (e.g., no SAD for
+      an engineering item) is recorded as a gap, never a blocker, and never
+      silently substituted with invented content.
+    origin: 2026-07-21, operator request — the pipeline previously only
+      classified user-supplied source material and never went looking for
+      the SAD or other grounding documents that anchor scope, stakeholders,
+      and dependencies.
 ```
 
 ---
 
 ## Changelog
 
+- **1.3** (2026-07-21) — Added a seventh house amendment,
+  `supporting_context_research`: a Stage 01 research step that prompts the
+  user for held context (Confluence, Miro exports, PDFs, email), infers the
+  work focus (engineering/enhancement → SAD-first architecture/data/topology
+  set; operations → runbooks/MOPs and prior completed same-type processes in
+  the same areas), proposes a user-confirmed read-only research scope across
+  Confluence and Jira, and hunts iteratively with every widening explicitly
+  user-confirmed. Raised directly by the operator, not discovered on-engine.
+  `truth-level` returns to `to-review` pending operator sign-off of the new
+  amendment. See `decision-log/2026-07-21-supporting-context-research.md`.
 - **1.2** (2026-07-15) — Added a sixth house amendment, `mandatory_labels`:
   `refine-ai-built` provenance on every committed item plus a
   `<team_code>-<yyyy>-q<n>` planning label on `feature`/`story`/`task`/

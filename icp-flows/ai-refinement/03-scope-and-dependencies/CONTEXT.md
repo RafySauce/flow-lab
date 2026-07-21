@@ -4,11 +4,11 @@ title: "Stage 03 — Scope & Dependencies"
 type: stage-context
 stage: 3
 review-intensity: light
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
 truth-level: verified
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -34,6 +34,8 @@ related:
 | Selected mode (fast-track / full-interactive) | Stage 01 | Yes |
 | Stakeholder-register grounding status (grounded / ungrounded) | Stage 01 | Yes |
 | Stakeholder register (coalitions, conflict axes, escalation rules), if loaded | `../reference/platform-stakeholder-register.md` or a domain instance | If grounded |
+| Supporting-context document set (typed + screened) + research record | Stage 01 | No |
+| Work-focus classification (engineering/enhancement, operations, or mixed) | Stage 01 | No |
 
 ## Process
 
@@ -49,6 +51,11 @@ related:
    dependencies the user hasn't named (integration seams and guardrails are
    where unstated dependencies live) — grounded mode only; in ungrounded mode,
    ask the user directly what this item depends on and what depends on it.
+   When the supporting-context set holds architecture material (a SAD,
+   HLD/LLD, or topology diagram), additionally sweep its integration seams —
+   every system boundary the diagram draws through this item's scope is a
+   candidate dependency, cited to the document, classified like any other,
+   and user-confirmed; the document proposes, the user decides.
 4. **Annotate coalition and conflict axes.** If grounded: from the register,
    name the coalition this item satisfies (batch those stakeholders' input;
    expect fast consensus) and the conflict axis it triggers. If ungrounded
@@ -68,6 +75,13 @@ related:
    decision.
 6. **Detect scope splitting** — if the in-scope list suggests multiple deliverables, recommend splitting into child items per the hierarchy.
 7. **Identify risks** (optional for solution_epic and portfolio_epic) — flag technical, operational, or timeline risks, including any hard physical constraints surfaced by the register, where grounded (e.g., Growth vs. Physical Limits).
+   When the supporting-context set holds a prior completed process of the
+   same type in the same area (taxonomy row 9 — most common for
+   operations-focused items like OS upgrades and hardware refreshes), mine
+   it for risks actually encountered and duration/effort reference, cited to
+   the record — after confirming with the user that the precedent's
+   conditions still hold; never copy its scope or risk list forward
+   unexamined.
 8. **Confirm scope package** — present in-scope, out-of-scope, dependencies, annotations, and risks to the user for approval.
    For a `spike`, the confirmed scope package bounds the investigation: it
    informs `question_to_answer` and the exit criteria in Stage 04 rather than
@@ -113,6 +127,9 @@ party. Running these checks leaves a one-line result in the run's decision log.
 - [ ] Coalition/conflict-axis annotation (step 4) ran interactively regardless
       of mode — never fast-track-extracted or skipped
 - [ ] Scope-split detection was evaluated
+- [ ] Any dependency or risk seeded from a supporting-context document (SAD
+      integration seam, prior-process record) is cited to that document and
+      was user-confirmed — never silently accepted from a document
 - [ ] If fast-track mode extracted any field, its source citation is in the
       transcript and the user confirmed it explicitly
 - [ ] User explicitly confirmed the scope package
