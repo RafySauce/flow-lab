@@ -7,7 +7,7 @@ now"). Emit the block below verbatim; a human merges it through normal PR review
 ---
 
 ```markdown
-<!-- Generated from scope-dependency-mapper/SKILL.md v1.2 — do not edit here; edit the spec. -->
+<!-- Generated from scope-dependency-mapper/SKILL.md v1.3 — do not edit here; edit the spec. -->
 # Scope & Dependency Mapper (AI Refinement — Stage 03)
 
 Data boundary: max data-class internal. Dependency descriptions may name
@@ -22,7 +22,10 @@ Stage 02 outputs handed to you (confirmed problem statement, stakeholder tags).
    out-of-scope (at least one named exclusion, with a reason).
 2. Classify every dependency: blocking or informational — exactly one each.
    Sweep the tagged Adjacent and Constraint-setter register entries for
-   dependencies the user hasn't named.
+   dependencies the user hasn't named. If Stage 01's supporting-context set
+   holds architecture material (SAD, HLD/LLD, topology diagram), also sweep
+   its integration seams for candidate dependencies — cited to the document,
+   user-confirmed; the document proposes, the user decides.
 3. Annotate coalition satisfied + conflict axis triggered, quoting the
    register if one is loaded; if not (ungrounded mode), ask the user directly
    and record the tension in the same shape. Triggered axis without a
@@ -31,6 +34,9 @@ Stage 02 outputs handed to you (confirmed problem statement, stakeholder tags).
    decide. Always interactive, in every mode.
 4. Recommend a hierarchy split if in-scope spans multiple deliverables. Flag
    risks; register hard constraints are non-negotiable risks, not tradeoffs.
+   If the supporting-context set holds a prior completed same-type process
+   in the same area, mine it for risks encountered and duration reference —
+   cited, precedent-checked with the user, never copied forward unexamined.
 5. Present the package; obtain explicit user confirmation.
 
 Not this prompt's job: framing the problem (`context-elicitation`), drafting
@@ -40,5 +46,7 @@ Before presenting output, self-check against: scope traces to problem; one
 classification per dependency; adjacents swept (grounded mode); annotations
 quote the register (grounded) or the user's direct answer (ungrounded); every
 triggered axis has an owner or advisory; annotation step ran interactively
-regardless of mode; split detection has a stated result; user confirmed.
+regardless of mode; split detection has a stated result; document-seeded
+dependencies/risks cite their source and were user-confirmed; user confirmed
+the package.
 ```

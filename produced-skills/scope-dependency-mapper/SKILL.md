@@ -11,11 +11,11 @@ description: >
 # --- provenance (house layer) ---
 id: scope-dependency-mapper
 type: skill
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-07
+updated: 2026-07-21
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -78,7 +78,12 @@ flowchart LR
    named — integration seams and guardrails are where unstated dependencies
    live. *Worked example:* a badging-platform item tagged with Corporate
    Services (5) must be checked against IAM (7) and HR/HRIS (14) — the Identity
-   Backbone coalition — for lifecycle-feed dependencies.
+   Backbone coalition — for lifecycle-feed dependencies. When Stage 01's
+   supporting-context set holds architecture material (a SAD, HLD/LLD, or
+   topology diagram), additionally sweep its integration seams: every system
+   boundary the diagram draws through this item's scope is a candidate
+   dependency, cited to the document, classified like any other, and
+   user-confirmed — the document proposes, the user decides.
 3. **Coalition and conflict-axis annotation.** If a stakeholder register is
    loaded for this domain: per its usage rules, name the coalition the item
    satisfies (batch those stakeholders' input; expect fast consensus) and the
@@ -97,7 +102,13 @@ flowchart LR
    deliverables, recommend decomposition per the work-item hierarchy. Flag
    technical, operational, and timeline risks (optional for `solution_epic`
    and `portfolio_epic`); treat register hard constraints (e.g., Growth vs.
-   Physical Limits) as non-negotiable risks, not tradeoffs.
+   Physical Limits) as non-negotiable risks, not tradeoffs. When the
+   supporting-context set holds a prior completed process of the same type
+   in the same area (most common for operations-focused items — OS upgrades,
+   hardware refreshes), mine it for risks actually encountered and
+   duration/effort reference, cited to the record — after confirming with
+   the user that the precedent's conditions still hold; never copy its scope
+   or risk list forward unexamined.
 5. **Confirm the package.** Present in-scope, out-of-scope, dependencies,
    annotations, risks, and any advisories; obtain explicit user confirmation.
 
@@ -105,13 +116,17 @@ flowchart LR
 
 Reads: Stage 02 outputs (confirmed problem statement, value, stakeholder tag
 list), the work-item schema from Stage 01, the stakeholder-register grounding
-status from Stage 01, and the platform stakeholder register (or its domain
-instance), if loaded. Grounding rules: in grounded mode, coalition and
+status from Stage 01, the Stage 01 supporting-context document set with its
+research record and work-focus classification (when present), and the
+platform stakeholder register (or its domain instance), if loaded. Grounding rules: in grounded mode, coalition and
 conflict-axis names must be quoted from the register — never invent a
 coalition; in ungrounded mode, name the tension in the user's own terms rather
 than forcing a register vocabulary that doesn't exist for this domain.
-Dependencies must name real systems/teams the user or register surfaced, not
-plausible-sounding ones; say "none identified" rather than pad the risk list.
+Dependencies must name real systems/teams the user, register, or a cited
+supporting-context document surfaced, not plausible-sounding ones; say "none
+identified" rather than pad the risk list. A dependency or risk seeded from
+a document carries its citation and is user-confirmed — never silently
+accepted from the document.
 
 ## Data boundary
 
@@ -147,16 +162,33 @@ A single output of this skill is acceptable when:
 6. Step 3 (coalition/conflict-axis annotation) ran interactively regardless of
    mode — never fast-track-extracted or skipped.
 7. The user explicitly confirmed the package.
+8. Any dependency or risk seeded from a supporting-context document (SAD
+   integration seam, prior-process record) cites that document and was
+   user-confirmed, and prior-process precedents were checked for
+   type-and-area match before being mined.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.2 |
-| Copilot | adapters/copilot-prompt.md | 1.2 |
+| Rovo | adapters/rovo-agent.md | 1.3 |
+| Copilot | adapters/copilot-prompt.md | 1.3 |
 
 ## Changelog
 
+- **1.3** (2026-07-21) — Supporting-context research consumption, tracking
+  the flowspace's `supporting_context_research` house amendment: Method
+  step 2 additionally sweeps the integration seams of architecture material
+  (SAD, HLD/LLD, topology diagram) from Stage 01's supporting-context set
+  for candidate dependencies (cited, propose-not-decide); Method step 4
+  mines prior completed same-type/same-area processes for risks encountered
+  and duration reference, precedent-checked and user-confirmed. New inputs
+  (supporting-context set, research record, work-focus classification) and
+  review criterion 8. `truth-level` moves from `verified` to `to-review`
+  pending a gate re-run. Both adapters regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-21-supporting-context-research.md`
+  and
+  `../../skill-foundry/decision-log/2026-07-21-supporting-context-skill-revision-pass.md`.
 - **1.2** (2026-07-07) — Method step 4's risks-optional conditional extended
   from `solution_epic` only to `solution_epic` and `portfolio_epic`, tracking
   the work-item-schemas registry's 1.2 addition of `portfolio_epic` to the

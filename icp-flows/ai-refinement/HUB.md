@@ -2,11 +2,11 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.12"
+artifact-version: "1.13"
 status: living
 truth-level: verified
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -91,10 +91,12 @@ own light-review pass as shown.
   triggers refinement, acknowledges responsibility, confirms data-safety
   guardrails, and selects the work-item type from the hierarchy (agent-proposed
   with rationale when source material is available, user confirms or
-  overrides). Stage 1 also assesses and proposes fast-track mode when source
-  material is detailed enough to support it, and checks whether a stakeholder
-  register is loaded for this domain — the user always controls the final
-  mode choice.
+  overrides). Stage 1 also runs the supporting-context research step
+  (prompt for held material, infer work focus, user-confirmed Confluence/Jira
+  hunt — see "Supporting-context research"), assesses and proposes fast-track
+  mode when source material is detailed enough to support it, and checks
+  whether a stakeholder register is loaded for this domain — the user always
+  controls the final mode choice.
 - **Band ② Per-Item Pipeline** (Stages 2–6): Repeats for each work item in
   the session. A run through this band takes one work item from raw context to
   a committed Jira issue. The loop-back from Stage 6 to Stage 2 fires when the
@@ -102,15 +104,16 @@ own light-review pass as shown.
 
 ## Common source inputs
 
-Operator-observed taxonomy (2026-07-03; broadened 2026-07-03) of the raw
-material that most often starts a run. Most types arrive request-shaped or
-solution-shaped — they state a task or an action, not a problem — so Stage 1
-screens them against the data-safety guardrail and Stage 2's elicitation
-recovers the underlying problem and value rather than transcribing the
-request. Two of the eight (incident/problem records, and the catch-all) are
-already problem-shaped or unknown-shaped — Stage 1's screening still applies
-to all eight, but Stage 2's "recover the problem" framing is only literally
-true of the request/solution-shaped rows.
+Operator-observed taxonomy (2026-07-03; broadened 2026-07-03; ninth row and
+supporting-context research added 2026-07-21) of the raw material that most
+often starts a run. Most types arrive request-shaped or solution-shaped —
+they state a task or an action, not a problem — so Stage 1 screens them
+against the data-safety guardrail and Stage 2's elicitation recovers the
+underlying problem and value rather than transcribing the request. Three of
+the nine (incident/problem records, prior completed work records, and the
+catch-all) are already problem-shaped, precedent-shaped, or unknown-shaped —
+Stage 1's screening still applies to all nine, but Stage 2's "recover the
+problem" framing is only literally true of the request/solution-shaped rows.
 
 | # | Input type | Typical carrier | Handling notes |
 |---|---|---|---|
@@ -120,8 +123,42 @@ true of the request/solution-shaped rows.
 | 4 | Directly stated requirement from an engineer | Chat message ("I need to go do x, y, z to help ABC") | Task-first: the stated x/y/z are candidate scope, not the problem statement. Map the named stakeholder (ABC) to the register; elicit the problem and value before accepting the task list. |
 | 5 | Structured requirements document | SOW, PRD, or BRD pasted or attached | Solution-shaped and often detailed enough to trigger Stage 1's fast-track proposal — elicit the underlying problem before accepting stated requirements as scope; verify stakeholders named in the document against the register rather than assuming coverage. Often carries a stated timeline — surface it as a `due_date` reference point only, per the due-date elicitation rule. |
 | 6 | Incident or problem record | Postmortem, problem ticket, or RCA summary | Already problem-shaped — verify it names an affected party and business impact, not only a technical symptom. High PII/confidential risk if it includes customer or user detail: screen closely. |
-| 7 | Architecture or design artifact | ADR, design doc, or diagram description | Solution-shaped at a systems level — recover the problem the design was drawn to solve before accepting its structure as scope. May name multiple stakeholders across the design's integration points — sweep broadly. |
-| 8 | Unclassified document | Anything not matching rows 1–7 | Catch-all: screen for PII/confidential content at the strictest level of the set, determine whether it reads as problem-shaped or solution-shaped, and handle accordingly — get the full Stage 2 question sequence with no shortcuts assumed from its shape. |
+| 7 | Architecture or design artifact | SAD (systems architecture diagram), HLD/LLD design doc, ADR, data model, network/topology diagram — often carried as a Confluence page, exported Miro board, or PDF | Solution-shaped at a systems level — recover the problem the design was drawn to solve before accepting its structure as scope. May name multiple stakeholders across the design's integration points — sweep broadly; a SAD's integration points seed the Stage 2 stakeholder sweep and Stage 3 dependency sweep as candidates. |
+| 8 | Unclassified document | Anything not matching rows 1–7 or 9 | Catch-all: screen for PII/confidential content at the strictest level of the set, determine whether it reads as problem-shaped or solution-shaped, and handle accordingly — get the full Stage 2 question sequence with no shortcuts assumed from its shape. |
+| 9 | Prior completed work item or process record | Closed Jira item, runbook/MOP with closure notes, past change record | Precedent-shaped — mine it for scope boundaries, risks encountered, and duration/effort reference, after verifying the precedent actually matches this item's process type and area. Especially valuable for operations-focused items (OS upgrades, hardware refreshes): a prior completed process of the same type in the same area is the strongest available grounding. Never copy its scope forward unexamined — conditions change between runs. |
+
+## Supporting-context research
+
+The taxonomy above classifies material as it arrives; since 2026-07-21 the
+pipeline also goes *looking* for grounding material (the
+`supporting_context_research` house amendment in
+`reference/ai-refinement-hybrid.md`). At Stage 1, after the work-item type is
+selected:
+
+1. **Context prompt** — the user is asked for material they already hold:
+   Confluence documents, exported Miro content, PDF files, email content,
+   meeting notes. Everything supplied is taxonomy-typed and screened like any
+   other source input.
+2. **Work-focus inference** — the agent classifies the work's focus from the
+   user's initial prompt and supplied material, stating its rationale, and
+   selects a document-target profile:
+   - **Engineering / enhancement** → architecture, data, and topology
+     documentation: SAD first, then HLD/LLD, ADRs, data models,
+     network/topology diagrams (taxonomy row 7).
+   - **Operations** (OS upgrades, hardware refreshes, maintenance) →
+     runbooks, MOPs/SOPs, upgrade/refresh guides, and especially prior
+     completed processes of the same type in the same areas (taxonomy row 9).
+   - **Mixed / unclear** → both sets proposed; the user trims.
+3. **Confirm-then-hunt loop** — the agent proposes a concrete research scope
+   (Confluence spaces, Jira projects, search terms, document types; read-only,
+   via the engine's native Confluence/Jira capabilities — the same access
+   class as the team_code and parent-candidate queries). The user confirms,
+   trims, or redirects the scope before any search runs; findings come back
+   as a candidate list the user selects from; the user may widen the hunt
+   ("search these other spaces too"), each widening explicitly confirmed.
+4. **Research record** — what was sought, found, selected, and *not found* is
+   recorded and handed to Stages 2–3. A missing SAD is a recorded gap, not a
+   blocker.
 
 ## Surfaces
 
@@ -149,7 +186,12 @@ per-run content.
    scope and get redirected — see `reference/work-item-schemas.md`.) Stage 1 also
    proposes fast-track mode when the source material supports it and checks
    stakeholder-register availability; the user always makes the final mode
-   and grounding-path call.
+   and grounding-path call. Between type selection and the fast-track
+   assessment, Stage 1 runs the supporting-context research step (see
+   "Supporting-context research" above): prompt for held material, infer the
+   work focus, propose a Confluence/Jira research scope the user confirms
+   before any search runs, hunt with user-confirmed widening, and record the
+   sought/found/not-found result for Stages 2–3.
 3. Stages 2–5 walk the user through the selected work-item schema. In
    full-interactive mode, this is one field at a time with confirmation at
    every step; in fast-track mode, fields the agent can confidently draft from
@@ -188,8 +230,8 @@ at deployment, the operator's act, recorded in each skill card.
 
 | Skill (spec + adapters) | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.3 (input-taxonomy steering broadened to eight types, communication_style citation, ungrounded-mode stakeholder sweep); promoted 2026-07-03; deployment pending |
-| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — 1.1 (ungrounded-mode coalition/conflict-axis conditional); promoted 2026-07-03; deployment pending |
+| `context-elicitation` | `sp-context-elicitation` | 2 | to-review — 1.5 (nine-type input taxonomy, supporting-context steering: architecture material seeds the stakeholder sweep, prior completed items seed "tried before"); re-gate pending; deployment pending |
+| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | to-review — 1.3 (SAD/topology integration-seam dependency sweep, prior-process risk seeding); re-gate pending; deployment pending |
 | `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.3 (conditionally-scoped cadence: fast-track consolidation vs. one-at-a-time, communication_style citation); promoted 2026-07-03; deployment pending |
 | `workitem-validation` | `sp-workitem-validation` | 5 | verified — promoted 2026-07-03; deployment pending |
 | `jira-commit` | `sp-jira-commit` | 6 | verified — 1.4 (communication_style citation on dry-run preview and transition offer; format translation, confirmed parent mapping, post-commit transition offer carried from 1.3); promoted 2026-07-03; deployment pending |
@@ -296,11 +338,33 @@ built in this change — handed off as
 `skill-foundry/backlog-skill-starters/sp-value-decomposition.md` for a
 future skill-foundry build.
 
+Sixth gap (2026-07-21): a seventh house amendment,
+`supporting_context_research`, makes intake active instead of passive — the
+user is prompted for held context (Confluence documents, exported Miro
+content, PDFs, email content), the agent infers the work focus from the
+initial prompt (engineering/enhancement → SAD-first architecture/data/
+topology set; operations → runbooks/MOPs and especially prior completed
+same-type processes in the same areas), proposes a read-only Confluence/Jira
+research scope the user confirms before any search runs, and hunts with
+every widening explicitly user-confirmed. Like `mandatory_labels`, this was
+raised directly by the operator, not discovered on-engine. The source-input
+taxonomy grows a ninth row (prior completed work item or process record),
+Stage 01 (1.8 → 1.9) gains the research step, Stages 02 (1.5 → 1.6) and 03
+(1.4 → 1.5) consume the document set, and the `context-elicitation`
+(1.4 → 1.5) and `scope-dependency-mapper` (1.2 → 1.3) skills move to
+`truth-level: to-review` with both adapters each regenerated. None of it has
+run on-engine, and the Confluence read surface is new — the instantiation
+guide and on-engine validation checklist do not yet cover it (operator
+follow-up: extend REC-02's knowledge scoping and REC-09's matrix before the
+first live run). Rationale:
+`decision-log/2026-07-21-supporting-context-research.md`; gate evidence:
+`skill-foundry/decision-log/2026-07-21-supporting-context-skill-revision-pass.md`.
+
 ## Reference material (Layer-3)
 
 | Artifact | Location | Covers |
 |---|---|---|
-| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, six house amendments (five on-engine-proven, one operator-raised) |
+| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, seven house amendments (five on-engine-proven, two operator-raised) |
 | Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints; mandatory-label cross-cutting note |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
 | Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (to-review, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |

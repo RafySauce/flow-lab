@@ -12,11 +12,11 @@ description: >
 # --- provenance (house layer) ---
 id: context-elicitation
 type: skill
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-07
+updated: 2026-07-21
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -71,18 +71,26 @@ flowchart LR
    solved; who is affected and how; what is the business/operational value;
    what has been tried before. Narrow from broad to specific — don't ask for a
    problem statement, build one. When screened source material and its
-   input-type tag accompany the description (Stage 01 hands over one of eight
-   types per the flowspace HUB's "Common source inputs" taxonomy), steer the
-   sequence by type: an email request or chat-stated requirement names a
-   requester or beneficiary — start the Step 2 stakeholder sweep there; a
-   vendor action notice, a stated task list, a structured requirements
-   document (SOW/PRD/BRD), or an architecture/design artifact is
+   input-type tag accompany the description (Stage 01 hands over one of nine
+   types per the flowspace HUB's "Common source inputs" taxonomy — including
+   the Stage 01 supporting-context research set, each document typed the same
+   way), steer the sequence by type: an email request or chat-stated
+   requirement names a requester or beneficiary — start the Step 2
+   stakeholder sweep there; a vendor action notice, a stated task list, a
+   structured requirements document (SOW/PRD/BRD), or an architecture/design
+   artifact (SAD, HLD/LLD, ADR, data model, topology diagram) is
    solution-shaped — elicit the underlying problem before accepting the
    actions, requirements, or design as scope; meeting minutes may hold several
    candidate items — split them and frame one per run; an incident/problem
    record is already problem-shaped — verify it names an affected party and a
-   business impact, not only a technical symptom, before drafting; an
-   unclassified document gets the full sequence with no shortcuts assumed. In
+   business impact, not only a technical symptom, before drafting; a prior
+   completed work record is precedent-shaped — it answers "what has been
+   tried before" and offers scope/effort reference once its match to this
+   item's process type and area is verified; an unclassified document gets
+   the full sequence with no shortcuts assumed. Where Stage 01's research
+   record notes an expected document was *not found* (e.g., no SAD for an
+   engineering-focused item), name that gap to the user when it matters —
+   the missing context must be elicited, never invented. In
    **fast-track mode** (Stage 01), draft problem_statement, business_outcomes
    or question_to_answer, and customer_business_value directly from the
    source material with a citation to where each came from, instead of asking
@@ -92,7 +100,11 @@ flowchart LR
    (Stage 01's grounding check), walk it and tag every entry whose needs or
    limits define this item (note its number and role-type), using each
    tagged entry's "what they value most" column to prompt for requirements
-   the user hasn't volunteered. *Worked example:* a DC fabric-expansion item
+   the user hasn't volunteered. When the supporting-context set holds
+   architecture material (a SAD, HLD/LLD, or topology diagram), use its
+   integration points and named systems/components as additional candidate
+   prompts — each cited to the document; document-seeded candidates propose,
+   the register walk and the user's confirmation decide. *Worked example:* a DC fabric-expansion item
    where the user names only Systems/Server — the sweep surfaces Facilities
    (13, Adjacent: power/cooling ceilings) and Cyber (6, Constraint-setter:
    segmentation telemetry) before those arrive as surprises. If Stage 01
@@ -131,8 +143,9 @@ register (`reference/platform-stakeholder-register.md` or a domain instance of
 `platform-stakeholder-register-template.md` in the flowspace, if loaded), the
 selected mode (fast-track / full-interactive, from Stage 01), the user's
 conversational input, and — when present — the Stage 01-screened source
-material with its input-type tag (any of the eight HUB "Common source inputs"
-types). Grounding rules: stakeholder tags must resolve to numbered register
+material with its input-type tag (any of the nine HUB "Common source inputs"
+types), the Stage 01 supporting-context document set with its research
+record (sought/found/not found), and the work-focus classification. Grounding rules: stakeholder tags must resolve to numbered register
 entries when grounded, or to the user's direct answer when ungrounded — never
 invent a stakeholder; if a relevant party is missing from a loaded register,
 say so and flag it rather than fabricating an entry. Do not fabricate prior
@@ -180,16 +193,36 @@ A single output of this skill is acceptable when:
 9. All user-facing text (questions, pushback, drafts) reads as precise,
    analytical, structured, and direct — no narrative padding, hedging, or
    informal phrasing.
+10. Any stakeholder candidate seeded from a supporting-context document (SAD
+    integration point, prior-record party) cites its source document and was
+    confirmed through the sweep — never silently accepted from the document;
+    research-record gaps that matter (e.g., no SAD found) were named to the
+    user, not papered over.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.4 |
-| Copilot | adapters/copilot-prompt.md | 1.4 |
+| Rovo | adapters/rovo-agent.md | 1.5 |
+| Copilot | adapters/copilot-prompt.md | 1.5 |
 
 ## Changelog
 
+- **1.5** (2026-07-21) — Supporting-context research consumption, tracking
+  the flowspace's `supporting_context_research` house amendment: input-type
+  steering broadened from eight to nine types (adds the precedent-shaped
+  prior-completed-work record; architecture/design artifacts now name SAD,
+  HLD/LLD, ADR, data model, topology diagram explicitly); Method step 2's
+  sweep gains document-seeded candidate prompts (SAD integration points,
+  cited, propose-not-decide); the skill now reads Stage 01's
+  supporting-context document set, research record, and work-focus
+  classification, and names not-found gaps to the user instead of inventing
+  the missing context. New review criterion 10. `truth-level` moves from
+  `verified` to `to-review` pending a gate re-run. Both adapters
+  regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-21-supporting-context-research.md`
+  and
+  `../../skill-foundry/decision-log/2026-07-21-supporting-context-skill-revision-pass.md`.
 - **1.4** (2026-07-07) — Method step 4's `business_outcomes` conditional
   extended from `solution_epic` only to `solution_epic` or `portfolio_epic`,
   tracking the work-item-schemas registry's 1.2 addition of `portfolio_epic`

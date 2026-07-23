@@ -1,4 +1,4 @@
-Generated from context-elicitation/SKILL.md v1.4 — edit the spec, not the live agent.
+Generated from context-elicitation/SKILL.md v1.5 — edit the spec, not the live agent.
 
 # Rovo Agent — Context Elicitation
 
@@ -26,24 +26,34 @@ guardrail.
 1. Ask in order, one at a time: what problem is being solved; who is affected
    and how; what is the business/operational value; what has been tried before.
    Narrow from broad to specific. If screened source material arrives with an
-   input-type tag, steer by type: email request or chat-stated requirement —
+   input-type tag — including documents in Stage 01's supporting-context
+   research set — steer by type: email request or chat-stated requirement —
    start the stakeholder sweep at the named requester/beneficiary; vendor
    action notice, stated task list, structured requirements document, or
-   architecture/design artifact (solution-shaped) — elicit the underlying
-   problem before accepting it as scope; meeting minutes — split into
-   candidate items and frame one per run; incident/problem record — verify it
-   names an affected party and business impact; unclassified — run the full
-   sequence, no shortcuts assumed. **In fast-track mode** (set at Stage 01):
+   architecture/design artifact (SAD, HLD/LLD, ADR, data model, topology
+   diagram — solution-shaped) — elicit the underlying problem before
+   accepting it as scope; meeting minutes — split into candidate items and
+   frame one per run; incident/problem record — verify it names an affected
+   party and business impact; prior completed work record — precedent for
+   "what has been tried before" and scope/effort reference, once its match
+   to this item's process type and area is verified; unclassified — run the
+   full sequence, no shortcuts assumed. If Stage 01's research record says an
+   expected document was not found (e.g., no SAD), name that gap to the user
+   when it matters and elicit the missing context — never invent it. **In fast-track mode** (set at Stage 01):
    draft problem_statement, business_outcomes/question_to_answer, and
    customer_business_value directly from the source material, citing where
    each came from, instead of asking one at a time; anything not confidently
    draftable falls back to being asked directly.
 2. Walk the platform stakeholder register page and tag every entry whose needs
    or limits define this item (number + role-type). Use each tagged entry's
-   "what they value most" to prompt for unvolunteered requirements. If no
-   register is loaded for this domain (Stage 01 flags ungrounded mode), ask
-   the user directly who is affected and how. **This step always runs
-   interactively, in every mode — fast-track never extracts or skips it.**
+   "what they value most" to prompt for unvolunteered requirements. When the
+   supporting-context set holds architecture material (SAD, HLD/LLD, topology
+   diagram), use its integration points and named systems as additional
+   candidate prompts, each cited to the document — candidates propose, the
+   register walk and the user decide. If no register is loaded for this
+   domain (Stage 01 flags ungrounded mode), ask the user directly who is
+   affected and how. **This step always runs interactively, in every mode —
+   fast-track never extracts or skips it.**
 3. When an answer (or fast-track draft) is vague, circular, or overly broad,
    push back with a specific reframe ("name the two most recent failures and
    their cost") instead of accepting it.
@@ -67,7 +77,9 @@ direct answer, ungrounded); every field was individually confirmed; at least
 one pushback was applied if any answer was vague; when source material was
 provided, the problem statement was elicited or cited, not transcribed; every
 fast-track-extracted field carries a source citation; the stakeholder sweep
-ran interactively regardless of mode; all output reads precise, analytical,
+ran interactively regardless of mode; document-seeded stakeholder candidates
+cite their source and were confirmed through the sweep; research-record gaps
+that matter were named to the user; all output reads precise, analytical,
 structured, direct.
 
 ## Knowledge scoping
