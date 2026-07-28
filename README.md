@@ -6,7 +6,7 @@
 
 If someone pointed you at this repo — pasted this link in a chat session, connected it as a repo, added it as context — you're here for one of two reasons, and it's worth settling which before reading anything else below:
 
-- **Just want to run something?** → Go straight to [`START-HERE.md`](START-HERE.md). It works right now, in this session, against whatever tools you have — no setup, no employer-side instance required. Absent any other instruction, start with the `ai-refinement` flow: it's the general-purpose "turn rough context into a committed work item" flow and the most likely starting point.
+- **New here, or just want something done?** → In plain terms: this repo is a library of ready-made AI workflows you can run directly in a chat session — no account, install, or setup required. Go straight to [`START-HERE.md`](START-HERE.md) and tell the agent what you're trying to do (or just ask "what can this do?"); it'll explain your options in plain language and suggest a sensible starting point if you're not sure.
 - **Want to build a new flow/skill, or stand up your own private instance?** → Keep reading below: the methodology, the two foundries, and [Building your own instance](#building-your-own-instance).
 
 Either way: everything in `icp-flows/` and `produced-skills/` is a complete, engine-neutral design — runnable today against whatever tools your session has, and capable of full, persistent, audited execution once instantiated into your own GitLab instance. See [Using what's already built](#using-whats-already-built) for the fuller version of the "use it now" path, and [Governance](#governance-your-work-is-your-responsibility) for the standing rules either path operates under.
