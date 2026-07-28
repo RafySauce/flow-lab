@@ -15,11 +15,11 @@ description: >
 # --- provenance (house layer) ---
 id: confluence-contribution-gatherer
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-14
-updated: 2026-07-15
+updated: 2026-07-27
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -74,7 +74,13 @@ flowchart LR
    substantially co-authored within the date range — design docs, RFCs,
    postmortems, process docs, runbooks. "Substantially co-authored" means
    the engineer wrote a meaningful share of the content, not a single
-   edit on someone else's page.
+   edit on someone else's page. **No live Confluence query path available**
+   (running in a chat session with no native connector or sanctioned
+   integration, per `START-HERE.md`'s capability probe — distinct from step
+   2's "connected but shallow history" case): say so plainly and ask the user
+   to paste the relevant pages or a list of what they wrote directly; proceed
+   through steps 4–6 against that material, skipping the collaboration-signal
+   step (3) since it has no live source to check depth against.
 2. **Check activity-history depth before gathering collaboration signal.**
    Before querying comments/mentions, confirm the target Confluence instance
    actually exposes that history at usable granularity (some instances
@@ -155,6 +161,9 @@ A single output of this skill is acceptable when:
    narrative only."
 6. No content fabricates adoption, reach, or impact beyond what the source
    pages or collaboration records support.
+7. If no live Confluence query path was available, the output states that
+   plainly and is built from user-supplied pages instead — never a silent,
+   unexplained gap in coverage.
 
 ## Adapters
 
@@ -165,4 +174,12 @@ A single output of this skill is acceptable when:
 
 ## Changelog
 
+- **1.1** (2026-07-27) — Method step 1 gains an explicit degrade path for
+  running in a chat session referencing this repo directly, per
+  `START-HERE.md`: with no live Confluence query path available at all
+  (distinct from step 2's shallow-history case), ask the user to paste
+  relevant pages directly and proceed against that material, skipping the
+  collaboration-signal step for lack of a live source. New review criterion
+  7. `truth-level` moves from `verified` to `to-review` pending a gate
+  re-run.
 - **1.0** (2026-07-14) — Initial build from `sp-confluence-contribution-gatherer`.

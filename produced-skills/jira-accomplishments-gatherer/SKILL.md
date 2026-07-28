@@ -17,11 +17,11 @@ description: >
 # --- provenance (house layer) ---
 id: jira-accomplishments-gatherer
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-14
-updated: 2026-07-15
+updated: 2026-07-27
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -79,7 +79,13 @@ flowchart LR
    summary, resolution, linked epics/initiatives, and any description text
    that names impact. Do not pre-filter by Stage 1's self-identified top
    items — the query is comprehensive first; the trace-check in step 5 is a
-   separate, later pass against that list.
+   separate, later pass against that list. **No live Jira query path
+   available** (running in a chat session with no native connector or
+   sanctioned integration, per `START-HERE.md`'s capability probe): say so
+   plainly and ask the user to paste the relevant closed tickets, summaries,
+   or an export directly; proceed through steps 2–5 against whatever material
+   the user supplies, same as a live query's results. This is a valid,
+   reduced-input path, not a blocker.
 2. **Cluster by theme.** Group results by feature area, initiative, or
    problem domain — never by issue type (bug/story/task) or by sprint. A
    theme is a working area a manager would recognize by name ("checkout
@@ -162,6 +168,9 @@ A single output of this skill is acceptable when:
    narrative only" — no top item is silently dropped.
 5. No content in the digest fabricates an outcome beyond what the queried
    ticket data supports.
+6. If no live Jira query path was available, the output states that plainly
+   and the digest is built from user-supplied material instead — never a
+   silent, unexplained gap in coverage.
 
 ## Adapters
 
@@ -172,4 +181,10 @@ A single output of this skill is acceptable when:
 
 ## Changelog
 
+- **1.1** (2026-07-27) — Method step 1 gains an explicit degrade path for
+  running in a chat session referencing this repo directly, per
+  `START-HERE.md`: with no live Jira query path available, ask the user to
+  paste closed tickets/an export directly and proceed against that material
+  instead of stalling. New review criterion 6. `truth-level` moves from
+  `verified` to `to-review` pending a gate re-run.
 - **1.0** (2026-07-14) — Initial build from `sp-jira-accomplishments-gatherer`.

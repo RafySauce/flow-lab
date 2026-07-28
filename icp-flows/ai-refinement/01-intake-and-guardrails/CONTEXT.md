@@ -4,11 +4,11 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.9"
+artifact-version: "1.10"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-21
+updated: 2026-07-27
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -116,7 +116,13 @@ refinable set. All of it is specific to this flowspace)`
      search terms, and document types to be searched (read-only, via the
      engine's native Confluence/Jira capabilities — the same access class as
      the team_code query below and Stage 06's parent-candidate query). The
-     user confirms, trims, or redirects the scope before any search runs.
+     user confirms, trims, or redirects the scope before any search runs. **No
+     live Confluence/Jira query path available** (running in a chat session
+     with no native connector or sanctioned integration, per
+     `START-HERE.md`'s capability probe): skip the hunt-and-present step below
+     and rely on the context prompt above instead — ask the user to paste any
+     additional material they hold rather than proposing a search that can't
+     run; record the missing search as a gap, same as a document not found.
    - **Hunt and present** — run the confirmed searches; present findings as a
      candidate list (title, location, why it looks relevant); the user
      selects what enters the session. Every selected document passes the
@@ -140,9 +146,12 @@ refinable set. All of it is specific to this flowspace)`
      labels matching (or closely resembling — different separator, casing)
      the `<code>-<yyyy>-q<n>` shape. One distinct code found: propose it,
      citing the matching labels as rationale. Multiple distinct codes found:
-     present all as candidates. None found: ask the user directly. In every
-     case the user confirms the proposed code or supplies a different one
-     explicitly — never silently accepted from the query.
+     present all as candidates. None found: ask the user directly. **No live
+     Jira query path available at all** (distinct from "none found" — that
+     presumes a query ran): skip the query and ask the user directly for the
+     team_code, same as the none-found case. In every case the user confirms
+     the proposed code or supplies a different one explicitly — never
+     silently accepted from the query.
    - **planning quarter** — ask directly: "What quarter do you plan to do
      this work?" Normalize free-text answers ("Q4 2026", "next quarter") to
      the canonical `<yyyy>-q<n>` form. Applies to every gated item in the

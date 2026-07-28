@@ -16,11 +16,11 @@ description: >
 # --- provenance (house layer) ---
 id: jira-commit
 type: skill
-artifact-version: "1.7"
+artifact-version: "1.8"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-27
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -144,7 +144,15 @@ flowchart LR
    fall back to the workspace's sanctioned Jira integration (e.g., Atlassian
    MCP/connector). Return the issue key and URL. On error (field not found,
    parent not found, permission denied): report precisely, roll nothing
-   forward, and never leave a partial commit unreported.
+   forward, and never leave a partial commit unreported. **No Jira write path
+   available at all** (neither a native engine action nor a sanctioned
+   connector is present in this session): stop short of committing and
+   present the dry-run preview from step 3 as the run's terminal output,
+   stating plainly that this is a preview only — no ticket was created — and
+   naming the reason (no Jira connection detected in this session). This is a
+   valid, complete output of this skill, not a failure state; it lets the
+   user copy the finished payload into Jira by hand or resume later once a
+   connection exists.
 5. **Post-commit transition offer.** After confirming the commit succeeded,
    ask the user directly and plainly: "Would you like to move this item to In
    Progress?" (or the board's equivalent active status) — one clear question,
@@ -217,7 +225,10 @@ A single output of this skill is acceptable when:
    explicit response (accept or decline) before the session loop question.
 7. The committed issue (fetched back by key) matches the signed-off payload
    field-for-field (formatting translation and any accepted status transition
-   are the only allowed differences from the pre-commit payload).
+   are the only allowed differences from the pre-commit payload) — or, if no
+   Jira write path was available, the run terminated at the labeled
+   preview-only output instead of a fetched-back issue, with the reason
+   stated plainly.
 8. Any API error was reported verbatim with no partial state left silent.
 9. The dry-run preview and the transition-offer question read as precise,
    analytical, structured, and direct — no hedged phrasing on either.
@@ -231,6 +242,16 @@ A single output of this skill is acceptable when:
 
 ## Changelog
 
+- **1.8** (2026-07-27) — Method step 4 gains an explicit third branch for
+  running in a chat session referencing this repo directly, per
+  `START-HERE.md`: if no Jira write path (native engine action or sanctioned
+  connector) is available at all, the run terminates at the step 3 dry-run
+  preview as its labeled, valid terminal output — no ticket created, reason
+  stated plainly — instead of stalling or assuming a write will succeed.
+  Review criterion 7 updated to accept this as a valid outcome alongside a
+  fetched-back committed issue. `truth-level` moves from `verified` to
+  `to-review` pending a gate re-run — a content change to a previously-gated
+  skill, logged rather than assumed clean.
 - **1.7** (2026-07-15) — Method step 2's labeling now applies the flowspace's
   `mandatory_labels` house amendment: `refine-ai-built` on every item, and
   the session's `<team_code>-<yyyy>-q<n>` planning label (from Stage 01) on
