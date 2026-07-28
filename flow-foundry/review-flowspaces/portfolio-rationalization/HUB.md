@@ -150,20 +150,24 @@ on it.
 
 ## Known gaps
 
-**All five Layer-3 dependencies are unbuilt.** Every stage but Stage 06 is
-`TBD — brief filed`; each brief is drafted and filed in
-`skill-foundry/backlog-skill-starters/` per `foundry-spec.md` §4 rule 3. No
-skill has been authored, no adapter generated, and nothing has run on-engine.
-Until the five are built and promoted, running this flow means an agent
-executing the stage contracts directly rather than invoking skills.
+**All five Layer-3 dependencies are built but unpromoted.** Every stage but
+Stage 06 still reads `TBD — brief filed` in its contract, and that stays true
+until the operator promotes: the five skills were authored on 2026-07-28
+(`skill-foundry/decision-log/2026-07-28-portfolio-rationalization-skill-batch.md`)
+and are staged in `skill-foundry/review-skills/` at `truth-level: to-review`,
+each with a `SKILL.md` plus Rovo and Copilot adapters. **Nothing has run
+on-engine** — the five-point gate's live test is open
+(`…-skill-gate-prerun.md`). Until the five clear that gate and are promoted to
+`produced-skills/`, running this flow still means an agent executing the stage
+contracts directly rather than invoking skills.
 
-| Skill (unbuilt) | Primer brief | Target stage | Status |
+| Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `jira-portfolio-ingest` | `sp-jira-portfolio-ingest` | 1 | brief filed — not built |
-| `portfolio-profiler` | `sp-portfolio-profiler` | 2 | brief filed — not built |
-| `objective-keyword-mapper` | `sp-objective-keyword-mapper` | 3 | brief filed — not built |
-| `closure-scorer` | `sp-closure-scorer` | 4 | brief filed — not built |
-| `disposition-packet-builder` | `sp-disposition-packet-builder` | 5 | brief filed — not built |
+| `jira-portfolio-ingest` | `sp-jira-portfolio-ingest` | 1 | built — staged in `review-skills/`, not promoted |
+| `portfolio-profiler` | `sp-portfolio-profiler` | 2 | built — staged in `review-skills/`, not promoted |
+| `objective-keyword-mapper` | `sp-objective-keyword-mapper` | 3 | built — staged in `review-skills/`, not promoted |
+| `closure-scorer` | `sp-closure-scorer` | 4 | built — staged in `review-skills/`, not promoted |
+| `disposition-packet-builder` | `sp-disposition-packet-builder` | 5 | built — staged in `review-skills/`, not promoted |
 
 **Score calibration is unratified (operator gate).** The close-score model's
 ramps in `reference/close-score-model.md` were inferred from five data points
