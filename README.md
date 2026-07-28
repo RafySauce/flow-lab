@@ -2,6 +2,17 @@
 
 **A portable, engine-agnostic implementation of Interpretable Context Methodology (ICM) for workplace AI tooling — GitHub Copilot, Copilot agents, and Atlassian Rovo.**
 
+## Start here: using vs. building
+
+If someone pointed you at this repo — pasted this link in a chat session, connected it as a repo, added it as context — you're here for one of two reasons, and it's worth settling which before reading anything else below:
+
+- **Just want to run something?** → Go straight to [`START-HERE.md`](START-HERE.md). It works right now, in this session, against whatever tools you have — no setup, no employer-side instance required. Absent any other instruction, start with the `ai-refinement` flow: it's the general-purpose "turn rough context into a committed work item" flow and the most likely starting point.
+- **Want to build a new flow/skill, or stand up your own private instance?** → Keep reading below: the methodology, the two foundries, and [Building your own instance](#building-your-own-instance).
+
+Either way: everything in `icp-flows/` and `produced-skills/` is a complete, engine-neutral design — runnable today against whatever tools your session has, and capable of full, persistent, audited execution once instantiated into your own GitLab instance. See [Using what's already built](#using-whats-already-built) for the fuller version of the "use it now" path, and [Governance](#governance-your-work-is-your-responsibility) for the standing rules either path operates under.
+
+---
+
 This repository contains two *foundries* — repeatable production lines for AI-assisted work:
 
 - **`flow-foundry/`** — builds *flowspaces*: multi-stage, human-reviewed AI workflows expressed as folder structure and markdown contracts.
@@ -9,12 +20,11 @@ This repository contains two *foundries* — repeatable production lines for AI-
 
 The repository holds the **method, templates, and sanitized exemplars only**. Instantiated flowspaces containing real work content live inside your employer's tenancy (an internal GitLab repository — the *source-repo*, the sole source of truth for an instance) — never here. See [Governance](#governance-your-work-is-your-responsibility).
 
-**New here?** If someone pointed you at this repo, you're here for one of two reasons: to *use* something a foundry already built, or to *build* your own instance of this methodology. [Using what's already built](#using-whats-already-built) covers the first — including the fast path, [`START-HERE.md`](START-HERE.md), for running a flow or skill directly in a chat session with no setup. [Building your own instance](#building-your-own-instance) covers the second, deeper path: a private, employer-side source-repo for full, persistent, audited execution. Either way: everything in `icp-flows/` and `produced-skills/` is a complete, engine-neutral design — runnable today against whatever tools your session has, and capable of full execution once instantiated into your own GitLab instance.
-
 ---
 
 ## Table of contents
 
+0. [Start here: using vs. building](#start-here-using-vs-building)
 1. [The methodology: ICM in brief](#the-methodology-icm-in-brief)
 2. [How I apply it (house practice)](#how-i-apply-it-house-practice)
 3. [The two foundries](#the-two-foundries)
