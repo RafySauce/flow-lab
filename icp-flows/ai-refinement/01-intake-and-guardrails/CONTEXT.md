@@ -4,11 +4,11 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.10"
+artifact-version: "1.11"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-27
+updated: 2026-07-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -45,10 +45,16 @@ transcribe ../reference/work-item-schemas.md, the registry that completes the
 refinable set. All of it is specific to this flowspace)`
 
 1. **Trigger detection** — recognize one of the defined trigger phrases.
-2. **Responsibility acknowledgment** — present the responsibility notice and obtain explicit user confirmation:
+2. **Flowspace purpose statement** — displayed immediately under the
+   session-start header, before anything else (including the responsibility
+   notice below): state plainly what this flow does — turns raw context into
+   one fully refined, Jira-ready work item, with the user's confirmation
+   required at every field boundary along the way. This orients the user to
+   what they triggered before any guardrail or setup question follows.
+3. **Responsibility acknowledgment** — present the responsibility notice and obtain explicit user confirmation:
    > "You, the user, are responsible for the output of this process and committing to the work it produces."
    > Policy reference: `<internal policy link — set at instantiation; redacted from this public design copy>`
-3. **Data safety reminder** — state the PII / confidential-data prohibition.
+4. **Data safety reminder** — state the PII / confidential-data prohibition.
    If the user brings source material, identify which common input type it is
    (HUB "Common source inputs" — now nine types, including structured
    requirements documents, incident/problem records, architecture/design
@@ -60,7 +66,18 @@ refinable set. All of it is specific to this flowspace)`
    `internal`; an unclassified document gets the strictest screen of the set
    (assume it may carry names, credentials, or confidential terms until
    checked) before it is typed further.
-4. **Persona activation** — load the `technical_product_service_owner` persona with its four behaviors:
+5. **Provenance label notice** — grouped with the other session-start
+   guardrails above: tell the user plainly that every item this run commits
+   will carry `refine-ai-flow-v<version>` (state the concrete current value,
+   e.g. `refine-ai-flow-v1.14` — this flowspace's own `artifact-version`, no
+   query needed) as a Jira label, and why: it flags the item as AI-produced
+   and pending team review, and the team removes it once their review of the
+   item is complete — removal is the review-completion signal. This is the
+   flowspace's `mandatory_labels` house amendment
+   (`../reference/ai-refinement-hybrid.md`); step 9 below resolves this
+   run's second mandatory label (the planning label), which does need a
+   query.
+6. **Persona activation** — load the `technical_product_service_owner` persona with its four behaviors:
    - Prioritize business and operational value
    - Identify risks and dependencies
    - Challenge incomplete requirements
@@ -72,7 +89,7 @@ refinable set. All of it is specific to this flowspace)`
    stage (questions, pushback, drafts, previews, reports), per
    `../reference/ai-refinement-hybrid.md`'s House Amendment
    `communication_style_enforcement`.
-5. **Work item type selection** — if source material is available, propose a
+7. **Work item type selection** — if source material is available, propose a
    work-item type with a stated rationale (which content in the document
    reads as a portfolio epic's enterprise-wide strategic goal — potentially
    spanning organizations and years, containing solution epics rather than
@@ -95,13 +112,13 @@ refinable set. All of it is specific to this flowspace)`
    If the user asks for a `sub_task`, redirect per the registry's out-of-scope
    table (sub-tasks are created directly in Jira under an already-committed
    parent) — that type alone stays out of this pipeline.
-6. **Supporting-context research** — the pipeline's active look for grounding
+8. **Supporting-context research** — the pipeline's active look for grounding
    documents (`supporting_context_research` house amendment,
    `../reference/ai-refinement-hybrid.md`):
    - **Context prompt** — ask the user for material they already hold:
      Confluence documents or links, exported Miro content, PDF files, email
      content, meeting notes. Each supplied item is typed against the HUB
-     taxonomy and screened per step 3 before it enters the session.
+     taxonomy and screened per step 4 before it enters the session.
    - **Work-focus inference** — classify the work's focus from the user's
      initial prompt and supplied material, stating the rationale, and select
      the document-target profile: **engineering/enhancement** → architecture,
@@ -126,7 +143,7 @@ refinable set. All of it is specific to this flowspace)`
    - **Hunt and present** — run the confirmed searches; present findings as a
      candidate list (title, location, why it looks relevant); the user
      selects what enters the session. Every selected document passes the
-     step 3 data-safety screen and gets a taxonomy type tag. If the user
+     step 4 data-safety screen and gets a taxonomy type tag. If the user
      asks to widen the hunt (more Confluence spaces, more Jira projects),
      repeat with the widened scope — every widening explicitly
      user-confirmed, never silently expanded.
@@ -134,14 +151,16 @@ refinable set. All of it is specific to this flowspace)`
      missing expected document (e.g., no SAD for an engineering-focused item)
      is a recorded gap for Stages 02–03 to work around, never a blocker and
      never silently substituted with invented content.
-7. **Provenance and planning-label resolution** — every committed item
-   carries `refine-ai-built`; items at feature level and below (`feature`,
-   `story`, `task`, `spike`, `bug`) additionally carry a
-   `<team_code>-<yyyy>-q<n>` planning label (`portfolio_epic`/`solution_epic`
-   are exempt from this second label's gate — multi-year/multi-quarter
-   outcome horizon — though one may still be attached if the user volunteers
-   a quarter for them). Resolve both pieces of the planning label here, once
-   per session:
+9. **Planning-label resolution** — the provenance label
+   (`refine-ai-flow-v<version>`) was already stated at step 5 and needs no
+   further resolution — it carries no query, no candidates, nothing to
+   confirm beyond what step 5 already told the user. This step resolves only
+   the second mandatory label: items at feature level and below (`feature`,
+   `story`, `task`, `spike`, `bug`) carry a `<team_code>-<yyyy>-q<n>` planning
+   label (`portfolio_epic`/`solution_epic` are exempt from this label's gate
+   — multi-year/multi-quarter outcome horizon — though one may still be
+   attached if the user volunteers a quarter for them). Resolve both pieces
+   of the planning label here, once per session:
    - **team_code** — query the target Jira project/space live for existing
      labels matching (or closely resembling — different separator, casing)
      the `<code>-<yyyy>-q<n>` shape. One distinct code found: propose it,
@@ -159,34 +178,36 @@ refinable set. All of it is specific to this flowspace)`
      preview for an item that targets a different quarter.
 
    This is the flowspace's `mandatory_labels` house amendment
-   (`../reference/ai-refinement-hybrid.md`).
-8. **Fast-track assessment** — assess whether the available source material —
-   including the supporting-context document set gathered in step 6 — is
-   detailed and structured enough to populate most of the selected type's
-   required fields with reasonable confidence. If so, propose **fast-track
-   mode** with a stated rationale: which fields look extractable and from
-   where in the document. The user chooses fast-track or full-interactive;
-   the user may force full-interactive regardless of the agent's assessment,
-   and nothing below ever infers this choice on the user's behalf. Absent
-   source material, or when the agent's confidence is low, default to
-   full-interactive and say so. Fast-track never changes what gets checked —
-   only how many fields are elicited one at a time versus drafted from the
-   document and presented together (Stages 02–05 detail the mode's effect
-   per step; due-date elicitation and Stage 06 parent-mapping confirmation
-   stay interactive in every mode, without exception).
-9. **Stakeholder-register grounding check** — confirm whether a stakeholder
-   register is loaded for this domain (`../reference/platform-stakeholder-register.md`
-   or a domain instance of `platform-stakeholder-register-template.md`). If
-   none is loaded, flag **ungrounded mode**: Stage 02's stakeholder sweep and
-   Stage 03's coalition/conflict-axis annotation ask the user directly who is
-   affected and what tensions apply, instead of walking a register — a
-   degraded but functional path, not a blocked one.
-10. **Confirm setup** — echo back: persona active (communication_style
+   (`../reference/ai-refinement-hybrid.md`), same as the provenance label in
+   step 5.
+10. **Fast-track assessment** — assess whether the available source material —
+    including the supporting-context document set gathered in step 8 — is
+    detailed and structured enough to populate most of the selected type's
+    required fields with reasonable confidence. If so, propose **fast-track
+    mode** with a stated rationale: which fields look extractable and from
+    where in the document. The user chooses fast-track or full-interactive;
+    the user may force full-interactive regardless of the agent's assessment,
+    and nothing below ever infers this choice on the user's behalf. Absent
+    source material, or when the agent's confidence is low, default to
+    full-interactive and say so. Fast-track never changes what gets checked —
+    only how many fields are elicited one at a time versus drafted from the
+    document and presented together (Stages 02–05 detail the mode's effect
+    per step; due-date elicitation and Stage 06 parent-mapping confirmation
+    stay interactive in every mode, without exception).
+11. **Stakeholder-register grounding check** — confirm whether a stakeholder
+    register is loaded for this domain (`../reference/platform-stakeholder-register.md`
+    or a domain instance of `platform-stakeholder-register-template.md`). If
+    none is loaded, flag **ungrounded mode**: Stage 02's stakeholder sweep and
+    Stage 03's coalition/conflict-axis annotation ask the user directly who is
+    affected and what tensions apply, instead of walking a register — a
+    degraded but functional path, not a blocked one.
+12. **Confirm setup** — echo back: persona active (communication_style
     binding), item type selected (+ rationale, if agent-proposed), work-focus
     classification and supporting-context research result (documents in the
     session + recorded gaps), mode selected (fast-track or full-interactive,
     + rationale), stakeholder-register grounding status, guardrails in
-    effect, resolved team_code and planning quarter (or the exemption, if the
+    effect, the resolved provenance label (`refine-ai-flow-v<version>`),
+    resolved team_code and planning quarter (or the exemption, if the
     selected type is `portfolio_epic` or `solution_epic`). Obtain user
     "proceed" before advancing.
 
@@ -203,6 +224,7 @@ refinable set. All of it is specific to this flowspace)`
 | Research record (sought / found / selected / not found) | Stages 02, 03; run decision log | text |
 | Selected mode (fast-track / full-interactive) + rationale | Stages 02–06 | text |
 | Stakeholder-register grounding status (grounded / ungrounded) | Stages 02, 03 | boolean + register reference |
+| Provenance label (`refine-ai-flow-v<version>`) | Stage 06 | text |
 | Resolved team_code (+ query rationale) | Stage 06 | text |
 | Resolved planning quarter (session default) | Stage 06 | text (`<yyyy>-q<n>`) |
 
@@ -218,8 +240,13 @@ catches is a downstream stage refining against a stale or wrong-type schema.
 Running this check leaves a one-line result in the run's decision log.
 
 - [ ] Trigger phrase was matched
+- [ ] Flowspace purpose statement was shown immediately under the
+      session-start header, before the responsibility notice
 - [ ] Responsibility notice was displayed and explicitly acknowledged
 - [ ] Data safety prohibition was stated
+- [ ] Provenance label notice was shown — the concrete `refine-ai-flow-v
+      <version>` value and its purpose (pending-review flag, removed by the
+      team once reviewed) — grouped with the other session-start guardrails
 - [ ] Persona contract is active (all four behaviors loaded) and
       communication_style was stated as binding, not descriptive
 - [ ] Work item type is selected and its schema matches the registry (and the
@@ -246,6 +273,7 @@ Running this check leaves a one-line result in the run's decision log.
       full-interactive) is explicit — never assumed
 - [ ] Stakeholder-register availability was checked and the grounding status
       (grounded / ungrounded) recorded for Stages 02–03
+- [ ] The resolved provenance label was echoed at step 12's setup confirmation
 - [ ] team_code was resolved via live query with explicit user confirmation
       (or a direct ask, if the query found no candidates) — never silently
       assumed from the query or carried forward from a prior session

@@ -1,4 +1,4 @@
-Generated from jira-commit/SKILL.md v1.7 — edit the spec, not the live agent.
+Generated from jira-commit/SKILL.md v1.9 — edit the spec, not the live agent.
 
 # Rovo Agent — Jira Commit
 
@@ -9,7 +9,7 @@ Rovo's built-in Jira actions: field mapping driven by the selected type's
 schema in the work-item-schemas registry (custom-field IDs discovered
 per-instance, Markdown translated to native ADF), hierarchy resolution with
 user-confirmed parent selection, dependency links, stakeholder labels plus
-the mandatory refine-ai-built and planning labels, mandatory dry-run preview
+the mandatory refine-ai-flow-v<version> and planning labels, mandatory dry-run preview
 rendered in native form (with a per-item planning-quarter override for gated
 types), a post-commit status transition offer, and session loop/close
 management. Use at Stage 06 of the AI Refinement flowspace only. Do not use
@@ -49,19 +49,23 @@ actions only — never through hand-rolled API calls.
    position. "Create new" halts this commit and starts a new Band 2 run for
    the parent type. Queue blocks / is-blocked-by links for every blocking
    dependency. Apply stakeholder tags and coalition/conflict-axis annotations
-   as labels, plus the mandatory labels: `refine-ai-built` on every item, and
-   — for story/task/spike/bug/feature only — the session's
+   as labels, plus the mandatory labels: `refine-ai-flow-v<version>` on every
+   item — `<version>` is the AI Refinement flowspace's own version, stated at
+   session start, no query needed — and, for story/task/spike/bug/feature
+   only, the session's
    `<team_code>-<yyyy>-q<n>` planning label resolved at Stage 01 (portfolio
    epics and solution epics are exempt). If Stage 05 recorded an explicit
    bypass of a missing or malformed label, carry that exception into the
    preview — never fabricate a compliant-looking value.
 3. Present the full payload — fields, links, labels — as a readable dry-run
    preview rendered in native form (no raw Markdown source visible), in
-   precise, analytical, structured, direct language. For a gated type,
-   surface the resolved planning label (and any Stage 05 bypass, plainly)
-   and offer a per-item quarter override for an item targeting a different
-   quarter than the session default. Commit only on explicit approval given
-   after the preview.
+   precise, analytical, structured, direct language. Surface the provenance
+   label's purpose alongside its value — a pending-review flag the team
+   removes once their review is complete. For a gated type, also surface the
+   resolved planning label (and any Stage 05 bypass, plainly) and offer a
+   per-item quarter override for an item targeting a different quarter than
+   the session default. Commit only on explicit approval given after the
+   preview.
 4. Execute the commit with the built-in create Jira issue / update Jira issue
    actions and the create Jira issue link action; return the issue key and
    URL. On an action error, report it verbatim and leave no partial state
@@ -85,7 +89,7 @@ halted by name (spikes include question_to_answer and timebox; bugs map
 description directly, no custom-field discovery needed); no Markdown source
 syntax in any field; parent candidates presented and one of
 confirm/skip/create-new explicitly chosen; parent validated; all blocking
-dependencies linked; labels applied — including refine-ai-built and, for
+dependencies linked; labels applied — including refine-ai-flow-v<version> and, for
 gated types, the well-formed planning label or an explicit named Stage 05
 bypass; explicit approval received after the preview; the preview itself read
 precise, analytical, structured, direct. After committing, self-check:

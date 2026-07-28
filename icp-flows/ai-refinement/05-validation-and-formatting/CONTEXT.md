@@ -4,11 +4,11 @@ title: "Stage 05 — Validation & Formatting"
 type: stage-context
 stage: 5
 review-intensity: light
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -36,15 +36,15 @@ related:
 ## Process
 
 `Layer-3: workitem-validation` (skill spec in
-`produced-skills/workitem-validation/`, `to-review` as of 1.2 — mandatory-label
-check added, gate re-run owed)
+`produced-skills/workitem-validation/`, `to-review` as of 1.3 — provenance
+label renamed to its versioned form, gate re-run owed)
 
 1. **Completeness scan** — walk the schema's required-field list and confirm every field has a non-empty value.
 2. **Mandatory label check** — distinct from schema completeness (labels are
    not schema fields, per `../reference/work-item-schemas.md`'s cross-cutting
-   note): `refine-ai-built` must be present for every type; for `feature`,
-   `story`, `task`, `spike`, `bug` the `<team_code>-<yyyy>-q<n>` planning
-   label resolved at Stage 01 must also be present and well-formed
+   note): `refine-ai-flow-v<version>` must be present for every type; for
+   `feature`, `story`, `task`, `spike`, `bug` the `<team_code>-<yyyy>-q<n>`
+   planning label resolved at Stage 01 must also be present and well-formed
    (`portfolio_epic`/`solution_epic` are exempt from this second check). This
    check is a warn-and-bypass, not a hard halt (see step 4) — the one check
    in this gate that isn't a stop.
@@ -97,7 +97,7 @@ stages. Running this check leaves a one-line result in the run's decision log.
 - [ ] No bold or emoji characters remain in any field
 - [ ] Auto-corrections are logged in the validation report and touch formatting only
 - [ ] Any halt-level issues were surfaced and resolved with the user
-- [ ] `refine-ai-built` presence was checked for the item; for
+- [ ] `refine-ai-flow-v<version>` presence was checked for the item; for
       `feature`/`story`/`task`/`spike`/`bug`, the `<team_code>-<yyyy>-q<n>`
       planning label's presence and well-formedness were also checked
 - [ ] Any missing/malformed mandatory label produced a warn-and-bypass, never

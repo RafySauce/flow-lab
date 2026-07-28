@@ -2,11 +2,11 @@
 id: work-item-schemas
 title: "Work Item Schemas — Refinable Set (House Extension)"
 type: specification
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -57,7 +57,12 @@ carries, which 1.2 already implemented; see
 committed item carries the two labels defined by the `mandatory_labels` house
 amendment in `ai-refinement-hybrid.md` — no `fields:` changes for any type,
 since labels aren't schema fields; see
-`../decision-log/2026-07-15-provenance-and-planning-labels.md`.
+`../decision-log/2026-07-15-provenance-and-planning-labels.md`. **1.5**
+updates that note: the provenance label is now `refine-ai-flow-v<version>`
+(this flowspace's own `artifact-version`), replacing the static
+`refine-ai-built`, and states the label's purpose (pending-review flag,
+removed by the team once review is complete); see
+`../decision-log/2026-07-28-provenance-label-versioning.md`.
 
 ## Refinable set and out-of-scope types
 
@@ -75,18 +80,25 @@ Spike | Bug) → Sub-Task. This pipeline refines seven of the eight:
 | `bug` | Yes | House extension below — peer of `story`/`task`/`spike` under `feature`; reported defect captured as summary + description + acceptance criteria, same shape discipline as every other type. |
 | `sub_task` | No | Execution breakdown created directly in Jira under an already-committed parent; carries no independent business value to elicit, so the pipeline adds nothing. If selected at Stage 01, redirect. |
 
-## Mandatory labels (cross-cutting; house extension, 2026-07-15)
+## Mandatory labels (cross-cutting; house extension, 2026-07-15; revised 2026-07-28)
 
 Every item this pipeline commits carries the two labels defined by the
 `mandatory_labels` house amendment in `ai-refinement-hybrid.md`:
-`refine-ai-built` (all seven refinable types, every mode) and, for `feature`,
+`refine-ai-flow-v<version>` (this flowspace's own `artifact-version`, e.g.
+`refine-ai-flow-v1.14` — all seven refinable types, every mode; replaces the
+earlier static `refine-ai-built`, not added alongside it) and, for `feature`,
 `story`, `task`, `spike`, `bug` only, a `<team_code>-<yyyy>-q<n>` planning
 label (`portfolio_epic`/`solution_epic` sit at a multi-year/multi-quarter
-outcome horizon and are exempt from the second label's gate). These are Jira
+outcome horizon and are exempt from the second label's gate). The provenance
+label's purpose: it flags an item as AI-produced and pending team review; the
+team removes it once their review of the item is complete. These are Jira
 labels, not schema fields, so no `fields:` entry changes below — Stage 01
-resolves both label components, Stage 05 runs a distinct mandatory-label
+states the provenance label (no query needed, unlike team_code) and resolves
+the planning label's two components, Stage 05 runs a distinct mandatory-label
 check (a warn-and-bypass gate, not a hard halt), and Stage 06 applies them at
-commit. See `../decision-log/2026-07-15-provenance-and-planning-labels.md`.
+commit. See `../decision-log/2026-07-28-provenance-label-versioning.md` (and
+`../decision-log/2026-07-15-provenance-and-planning-labels.md` for the
+labels' original introduction).
 
 ## Schemas
 

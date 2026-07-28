@@ -2,11 +2,11 @@
 id: ai-refinement-hybrid
 title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-21
+updated: 2026-07-28
 owner: operator
 source: human+ai
 data-class: public
@@ -36,7 +36,13 @@ related:
 > now actively looks for grounding documents (SAD and other relevant
 > documentation, profiled by work focus) instead of only classifying what the
 > user pastes in; see
-> `decision-log/2026-07-21-supporting-context-research.md`. `truth-level`
+> `decision-log/2026-07-21-supporting-context-research.md`. **1.4** revises
+> `mandatory_labels`: the provenance label is no longer the static
+> `refine-ai-built` — it is now `refine-ai-flow-v<version>`, carrying the
+> flowspace's own `artifact-version`, and the amendment now states the
+> label's purpose in the rule itself (a pending-review flag the team removes
+> once their review is complete) rather than leaving it implicit; see
+> `decision-log/2026-07-28-provenance-label-versioning.md`. `truth-level`
 > returns to `to-review`: the new amendment is house-authored pending
 > operator sign-off.
 
@@ -238,31 +244,42 @@ house_amendments:
 
   mandatory_labels:
     rule: >
-      Every item this pipeline commits carries refine-ai-built (literal,
-      lowercase) as a provenance label, applied at Stage 06 regardless of
-      type or mode. Items at feature level and below — feature, story, task,
-      spike, bug — additionally carry a planning label
-      <team_code>-<yyyy>-q<n> (e.g. ddi-2026-q4); portfolio_epic and
-      solution_epic sit at a multi-year/multi-quarter outcome horizon and are
-      exempt from this second label's gate (one may still be attached if the
-      user volunteers a quarter for them). team_code is never hardcoded or
-      silently assumed: Stage 01 queries the target Jira project/space live
-      for existing labels matching (or closely resembling — different
-      separator, casing) the <code>-<yyyy>-q<n> shape, proposes the distinct
-      code(s) found with that evidence as rationale, or asks the user
-      directly if none exist — the same query-then-confirm discipline as
-      parent_mapping_confirmation, applied to a label instead of a hierarchy
-      link. The planning quarter is elicited once per session ("What quarter
-      do you plan to do this work?"), normalized from free text to the
-      canonical <yyyy>-q<n> form, applied to every gated item by default,
-      with a per-item override offered at Stage 06's dry-run preview for the
-      rare item that targets a different quarter. Stage 05 checks both
-      labels for gated types at sign-off: a missing or malformed label warns
-      the user with the specific defect and requires an explicit override to
-      proceed uncorrected — a softer gate than a hard halt, but never a
-      silent pass.
+      Every item this pipeline commits carries refine-ai-flow-v<version>
+      (literal prefix, lowercase; <version> is this flowspace's own
+      artifact-version, e.g. refine-ai-flow-v1.14) as a provenance label,
+      applied at Stage 06 regardless of type or mode. This label needs no
+      live query — the version is the flowspace's own, known at session
+      start — and it replaces the earlier static refine-ai-built label
+      (pre-1.4) outright, not alongside it. Purpose, stated here rather than
+      left implicit: the label flags an item as AI-produced and pending team
+      review; its presence is a pending-review signal, and the team removes
+      it once their review of the item is complete — removal is the
+      review-completion signal, not a cosmetic tidy-up. Items at feature
+      level and below — feature, story, task, spike, bug — additionally
+      carry a planning label <team_code>-<yyyy>-q<n> (e.g. ddi-2026-q4);
+      portfolio_epic and solution_epic sit at a multi-year/multi-quarter
+      outcome horizon and are exempt from this second label's gate (one may
+      still be attached if the user volunteers a quarter for them).
+      team_code is never hardcoded or silently assumed: Stage 01 queries the
+      target Jira project/space live for existing labels matching (or
+      closely resembling — different separator, casing) the
+      <code>-<yyyy>-q<n> shape, proposes the distinct code(s) found with
+      that evidence as rationale, or asks the user directly if none exist —
+      the same query-then-confirm discipline as parent_mapping_confirmation,
+      applied to a label instead of a hierarchy link. The planning quarter
+      is elicited once per session ("What quarter do you plan to do this
+      work?"), normalized from free text to the canonical <yyyy>-q<n> form,
+      applied to every gated item by default, with a per-item override
+      offered at Stage 06's dry-run preview for the rare item that targets a
+      different quarter. Stage 05 checks both labels for gated types at
+      sign-off: a missing or malformed label warns the user with the
+      specific defect and requires an explicit override to proceed
+      uncorrected — a softer gate than a hard halt, but never a silent pass.
     origin: 2026-07-15, operator request for build provenance and
-      planning-quarter traceability across every committed item.
+      planning-quarter traceability across every committed item; provenance
+      label revised to refine-ai-flow-v<version> 2026-07-28, operator
+      request to state the label's purpose explicitly and carry the
+      flowspace's version.
 
   supporting_context_research:
     rule: >
@@ -306,6 +323,15 @@ house_amendments:
 
 ## Changelog
 
+- **1.4** (2026-07-28) — `mandatory_labels` revised: the provenance label
+  changes from the static `refine-ai-built` to `refine-ai-flow-v<version>`
+  (this flowspace's own `artifact-version`, e.g. `refine-ai-flow-v1.14`),
+  replacing it outright rather than adding a second label. No live query
+  needed — the version is known at session start. The rule now states the
+  label's purpose explicitly: it flags an item as AI-produced and pending
+  team review, and is removed by the team once their review is complete.
+  Raised directly by the operator. See
+  `decision-log/2026-07-28-provenance-label-versioning.md`.
 - **1.3** (2026-07-21) — Added a seventh house amendment,
   `supporting_context_research`: a Stage 01 research step that prompts the
   user for held context (Confluence, Miro exports, PDFs, email), infers the

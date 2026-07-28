@@ -5,8 +5,8 @@ description: >
   selected type's schema in the work-item-schemas registry — translating
   Markdown into the target platform's native markup — resolves hierarchy
   (with explicit user confirmation of the parent) and dependency links,
-  applies stakeholder tags plus the mandatory refine-ai-built and planning
-  labels as labels, shows a mandatory dry-run preview rendered in native form
+  applies stakeholder tags plus the mandatory refine-ai-flow-v<version> and
+  planning labels as labels, shows a mandatory dry-run preview rendered in native form
   (with a per-item planning-quarter override for gated types), executes the
   commit through the engine's native Jira capabilities, offers a post-commit
   status transition, and manages the session loop/close decision. Invoke at
@@ -16,11 +16,11 @@ description: >
 # --- provenance (house layer) ---
 id: jira-commit
 type: skill
-artifact-version: "1.8"
+artifact-version: "1.9"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-27
+updated: 2026-07-28
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -121,8 +121,10 @@ flowchart LR
    blocking dependency. Apply Stage 02/03 stakeholder tags and
    coalition/conflict-axis annotations as Jira labels (or the instance's
    designated fields), plus the flowspace's `mandatory_labels` house
-   amendment: `refine-ai-built` on every item, and — for `feature`, `story`,
-   `task`, `spike`, `bug` only — the session's `<team_code>-<yyyy>-q<n>`
+   amendment: `refine-ai-flow-v<version>` on every item — `<version>` is the
+   `ai-refinement` flowspace's own `artifact-version`, stated by Stage 01 at
+   session start, no query needed — and, for `feature`, `story`,
+   `task`, `spike`, `bug` only, the session's `<team_code>-<yyyy>-q<n>`
    planning label resolved at Stage 01 (`portfolio_epic`/`solution_epic` are
    exempt). If Stage 05 recorded an explicit bypass of a missing or malformed
    label, carry that exception forward into the preview rather than
@@ -130,8 +132,12 @@ flowchart LR
 3. **Dry-run preview.** Present the complete payload — fields, links, labels —
    rendered as it will actually appear in Jira: headings, lists, and other
    structured content shown in their translated, target-platform form, never
-   echoed back as raw Markdown source. For a gated type, surface the resolved
-   planning label (and any Stage 05 bypass, plainly) and offer a per-item
+   echoed back as raw Markdown source. Surface the provenance label
+   (`refine-ai-flow-v<version>`) alongside its purpose — a pending-review
+   flag the team removes once their review is complete — so the preview is
+   where the user last sees why it's there before commit. For a gated type,
+   also surface the resolved planning label (and any Stage 05 bypass,
+   plainly) and offer a per-item
    quarter override for the item that targets a different quarter than the
    session default. Present it in the persona's `communication_style`
    (precise, analytical, structured, direct) — a preview is a decision
@@ -216,7 +222,7 @@ A single output of this skill is acceptable when:
    explicitly chosen before the parent link was set; the parent was validated
    to exist before commit.
 4. Every Stage 03 blocking dependency appears as an issue link; stakeholder
-   tags appear as labels; `refine-ai-built` and, for gated types, a
+   tags appear as labels; `refine-ai-flow-v<version>` and, for gated types, a
    well-formed planning label appear as labels — or an explicit Stage 05
    bypass is shown plainly in the dry-run preview, never fabricated.
 5. The transcript shows the dry-run preview (in rendered, native-markup form)
@@ -237,11 +243,27 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.7 |
-| Copilot | adapters/copilot-prompt.md | 1.7 |
+| Rovo | adapters/rovo-agent.md | 1.9 |
+| Copilot | adapters/copilot-prompt.md | 1.9 |
 
 ## Changelog
 
+- **1.9** (2026-07-28) — The `mandatory_labels` provenance label renamed:
+  Method step 2's labeling now applies `refine-ai-flow-v<version>` (the
+  `ai-refinement` flowspace's own `artifact-version`, stated by Stage 01 at
+  session start — no query, no per-run resolution) in place of the static
+  `refine-ai-built`, replacing it outright. Method step 3's dry-run preview
+  now surfaces the label's purpose alongside its value — a pending-review
+  flag the team removes once their review is complete — not just the value.
+  Review criterion 4 updated to match. `truth-level` stays `to-review`,
+  content change, gate re-run still owed. Both adapters regenerated. **New
+  maintenance coupling, flagged here rather than left implicit:** because the
+  label now carries the *flowspace's* version rather than a fixed string, a
+  future `HUB.md`-only version bump (one that doesn't touch this skill's own
+  spec) still requires regenerating this skill's adapters for the label to
+  stay accurate — previously adapters only needed regeneration when this
+  skill's own spec changed. See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-28-provenance-label-versioning.md`.
 - **1.8** (2026-07-27) — Method step 4 gains an explicit third branch for
   running in a chat session referencing this repo directly, per
   `START-HERE.md`: if no Jira write path (native engine action or sanctioned

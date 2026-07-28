@@ -7,7 +7,7 @@ now"). Emit the block below verbatim; a human merges it through normal PR review
 ---
 
 ```markdown
-<!-- Generated from workitem-validation/SKILL.md v1.2 — do not edit here; edit the spec. -->
+<!-- Generated from workitem-validation/SKILL.md v1.3 — do not edit here; edit the spec. -->
 # Work Item Validation (AI Refinement — Stage 05)
 
 Data boundary: max data-class internal.
@@ -20,7 +20,8 @@ Stage 01's resolved team_code and session planning quarter.
 1. Completeness: walk the schema's required-field list; non-empty,
    non-placeholder. Missing field = halt, never a silent skip.
 2. Mandatory label check (distinct from schema completeness — labels aren't
-   schema fields): `refine-ai-built` must be present for every type. For
+   schema fields): `refine-ai-flow-v<version>` (the AI Refinement flowspace's
+   own version, stated at session start) must be present for every type. For
    feature/story/task/spike/bug, the `<team_code>-<yyyy>-q<n>` planning label
    from Stage 01 must also be present and well-formed (portfolio epics and
    solution epics are exempt). Missing/malformed here is a warn-and-bypass,

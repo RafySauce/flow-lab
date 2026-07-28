@@ -3,7 +3,7 @@ name: workitem-validation
 description: >
   Runs the completeness and constraint gate on a refined Jira work item and
   applies the formatting rules (no bold, no emojis): schema completeness scan,
-  a mandatory-label check (refine-ai-built plus, for gated types, the
+  a mandatory-label check (refine-ai-flow-v<version> plus, for gated types, the
   <team_code>-<yyyy>-q<n> planning label), constraint checks (summary ≤ 10
   words, AC starters, valid future due date), a strict auto-correct-vs-halt
   boundary (with a warn-and-bypass tier for the label check only), and a
@@ -13,11 +13,11 @@ description: >
 # --- provenance (house layer) ---
 id: workitem-validation
 type: skill
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-28
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -40,7 +40,7 @@ this skill only judges.
 ```mermaid
 flowchart LR
     Start(["Trigger: complete refined<br/>field set from Stage 04"]):::start --> C["Step 1 — Completeness scan<br/>Walk schema required-field list"]:::process
-    C --> ML["Step 2 — Mandatory label check<br/>refine-ai-built (all types);<br/>planning label (gated types)"]:::process
+    C --> ML["Step 2 — Mandatory label check<br/>refine-ai-flow-v&lt;version&gt; (all types);<br/>planning label (gated types)"]:::process
     ML --> K["Step 3 — Constraint checks<br/>Summary ≤ 10 words, AC starters,<br/>due date valid + future"]:::process
     K --> F["Step 4 — Formatting pass<br/>Strip bold, remove emoji,<br/>normalize whitespace"]:::process
     F --> D{"Step 5 — Issue class?"}:::decision
@@ -77,7 +77,9 @@ flowchart LR
    field is a halt, never a silent skip.
 2. **Mandatory label check.** Distinct from schema completeness — labels are
    not schema fields, per `work-item-schemas.md`'s cross-cutting note.
-   `refine-ai-built` must be present for every type. For `feature`, `story`,
+   `refine-ai-flow-v<version>` (the `ai-refinement` flowspace's own
+   `artifact-version`, stated by Stage 01 at session start) must be present
+   for every type. For `feature`, `story`,
    `task`, `spike`, `bug` the `<team_code>-<yyyy>-q<n>` planning label
    resolved at Stage 01 must also be present and well-formed
    (`portfolio_epic`/`solution_epic` are exempt from this second check). A
@@ -143,7 +145,7 @@ always named with its specific defect, never folded silently into "pass."
 A single output of this skill is acceptable when:
 
 1. Every required field was scanned and the report shows a per-field result.
-2. The mandatory label check ran for every type (`refine-ai-built`) and, for
+2. The mandatory label check ran for every type (`refine-ai-flow-v<version>`) and, for
    `feature`/`story`/`task`/`spike`/`bug`, the planning label's presence and
    well-formedness were also checked — a missing/malformed label produced a
    warn-and-bypass, never a silent pass, and any accepted bypass is named in
@@ -161,11 +163,21 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.2 |
-| Copilot | adapters/copilot-prompt.md | 1.2 |
+| Rovo | adapters/rovo-agent.md | 1.3 |
+| Copilot | adapters/copilot-prompt.md | 1.3 |
 
 ## Changelog
 
+- **1.3** (2026-07-28) — Method step 2's mandatory label check and Review
+  criterion 2 rename the provenance label from the static `refine-ai-built`
+  to `refine-ai-flow-v<version>` (the `ai-refinement` flowspace's own
+  `artifact-version`) — no change to the warn-and-bypass enforcement tier,
+  the label is checked exactly as before, only its expected value changes.
+  `truth-level` frontmatter corrected to `to-review` here: the 1.2 entry
+  below already stated it moved from `verified` to `to-review`, but the
+  frontmatter itself was never updated to match — fixed as part of this
+  edit, not silently. Both adapters regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-28-provenance-label-versioning.md`.
 - **1.2** (2026-07-15) — New Method step 2, mandatory label check
   (`refine-ai-built` for every type; `<team_code>-<yyyy>-q<n>` planning label
   for `feature`/`story`/`task`/`spike`/`bug`), and a new warn-and-bypass tier
