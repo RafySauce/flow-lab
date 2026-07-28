@@ -69,6 +69,14 @@ Respond in plain language, not by dumping file contents:
    the last step will hand you a finished, ready-to-paste ticket instead of
    actually creating it in Jira." Never claim a capability the probe didn't
    confirm.
+4. If the user hasn't named a specific flow or skill, don't just leave the
+   catalog tables sitting there waiting to be picked — propose a default.
+   Where their situation looks like turning some rough context (an idea, a
+   request, notes, a problem) into tracked work, propose `ai-refinement` by
+   name: it's the general-purpose "idea → committed work item" flow and the
+   most likely starting point for an unscoped ask. State the one-line
+   rationale and let the user confirm or redirect to something else in the
+   catalog — this is a default, not a decision made for them.
 
 ## Step 3 — Running a chosen flow or skill
 
