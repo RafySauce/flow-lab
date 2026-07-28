@@ -9,7 +9,7 @@ This repository contains two *foundries* — repeatable production lines for AI-
 
 The repository holds the **method, templates, and sanitized exemplars only**. Instantiated flowspaces containing real work content live inside your employer's tenancy (an internal GitLab repository — the *source-repo*, the sole source of truth for an instance) — never here. See [Governance](#governance-your-work-is-your-responsibility).
 
-**New here?** If someone pointed you at this repo, you're here for one of two reasons: to *use* something a foundry already built, or to *build* your own instance of this methodology. [Using what's already built](#using-whats-already-built) covers the first — and says plainly what "using" can and can't mean from this public repo alone. [Building your own instance](#building-your-own-instance) covers the second. Either way: nothing in `icp-flows/` or `produced-skills/` is a directly runnable agent — each is a sanitized design a human instantiates into their own GitLab instance first.
+**New here?** If someone pointed you at this repo, you're here for one of two reasons: to *use* something a foundry already built, or to *build* your own instance of this methodology. [Using what's already built](#using-whats-already-built) covers the first — including the fast path, [`START-HERE.md`](START-HERE.md), for running a flow or skill directly in a chat session with no setup. [Building your own instance](#building-your-own-instance) covers the second, deeper path: a private, employer-side source-repo for full, persistent, audited execution. Either way: everything in `icp-flows/` and `produced-skills/` is a complete, engine-neutral design — runnable today against whatever tools your session has, and capable of full execution once instantiated into your own GitLab instance.
 
 ---
 
@@ -132,9 +132,11 @@ The source-repo rules, the external-system boundary, and the Rovo⇄Copilot hand
 
 Every promoted flow and skill is listed in a catalog table — [`icp-flows/CONTEXT.md`](icp-flows/CONTEXT.md) (flows) and [`produced-skills/CONTEXT.md`](produced-skills/CONTEXT.md) (skills) — one row each, "what it does" and "use it when," linking to the full design.
 
-**These are sanitized designs, not running agents.** Each one assumes a private, employer-side source-repo — the GitLab instance that is the sole source of truth for that flow/skill — which this public repo does not and cannot contain. Adding flow-lab to a Rovo or Copilot chat lets you read the designs; it does not make any of them executable.
+**Want to run one right now, in this chat session?** Point your agent at [`START-HERE.md`](START-HERE.md). It checks what your session actually has access to (Jira, Confluence, a connected repo — or none of it) and runs the flow within those limits, producing chat/markdown output wherever a live system isn't connected. No employer-side setup required to get useful output today.
 
-The smallest path from browsing to using one: pick a flow or skill from the catalog, then follow [Building your own instance](#building-your-own-instance) below to stand up your own instance and carry that design over — its `HUB.md` (or `SKILL.md`) is written to transfer as-is, with every instantiation-time gap already marked.
+**For full, persistent, audited execution** — real Jira/Confluence writes, git history as the audit trail, human-gated promotion — each flow/skill still assumes a private, employer-side source-repo: the GitLab instance that is the sole source of truth for an instance. That's a deeper commitment than a single chat session, and it's covered below.
+
+The smallest path from browsing to a fully instantiated setup: pick a flow or skill from the catalog, then follow [Building your own instance](#building-your-own-instance) below to stand up your own instance and carry that design over — its `HUB.md` (or `SKILL.md`) is written to transfer as-is, with every instantiation-time gap already marked.
 
 ---
 

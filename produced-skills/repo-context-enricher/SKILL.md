@@ -14,11 +14,11 @@ description: >
 # --- provenance (house layer) ---
 id: repo-context-enricher
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-14
-updated: 2026-07-15
+updated: 2026-07-27
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -85,7 +85,14 @@ flowchart LR
    already present in the source document — commits, PRs, linked design
    docs, code ownership records. This is enrichment of presentation and
    evidence, never new accomplishments: every piece of evidence must
-   reinforce a claim the document already makes.
+   reinforce a claim the document already makes. **No repo/file access
+   available in this session** (running in a chat session with no connected
+   repo, per `START-HERE.md`'s capability probe — distinct from step 2's
+   blank/ambiguous-scope halt, which applies when access exists but its
+   bounds aren't stated): say so plainly and ask the user to paste the
+   relevant commits, PRs, or ownership notes directly, within the
+   handoff's authorized scope; proceed through steps 4–5 against that
+   material.
 4. **Attach found evidence to its matching theme/section, each item
    distinctly flagged** — an inline marker or a separate "Added by Stage 1"
    list — never blended silently into the original prose, so Stage 3 can
@@ -147,6 +154,9 @@ A single output of this skill is acceptable when:
 4. Tested against a handoff with a blank or ambiguous scope field, the skill
    asks a direct question rather than guessing at or assuming a scope.
 5. No item on the handoff's exclusion list appears in any addition.
+6. If no repo/file access was available in this session, the output states
+   that plainly and any additions trace to user-supplied material — never a
+   silent, unexplained gap in coverage.
 
 ## Adapters
 
@@ -160,4 +170,11 @@ repository/file access, which Rovo does not have in this flow pairing — see
 
 ## Changelog
 
+- **1.1** (2026-07-27) — Method step 3 gains an explicit degrade path for
+  running in a chat session referencing this repo directly, per
+  `START-HERE.md`: with no repo/file access available at all (distinct from
+  step 2's blank/ambiguous-scope halt), ask the user to paste relevant
+  commits/PRs directly, within the handoff's authorized scope, and proceed
+  against that material. New review criterion 6. `truth-level` moves from
+  `verified` to `to-review` pending a gate re-run.
 - **1.0** (2026-07-14) — Initial build from `sp-repo-context-enricher`.

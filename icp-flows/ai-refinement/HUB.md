@@ -2,11 +2,11 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.13"
+artifact-version: "1.14"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-21
+updated: 2026-07-27
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -214,6 +214,18 @@ Human inspects at every stage boundary — that's the method, not an
 inconvenience.
 
 ## Known gaps
+
+Seventh gap (2026-07-27): a chat-session entry point (`START-HERE.md`, repo
+root) now lets this flow run directly against whatever a chat session
+referencing this repo has access to, without an employer-side source-repo.
+Stage 01 (1.9 → 1.10) gains degrade branches on the supporting-context
+research hunt and the team_code query (distinct from their existing
+"queried, found nothing" branches); the `jira-commit`, `jira-
+accomplishments-gatherer`, `confluence-contribution-gatherer`, and
+`repo-context-enricher` skills each gain one named degrade branch and move
+to `truth-level: to-review` alongside Stage 01 and this flowspace itself,
+pending a gate re-run. None of it has run on-engine. Rationale:
+`decision-log/2026-07-27-chat-session-degrade-paths.md`.
 
 All five skills demanded by this flowspace's Layer-3 triage are
 `truth-level: verified` and live in `produced-skills/` — operator promotion

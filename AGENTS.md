@@ -10,13 +10,15 @@ It holds **method, templates, and sanitized exemplars only**. No employer conten
 
 ## Start here: using vs. building
 
-- **"What can I use right now?"** → `icp-flows/CONTEXT.md` and `produced-skills/CONTEXT.md` — catalog tables of every promoted flow and skill, one line each on what it does and when to reach for it. Read the note at the top of each table first: **everything in `icp-flows/` and `produced-skills/` is a sanitized design, not a live agent.** Adding this public repo to a Rovo or Copilot chat lets you read the designs; it does not make any of them executable — each one assumes a private, employer-side source-repo (the GitLab instance that is the sole source of truth) that only exists after a human instantiates it there.
+- **"Run this flow/skill for me" / "what can this repo do?"** → `START-HERE.md`, first, before anything else. It has the capability-probe contract (what to check for — Jira, Confluence, repo access — before running anything) and the response contract for "what can I run" questions. Read it before reciting `README.md` or opening a flow's `HUB.md` directly.
+- **"What can I use right now?"** → `icp-flows/CONTEXT.md` and `produced-skills/CONTEXT.md` — catalog tables of every promoted flow and skill, one line each on what it does and when to reach for it. Each is a complete, engine-neutral design: runnable directly in a chat session via `START-HERE.md` (adapting to whatever tools that session has), and capable of full, persistent, audited execution once instantiated into a private, employer-side source-repo (the GitLab instance that is the sole source of truth for an instance).
 - **"I want to build a new flow or skill, or stand up my own instance of this methodology"** → keep reading below (directory map, then rule 2 — confirm before invoking a foundry).
 
 ## Directory map
 
 | Path | What it is |
 |---|---|
+| `START-HERE.md` | Read first for any "run/use a flow or skill" or "what can this repo do" intent. Capability-probe contract + response contract for a chat session referencing this repo directly. |
 | `README.md` | The full orientation: methodology, house practice, foundry model, governance. Read it once per session. |
 | `methodology/icp-primer.md` | The methodology explainer with citations. The "why" behind every structure here. |
 | `methodology/provenance-spec.md` | The canonical frontmatter schema. Every artifact produced in this system is stamped against it. When a template and this spec disagree, the spec wins. |
@@ -50,6 +52,7 @@ It holds **method, templates, and sanitized exemplars only**. No employer conten
 ## How agents operate here
 
 0. **`CONTEXT.md` is the folder's entry point.** Every working folder carries a `CONTEXT.md` — read it before operating in that folder. `README.md` exists only at the repo root, as the public landing page. (Inside a scaffolded flowspace, a stage's `CONTEXT.md` is additionally its six-field stage contract.)
+0a. **Route "run/use it" intent to `START-HERE.md` first.** When a user's intent is to run a flow or skill, or asks what this repo can do for them — as opposed to building a new one — read `START-HERE.md` before anything else. It runs the capability probe and hands off into the chosen flow's `HUB.md`/skill's `SKILL.md` unchanged. This is the fork against rule 2 below: "run ai-refinement" needs no confirmation beyond the flow's own stage gates; "build a new flow like ai-refinement" does.
 1. **Route through the foundry specs.** Building or normalizing a flowspace → `flow-foundry/foundry-spec.md`. Building or normalizing a skill → `skill-foundry/foundry-spec.md`. Don't re-derive method the spec already defines.
 2. **Confirm before invoking a foundry.** Foundry work — triage, scaffold, author, adapt, revise — runs only on a confirmed operator instruction. Before starting, restate the starter, its triage classification, and the intended outputs, and get the operator's explicit go-ahead. A starter merely being mentioned, or sitting in a backlog, is not an instruction to build it.
 3. **Triage before building.** Classify every starter: primer-brief (clean path), foreign material (vet first — provenance, license, security), or not-worthy (recommend dropping, plainly).
