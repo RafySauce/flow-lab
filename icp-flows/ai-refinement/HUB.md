@@ -2,11 +2,11 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.14"
+artifact-version: "1.15"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-27
+updated: 2026-07-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -215,6 +215,33 @@ inconvenience.
 
 ## Known gaps
 
+Eighth gap (2026-07-28): the `mandatory_labels` provenance label changes from
+the static `refine-ai-built` to `refine-ai-flow-v<version>` — this
+flowspace's own `artifact-version`, needing no live query — replacing it
+outright rather than adding a second label. The rule now states the label's
+purpose explicitly: it flags an item as AI-produced and pending team review,
+and the team removes it once their review is complete — removal is the
+review-completion signal. Stage 01 (1.10 → 1.11) gains two new session-start
+items: the flowspace's purpose statement, shown immediately under the
+session-start header before anything else, and a provenance-label notice
+grouped with the other guardrails, stating the concrete label value and its
+purpose up front (no query needed, unlike `team_code`). Stages 05 (1.4 → 1.5)
+and 06 (1.8 → 1.9) rename the label in their checks/preview and drop from
+`truth-level: verified` to `to-review` (content change, no re-gate).
+`ai-refinement-hybrid.md` (1.3 → 1.4) and `work-item-schemas.md` (1.4 → 1.5)
+carry the amendment's canonical text. The `jira-commit` (1.8 → 1.9) and
+`workitem-validation` (1.2 → 1.3) skills rename the label in their Method and
+Review criteria; `workitem-validation`'s frontmatter `truth-level` is also
+corrected to `to-review` here, matching what its own 1.2 changelog entry
+already claimed happened but the frontmatter never reflected. Both skills'
+adapters regenerated. New coupling flagged: because the label now carries the
+*flowspace's* version rather than a fixed string, a future `HUB.md`-only
+version bump (one that doesn't touch `jira-commit`'s own spec) still requires
+regenerating `jira-commit`'s adapters for the label to stay accurate — a
+maintenance obligation `jira-commit`'s 1.9 changelog entry states explicitly.
+None of this has run on-engine. Raised directly by the operator. Rationale:
+`decision-log/2026-07-28-provenance-label-versioning.md`.
+
 Seventh gap (2026-07-27): a chat-session entry point (`START-HERE.md`, repo
 root) now lets this flow run directly against whatever a chat session
 referencing this repo has access to, without an employer-side source-repo.
@@ -245,8 +272,8 @@ at deployment, the operator's act, recorded in each skill card.
 | `context-elicitation` | `sp-context-elicitation` | 2 | to-review — 1.5 (nine-type input taxonomy, supporting-context steering: architecture material seeds the stakeholder sweep, prior completed items seed "tried before"); re-gate pending; deployment pending |
 | `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | to-review — 1.3 (SAD/topology integration-seam dependency sweep, prior-process risk seeding); re-gate pending; deployment pending |
 | `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.3 (conditionally-scoped cadence: fast-track consolidation vs. one-at-a-time, communication_style citation); promoted 2026-07-03; deployment pending |
-| `workitem-validation` | `sp-workitem-validation` | 5 | verified — promoted 2026-07-03; deployment pending |
-| `jira-commit` | `sp-jira-commit` | 6 | verified — 1.4 (communication_style citation on dry-run preview and transition offer; format translation, confirmed parent mapping, post-commit transition offer carried from 1.3); promoted 2026-07-03; deployment pending |
+| `workitem-validation` | `sp-workitem-validation` | 5 | to-review — 1.3 (mandatory-label check renamed to the versioned provenance label); promoted 2026-07-03, since revised; deployment pending |
+| `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.9 (provenance label renamed to its versioned form); promoted 2026-07-03, since revised; deployment pending |
 
 Second gap (2026-07-03): the work-item schema registry
 (`reference/work-item-schemas.md`) completes type coverage — the source

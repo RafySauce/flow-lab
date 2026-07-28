@@ -4,11 +4,11 @@ title: "Stage 06 — Jira Commit & Close"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.8"
+artifact-version: "1.9"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -37,8 +37,8 @@ related:
 ## Process
 
 `Layer-3: jira-commit` (skill spec in
-`produced-skills/jira-commit/`, `to-review` as of 1.7 — mandatory-labels
-step and per-item quarter override added, gate re-run owed)
+`produced-skills/jira-commit/`, `to-review` as of 1.9 — provenance label
+renamed to its versioned form, gate re-run owed)
 
 1. **Field mapping, registry-driven, format-translated** — translate the
    refined field key-value pairs into Jira field IDs, the field set read from
@@ -85,19 +85,24 @@ step and per-item quarter override added, gate re-run owed)
    conflict-axis annotations as Jira labels (or the instance's designated
    fields), so the item is taggable per the stakeholder register's usage
    rules. Additionally apply the flowspace's `mandatory_labels` house
-   amendment (`../reference/ai-refinement-hybrid.md`): `refine-ai-built` on
-   every item, and — for `feature`, `story`, `task`, `spike`, `bug` only —
-   the session's resolved `<team_code>-<yyyy>-q<n>` planning label from
-   Stage 01 (`portfolio_epic`/`solution_epic` are exempt from the second
-   label). If Stage 05 recorded an explicit user bypass of a missing or
-   malformed label, carry that exception forward rather than fabricating a
-   value — it gets surfaced, not silently resolved, in step 5's preview.
+   amendment (`../reference/ai-refinement-hybrid.md`): `refine-ai-flow-v
+   <version>` (this flowspace's own `artifact-version`, stated by Stage 01
+   at session start — no query) on every item, and — for `feature`, `story`,
+   `task`, `spike`, `bug` only — the session's resolved
+   `<team_code>-<yyyy>-q<n>` planning label from Stage 01 (`portfolio_epic`/
+   `solution_epic` are exempt from the second label). If Stage 05 recorded an
+   explicit user bypass of a missing or malformed label, carry that exception
+   forward rather than fabricating a value — it gets surfaced, not silently
+   resolved, in step 5's preview.
 5. **Dry-run preview** — present the full payload to the user in its
    translated, rendered form (native markup, not raw Markdown source) before
-   committing. For a gated type, surface the resolved planning label (and,
-   if Stage 05 recorded a bypass, that exception plainly) and offer a
-   per-item quarter override — the rare item that targets a different
-   quarter than the session default — before commit.
+   committing. Surface the provenance label (`refine-ai-flow-v<version>`)
+   alongside its purpose — a pending-review flag the team removes once their
+   review is complete — so the preview, not just Stage 01's earlier notice,
+   is where the user last sees why it's there. For a gated type, also surface
+   the resolved planning label (and, if Stage 05 recorded a bypass, that
+   exception plainly) and offer a per-item quarter override — the rare item
+   that targets a different quarter than the session default — before commit.
 6. **Commit** — execute through the engine's native Jira capabilities first
    (Rovo built-in create/update issue and issue-link actions); the sanctioned
    Jira integration is the fallback for engines without them (Copilot).
@@ -139,7 +144,9 @@ Running these checks leaves a one-line result in the run's decision log.
 - [ ] Parent item exists in Jira (if hierarchy linkage applies)
 - [ ] Every Stage 03 blocking dependency has a Jira issue link
 - [ ] Stakeholder tags / annotations applied as labels
-- [ ] `refine-ai-built` label present on the committed item
+- [ ] `refine-ai-flow-v<version>` label present on the committed item, and the
+      dry-run preview surfaced its purpose (pending-review flag, removed by
+      the team once reviewed)
 - [ ] For `feature`/`story`/`task`/`spike`/`bug`, the
       `<team_code>-<yyyy>-q<n>` planning label is present and well-formed —
       or an explicit Stage 05 bypass is recorded and was shown plainly in the
