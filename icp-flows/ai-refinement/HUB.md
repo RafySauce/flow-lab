@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.16"
+artifact-version: "1.17"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -71,7 +71,7 @@ flowchart LR
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all seven refinable types); plus a conditional handoff to `value-decomposition` (verified, `produced-skills/`) when the user asks to decompose a selected parent-level item |
+| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all seven refinable types); plus a conditional handoff to `value-decomposition` (verified, `produced-skills/`) when the user asks to decompose (or "break down") a selected parent-level item |
 | 2 | Context & Problem Framing | heavy¹ | internal | Rovo, Copilot | `context-elicitation` (verified, `produced-skills/`) |
 | 3 | Scope & Dependencies | light² | internal | Rovo, Copilot | `scope-dependency-mapper` (verified, `produced-skills/`) |
 | 4 | Field-by-Field Refinement | light² | internal | Rovo, Copilot | `field-refinement-cadence` (verified, `produced-skills/`) |
@@ -222,17 +222,23 @@ own frontmatter claimed "Invoke from Stage 01," yet neither this hub's
 Layer-3 stage table nor Layer-3 reference table nor Stage 01's own
 `01-intake-and-guardrails/CONTEXT.md` referenced it, leaving it orphaned
 (discoverable only by reading the skill spec directly). Closed here: Stage
-01 (1.11 → 1.12) gains a decomposition handoff at step 7 — if the selected
+01 (1.11 → 1.13) gains a decomposition handoff at step 7 — if the selected
 type is parent-level (`portfolio_epic`, `solution_epic`, `feature`) and the
-user states a decomposition intent, control passes to `value-decomposition`
+user states a decomposition intent, worded as "decompose," "break down,"
+"break this into," "split this up," or equivalent (treated as the same
+intent, not distinct triggers, per operator feedback that "break down" is
+the more common everyday phrasing), control passes to `value-decomposition`
 instead of proceeding to field elicitation for the parent item directly,
 with a new Verify checklist item and Outputs row covering the handoff; this
 hub's stage table (Stage 1 row) and Layer-3 reference table both now list
 the skill, with its target stage marked as a conditional handoff rather
 than the stage's default path (unlike Stages 2–6, where the Layer-3 skill
 *is* the stage). No skill content changed — `value-decomposition` stays at
-its existing spec version 1.0 and `truth-level: verified`; only the
-flowspace-side references were added. None of this has run on-engine.
+its existing spec version 1.0 and `truth-level: verified` (its own
+Triggering intent already listed "break this ... into" as an example
+phrase; the gap was that Stage 01's wiring hadn't mirrored that breadth) —
+only the flowspace-side references were added. None of this has run
+on-engine.
 Raised by the operator. Rationale:
 `decision-log/2026-07-30-value-decomposition-wiring-fix.md`.
 
@@ -295,7 +301,7 @@ at deployment, the operator's act, recorded in each skill card.
 | `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.3 (conditionally-scoped cadence: fast-track consolidation vs. one-at-a-time, communication_style citation); promoted 2026-07-03; deployment pending |
 | `workitem-validation` | `sp-workitem-validation` | 5 | to-review — 1.3 (mandatory-label check renamed to the versioned provenance label); promoted 2026-07-03, since revised; deployment pending |
 | `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.9 (provenance label renamed to its versioned form); promoted 2026-07-03, since revised; deployment pending |
-| `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.0 (built 2026-07-15; wired into Stage 01's CONTEXT.md and this table 2026-07-30 — see Ninth gap); deployment pending |
+| `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.0 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap); deployment pending |
 
 Second gap (2026-07-03): the work-item schema registry
 (`reference/work-item-schemas.md`) completes type coverage — the source

@@ -28,9 +28,22 @@ table entirely, and unreferenced in
 2026-07-15 handoff closed, but the flowspace side never did. This fixes the
 flowspace-side wiring only; no skill behavior changes. **By whom:** agent,
 on direct operator instruction, following an operator-requested audit that
-surfaced the gap. **What it affects:** `HUB.md` (1.15 → 1.16) and
-`01-intake-and-guardrails/CONTEXT.md` (1.11 → 1.12). `value-decomposition`
+surfaced the gap. **What it affects:** `HUB.md` (1.15 → 1.17) and
+`01-intake-and-guardrails/CONTEXT.md` (1.11 → 1.13). `value-decomposition`
 itself is untouched — still spec version 1.0, `truth-level: verified`.
+
+**Follow-up same day:** the operator noted that "break down" is common
+everyday phrasing for the same intent as "decompose," and the initial wiring
+pass's handoff text in Stage 01 only used the word "decompose." The skill's
+own Triggering intent (`produced-skills/value-decomposition/SKILL.md:73`)
+already used "break this ... into" as an example trigger phrase, so this was
+a wording gap in the new Stage 01 text, not a skill-behavior gap. Fixed by
+listing the equivalent phrasings explicitly ("decompose," "break down,"
+"break this into," "split this up") everywhere the new handoff is described
+— Stage 01's Layer-3 note, its step-7 handoff paragraph, its Verify
+checklist item, and `HUB.md`'s stage-table cell — so the wiring doesn't read
+as narrower than the skill it points to. Bumped `01-intake-and-guardrails/
+CONTEXT.md` to 1.13 and `HUB.md` to 1.17 for this same-day follow-up.
 
 ## Design decisions
 

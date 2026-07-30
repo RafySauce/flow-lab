@@ -4,7 +4,7 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.12"
+artifact-version: "1.13"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -46,7 +46,7 @@ transcribe ../reference/work-item-schemas.md, the registry that completes the
 refinable set. All of it is specific to this flowspace), plus a conditional
 handoff at step 7 to `value-decomposition` (skill spec in
 `produced-skills/value-decomposition/`, `verified`) when the user asks to
-decompose a selected parent-level item
+decompose (or "break down") a selected parent-level item
 
 1. **Trigger detection** — recognize one of the defined trigger phrases.
 2. **Flowspace purpose statement** — displayed immediately under the
@@ -119,8 +119,10 @@ decompose a selected parent-level item
 
    **Decomposition handoff.** If the selected type is a parent-level type
    (`portfolio_epic`, `solution_epic`, or `feature`) and the user states a
-   desire to decompose it into children — rather than refine it directly as
-   a single item — hand off here to the `value-decomposition` skill
+   desire to decompose it into children — worded as "decompose," "break
+   down," "break this into," "split this up," or equivalent; treat these as
+   the same intent, not distinct triggers — rather than refine it directly
+   as a single item, hand off here to the `value-decomposition` skill
    (`produced-skills/value-decomposition/`, `verified`; see its own
    Triggering intent and Method). That skill proposes a candidate child set
    one hierarchy level down, walks the user through review (accept all /
@@ -274,11 +276,12 @@ Running this check leaves a one-line result in the run's decision log.
       redirected, not refined; if agent-proposed, the rationale is in the
       transcript and the user's confirm/override is recorded
 - [ ] If the selected type was parent-level (`portfolio_epic`, `solution_epic`,
-      `feature`) and the user stated a decomposition intent, the
-      `value-decomposition` skill was invoked rather than proceeding to
-      elicit fields for the parent item directly; the run's own pass ended
-      cleanly on that skill's stop/reject-all verdict or on handing off
-      accepted children to their own Stage 02 runs
+      `feature`) and the user stated a decomposition intent (however
+      phrased — "decompose," "break down," "break this into," "split this
+      up," etc.), the `value-decomposition` skill was invoked rather than
+      proceeding to elicit fields for the parent item directly; the run's
+      own pass ended cleanly on that skill's stop/reject-all verdict or on
+      handing off accepted children to their own Stage 02 runs
 - [ ] Any source material was typed against the HUB input taxonomy (all nine
       types, including the prior-completed-work row and the unclassified
       catch-all) and screened (names/addresses stripped; third-party material
