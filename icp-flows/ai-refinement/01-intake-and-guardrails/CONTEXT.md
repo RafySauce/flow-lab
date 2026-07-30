@@ -4,11 +4,11 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.11"
+artifact-version: "1.12"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-28
+updated: 2026-07-30
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -19,6 +19,7 @@ related:
   - "[[ai-refinement-hybrid]]"
   - "[[work-item-schemas]]"
   - "[[platform-stakeholder-register]]"
+  - "[[value-decomposition]]"
 ---
 
 # Stage 01 — Intake & Guardrails
@@ -39,10 +40,13 @@ related:
 
 ## Process
 
-`Layer-3: inline (one-off — the guardrail and persona content below is
+`Layer-3: inline` (one-off — the guardrail and persona content below is
 transcribed from ../reference/ai-refinement-hybrid.md; the schema bullets
 transcribe ../reference/work-item-schemas.md, the registry that completes the
-refinable set. All of it is specific to this flowspace)`
+refinable set. All of it is specific to this flowspace), plus a conditional
+handoff at step 7 to `value-decomposition` (skill spec in
+`produced-skills/value-decomposition/`, `verified`) when the user asks to
+decompose a selected parent-level item
 
 1. **Trigger detection** — recognize one of the defined trigger phrases.
 2. **Flowspace purpose statement** — displayed immediately under the
@@ -112,6 +116,21 @@ refinable set. All of it is specific to this flowspace)`
    If the user asks for a `sub_task`, redirect per the registry's out-of-scope
    table (sub-tasks are created directly in Jira under an already-committed
    parent) — that type alone stays out of this pipeline.
+
+   **Decomposition handoff.** If the selected type is a parent-level type
+   (`portfolio_epic`, `solution_epic`, or `feature`) and the user states a
+   desire to decompose it into children — rather than refine it directly as
+   a single item — hand off here to the `value-decomposition` skill
+   (`produced-skills/value-decomposition/`, `verified`; see its own
+   Triggering intent and Method). That skill proposes a candidate child set
+   one hierarchy level down, walks the user through review (accept all /
+   edit / reject some / stop), and hands each accepted child into its own
+   Stage 02 run pre-seeded with this item's context — this pass ends here
+   for the parent item itself; no fields are elicited for it directly, and a
+   stop or reject-all verdict returns control here with nothing created.
+   Ordinary single-item refinement — the user states no decomposition
+   intent, including a run that merely has a parent link already set —
+   proceeds to step 8 as before.
 8. **Supporting-context research** — the pipeline's active look for grounding
    documents (`supporting_context_research` house amendment,
    `../reference/ai-refinement-hybrid.md`):
@@ -217,6 +236,7 @@ refinable set. All of it is specific to this flowspace)`
 |---|---|---|
 | Acknowledged responsibility flag | Stage 02 | boolean |
 | Selected work item type + loaded schema (+ agent rationale, if proposed) | Stages 02–06 | YAML schema reference + text |
+| Decomposition handoff (if triggered): accepted children, each pre-seeded with parent context + drafted value statement | `value-decomposition` output, consumed by a Stage 02 run per accepted child | list of pre-seeded run contexts |
 | Active persona contract (communication_style binding) | Stages 02–06 | persona object |
 | Screened source material + input-type tag (when provided) | Stage 02 | text + type tag |
 | Work-focus classification (engineering/enhancement, operations, or mixed) + rationale | Stages 02, 03 | text |
@@ -253,6 +273,12 @@ Running this check leaves a one-line result in the run's decision log.
       clipping, for the two source-defined types); out-of-scope types were
       redirected, not refined; if agent-proposed, the rationale is in the
       transcript and the user's confirm/override is recorded
+- [ ] If the selected type was parent-level (`portfolio_epic`, `solution_epic`,
+      `feature`) and the user stated a decomposition intent, the
+      `value-decomposition` skill was invoked rather than proceeding to
+      elicit fields for the parent item directly; the run's own pass ended
+      cleanly on that skill's stop/reject-all verdict or on handing off
+      accepted children to their own Stage 02 runs
 - [ ] Any source material was typed against the HUB input taxonomy (all nine
       types, including the prior-completed-work row and the unclassified
       catch-all) and screened (names/addresses stripped; third-party material

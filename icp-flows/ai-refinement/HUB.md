@@ -2,11 +2,11 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.15"
+artifact-version: "1.16"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-28
+updated: 2026-07-30
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -71,7 +71,7 @@ flowchart LR
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all seven refinable types) |
+| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all seven refinable types); plus a conditional handoff to `value-decomposition` (verified, `produced-skills/`) when the user asks to decompose a selected parent-level item |
 | 2 | Context & Problem Framing | heavy¹ | internal | Rovo, Copilot | `context-elicitation` (verified, `produced-skills/`) |
 | 3 | Scope & Dependencies | light² | internal | Rovo, Copilot | `scope-dependency-mapper` (verified, `produced-skills/`) |
 | 4 | Field-by-Field Refinement | light² | internal | Rovo, Copilot | `field-refinement-cadence` (verified, `produced-skills/`) |
@@ -215,6 +215,27 @@ inconvenience.
 
 ## Known gaps
 
+Ninth gap (2026-07-30): the `value-decomposition` skill was built 2026-07-15
+(fifth gap below) at `produced-skills/value-decomposition/`, `truth-level:
+verified`, but the build never closed the loop on the flowspace side — its
+own frontmatter claimed "Invoke from Stage 01," yet neither this hub's
+Layer-3 stage table nor Layer-3 reference table nor Stage 01's own
+`01-intake-and-guardrails/CONTEXT.md` referenced it, leaving it orphaned
+(discoverable only by reading the skill spec directly). Closed here: Stage
+01 (1.11 → 1.12) gains a decomposition handoff at step 7 — if the selected
+type is parent-level (`portfolio_epic`, `solution_epic`, `feature`) and the
+user states a decomposition intent, control passes to `value-decomposition`
+instead of proceeding to field elicitation for the parent item directly,
+with a new Verify checklist item and Outputs row covering the handoff; this
+hub's stage table (Stage 1 row) and Layer-3 reference table both now list
+the skill, with its target stage marked as a conditional handoff rather
+than the stage's default path (unlike Stages 2–6, where the Layer-3 skill
+*is* the stage). No skill content changed — `value-decomposition` stays at
+its existing spec version 1.0 and `truth-level: verified`; only the
+flowspace-side references were added. None of this has run on-engine.
+Raised by the operator. Rationale:
+`decision-log/2026-07-30-value-decomposition-wiring-fix.md`.
+
 Eighth gap (2026-07-28): the `mandatory_labels` provenance label changes from
 the static `refine-ai-built` to `refine-ai-flow-v<version>` — this
 flowspace's own `artifact-version`, needing no live query — replacing it
@@ -254,7 +275,7 @@ to `truth-level: to-review` alongside Stage 01 and this flowspace itself,
 pending a gate re-run. None of it has run on-engine. Rationale:
 `decision-log/2026-07-27-chat-session-degrade-paths.md`.
 
-All five skills demanded by this flowspace's Layer-3 triage are
+All five skills forming the default per-item pipeline (Stages 2–6) are
 `truth-level: verified` and live in `produced-skills/` — operator promotion
 2026-07-03, evidence in
 `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-promotion.md`
@@ -274,6 +295,7 @@ at deployment, the operator's act, recorded in each skill card.
 | `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.3 (conditionally-scoped cadence: fast-track consolidation vs. one-at-a-time, communication_style citation); promoted 2026-07-03; deployment pending |
 | `workitem-validation` | `sp-workitem-validation` | 5 | to-review — 1.3 (mandatory-label check renamed to the versioned provenance label); promoted 2026-07-03, since revised; deployment pending |
 | `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.9 (provenance label renamed to its versioned form); promoted 2026-07-03, since revised; deployment pending |
+| `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.0 (built 2026-07-15; wired into Stage 01's CONTEXT.md and this table 2026-07-30 — see Ninth gap); deployment pending |
 
 Second gap (2026-07-03): the work-item schema registry
 (`reference/work-item-schemas.md`) completes type coverage — the source
