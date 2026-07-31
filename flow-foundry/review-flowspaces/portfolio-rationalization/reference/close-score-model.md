@@ -2,11 +2,11 @@
 id: close-score-model
 title: "Close-Score Model & Recommendation Taxonomy"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-07-29
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -119,6 +119,16 @@ necessarily whose *work* is unaligned. This is deliberate — such items need
 human attention — but it is also why Stage 03 carries heavy review and why the
 corroboration rule exists. An item that is merely badly worded will typically
 fail to corroborate on the other dimensions and stay out of the closure bands.
+
+**Provenance caveat.** Stage 03's dictionary may carry `provenance: inferred`
+rather than `operator-authored` (`objective-dictionary-template.md` §9). This
+dimension's arithmetic does not change based on provenance — an
+inferred-and-confirmed mapping scores exactly as an authored one would. What
+changes is that every score built on an inferred dictionary carries a caveat
+through Stage 04 and Stage 05, because it has not been through the same
+organizational-accountability test an authored dictionary's owner provides.
+Treat the caveat as trust information for the reader, not a scoring
+adjustment.
 
 ### 3.3 Staleness — 0 to 15
 
@@ -314,6 +324,10 @@ Unratified. What the operator must confirm before the first live run:
    the single largest push in the model and fires on a wording failure. One
    real cycle will show whether the corroboration rule is sufficient protection
    or whether the ceiling needs lowering.
+6. **Whether inferred-and-confirmed dictionaries need materially different
+   treatment** once real cycles run with them — an open question, deliberately
+   not resolved by adding an untested point adjustment now (§3.2's provenance
+   caveat).
 
 Record the calibration decision in the instance's `decision-log/` and bump this
 file's `artifact-version` when any number changes.

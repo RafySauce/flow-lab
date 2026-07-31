@@ -4,11 +4,11 @@ title: "Stage 05 — Recommendation & Disposition Packet"
 type: stage-context
 stage: 5
 review-intensity: light
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-07-29
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -71,8 +71,10 @@ related:
      objective area with its matched keywords, and the dictionary version used.
      This is what lets an owner disagree specifically rather than generally.
    - **Caveats** — every scoring caveat from Stage 04 that applies: degraded
-     mapping, low-confidence staleness, unmapped status, unknown due date.
-     A packet that hides its own weak evidence is worse than no packet.
+     mapping, low-confidence staleness, unmapped status, unknown due date,
+     and whether this cycle's objective mapping rests on an
+     `inferred-and-confirmed` dictionary rather than an operator-authored
+     one. A packet that hides its own weak evidence is worse than no packet.
    - **A suggested question for the owner** — one specific question this item's
      signal pattern actually raises. An old, sparse, unaligned Backlog item
      asks "is this still needed, and if so what changed since it was written?"
