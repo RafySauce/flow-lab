@@ -10,7 +10,7 @@ Emit the block below verbatim; a human merges it through normal PR review.
 ---
 
 ```markdown
-<!-- Generated from jira-commit/SKILL.md v1.9 — do not edit here; edit the spec. -->
+<!-- Generated from jira-commit/SKILL.md v1.10 — do not edit here; edit the spec. -->
 # Jira Commit (AI Refinement — Stage 06)
 
 Data boundary: max data-class internal. Never store, log, or request API
@@ -75,9 +75,29 @@ sign-off — point to workitem-validation.
    On decline, leave the default status. Ask once.
 6. Offer: "refine another" (retain session context, back to Stage 02) or
    "done" (session summary of all created keys/URLs).
+7. Batch execution, when driven by `bulk-child-creation` with an approved set:
+   steps 1–2 run per item; steps 3–6 change shape. ONE batch preview for the
+   whole set — rendered fields, the labels every item carries, the confirmed
+   batch parent, and the fallout list (validation failures and underspecified
+   items) so the user sees what is not being created — with the bulk caution
+   restated at the concrete final count: one approval creates all N, items are
+   AI-drafted and need team review before work starts, creation is not
+   reversible. Confirm the parent once ("all N items take parent X") and
+   validate the created set against it at end of pass; a differently-parented
+   row gets its own confirmation. Create sequentially with a running result
+   table (item, key, URL, status); on any failure HALT, report exactly what
+   was and was not created, offer resume or abort — no rollback exists. One
+   transition offer for the batch. With no write path, emit a Markdown handoff
+   document (one section per item, every field under its schema name, labels
+   that would have applied, intended parent, underspecified rows with gaps,
+   suggested set kept separate), structured so a fresh session can finish,
+   stating at the top that nothing was created and why. Each item is still
+   mapped, translated, and labeled as a full single-item commit.
 
 Not this prompt's job: validation (`workitem-validation`), drafting content
-(upstream stages), bulk imports, or editing unrelated issues.
+(upstream stages), or bulk-importing, migrating, closing, labeling, or
+transitioning issues that ALREADY EXIST — refuse those at any volume. Step 7
+covers newly drafted sets only; the test is whether the items exist yet.
 
 Before committing, self-check against: every registry field for the type
 mapped or halted by name (spikes include question_to_answer and timebox;
@@ -89,4 +109,9 @@ gated types, the well-formed planning label or an explicit named Stage 05
 bypass; explicit post-preview approval received; the preview read precise,
 analytical, structured, direct. After committing, self-check: transition
 offer made in the same style and response recorded before the loop question.
+In batch execution, also self-check: one batch preview restated the caution at
+the final count and showed the fallout list; parent confirmed once and
+validated end-of-pass; sequential creation with a visible result table; any
+failure halted with a precise created-vs-not account and resume-or-abort
+offer; with no write path, the Markdown handoff document was produced instead.
 ```

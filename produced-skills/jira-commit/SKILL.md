@@ -11,22 +11,24 @@ description: >
   commit through the engine's native Jira capabilities, offers a post-commit
   status transition, and manages the session loop/close decision. Invoke at
   Stage 06 of the ai-refinement flowspace with a signed-off Stage 05 payload
-  in hand. Do NOT use to validate the payload (workitem-validation) or for
-  bulk imports/edits of existing issues outside a refinement run.
+  in hand. Also executes the per-item commits of an approved bulk-creation
+  set on behalf of bulk-child-creation, sequentially and halting on first
+  failure. Do NOT use to validate the payload (workitem-validation) or for
+  bulk imports, migrations, or edits of issues that already exist.
 # --- provenance (house layer) ---
 id: jira-commit
 type: skill
-artifact-version: "1.9"
+artifact-version: "1.10"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-28
+updated: 2026-07-31
 owner: operator
 source: human+ai
 generated-by: skill-foundry
 generated-by-version: "1.1"
 data-class: public
-related: ["[[sp-jira-commit]]", "[[ai-refinement]]", "[[work-item-schemas]]"]
+related: ["[[sp-jira-commit]]", "[[ai-refinement]]", "[[work-item-schemas]]", "[[bulk-child-creation]]"]
 ---
 
 # Jira Commit
@@ -61,6 +63,12 @@ flowchart LR
     TX --> SL["Step 6 — Session loop<br/>Refine another / done"]:::process
     SL --> Output(["Output: issue key + URL<br/>(+ session summary on close)"]):::output
 
+    Start -.->|"approved bulk set"| B7["Step 7 — Batch execution<br/>One batch preview + caution at final count;<br/>parent confirmed once, validated end-of-pass;<br/>sequential create, running result table"]:::process
+    B7 --> BF{"Any item fails?"}:::decision
+    BF -->|Yes| BH["Halt the batch — report created<br/>vs. not created; resume or abort"]:::halt
+    BF -->|"No write path"| BMD["Markdown handoff document —<br/>nothing created, reason stated"]:::halt
+    BF -->|No| Output
+
     classDef start fill:#1e293b,stroke:#94a3b8,color:#f1f5f9
     classDef process fill:#1e3a8a,stroke:#60a5fa,color:#dbeafe
     classDef decision fill:#78350f,stroke:#fbbf24,color:#fef3c7
@@ -72,10 +80,16 @@ flowchart LR
 
 - **Fires on:** Stage 06 of `ai-refinement`, with a Stage 05 signed-off payload
   in hand; "commit this item to Jira."
+- **Also fires on:** the commit phase of an approved bulk-creation set, driven
+  per item by `bulk-child-creation` after Stage 05's per-item validation and
+  the batch approval — see Method step 7.
 - **Does not fire on (near-misses):** validating or formatting the payload
   (`workitem-validation`); creating issues from unrefined text ("just make a
   ticket that says…" — route through the pipeline); bulk imports, migrations,
-  or edits to existing issues outside a refinement run.
+  or edits to issues that already exist — bulk-closing, bulk-labeling,
+  bulk-transitioning, or loading a backlog into existing records. Creating a
+  newly drafted set is bulk *creation* and is in scope via step 7; operating on
+  a set that already exists is not, at any volume.
 
 ## Method
 
@@ -171,6 +185,44 @@ flowchart LR
 6. **Session loop.** "Refine another" → retain session context (guardrails,
    persona, schemas) and return to Stage 02. "Done" → produce the session
    summary listing every created key/URL.
+7. **Batch execution (bulk creation mode only).** When driven by
+   `bulk-child-creation` with an approved set, steps 1–2 run per item and steps
+   3–6 change shape:
+   - **One batch preview, not N.** Present the whole approved set in rendered
+     form with the labels every item carries, the confirmed batch parent, and
+     the fallout list (validation failures and underspecified items, so the
+     user sees what is *not* being created). Restate the bulk caution with the
+     concrete final count — one approval creates all N, the items are
+     AI-drafted and need team review before work starts, and creation is not
+     reversible. One approval covers the set; there is no per-item approval in
+     this mode.
+   - **Parent confirmed once, validated at the end.** The user confirms "all N
+     items take parent X" as one explicit act at step 2, and the created set is
+     validated against that parent after creation completes rather than before
+     each create. This narrowing applies in bulk mode and nowhere else, and it
+     holds because a parent link is editable after creation. A row naming a
+     different parent falls out of the batch default and gets its own
+     confirmation.
+   - **Create sequentially, halt on failure.** Maintain a running result table
+     — item, key, URL, status — visible as creation proceeds. On any failure,
+     stop rather than continuing into the remaining items; report precisely
+     what was created and what was not; offer resume-from-failure or abort.
+     There is no rollback, and the acknowledgment said so before approval. A
+     partial batch is always reported as partial.
+   - **One transition offer for the batch**, not one per item — still offered
+     once, still no transition without an explicit "yes."
+   - **No write path: produce the handoff document.** Instead of step 4's
+     single preview-only terminal output, emit a Markdown handoff document
+     carrying the full drafted set — one section per item with every field
+     under its schema name, the labels that would have applied, the intended
+     parent, underspecified rows with their named gaps, and the suggested set
+     kept separate — structured so a fresh session can finish the job without
+     re-deriving anything, stating plainly at the top that nothing was created
+     and why. A valid terminal output, not a failure state.
+
+   Everything else is unchanged: each item is mapped from the registry,
+   format-translated, and labeled exactly as a single-item commit, and answers
+   to the same review criteria.
 
 ## Inputs and grounding
 
@@ -202,7 +254,16 @@ platform's actual response, never a presumed success.
 - **Not a validator** — it assumes a signed-off payload; unvalidated input is
   refused and routed to `workitem-validation`.
 - **Not a drafting tool** — content questions reopen the upstream stages.
-- **Not a bulk-import or migration tool** — one signed-off item per commit.
+- **Not a bulk-import or migration tool** — and the distinction matters, since
+  1.10 made this skill the executor for bulk creation. What stays refused:
+  importing, migrating, or editing issues that **already exist** — bulk-closing,
+  bulk-labeling, bulk-transitioning, or loading a backlog from a spreadsheet
+  into existing records. What is now delegated to this skill: the per-item
+  commits of a **newly drafted** set that passed Stage 05's per-item validation
+  and one batch approval, driven by `bulk-child-creation`. The test is whether
+  the items exist yet. Each commit in a batch is still a full commit — mapped,
+  translated, labeled, and answerable to the same review criteria — not a
+  reduced import path.
 - **Not autonomous** — no commit without the dry-run preview and explicit
   approval, ever; this mirrors the flowspace's human-at-every-boundary method.
 
@@ -238,15 +299,48 @@ A single output of this skill is acceptable when:
 8. Any API error was reported verbatim with no partial state left silent.
 9. The dry-run preview and the transition-offer question read as precise,
    analytical, structured, and direct — no hedged phrasing on either.
+10. In bulk creation mode: one batch preview restated the caution with the
+    concrete final count and showed the fallout list; the parent was confirmed
+    once as an explicit act and validated against the created set at the end of
+    the pass; creation ran sequentially with a running result table; and any
+    failure halted the batch with a precise account of what was and was not
+    created plus a resume-or-abort offer — never a silent continuation or an
+    unreported partial state. With no write path, the Markdown handoff document
+    was produced instead, stating plainly that nothing was created.
+11. A request to bulk-import, migrate, bulk-close, bulk-label, or
+    bulk-transition issues that **already exist** was refused at any volume —
+    the delegation in criterion 10 covers newly drafted sets only.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.9 |
-| Copilot | adapters/copilot-prompt.md | 1.9 |
+| Rovo | adapters/rovo-agent.md | 1.10 |
+| Copilot | adapters/copilot-prompt.md | 1.10 |
 
 ## Changelog
+
+- **1.10** (2026-07-31) — Bulk creation support. The "not a bulk-import or
+  migration tool" boundary is **split rather than dropped**: importing,
+  migrating, or editing issues that *already exist* stays refused at any
+  volume, while the per-item commits of a *newly drafted* set that passed
+  Stage 05 per-item validation and one batch approval are now delegated to
+  this skill by `bulk-child-creation`. The test is whether the items exist
+  yet. New Method step 7 defines batch execution: one batch preview with the
+  caution restated at the concrete final count and the fallout list shown;
+  the parent confirmed once for the batch and validated against the created
+  set at the end of the pass (a narrowing of `parent_mapping_confirmation`
+  that applies in this mode only, and holds because parent links are editable
+  after creation); sequential creation with a running result table, halting on
+  first failure with a resume-or-abort offer and no rollback; one transition
+  offer for the batch; and a Markdown handoff document as the no-write-path
+  terminal output in place of the single-item preview-only path. Triggering
+  intent gains a "also fires on" clause and a sharpened near-miss. Review
+  criteria 10 and 11 added. `truth-level` stays `to-review` — content change,
+  gate re-run still owed. Both adapters regenerated (also required
+  independently: `HUB.md` 1.17 → 1.18 changes the provenance label value to
+  `refine-ai-flow-v1.18`, per the maintenance coupling flagged in 1.9). See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-31-bulk-creation-mode.md`.
 
 - **1.9** (2026-07-28) — The `mandatory_labels` provenance label renamed:
   Method step 2's labeling now applies `refine-ai-flow-v<version>` (the

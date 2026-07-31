@@ -4,11 +4,11 @@ title: "Stage 02 — Context & Problem Framing"
 type: stage-context
 stage: 2
 review-intensity: heavy
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-21
+updated: 2026-07-31
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -31,7 +31,8 @@ related:
 | Active persona contract (communication_style binding) | Stage 01 | Yes |
 | Selected mode (fast-track / full-interactive) + rationale | Stage 01 | Yes |
 | User's raw problem description / context | User | Yes |
-| Screened source material + input-type tag (any of the nine HUB "Common source inputs" types) | Stage 01 | No |
+| Screened source material + input-type tag (any of the ten HUB "Common source inputs" types) | Stage 01 | No |
+| Selected creation mode (bulk / single-item) | Stage 01 | Yes |
 | Supporting-context document set (typed + screened) + research record (sought/found/not found) | Stage 01 | No |
 | Work-focus classification (engineering/enhancement, operations, or mixed) + rationale | Stage 01 | No |
 | Stakeholder register (role-types, "what they value most"), if loaded | `../reference/platform-stakeholder-register.md` or a domain instance | If grounded |
@@ -114,6 +115,26 @@ related:
    the Stage 03–05 consolidation (see those stages' Review sections) does not
    reach back to fold Stage 02 in, since this stage's review stays heavy in
    every mode (see Review, below).
+
+**In bulk creation mode**, this stage folds into `bulk-child-creation`'s
+batch-draft pass (Band ③) rather than running per item. Two consequences, both
+deliberate:
+
+- **The stakeholder sweep runs once, for the batch, not per item.** The set
+  shares a parent and a context; sweeping the same register entries N times
+  produces N identical tag lists. The batch's tag list applies to every item,
+  and an item whose stakeholders genuinely differ is surfaced individually
+  rather than absorbed.
+- **Problem recovery does not run at all.** A set-shaped input's items are
+  already decided (HUB taxonomy row 10) — there is no request-shaped material
+  to recover a problem from, and inventing one per row is exactly the
+  fabrication the mode's anti-fabrication rule forbids. What this stage
+  contributes instead is the batch's shared grounding: the parent item's
+  problem statement and value, restated from its source and never invented, as
+  the context each drafted child inherits.
+
+An item the pass reports as **underspecified** may be routed into an ordinary
+Band ② run, where this stage applies in full and unchanged.
 
 ## Outputs
 

@@ -4,11 +4,11 @@ title: "Stage 06 — Jira Commit & Close"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.9"
+artifact-version: "1.10"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-28
+updated: 2026-07-31
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -17,6 +17,7 @@ data-class: public
 related:
   - "[[ai-refinement]]"
   - "[[jira-commit]]"
+  - "[[bulk-child-creation]]"
 ---
 
 # Stage 06 — Jira Commit & Close
@@ -33,6 +34,9 @@ related:
 | Candidate parent items (queried live from the target instance) | Jira (via native lookup) | If applicable |
 | Confirmed parent choice (confirm / skip / create-new) | User | If applicable |
 | Resolved team_code + session planning quarter (+ any Stage 05 label bypass) | Stage 01 (+ Stage 05) | Yes |
+| Selected creation mode (bulk / single-item) + bulk acknowledgment record | Stage 01 | Yes |
+| Per-item validation table + fallout list | Stage 05 | If bulk |
+| Batch-scope answers (intended parent, due-date anchor) | Stage 01 | If bulk |
 
 ## Process
 
@@ -57,13 +61,28 @@ renamed to its versioned form, gate re-run owed)
      structural markup, so this stage owns the translation. This is the
      flowspace's `format_translation_gate` house amendment
      (`../reference/ai-refinement-hybrid.md`).
-2. **Hierarchy linkage — hard carve-out, every mode, no exception.** Resolve
-   parent-child relationships. Parent mapping is default behavior for every
-   type this stage commits except `portfolio_epic` (top of the refinable
-   set — no parent within scope). This step is never compressed or skipped
-   by fast-track mode — the mode selected at Stage 01 governs how many
-   Stages 02–05 fields were extracted versus elicited; it has no bearing
+2. **Hierarchy linkage — hard carve-out, never skipped; batch-scoped in bulk
+   mode only.** Resolve parent-child relationships. Parent mapping is default
+   behavior for every type this stage commits except `portfolio_epic` (top of
+   the refinable set — no parent within scope). This step is never compressed
+   or skipped by fast-track mode — the mode selected at Stage 01 governs how
+   many Stages 02–05 fields were extracted versus elicited; it has no bearing
    here.
+
+   **In bulk creation mode** the confirmation is taken once for the batch
+   rather than once per item, and validated at the end of the pass rather than
+   before each create — the narrowing the `bulk_creation_acknowledgment`
+   amendment defines, applying in this mode and nowhere else. Candidate
+   parents are queried and presented exactly as below; the user confirms
+   **"all N items take parent X"** as one explicit act; and step 7a validates
+   the created set against that parent once creation completes. This is
+   sufficient here, and only here, because a parent link is editable after
+   creation — an incorrect batch parent is a correction, not the irreversible
+   mis-assignment the amendment was written to prevent. Two things do not
+   relax: the confirmation is still explicit (never a silently carried-forward
+   Stage 01 hierarchy position), and a row whose content names a **different**
+   parent falls out of the batch default and gets its own confirmation rather
+   than being absorbed.
    - Query the target instance for existing candidates of the appropriate
      parent type (portfolio epics for a solution epic; solution epics for a
      feature; the epic's existing features for a story/task/spike/bug).
@@ -103,18 +122,68 @@ renamed to its versioned form, gate re-run owed)
    the resolved planning label (and, if Stage 05 recorded a bypass, that
    exception plainly) and offer a per-item quarter override — the rare item
    that targets a different quarter than the session default — before commit.
+
+   **In bulk creation mode this becomes one batch preview covering the whole
+   approved set**, and it is the second of the mode's two acknowledgment
+   points. Present: the items to be created with their key fields in rendered
+   form; the labels every item will carry; the confirmed batch parent; the
+   fallout list from Stage 05 (validation failures and underspecified items,
+   with their defects) so the user sees what is *not* being created; and the
+   suggested-item set kept visibly separate from the grounded set. **Restate
+   the bulk caution here with the concrete final count** — that this single
+   approval creates all N items, that they are AI-drafted and need team review
+   before work starts, and that creation is not reversible by this flow. One
+   approval covers the set; there is no per-item approval in this mode, which
+   is precisely what the Stage 01 acknowledgment covered.
 6. **Commit** — execute through the engine's native Jira capabilities first
    (Rovo built-in create/update issue and issue-link actions); the sanctioned
    Jira integration is the fallback for engines without them (Copilot).
-7. **Confirm success** — return the created issue key and URL to the user.
+
+   **In bulk mode, create sequentially and halt on failure.** Maintain a
+   running result table — item, key, URL, status — visible as creation
+   proceeds. On any failure, stop the batch rather than continuing into the
+   remaining items; report precisely what was created and what was not; then
+   offer resume-from-failure or abort. There is no rollback: items already
+   created stay created, which the Stage 01 acknowledgment and the step 5
+   preview both stated before approval. The user must never be left uncertain
+   about what landed in Jira.
+
+   **No write path available at all** (neither a native engine action nor a
+   sanctioned connector — the same condition Stage 06 already handles for
+   single items): in bulk mode, offer to produce a **Markdown handoff
+   document** carrying the full drafted set — one section per item with every
+   field under its schema name, the labels that would have been applied, the
+   intended parent, the underspecified rows with their named gaps, and the
+   suggested set kept separate — structured so a fresh session can pick it up
+   and finish the job without re-deriving anything, and stating plainly at the
+   top that nothing was created and why. This is a valid terminal output of
+   the stage, not a failure state.
+7. **Confirm success** — return the created issue key and URL to the user; in
+   bulk mode, the completed result table for the whole set.
+
+   7a. **Post-creation parent validation (bulk mode).** Validate the created
+   set against the batch parent confirmed at step 2 — the end-of-pass check
+   that the batch-scoped narrowing relies on. Report any item whose parent did
+   not attach, and correct it directly rather than leaving it silent; parent
+   links are editable, which is what makes end-of-pass validation sufficient
+   in this mode. Close by restating that every created item carries
+   `refine-ai-flow-v<version>` as a pending-review flag and needs team review
+   before work starts.
 8. **Offer status transition** — ask whether to move the item to In Progress
    (or the board's equivalent active status); execute via the engine's native
    Jira capabilities on confirmation, leave the default status on decline.
    This is the flowspace's `post_commit_transition_offer` house amendment
-   (`../reference/ai-refinement-hybrid.md`).
+   (`../reference/ai-refinement-hybrid.md`). In bulk mode the offer is made
+   once for the batch, not once per item — still offered once, still no
+   transition without an explicit "yes," and a set whose items should start in
+   different states is transitioned individually in Jira rather than here.
 9. **Session loop decision**:
    - "Refine another" → loop back to Stage 02 with session context retained
    - "Done" → close session, produce session summary
+
+   After a bulk pass, the loop offers the same choices plus routing any
+   underspecified or fallout item into its own Band ② run, since those are the
+   items most likely to need real refinement rather than another batch.
 
 ## Outputs
 
@@ -123,6 +192,8 @@ renamed to its versioned form, gate re-run owed)
 | Created Jira issue key + URL | User | Link |
 | API response confirmation | Run decision log | JSON |
 | Session summary (if closing) | User / audit | Structured summary |
+| Batch result table (item, key, URL, status) + not-created list | User; run decision log | Structured per-item table |
+| Markdown handoff document (bulk mode, no write path) | User / a fresh session | Markdown file |
 
 ## Verify
 
@@ -156,6 +227,18 @@ Running these checks leaves a one-line result in the run's decision log.
 - [ ] User was offered the post-commit status transition (accept or decline
       recorded)
 - [ ] User was offered loop/close decision
+- [ ] In bulk mode, the batch preview restated the caution with the concrete
+      final count, showed the fallout list (what is *not* being created), and
+      kept suggested items visibly separate from grounded ones
+- [ ] In bulk mode, the parent was confirmed once as an explicit act ("all N
+      items take parent X"), any differently-parented row was surfaced
+      individually, and step 7a validated the created set against that parent
+- [ ] In bulk mode, creation was sequential with a running result table, and
+      any failure halted the batch with a precise account of what was and was
+      not created plus a resume-or-abort offer — no silent continuation
+- [ ] In bulk mode with no write path, the Markdown handoff document was
+      produced, stated plainly that nothing was created and why, and carried
+      the full set structured for a fresh session to finish
 
 ## Review
 
@@ -164,7 +247,10 @@ Running these checks leaves a one-line result in the run's decision log.
   incorrect API payload creates real Jira artifacts that require manual
   cleanup. Fast-track mode never compresses this stage's review, same as
   Stage 01 — the Stage 03–05 consolidation (Stage 05's Review section) stops
-  at Stage 05 and never reaches into Stage 06.
+  at Stage 05 and never reaches into Stage 06. Bulk mode does not compress it
+  either: the batch preview is a heavy review of the whole set, and the
+  stakes are higher here than in a single-item run, not lower — N artifacts
+  requiring manual cleanup instead of one, with no rollback.
 - **Evidence:** the approved dry-run preview, the API response captured in the
   run's decision log, and the returned issue key.
 

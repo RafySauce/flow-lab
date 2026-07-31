@@ -2,11 +2,11 @@
 id: ai-refinement-hybrid
 title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-28
+updated: 2026-07-31
 owner: operator
 source: human+ai
 data-class: public
@@ -42,7 +42,12 @@ related:
 > flowspace's own `artifact-version`, and the amendment now states the
 > label's purpose in the rule itself (a pending-review flag the team removes
 > once their review is complete) rather than leaving it implicit; see
-> `decision-log/2026-07-28-provenance-label-versioning.md`. `truth-level`
+> `decision-log/2026-07-28-provenance-label-versioning.md`. **1.5** adds an
+> eighth, `bulk_creation_acknowledgment` — also operator-raised: the pipeline
+> now recognizes set-shaped input and offers a bulk creation mode behind a
+> separate, explicit acknowledgment, with anti-fabrication and
+> suggested-work-separation fixed in the rule; see
+> `decision-log/2026-07-31-bulk-creation-mode.md`. `truth-level`
 > returns to `to-review`: the new amendment is house-authored pending
 > operator sign-off.
 
@@ -180,7 +185,7 @@ triggers:
 
 ---
 
-## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21)
+## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21; eighth added 2026-07-31)
 
 The first five rules below are house-authored, discovered through the
 flowspace's first on-engine invocation (Rovo, NEADD-1827) and the resulting
@@ -194,7 +199,9 @@ was added 2026-07-15, raised directly by the operator rather than discovered
 through on-engine defect feedback — see
 `decision-log/2026-07-15-provenance-and-planning-labels.md`. The seventh
 (`supporting_context_research`) was added 2026-07-21, also operator-raised —
-see `decision-log/2026-07-21-supporting-context-research.md`.
+see `decision-log/2026-07-21-supporting-context-research.md`. The eighth
+(`bulk_creation_acknowledgment`) was added 2026-07-31, also operator-raised —
+see `decision-log/2026-07-31-bulk-creation-mode.md`.
 
 ```yaml
 house_amendments:
@@ -246,7 +253,7 @@ house_amendments:
     rule: >
       Every item this pipeline commits carries refine-ai-flow-v<version>
       (literal prefix, lowercase; <version> is this flowspace's own
-      artifact-version, e.g. refine-ai-flow-v1.14) as a provenance label,
+      artifact-version, e.g. refine-ai-flow-v1.18) as a provenance label,
       applied at Stage 06 regardless of type or mode. This label needs no
       live query — the version is the flowspace's own, known at session
       start — and it replaces the earlier static refine-ai-built label
@@ -317,12 +324,105 @@ house_amendments:
       classified user-supplied source material and never went looking for
       the SAD or other grounding documents that anchor scope, stakeholders,
       and dependencies.
+
+  bulk_creation_acknowledgment:
+    rule: >
+      The pipeline recognizes when its input is a set of already-decided
+      work items rather than one item needing refinement — a spreadsheet or
+      export, a pasted list, vendor documentation enumerating required
+      actions, a conversation naming several discrete pieces of work, or an
+      accepted value-decomposition child set — and offers bulk creation
+      mode. The mode is inferred from the shape of the input and proposed
+      with a stated item count, a per-row type reading, and the reasoning;
+      it is never selected on the user's behalf, and the user may force
+      single-item refinement regardless. Bulk creation mode is a separate
+      axis from fast-track, not a widening of it: fast-track governs how
+      deeply one item is elicited, bulk governs how many items one pass
+      produces, and the two compose when the supplied context is rich
+      enough. Because a single approval creates many items at once, bulk
+      mode never runs without an explicit acknowledgment that is separate
+      from and additional to Stage 01's general responsibility notice, and
+      separate from the mode selection itself — the user answers the mode
+      question, then acknowledges, as two distinct acts; one "yes" never
+      satisfies both. The acknowledgment is taken per bulk pass, never
+      carried forward across passes, never inferred, and always before any
+      ingest or drafting. It states five things plainly: the number of
+      items to be created; that a single approval creates all of them; that
+      the items are AI-drafted and may be incorrect, incomplete, or
+      mis-scoped — the drafting is proportionally shallower per item than
+      single-item refinement, so the likelihood is higher, not lower; that
+      every created item must be reviewed by the team before work starts,
+      with refine-ai-flow-v<version> serving as the pending-review flag
+      whose removal signals that review is complete; and that creation is
+      not reversible by this flow, so cleanup of an unwanted batch is
+      manual. The caution is restated at the pre-creation review with the
+      concrete final count, so the user sees it again at the moment of
+      approval and not only at intake. Two behaviors are load-bearing and
+      not negotiable within the mode. First, anti-fabrication: each item's
+      required fields are drafted from the provided context only, and when
+      that detail runs out the agent stops generating and reports the item
+      as underspecified with its specific missing fields named — it never
+      pads a thin row into a full-looking work item, because at batch
+      volume an invented item is indistinguishable from a grounded one at
+      review time. Second, separation of suggested work: having stopped,
+      the agent may offer — opt-in, never unasked — to suggest likely
+      further work items drawn from the value-delivery model, general
+      domain knowledge, and cited internet sources; these are presented as
+      their own labelled set, kept structurally separate from the grounded
+      set through review and creation, and carry an explicit warning that
+      they are inferred rather than drawn from the user's material and that
+      their relevance and accuracy need close attention. Bulk mode
+      compresses cadence only: schema requirements, acceptance criteria,
+      formatting rules, and both mandatory labels apply to every item
+      exactly as they would in a single-item run. Two existing amendments
+      narrow — explicitly, not by erosion — to batch scope within this mode,
+      and nowhere else. parent_mapping_confirmation: the parent is confirmed
+      once for the batch ("all N items take parent X") as one explicit act
+      and validated at the end of the pass rather than per item beforehand,
+      which is sufficient here because a parent link is editable after
+      creation; a row naming a different parent is surfaced individually
+      rather than absorbed into the batch default, and nothing is ever set
+      from an unconfirmed Stage 01 hierarchy position. due_date_elicitation:
+      where the set sits beneath a parent carrying a due date, that date is
+      the batch's reference point and is stated as such; where a
+      user-supplied sheet carries a per-row due-date column those dates are
+      user-committed and used as given, because the user authored the sheet;
+      otherwise one date is elicited explicitly for the batch. A date the
+      agent derives from prose remains a reference point only, never a
+      commitment, exactly as in single-item mode.
+    origin: 2026-07-31, operator request — the pipeline's founding premise
+      ("one run = one fully refined work item") and jira-commit's "not a
+      bulk-import tool" boundary together left no path for a user who
+      already holds the item list, forcing either N full Band 2 runs or
+      abandoning the flow for hand-creation in Jira, which loses the schema
+      enforcement, labels, persona, and audit trail the pipeline exists to
+      provide.
 ```
 
 ---
 
 ## Changelog
 
+- **1.5** (2026-07-31) — Added an eighth house amendment,
+  `bulk_creation_acknowledgment`: the pipeline recognizes set-shaped input
+  (spreadsheet, export, pasted list, vendor documentation, conversation, or an
+  accepted decomposition child set) and proposes bulk creation mode — a
+  separate axis from fast-track, composing with it rather than widening it.
+  The mode requires an acknowledgment taken as its own act, distinct from both
+  the responsibility notice and the mode selection, stating the count, the
+  single-approval-creates-all consequence, the AI-drafted accuracy caveat, the
+  team-review requirement, and the absence of rollback; the caution is
+  restated at the pre-creation review with the final count. Two load-bearing
+  behaviors are fixed in the rule: anti-fabrication (stop at the edge of the
+  evidence and name underspecified items rather than padding them) and
+  separation of suggested work (opt-in, labelled separately, warned). Bulk
+  compresses cadence only — schemas, acceptance criteria, formatting, and both
+  mandatory labels are unchanged per item. Raised directly by the operator,
+  not discovered on-engine. The `mandatory_labels` illustrative version was
+  also refreshed to `refine-ai-flow-v1.18` — the example had drifted while the
+  flowspace advanced, though the rule itself (the label carries the
+  flowspace's own `artifact-version`) was always correct. See
+  `decision-log/2026-07-31-bulk-creation-mode.md`.
 - **1.4** (2026-07-28) — `mandatory_labels` revised: the provenance label
   changes from the static `refine-ai-built` to `refine-ai-flow-v<version>`
   (this flowspace's own `artifact-version`, e.g. `refine-ai-flow-v1.14`),

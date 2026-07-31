@@ -4,11 +4,11 @@ title: "Stage 05 — Validation & Formatting"
 type: stage-context
 stage: 5
 review-intensity: light
-artifact-version: "1.5"
+artifact-version: "1.6"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-28
+updated: 2026-07-31
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -30,6 +30,8 @@ related:
 | Formatting rules (no bold, no emojis) | `../reference/ai-refinement-hybrid.md` | Yes |
 | Active persona contract (communication_style binding) | Stage 01 | Yes |
 | Selected mode (fast-track / full-interactive) | Stage 01 | Yes |
+| Selected creation mode (bulk / single-item) | Stage 01 | Yes |
+| Drafted item set + underspecified-item report | `bulk-child-creation` (Band ③) | If bulk |
 | Cross-field conflict report (if any) | Stage 04 | If exists |
 | Resolved team_code + session planning quarter | Stage 01 | Yes |
 
@@ -74,6 +76,29 @@ label renamed to its versioned form, gate re-run owed)
 6. **Validation report** — produce a structured pass/fail report for user review, naming any accepted mandatory-label bypass explicitly.
 7. **User sign-off** — user confirms the validated, formatted work item is ready for Jira commit.
 
+**In bulk creation mode**, every check above runs **per item across the batch**
+— completeness, mandatory labels, constraints, formatting, and the
+auto-correct / halt / warn-and-bypass decision tree — and the report becomes a
+per-item table rather than a single verdict. Three rules govern the batch:
+
+- **A failing item falls out of the batch; it does not fail the batch.** An
+  item that hits a halt-level issue (missing required field, constraint
+  violation, unresolved cross-field conflict) is pulled from the set and
+  reported with its specific defect. The remaining items proceed. The user then
+  fixes it, drops it, or routes it into a full Band ② run.
+- **Underspecified items arrive already excluded.** Items `bulk-child-creation`
+  reported as underspecified never entered validation as candidates for
+  creation — they are carried into the report so the user sees the whole
+  picture, listed with their missing fields, and are not silently dropped.
+- **Suggested items validate identically but stay labelled.** An item from the
+  optional suggested set meets the same schema gate as any other; it keeps its
+  separate labelling through the report and into Stage 06, so the user can
+  always tell which items came from their own material and which were inferred.
+
+Sign-off in bulk mode is one act covering the validated set, taken with the
+per-item table visible — the batch equivalent of the single-item sign-off, and
+the input to Stage 06's batch preview.
+
 ## Outputs
 
 | Output | Consumed by | Format |
@@ -81,6 +106,7 @@ label renamed to its versioned form, gate re-run owed)
 | Validated + formatted work item payload | Stage 06 | Key-value pairs (clean) |
 | Validation report (incl. any named label bypass) | User / run decision log | Structured pass/fail |
 | User sign-off confirmation | Stage 06 | Boolean |
+| Per-item validation table + fallout list (bulk mode) | Stage 06; user | Structured per-item pass/fail |
 
 ## Verify
 
@@ -104,6 +130,14 @@ stages. Running this check leaves a one-line result in the run's decision log.
       a silent pass — and any accepted bypass is named in the report with its
       specific defect
 - [ ] User explicitly signed off on the final payload
+- [ ] In bulk mode, every check ran per item and the report is a per-item
+      table — no item passed on the strength of the batch
+- [ ] In bulk mode, halt-level items fell out of the batch with their specific
+      defect named, and the remaining items proceeded — a single bad item did
+      not fail the set, and no bad item rode along in it
+- [ ] In bulk mode, underspecified items appear in the report with their
+      missing fields rather than being silently dropped, and any suggested
+      items remain labelled as such through the report
 
 ## Review
 
