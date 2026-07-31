@@ -4,11 +4,11 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.13"
+artifact-version: "1.14"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-30
+updated: 2026-07-31
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -20,6 +20,7 @@ related:
   - "[[work-item-schemas]]"
   - "[[platform-stakeholder-register]]"
   - "[[value-decomposition]]"
+  - "[[bulk-child-creation]]"
 ---
 
 # Stage 01 — Intake & Guardrails
@@ -32,7 +33,9 @@ related:
 | Work item type (agent-proposed from source material when available, otherwise user-selected) | User + agent | Yes |
 | Guardrails, persona contract, field definitions, house amendments | `../reference/ai-refinement-hybrid.md` | Yes |
 | Work-item schema registry (refinable set + out-of-scope types) | `../reference/work-item-schemas.md` | Yes |
-| Source material (see HUB "Common source inputs" — email request, vendor action notice, meeting minutes/notes, chat-stated requirement, structured requirements document, incident/problem record, architecture/design artifact, prior completed work record, or unclassified) | User | No |
+| Source material (see HUB "Common source inputs" — email request, vendor action notice, meeting minutes/notes, chat-stated requirement, structured requirements document, incident/problem record, architecture/design artifact, prior completed work record, enumerated item set, or unclassified) | User | No |
+| Enumerated item set, where the input is set-shaped (CSV/XLSX or Jira export, attached file, pasted table or list, vendor documentation listing required actions, conversational enumeration, or an accepted `value-decomposition` child set) | User | No |
+| User's stated expected item count, for a tabular or exported set | User | If bulk |
 | User-supplied context material (Confluence pages/links, exported Miro content, PDF files, email content, meeting notes) | User, prompted at the supporting-context research step | No |
 | Confluence/Jira search results for the confirmed research scope (read-only, engine-native) | Confluence + Jira (via native lookup) | No |
 | Stakeholder register, if one is loaded for this domain | `../reference/platform-stakeholder-register.md` or a domain instance of `platform-stakeholder-register-template.md` | No |
@@ -43,10 +46,14 @@ related:
 `Layer-3: inline` (one-off — the guardrail and persona content below is
 transcribed from ../reference/ai-refinement-hybrid.md; the schema bullets
 transcribe ../reference/work-item-schemas.md, the registry that completes the
-refinable set. All of it is specific to this flowspace), plus a conditional
-handoff at step 7 to `value-decomposition` (skill spec in
-`produced-skills/value-decomposition/`, `verified`) when the user asks to
-decompose (or "break down") a selected parent-level item
+refinable set. All of it is specific to this flowspace), plus two conditional
+handoffs: at step 7 to `value-decomposition` (skill spec in
+`produced-skills/value-decomposition/`, `to-review` as of 1.1) when the user
+asks to decompose (or "break down") a selected parent-level item, and at step
+10b to `bulk-child-creation` (skill spec in
+`skill-foundry/review-skills/bulk-child-creation/`, `to-review` as of 1.0 —
+staged, not promoted) when the input is set-shaped and the user accepts bulk
+creation mode
 
 1. **Trigger detection** — recognize one of the defined trigger phrases.
 2. **Flowspace purpose statement** — displayed immediately under the
@@ -60,20 +67,27 @@ decompose (or "break down") a selected parent-level item
    > Policy reference: `<internal policy link — set at instantiation; redacted from this public design copy>`
 4. **Data safety reminder** — state the PII / confidential-data prohibition.
    If the user brings source material, identify which common input type it is
-   (HUB "Common source inputs" — now nine types, including structured
+   (HUB "Common source inputs" — now ten types, including structured
    requirements documents, incident/problem records, architecture/design
-   artifacts, prior completed work records, and a catch-all "unclassified
-   document" row) and screen it
+   artifacts, prior completed work records, enumerated item sets, and a
+   catch-all "unclassified document" row) and screen it
    before it enters the session: emails and meeting minutes routinely carry
    names and addresses — have the user strip them; vendor material and
    third-party SOWs are external — confirm safe to ingest at data-class
    `internal`; an unclassified document gets the strictest screen of the set
    (assume it may carry names, credentials, or confidential terms until
-   checked) before it is typed further.
+   checked) before it is typed further. **An enumerated item set (row 10) —
+   spreadsheet, export, or attached file — is the higher-risk carrier of the
+   set:** every column comes along, and description and comment columns
+   routinely carry personal names, customer references, hostnames, and
+   occasionally credentials pasted into a ticket by someone in a hurry. Screen
+   it before any row is typed further, and halt rather than redact if content
+   sits above the sanctioned ceiling — redaction at batch volume is not
+   reliably verifiable.
 5. **Provenance label notice** — grouped with the other session-start
    guardrails above: tell the user plainly that every item this run commits
    will carry `refine-ai-flow-v<version>` (state the concrete current value,
-   e.g. `refine-ai-flow-v1.14` — this flowspace's own `artifact-version`, no
+   e.g. `refine-ai-flow-v1.18` — this flowspace's own `artifact-version`, no
    query needed) as a Jira label, and why: it flags the item as AI-produced
    and pending team review, and the team removes it once their review of the
    item is complete — removal is the review-completion signal. This is the
@@ -201,20 +215,88 @@ decompose (or "break down") a selected parent-level item
    This is the flowspace's `mandatory_labels` house amendment
    (`../reference/ai-refinement-hybrid.md`), same as the provenance label in
    step 5.
-10. **Fast-track assessment** — assess whether the available source material —
-    including the supporting-context document set gathered in step 8 — is
-    detailed and structured enough to populate most of the selected type's
-    required fields with reasonable confidence. If so, propose **fast-track
-    mode** with a stated rationale: which fields look extractable and from
-    where in the document. The user chooses fast-track or full-interactive;
-    the user may force full-interactive regardless of the agent's assessment,
-    and nothing below ever infers this choice on the user's behalf. Absent
-    source material, or when the agent's confidence is low, default to
-    full-interactive and say so. Fast-track never changes what gets checked —
-    only how many fields are elicited one at a time versus drafted from the
-    document and presented together (Stages 02–05 detail the mode's effect
-    per step; due-date elicitation and Stage 06 parent-mapping confirmation
-    stay interactive in every mode, without exception).
+10. **Mode assessment** — two independent questions, assessed in order. They
+    sit on different axes and compose: fast-track governs *how deeply one item
+    is elicited*, bulk governs *how many items one pass produces*.
+
+    **10a. Fast-track assessment** — assess whether the available source
+    material — including the supporting-context document set gathered in step
+    8 — is detailed and structured enough to populate most of the selected
+    type's required fields with reasonable confidence. If so, propose
+    **fast-track mode** with a stated rationale: which fields look extractable
+    and from where in the document. The user chooses fast-track or
+    full-interactive; the user may force full-interactive regardless of the
+    agent's assessment, and nothing below ever infers this choice on the
+    user's behalf. Absent source material, or when the agent's confidence is
+    low, default to full-interactive and say so. Fast-track never changes what
+    gets checked — only how many fields are elicited one at a time versus
+    drafted from the document and presented together (Stages 02–05 detail the
+    mode's effect per step; due-date elicitation and Stage 06 parent-mapping
+    confirmation stay interactive in every mode, without exception, subject
+    only to the batch-scope narrowing 10b defines for bulk).
+
+    **10b. Bulk creation assessment** — assess whether the input is a *set* of
+    already-decided items rather than one item needing refinement. This is the
+    flowspace's `bulk_creation_acknowledgment` house amendment
+    (`../reference/ai-refinement-hybrid.md`).
+
+    - **Set-versus-item test, applied before anything is proposed.** Would
+      each row stand alone as a work item with its own acceptance criteria? If
+      the rows are facets of one outcome, this is **one** item with a
+      populated `in_scope`, and the run proceeds through Band ② as normal.
+      Three switch upgrades with their own site lists and maintenance windows
+      are three items; "update firmware / validate routing tables / confirm
+      monitoring coverage / roll back if BGP fails" under one switch upgrade
+      is one item. When the reading is genuinely ambiguous, state which
+      reading was taken and why, and let the user correct it before anything
+      is drafted. This is the mode's most likely misfire — a document with
+      twelve scope bullets is not twelve work items.
+    - **Propose, never assume.** Where the input is set-shaped — an enumerated
+      item set (taxonomy row 10), or an accepted `value-decomposition` child
+      set large enough that N sequential Band ② runs would be
+      disproportionate — propose **bulk creation mode** with the item count,
+      the per-row type reading, and the reasoning stated. The two shapes this
+      serves most often: a solution epic with its child features, and many
+      tasks or stories under one feature. The user confirms, corrects the
+      count or types, or declines to single-item refinement. Mode is inferred
+      from the input's shape and *proposed*; it is never selected on the
+      user's behalf.
+    - **Bulk acknowledgment — a separate act, taken here, before any ingest or
+      drafting.** Distinct from step 3's general responsibility notice and
+      distinct from the mode question itself: the user answers the mode
+      question, then acknowledges, as two acts. One "yes" never satisfies
+      both. State plainly: how many items will be created; that a **single
+      approval creates all of them**; that the items are **AI-drafted and may
+      be incorrect, incomplete, or mis-scoped** — drafting is proportionally
+      shallower per item than single-item refinement, so the likelihood is
+      higher, not lower; that **every created item must be reviewed by the
+      team before work starts**, with `refine-ai-flow-v<version>` as the
+      pending-review flag whose removal signals review is complete; and that
+      **creation is not reversible by this flow** — cleanup of an unwanted
+      batch is manual. The acknowledgment is per bulk pass, never carried
+      forward across passes, never inferred. Stage 06 restates the caution
+      with the concrete final count at the batch preview.
+    - **Handoff.** On an acknowledged acceptance, control passes to
+      `bulk-child-creation`
+      (`skill-foundry/review-skills/bulk-child-creation/`, `to-review` —
+      staged, not promoted), which runs Band ③ in place of Stages 02–04 for
+      that set: ingest and normalize the set (quote-honoring parse for tabular
+      sources, header row captured before bodies, repeated identical-header
+      columns collapsed, parsed count confirmed against the user's stated
+      expectation — a mismatch halts), draft each item's required fields from
+      the provided context, **stop at the edge of the evidence** and name
+      underspecified items with their missing fields rather than padding them,
+      optionally offer a separately-labelled set of suggested next items with
+      an explicit accuracy warning, and present everything for one review.
+      Stage 05 validates every drafted item; Stage 06 commits the approved set.
+      A declined proposal proceeds to step 11 as normal.
+    - **Batch-scope answers.** In bulk mode the session-level answers resolved
+      in this stage — team_code, planning quarter, provenance label — apply to
+      every item in the set. Due date anchors on the **parent's** due date
+      where the set sits beneath one carrying it; a user-supplied sheet's
+      per-row due-date column is user-committed and used as given; otherwise
+      one date is elicited explicitly for the batch. A date the agent derives
+      from prose stays a reference point only, never a commitment.
 11. **Stakeholder-register grounding check** — confirm whether a stakeholder
     register is loaded for this domain (`../reference/platform-stakeholder-register.md`
     or a domain instance of `platform-stakeholder-register-template.md`). If
@@ -225,9 +307,11 @@ decompose (or "break down") a selected parent-level item
 12. **Confirm setup** — echo back: persona active (communication_style
     binding), item type selected (+ rationale, if agent-proposed), work-focus
     classification and supporting-context research result (documents in the
-    session + recorded gaps), mode selected (fast-track or full-interactive,
-    + rationale), stakeholder-register grounding status, guardrails in
-    effect, the resolved provenance label (`refine-ai-flow-v<version>`),
+    session + recorded gaps), mode selected (fast-track or full-interactive;
+    and bulk or single-item, + rationale), the item count and acknowledgment
+    record if bulk was accepted, stakeholder-register grounding status,
+    guardrails in effect, the resolved provenance label
+    (`refine-ai-flow-v<version>`),
     resolved team_code and planning quarter (or the exemption, if the
     selected type is `portfolio_epic` or `solution_epic`). Obtain user
     "proceed" before advancing.
@@ -245,6 +329,10 @@ decompose (or "break down") a selected parent-level item
 | Supporting-context document set (each item typed + screened) | Stages 02, 03 | tagged document list |
 | Research record (sought / found / selected / not found) | Stages 02, 03; run decision log | text |
 | Selected mode (fast-track / full-interactive) + rationale | Stages 02–06 | text |
+| Selected creation mode (bulk / single-item) + rationale, item count, and per-row type reading | `bulk-child-creation` (Band ③), Stages 05–06 | text + typed row list |
+| Bulk acknowledgment record (taken as its own act, with the five stated points) | `bulk-child-creation`, Stage 06; run decision log | boolean + transcript reference |
+| Normalized item set (screened, typed per row, count confirmed) | `bulk-child-creation` | tabular row list |
+| Batch-scope answers (team_code, quarter, due-date anchor, intended parent) | `bulk-child-creation`, Stage 06 | text |
 | Stakeholder-register grounding status (grounded / ungrounded) | Stages 02, 03 | boolean + register reference |
 | Provenance label (`refine-ai-flow-v<version>`) | Stage 06 | text |
 | Resolved team_code (+ query rationale) | Stage 06 | text |
@@ -282,10 +370,12 @@ Running this check leaves a one-line result in the run's decision log.
       proceeding to elicit fields for the parent item directly; the run's
       own pass ended cleanly on that skill's stop/reject-all verdict or on
       handing off accepted children to their own Stage 02 runs
-- [ ] Any source material was typed against the HUB input taxonomy (all nine
-      types, including the prior-completed-work row and the unclassified
-      catch-all) and screened (names/addresses stripped; third-party material
-      vetted) before advancing
+- [ ] Any source material was typed against the HUB input taxonomy (all ten
+      types, including the prior-completed-work row, the enumerated-item-set
+      row, and the unclassified catch-all) and screened (names/addresses
+      stripped; third-party material vetted) before advancing — for an
+      enumerated item set, the screen ran before any row was typed further,
+      and above-ceiling content halted the run rather than being redacted
 - [ ] The user was prompted for held context material (Confluence, Miro
       exports, PDFs, email content) and the work-focus classification + its
       rationale are in the transcript
@@ -300,6 +390,26 @@ Running this check leaves a one-line result in the run's decision log.
 - [ ] If fast-track was proposed, the rationale (which fields, from where) is
       in the transcript and the user's mode choice (fast-track or
       full-interactive) is explicit — never assumed
+- [ ] The set-versus-item test was applied to any multi-row or multi-bullet
+      material, and its reading stated — a single item with many scope bullets
+      was not read as many items
+- [ ] If bulk creation was proposed, the item count, per-row type reading, and
+      reasoning are in the transcript, and the user's creation-mode choice is
+      explicit — never assumed from the input's shape alone
+- [ ] If bulk creation was accepted, the acknowledgment was taken as its **own
+      act**, separate from both the step-3 responsibility notice and the mode
+      question, before any ingest or drafting — and stated all five points
+      (count, one approval creates all, AI-drafted items may be wrong, team
+      review required before work starts, creation not reversible)
+- [ ] For a tabular or exported set, the parsed item count was confirmed
+      against the user's stated expectation, and a mismatch halted rather than
+      proceeding
+- [ ] Batch-scope answers were resolved once and recorded: team_code, planning
+      quarter, intended parent, and the due-date anchor (parent's date, a
+      user-supplied sheet column, or an explicit batch elicitation — never a
+      date derived from prose)
+- [ ] If bulk was accepted, control passed to `bulk-child-creation` rather
+      than proceeding into Band ② field elicitation for the set
 - [ ] Stakeholder-register availability was checked and the grounding status
       (grounded / ungrounded) recorded for Stages 02–03
 - [ ] The resolved provenance label was echoed at step 12's setup confirmation
@@ -334,5 +444,13 @@ Running this check leaves a one-line result in the run's decision log.
   before any query runs, results are capped at data-class `internal`, and
   every retrieved document passes the data-safety screen before entering the
   session; no write action occurs.
+- An enumerated item set (taxonomy row 10) is the highest-risk carrier this
+  stage handles: a spreadsheet or export brings every column, including
+  description and comment columns that routinely carry personal names,
+  customer references, hostnames, and occasionally credentials. It is screened
+  before any row is typed further, and content above the `internal` ceiling
+  halts the run rather than being redacted and carried forward — redaction at
+  batch volume is not reliably verifiable. Still no write action at this
+  stage: bulk mode's writes happen at Stage 06.
 - A handoff into this stage from an engine outside this boundary is invalid —
   stop and re-route.

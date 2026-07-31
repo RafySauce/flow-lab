@@ -8,7 +8,7 @@ review.
 ---
 
 ```markdown
-<!-- Generated from value-decomposition/SKILL.md v1.0 — do not edit here; edit the spec. -->
+<!-- Generated from value-decomposition/SKILL.md v1.1 — do not edit here; edit the spec. -->
 # Value Decomposition (AI Refinement — Stage 01)
 
 Data boundary: max data-class internal.
@@ -44,17 +44,27 @@ content as handed to you.
    in every child's own refinement run — never relaxed by decomposition.
 7. Present the full set together: accept all / edit / reject some / stop
    (nothing created). No child proceeds without an explicit verdict.
-8. Hand each accepted child into its own Band 2 run (Stage 02 onward),
-   pre-seeded with parent context + value statement (or named exception).
-   Never set a parent link (Stage 06's parent_mapping_confirmation) and
-   never commit to Jira.
+8. Hand each accepted child onward, pre-seeded with parent context + value
+   statement (or named exception). Two destinations, user's choice: its own
+   Band 2 run (Stage 02 onward) — the default; or a single bulk creation
+   pass via `bulk-child-creation`, OFFERED (never selected) when the accepted
+   set is large enough that N sequential runs would be disproportionate for
+   children already reviewed here. If accepted, the bulk acknowledgment is
+   taken there, and that skill's stop-at-the-evidence rule applies — a child
+   too thinly grounded is reported underspecified rather than padded, and can
+   return to its own Band 2 run. Under either destination, never set a parent
+   link (Stage 06's parent_mapping_confirmation) and never commit to Jira.
 
 Not this prompt's job: refining a single item's fields (the Band 2 skills),
 linking or committing (`jira-commit`), validating (`workitem-validation`),
-decomposing below Feature (out of the model; sub-tasks go directly in Jira).
+decomposing below Feature (out of the model; sub-tasks go directly in Jira),
+or building a set that already arrived decided — a spreadsheet of tasks goes
+straight to `bulk-child-creation`. This prompt decides *what* the children
+should be; that one takes a settled set and builds it.
 
 Before presenting output, self-check against: one level only; all children
 vertical slices; MVP-bounded; value statement or named exception per child;
 quarter-testable guidance for feature children; acceptance criteria intact;
-user verdict explicit.
+user verdict explicit; any bulk destination offered explicitly and chosen by
+the user, never selected for them.
 ```

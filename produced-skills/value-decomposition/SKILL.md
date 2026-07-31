@@ -7,25 +7,29 @@ description: >
   the value-delivery deck's model: persona value statements, MVP-bounded
   sets, vertical (never horizontal) slicing, and quarter-testable
   acceptance-criteria guidance — each accepted child then enters its own
-  Band 2 refinement run. Invoke from Stage 01 when the user asks to
-  decompose or break down a selected parent-level item. Do NOT use for
-  ordinary single-item refinement (the default Band 2 loop, including a
-  run that merely has a parent link) or to set parent links (Stage 06's
-  parent_mapping_confirmation owns that).
+  Band 2 refinement run, or, for a set large enough that N sequential runs
+  would be disproportionate, a single bulk creation pass via
+  bulk-child-creation (offered, never selected). Invoke from Stage 01 when
+  the user asks to decompose or break down a selected parent-level item. Do
+  NOT use for ordinary single-item refinement (the default Band 2 loop,
+  including a run that merely has a parent link), to set parent links
+  (Stage 06's parent_mapping_confirmation owns that), or to build a set
+  that already arrived decided — a spreadsheet of tasks goes straight to
+  bulk-child-creation.
 # --- provenance (house layer) ---
 id: value-decomposition
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-07-31
 owner: operator
 source: human+ai
 generated-by: skill-foundry
 generated-by-version: "1.4"
 data-class: public
-related: ["[[sp-value-decomposition]]", "[[ai-refinement]]"]
+related: ["[[sp-value-decomposition]]", "[[ai-refinement]]", "[[bulk-child-creation]]"]
 ---
 
 # Value Decomposition
@@ -35,10 +39,12 @@ parent-level work item (`portfolio_epic`, `solution_epic`, or `feature`)
 selected or already committed, it proposes candidate children one level down —
 framed as vertical slices of stakeholder value per the operator-provided
 "Value Delivery — Key Concepts, a 30,000ft View" deck — for user review, then
-hands each accepted child into its own Band 2 refinement run. It replaces the
+hands each accepted child onward: into its own Band 2 refinement run, or, for
+a large accepted set, into a single bulk creation pass. It replaces the
 manual practice of decomposing an epic into features (or a feature into
 stories) by memory or spreadsheet. Its neighbors refine single items
-(`context-elicitation` onward) and link hierarchy bottom-up (Stage 06's
+(`context-elicitation` onward), build already-decided sets
+(`bulk-child-creation`), and link hierarchy bottom-up (Stage 06's
 `parent_mapping_confirmation`); this skill only proposes the child set.
 
 ## Flow Diagram
@@ -57,7 +63,9 @@ flowchart LR
     P7 --> D{"User verdict?"}:::decision
     D -->|"not ready / stop"| H["Stop cleanly —<br/>no children created"]:::halt
     D -->|"accept all / edit /<br/>reject some"| P8["Step 8 — Hand off accepted children<br/>Pre-seed each Band 2 run with parent<br/>context + drafted value statement"]:::process
-    P8 --> Output(["Output: accepted children,<br/>each its own Band 2 run<br/>(Stage 02 onward)"]):::output
+    P8 --> DEST{"Set large enough for<br/>a bulk pass?"}:::decision
+    DEST -->|"few children /<br/>need real refinement"| Output(["Output: accepted children,<br/>each its own Band 2 run<br/>(Stage 02 onward)"]):::output
+    DEST -->|"many children,<br/>user accepts the offer"| OutputB(["Output: accepted set handed to<br/>bulk-child-creation (Band ③)<br/>— acknowledgment taken there"]):::output
 
     classDef start fill:#1e293b,stroke:#94a3b8,color:#f1f5f9
     classDef process fill:#1e3a8a,stroke:#60a5fa,color:#dbeafe
@@ -140,12 +148,27 @@ flowchart LR
    may accept all, edit some, reject some, or stop entirely ("not ready to
    decompose this level yet") — a stop creates nothing. No child proceeds
    without an explicit verdict on it.
-8. **Hand each accepted child into its own Band 2 run** (Stage 02 onward),
-   pre-seeded with the parent's grounding context and the drafted value
-   statement (or its named technical-framing exception). This skill never
-   sets a parent link — each child's run still goes through Stage 06's
-   `parent_mapping_confirmation` for that — and never commits anything to
-   Jira itself.
+8. **Hand each accepted child onward**, pre-seeded with the parent's grounding
+   context and the drafted value statement (or its named technical-framing
+   exception). Two destinations, and the user chooses between them:
+   - **Its own Band 2 run** (Stage 02 onward) — the default, and the right
+     path when the children need real refinement or when there are few enough
+     that N sequential runs are proportionate.
+   - **A single bulk creation pass** (`bulk-child-creation`, Band ③) — offered
+     when the accepted set is large enough that N sequential runs would be
+     disproportionate ceremony for children the user has already reviewed and
+     accepted here. Offer it; never select it. If the user accepts, the bulk
+     acknowledgment is taken there as its own act before anything is drafted,
+     and that skill's stop-at-the-evidence rule applies: a child this pass
+     accepted but whose grounding is too thin to draft required fields from is
+     reported underspecified rather than padded, and can be routed back into
+     its own Band 2 run. Accepting bulk never relaxes acceptance criteria or
+     any other schema gate for the children.
+
+   This skill never sets a parent link — each child still goes through Stage
+   06's `parent_mapping_confirmation` for that, whether individually or once
+   for the batch — and never commits anything to Jira itself under either
+   destination.
 
 ## Inputs and grounding
 
@@ -173,7 +196,14 @@ fails.
 
 - **Not the per-item refiner** — each accepted child's fields are elicited
   and drafted by the Band 2 skills (`context-elicitation` through
-  `jira-commit`); this skill seeds those runs, it doesn't replace them.
+  `jira-commit`), or drafted at required-field depth by
+  `bulk-child-creation` when the user takes the bulk destination at step 8;
+  this skill seeds those runs, it doesn't replace them.
+- **Not the bulk creator** — `bulk-child-creation` owns ingesting sets,
+  drafting fields across a batch, and creating them. This skill decides *what*
+  the children should be, applying the vertical-slice and MVP rules; that
+  skill takes a settled set and builds it. A set that arrives already decided
+  (a spreadsheet of tasks) goes straight there and never passes through here.
 - **Not the parent-linker** — Stage 06's `parent_mapping_confirmation` is
   still the only mechanism that sets a parent link, for decomposed and
   non-decomposed items alike.
@@ -205,19 +235,41 @@ A single output of this skill is acceptable when:
 5. A "not ready to decompose this level yet" response was honored: the run
    stopped cleanly with no children created.
 6. The user's verdict on the candidate set (accept/edit/reject/stop) is
-   explicit in the transcript, and each accepted child's Band 2 pre-seed
-   (parent context + value statement or named exception) is visible in the
-   handoff.
+   explicit in the transcript, and each accepted child's pre-seed (parent
+   context + value statement or named exception) is visible in the handoff,
+   whichever destination it took.
+7. Where a bulk destination was offered for a large accepted set, the offer
+   was explicit and the user chose it — never selected on their behalf — and
+   the transcript shows the handoff to `bulk-child-creation` rather than this
+   skill drafting or creating anything itself.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
+| Rovo | adapters/rovo-agent.md | 1.1 |
+| Copilot | adapters/copilot-prompt.md | 1.1 |
 
 ## Changelog
 
+- **1.1** (2026-07-31) — Method step 8 gains a second destination for accepted
+  children: alongside the existing per-child Band 2 run, a single bulk
+  creation pass (`bulk-child-creation`, Band ③) is **offered** — never
+  selected — when the accepted set is large enough that N sequential runs
+  would be disproportionate for children the user has already reviewed here.
+  The bulk acknowledgment is taken in that skill, not this one, and its
+  stop-at-the-evidence rule governs: an accepted child too thinly grounded to
+  draft from is reported underspecified rather than padded, and can return to
+  its own Band 2 run. A new boundary entry ("Not the bulk creator") draws the
+  line — this skill decides *what* the children should be; that one takes a
+  settled set and builds it, and a set arriving already decided never passes
+  through here. Review criterion 7 added; Flow Diagram gains the destination
+  branch. No change to the one-level-per-pass rule, the vertical-slice check,
+  MVP bounding, the value-statement format, or the parent-linking boundary.
+  `truth-level` moves from `verified` to `to-review` pending a gate re-run —
+  the skill's first behavior change since initial promotion, logged rather
+  than assumed clean. Both adapters regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-31-bulk-creation-mode.md`.
 - **1.0** (2026-07-15) — Initial build from `sp-value-decomposition`
   (Workstream B handoff in
   `icp-flows/ai-refinement/decision-log/2026-07-15-provenance-and-planning-labels.md`).

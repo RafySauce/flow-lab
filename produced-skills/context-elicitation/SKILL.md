@@ -12,11 +12,11 @@ description: >
 # --- provenance (house layer) ---
 id: context-elicitation
 type: skill
-artifact-version: "1.5"
+artifact-version: "1.6"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-21
+updated: 2026-07-31
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -71,10 +71,11 @@ flowchart LR
    solved; who is affected and how; what is the business/operational value;
    what has been tried before. Narrow from broad to specific — don't ask for a
    problem statement, build one. When screened source material and its
-   input-type tag accompany the description (Stage 01 hands over one of nine
-   types per the flowspace HUB's "Common source inputs" taxonomy — including
+   input-type tag accompany the description (Stage 01 hands over one of rows
+   1–9 of the flowspace HUB's "Common source inputs" taxonomy — including
    the Stage 01 supporting-context research set, each document typed the same
-   way), steer the sequence by type: an email request or chat-stated
+   way; row 10, the enumerated item set, is set-shaped and routes to bulk
+   creation instead, never reaching this skill), steer the sequence by type: an email request or chat-stated
    requirement names a requester or beneficiary — start the Step 2
    stakeholder sweep there; a vendor action notice, a stated task list, a
    structured requirements document (SOW/PRD/BRD), or an architecture/design
@@ -143,8 +144,10 @@ register (`reference/platform-stakeholder-register.md` or a domain instance of
 `platform-stakeholder-register-template.md` in the flowspace, if loaded), the
 selected mode (fast-track / full-interactive, from Stage 01), the user's
 conversational input, and — when present — the Stage 01-screened source
-material with its input-type tag (any of the nine HUB "Common source inputs"
-types), the Stage 01 supporting-context document set with its research
+material with its input-type tag (any of HUB "Common source inputs" rows 1–9;
+row 10, the enumerated item set, is set-shaped and routes to bulk creation —
+it never reaches this skill, which frames one item's problem at a time), the
+Stage 01 supporting-context document set with its research
 record (sought/found/not found), and the work-focus classification. Grounding rules: stakeholder tags must resolve to numbered register
 entries when grounded, or to the user's direct answer when ungrounded — never
 invent a stakeholder; if a relevant party is missing from a loaded register,
@@ -203,11 +206,20 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.5 |
-| Copilot | adapters/copilot-prompt.md | 1.5 |
+| Rovo | adapters/rovo-agent.md | 1.6 |
+| Copilot | adapters/copilot-prompt.md | 1.6 |
 
 ## Changelog
 
+- **1.6** (2026-07-31) — Reference-only correction: Method step 1 and Inputs
+  and grounding both cited "nine" HUB "Common source inputs" types, which went
+  stale when the taxonomy gained a tenth row (enumerated item set) with the
+  addition of bulk creation mode. Both corrected to rows 1–9, stating why row
+  10 is excluded rather than just renumbering — a set-shaped input routes to
+  `bulk-child-creation` and never reaches this skill, which frames one item's
+  problem at a time. No method, criteria, or behavior change; `truth-level`
+  stays `to-review`. Both adapters re-stamped. See
+  `../../icp-flows/ai-refinement/decision-log/2026-07-31-bulk-creation-mode.md`.
 - **1.5** (2026-07-21) — Supporting-context research consumption, tracking
   the flowspace's `supporting_context_research` house amendment: input-type
   steering broadened from eight to nine types (adds the precedent-shaped

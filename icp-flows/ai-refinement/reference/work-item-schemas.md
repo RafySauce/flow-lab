@@ -2,11 +2,11 @@
 id: work-item-schemas
 title: "Work Item Schemas — Refinable Set (House Extension)"
 type: specification
-artifact-version: "1.5"
+artifact-version: "1.6"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-28
+updated: 2026-07-31
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -62,7 +62,12 @@ updates that note: the provenance label is now `refine-ai-flow-v<version>`
 (this flowspace's own `artifact-version`), replacing the static
 `refine-ai-built`, and states the label's purpose (pending-review flag,
 removed by the team once review is complete); see
-`../decision-log/2026-07-28-provenance-label-versioning.md`.
+`../decision-log/2026-07-28-provenance-label-versioning.md`. **1.6** adds a
+second cross-cutting note (see "Bulk creation mode," below) recording that
+bulk creation mode changes cadence only — every schema here applies per item
+unchanged, and a row whose context cannot support a required field is reported
+underspecified rather than padded to satisfy it; no `fields:` changes for any
+type; see `../decision-log/2026-07-31-bulk-creation-mode.md`.
 
 ## Refinable set and out-of-scope types
 
@@ -85,7 +90,7 @@ Spike | Bug) → Sub-Task. This pipeline refines seven of the eight:
 Every item this pipeline commits carries the two labels defined by the
 `mandatory_labels` house amendment in `ai-refinement-hybrid.md`:
 `refine-ai-flow-v<version>` (this flowspace's own `artifact-version`, e.g.
-`refine-ai-flow-v1.14` — all seven refinable types, every mode; replaces the
+`refine-ai-flow-v1.18` — all seven refinable types, every mode; replaces the
 earlier static `refine-ai-built`, not added alongside it) and, for `feature`,
 `story`, `task`, `spike`, `bug` only, a `<team_code>-<yyyy>-q<n>` planning
 label (`portfolio_epic`/`solution_epic` sit at a multi-year/multi-quarter
@@ -99,6 +104,27 @@ check (a warn-and-bypass gate, not a hard halt), and Stage 06 applies them at
 commit. See `../decision-log/2026-07-28-provenance-label-versioning.md` (and
 `../decision-log/2026-07-15-provenance-and-planning-labels.md` for the
 labels' original introduction).
+
+## Bulk creation mode (cross-cutting; house extension, 2026-07-31)
+
+Nothing in this registry changes for bulk creation mode
+(`bulk_creation_acknowledgment` in `ai-refinement-hybrid.md`), and that is the
+point worth stating rather than leaving to inference: **bulk compresses
+cadence, not standards.** Every schema below applies per item exactly as it
+does in a single-item run — the same required-field set for the type, the same
+extension field constraints, the same mandatory labels, the same formatting
+rules. Acceptance criteria in particular stays a hard gate for every item in a
+batch; nothing about an item arriving in a set of forty relaxes it.
+
+What differs is only how the fields get filled and confirmed: drafted from the
+provided context and confirmed per item at one batch review, rather than
+elicited and confirmed per field. Where a row's context does not support a
+required field, the item is reported **underspecified with that field named**
+and falls out of the batch — it is never padded to satisfy the schema, because
+a fabricated field passes this registry's checks exactly as well as a real one.
+A mixed-type set is permitted (a feature's children may legitimately include
+stories, tasks, and a spike); each row loads its own type's schema from below.
+See `../decision-log/2026-07-31-bulk-creation-mode.md`.
 
 ## Schemas
 

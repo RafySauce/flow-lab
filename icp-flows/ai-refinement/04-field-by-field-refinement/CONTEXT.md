@@ -4,11 +4,11 @@ title: "Stage 04 — Field-by-Field Refinement"
 type: stage-context
 stage: 4
 review-intensity: light
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-31
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -29,6 +29,7 @@ related:
 | Work item schema (required/optional field list) | Stage 01 | Yes |
 | Active persona contract (communication_style binding) | Stage 01 | Yes |
 | Selected mode (fast-track / full-interactive) | Stage 01 | Yes |
+| Selected creation mode (bulk / single-item) + normalized item set | Stage 01 | Yes |
 | Field definitions (summary ≤ 10 words, AC starters) | `../reference/ai-refinement-hybrid.md` | Yes |
 | House amendment: due-date elicitation rule | `../reference/ai-refinement-hybrid.md` | Yes |
 | Extension field constraints (question_to_answer, timebox) | `../reference/work-item-schemas.md` | If type is spike |
@@ -93,6 +94,42 @@ related:
    permitted to relax.
 6. **Summary enforcement** — validate ≤ 10 words; rewrite if exceeded.
 
+**In bulk creation mode**, this stage folds into `bulk-child-creation`'s
+batch-draft pass (Band ③). State the substitution plainly, because it is the
+largest compression in the mode and the one the Stage 01 acknowledgment exists
+to cover: **per-field confirmation is replaced by per-item review of the
+presented set.** Each item's required fields are drafted from its row content
+and the batch's shared grounding, and the user's verdict lands on the item as a
+whole at the Band ③ review rather than field by field.
+
+Three things do not move:
+
+- **`confirm_each_step` is satisfied at item granularity, not abandoned.** No
+  item is created without an explicit verdict covering it (accept / edit /
+  reject), and a stop creates nothing. What changes is the unit of
+  confirmation, not whether confirmation happens.
+- **Anti-fabrication replaces the elicitation queue.** In single-item mode, a
+  field the agent cannot draft enters the one-at-a-time queue at step 2. In
+  bulk mode there is no queue: when a row's detail runs out, the item is
+  reported **underspecified with the specific missing fields named**, and the
+  user supplies detail, drops the row, or routes it into a full Band ② run.
+  Nothing is padded into apparent completeness — at batch volume an invented
+  field is indistinguishable from a drafted one at review time.
+- **Constraints are unchanged.** Summary ≤ 10 words, approved AC starters,
+  cross-field conflict detection, and the spike timebox rule apply per item
+  exactly as below. Acceptance criteria remains a hard gate for every item;
+  bulk compresses cadence, never standards.
+
+**Due date in bulk mode** (step 5's carve-out, narrowed to batch scope by the
+`bulk_creation_acknowledgment` amendment and nowhere else): the anchor is the
+**parent's** due date where the set sits beneath one carrying it, stated as
+such — the parent's commitment is what the children serve. A user-supplied
+sheet's per-row due-date column is **user-committed** and used as given,
+because the user authored the sheet. Absent both, one date is elicited
+explicitly for the batch after the drafted acceptance criteria are visible as
+an effort reference. A date the agent derives from prose remains a reference
+point only, never a commitment — that part of the rule does not narrow.
+
 ## Outputs
 
 | Output | Consumed by | Format |
@@ -122,8 +159,16 @@ run's decision log.
 - [ ] Cross-field conflicts were checked and resolved
 - [ ] Each field was individually confirmed by the user — either inline
       (full-interactive, or fast-track fallback) or as part of the Stage
-      03–05 consolidated checkpoint (fast-track extracted fields)
+      03–05 consolidated checkpoint (fast-track extracted fields); in bulk
+      mode, every item carries an explicit accept/edit verdict at the Band ③
+      review, which is where `confirm_each_step` lands at item granularity
 - [ ] Fast-track-extracted fields carry a source citation in the transcript
+- [ ] In bulk mode, no item was padded past its available grounding — rows
+      whose detail ran out are reported as underspecified with the specific
+      missing fields named, never filled with plausible-sounding content
+- [ ] In bulk mode, the due date traces to the parent's date, a user-supplied
+      sheet column, or an explicit batch elicitation — never to a date the
+      agent derived from prose
 - [ ] No PII or confidential data in any field
 
 ## Review

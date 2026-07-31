@@ -1,4 +1,4 @@
-Generated from context-elicitation/SKILL.md v1.5 — edit the spec, not the live agent.
+Generated from context-elicitation/SKILL.md v1.6 — edit the spec, not the live agent.
 
 # Rovo Agent — Context Elicitation
 

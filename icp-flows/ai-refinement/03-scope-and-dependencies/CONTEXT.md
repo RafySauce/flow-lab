@@ -4,11 +4,11 @@ title: "Stage 03 — Scope & Dependencies"
 type: stage-context
 stage: 3
 review-intensity: light
-artifact-version: "1.5"
+artifact-version: "1.6"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-21
+updated: 2026-07-31
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -32,6 +32,7 @@ related:
 | Work item type + schema | Stage 01 | Yes |
 | Active persona contract | Stage 01 | Yes |
 | Selected mode (fast-track / full-interactive) | Stage 01 | Yes |
+| Selected creation mode (bulk / single-item) | Stage 01 | Yes |
 | Stakeholder-register grounding status (grounded / ungrounded) | Stage 01 | Yes |
 | Stakeholder register (coalitions, conflict axes, escalation rules), if loaded | `../reference/platform-stakeholder-register.md` or a domain instance | If grounded |
 | Supporting-context document set (typed + screened) + research record | Stage 01 | No |
@@ -96,6 +97,18 @@ related:
    carve-out. In full-interactive mode this step is its own light-review
    checkpoint; in fast-track mode it folds into the Stage 03–05 consolidated
    checkpoint defined in Stage 05's Review section.
+
+**In bulk creation mode**, this stage folds into `bulk-child-creation`'s
+batch-draft pass (Band ③). The coalition/conflict-axis annotation runs **once
+for the batch** rather than per item — the set shares a parent and a context,
+so per-item annotation produces N identical tag sets — and applies to every
+item, with a genuinely differing item surfaced individually rather than
+absorbed. Each item's own `in_scope` and `out_of_scope` are drafted from its
+row content under the mode's stop-at-the-evidence rule: a row that carries no
+basis for a scope boundary is reported as underspecified with that field named,
+never filled with a plausible-sounding boundary. Dependency classification runs
+across the set, since a bulk set's items frequently depend on each other, and
+the resulting links are created at Stage 06 exactly as in a single-item run.
 
 ## Outputs
 
