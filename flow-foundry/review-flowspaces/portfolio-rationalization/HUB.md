@@ -2,11 +2,11 @@
 id: portfolio-rationalization
 title: "Jira Portfolio Rationalization — Hygiene & Objective Alignment Review"
 type: flowspace
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-07-29
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -17,6 +17,7 @@ related:
   - "[[objective-dictionary-template]]"
   - "[[close-score-model]]"
   - "[[export-and-field-requirements]]"
+  - "[[portfolio-rationalization-stage-03p]]"
 ---
 
 # Jira Portfolio Rationalization — Hygiene & Objective Alignment Review
@@ -50,7 +51,9 @@ governance review. It writes nothing to Jira at any stage.
 flowchart LR
     S1["1. Intake &amp; Source Binding<br/>review: heavy"]:::gap --> S2["2. Portfolio Profiling<br/>review: light"]:::gap
     S2 --> S3["3. Objective Mapping<br/>review: heavy"]:::gap
-    S3 --> S4["4. Rationalization Scoring<br/>review: light"]:::gap
+    S3 --> Dict{"Dictionary confirmed —<br/>authored or inferred?"}
+    Dict -->|"Yes"| S4["4. Rationalization Scoring<br/>review: light"]:::gap
+    Dict -.->|"No — pivot"| SP["3P. Current State Analysis<br/>review: heavy"]:::heavy
     S4 --> S5["5. Recommendation &amp; Packet<br/>review: light"]:::gap
     S5 --> S6["6. Review &amp; Disposition<br/>review: heavy"]:::heavy
 
@@ -66,10 +69,19 @@ flowchart LR
 > an inline one-off with no skill dependency, so it shows its true `heavy`.
 > When the five briefs are built and promoted, these nodes take their table
 > colors: heavy, light, heavy, light, light.
+>
+> The diamond after Stage 3 is this flowspace's one genuine topology split,
+> per `flow-foundry/references/flow-diagram-guide.md`'s branch allowance —
+> reached only when no dictionary (authored or inferred) is confirmed. The
+> dashed edge to `3P` marks that branch; the flat chain resumes at Stage 4
+> on the normal path. `3P` shows `:::heavy` rather than `:::gap` because its
+> Layer-3 is `inline`, not `TBD`.
 
-The chain is flat — no bands, no loop-back. A cycle runs Stage 01 through
-Stage 06 once, over the whole portfolio, and ends. There is no per-item loop:
-every stage operates on the full item set, not one item at a time.
+The chain is flat except for the one documented branch after Stage 3 — no
+other bands, no loop-back. A cycle runs Stage 01 through Stage 06 once, over
+the whole portfolio, and ends — or, on the pivot branch, ends at Stage 3P
+instead. There is no per-item loop: every stage operates on the full item
+set, not one item at a time.
 
 ## Stage table
 
@@ -78,6 +90,7 @@ every stage operates on the full item set, not one item at a time.
 | 1 | Intake & Source Binding | heavy | internal | Rovo, Copilot | `TBD — skill-primer-brief filed (sp-jira-portfolio-ingest)` |
 | 2 | Portfolio Profiling | light | internal | Rovo, Copilot | `TBD — skill-primer-brief filed (sp-portfolio-profiler)` |
 | 3 | Objective Mapping | heavy¹ | internal | Rovo, Copilot | `TBD — skill-primer-brief filed (sp-objective-keyword-mapper)` |
+| 3P | Current State Analysis (pivot)² | heavy | internal | Rovo, Copilot | inline (one-off) |
 | 4 | Rationalization Scoring | light | internal | Rovo, Copilot | `TBD — skill-primer-brief filed (sp-closure-scorer)` |
 | 5 | Recommendation & Disposition Packet | light | internal | Rovo, Copilot | `TBD — skill-primer-brief filed (sp-disposition-packet-builder)` |
 | 6 | Review & Disposition Capture | heavy | internal | Rovo, Copilot | inline (one-off — the disposition taxonomy and capture protocol are specific to this flowspace) |
@@ -89,6 +102,12 @@ Stage 4 as a weak-alignment signal worth up to 40 closure points, and no
 downstream stage can distinguish "genuinely unaligned" from "badly matched."
 The dictionary is also the one input that encodes organizational strategy
 rather than observable Jira facts, so it earns human attention every cycle.
+
+² Reached only when Stage 3's tiered resolution
+(`03-objective-mapping/CONTEXT.md`, steps 3–5) ends without a confirmed
+dictionary — no operator-authored one, and no inferred one the operator
+confirmed. A cycle either continues 3 → 4 → 5 → 6, or ends at 3P — never
+both. See `03p-current-state-analysis/CONTEXT.md`.
 
 ## Source-repo
 
@@ -130,7 +149,11 @@ live in the instance, never here.
    emitting mapped area, confidence, score, matched keywords, and any secondary
    possible match. Items with no clear alignment land in `Needs objective
    review` — a flag that an item needs stronger wording or stakeholder
-   confirmation, explicitly **not** a closure verdict.
+   confirmation, explicitly **not** a closure verdict. If neither an authored
+   nor a confirmed inferred dictionary is available, the cycle does not
+   halt: it pivots to a Current State Analysis
+   (`03p-current-state-analysis/CONTEXT.md`) and ends there instead of
+   continuing to Stage 04.
 5. **Stage 04** applies the close-score model and produces a ranked list where
    every score carries its per-dimension breakdown. A score without its
    breakdown is an invalid output.
@@ -186,11 +209,18 @@ closed something — which it cannot do, having no write path. Proposed per
 `AGENTS.md` rule 7, not minted; the operator ratifies or reverts. Rationale:
 `flow-foundry/decision-log/2026-07-28-portfolio-rationalization-triage-and-scaffold.md`.
 
-**Objective dictionary does not exist yet.** The mold is here; the instance's
-actual objective areas and keyword sets are not, and cannot be (they are
-organizational strategy content, `AGENTS.md` rule 8). Authoring the first
-dictionary is an instantiation-time operator act, and Stage 03 cannot run
-without it.
+**Objective dictionary does not exist yet — no longer a run-blocking gap,
+still an unresolved input.** The mold is here; the instance's actual
+objective areas are not. Stage 03 now attempts to infer a candidate
+dictionary from the portfolio's own vocabulary and Component/Label/Epic-Link
+structure when none is supplied, and presents it for operator confirmation
+(`reference/objective-dictionary-template.md` §9). If the operator cannot
+confirm an inferred dictionary and has none of their own, the cycle pivots
+to `03p-current-state-analysis/` rather than halting. This closes the
+"nothing happens" failure mode but not the underlying gap: a
+governance-grade recommendation cycle (Stages 04–06) still requires a
+dictionary someone stands behind, authored or inferred-and-confirmed.
+Authoring one, or confirming an inference, remains an operator act.
 
 **Field-completion denominator, unresolved.** The design captures the column
 count per cycle rather than fixing it, because export column counts vary by
@@ -202,7 +232,7 @@ not across configurations — is an open question carried from the intake brief.
 
 | Artifact | Location | Covers |
 |---|---|---|
-| Objective Dictionary — Template | `reference/objective-dictionary-template.md` (template) | Domain-neutral mold for authoring objective areas, keyword sets and weights, confidence thresholds, tie-break and secondary-match rules, the `Needs objective review` floor |
+| Objective Dictionary — Template | `reference/objective-dictionary-template.md` (template) | Domain-neutral mold for authoring objective areas, keyword sets and weights, confidence thresholds, tie-break and secondary-match rules, the `Needs objective review` floor, and (§9) the method for inferring a candidate dictionary from the portfolio itself when none is supplied |
 | Close-Score Model & Recommendation Taxonomy | `reference/close-score-model.md` (to-review) | The five scoring dimensions with ceilings and ramps, the corroboration rule, the four recommendation bands, worked synthetic examples |
 | Export & Field Requirements | `reference/export-and-field-requirements.md` (to-review) | Required field set, live-Jira ⇄ export parity contract, normalization rules, field-completion denominator rule, degraded-signal handling |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |

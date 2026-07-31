@@ -2,11 +2,11 @@
 id: objective-dictionary-template
 title: "Objective Dictionary — Template"
 type: template
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-07-29
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -33,7 +33,9 @@ keyword sets are organizational strategy content (`AGENTS.md` rule 8). They
 belong in the instance, in employer tenancy, at whatever `data-class` the
 employer's scheme assigns them. A dictionary in this repo would be an
 employer-content leak, and this file exists specifically so that leak is
-unnecessary.
+unnecessary. When no dictionary exists at all, §9 documents a way to propose
+a starting one from the portfolio's own vocabulary — read the caveat there
+before relying on it.
 
 ---
 
@@ -217,3 +219,75 @@ objective areas:
 An item scoring 3 (`failover`) + 2 (`resiliency`) + 1 (`uptime`) = 6 maps
 Medium. With `redundancy` also present it reaches 9 with a weight-3 term
 included, and maps High.
+
+## 9. Inferring a candidate dictionary (no operator dictionary available)
+
+This section documents a **method**, not content. An inferred dictionary
+produced by applying it to a real portfolio is built from that portfolio's
+real vocabulary and real Component/Label/Epic-Link structure — once
+instantiated it is organizational content exactly as an authored dictionary
+is, and it lives in the instance's `reference/` folder, never in this public
+repo (`AGENTS.md` rule 8), regardless of whether a human or an inference pass
+wrote its first draft. Everything below is technique; the worked fragment
+(§9.6) stays synthetic, in the same `PORT-nn` / "Reduce Unplanned Outage
+Exposure" convention as §8, precisely so the method can be shown here without
+leaking anything real.
+
+**What this method cannot do.** It recovers, at best, how the backlog is
+already organized and worded — not what leadership has actually stated the
+objectives are. That is a materially weaker claim than an authored dictionary
+makes, which is exactly why Stage 03 routes it through an explicit human
+confirmation gate rather than treating it as equivalent on arrival.
+
+### 9.1 Evidence floor
+
+Inference requires the portfolio to already carry some categorical
+structure. Proposed default (instance-tunable): at least 15% of items
+populate at least one of Component, Labels, or Epic Link. Below that floor,
+say so and do not attempt inference — there is too little to cluster on, and
+a dictionary built from noise is worse than no dictionary.
+
+### 9.2 Cluster
+
+Group items by Component, then by Label, then by Epic Link — whichever the
+field-availability report shows populated. A cluster earns consideration as
+a candidate area at a proposed floor of at least 5 items *or* 5% of the
+portfolio, whichever is larger; below that, it's noise, not an objective.
+
+### 9.3 Extract terms
+
+Within each qualifying cluster, compute term frequency across Summary and
+Description, relative to that term's frequency across the rest of the
+portfolio. A term common inside the cluster and rare outside it is a real
+candidate; a term common everywhere (generic Jira vocabulary) is not.
+
+### 9.4 Cap the weights
+
+A term appearing in ≥50% of the cluster's items, materially rarer outside
+it → weight 2 (the ceiling for inference). 25–49% → weight 1. Below 25%,
+discard. **No inferred term is ever weight 3** — that designation is
+reserved for organizational vocabulary a human wrote down (§2), never for a
+statistically frequent word.
+
+### 9.5 Name from the tag, never from strategy
+
+The candidate area's name is the cluster's dominant categorical value itself
+(the Component/Label/Epic name, title-cased) — never a strategic-sounding
+phrase invented for the occasion. The name describes what the backlog
+already calls this work, not what it claims to be for.
+
+### 9.6 Residual and provenance
+
+Items in no qualifying cluster land in the same `Needs objective review`
+bucket a confirmed run would use — inference narrows that bucket, it doesn't
+eliminate it. Every area produced this way, and the dictionary file as a
+whole, carries `provenance: inferred` (as against `provenance:
+operator-authored`) in its metadata — this travels downstream as a caveat,
+never as a silent equivalence.
+
+**Worked fragment (synthetic).** A cluster tagged `Component:
+Outage-Response`, 14 items, with `failover` in 9 of 14 (64%, rare
+elsewhere) and `redundancy` in 6 of 14 (43%): candidate area
+**"Outage-Response"** (`provenance: inferred`) — `failover` weight 2,
+`redundancy` weight 1. An item scoring `2 + 1 = 3` maps Low; nothing in this
+dictionary can ever reach High, by construction.

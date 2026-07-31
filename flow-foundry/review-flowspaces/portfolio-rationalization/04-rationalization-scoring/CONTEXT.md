@@ -4,11 +4,11 @@ title: "Stage 04 — Rationalization Scoring"
 type: stage-context
 stage: 4
 review-intensity: light
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-07-29
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -31,6 +31,7 @@ related:
 | Age ranking (for the sanity cross-check) | Stage 02 | Yes |
 | Per-item mapping record — area, confidence band, score, secondary match | Stage 03 | Yes |
 | Summary-only / degraded mapping flags | Stage 03 | Yes |
+| Dictionary provenance (`operator-authored` / `inferred-and-confirmed`) | Stage 03 | Yes |
 | The scoring model — dimensions, ramps, ceilings, corroboration rule | `../reference/close-score-model.md` | Yes |
 | Instance status→adjustment mapping (real workflow statuses onto the model's table) | Instance `decision-log/`, set at instantiation | Yes |
 | Calibration ratification status | Instance `decision-log/` | Yes |
@@ -58,7 +59,11 @@ related:
    band minimum** — ambiguous alignment is not misalignment. For a Summary-only
    or otherwise degraded mapping, record the degradation alongside the score:
    the reviewer needs to know the 35 came from thin text rather than clear
-   misalignment.
+   misalignment. **If this cycle's dictionary carries `provenance: inferred`,
+   record that alongside the score as a caveat** — the same handling as a
+   Summary-only mapping. Do not adjust the point value: adjusting the
+   arithmetic for a provenance difference the model has never been calibrated
+   against would be a second unratified number on top of the first.
 5. **Score dimension 3 — Staleness.** Days since `Updated`: 0 at ≤30, 15 at
    ≥180, linear between. **Prefer the most recent human touch** (comment, status
    change, field edit) over raw `Updated` where comment timestamps are
@@ -101,7 +106,7 @@ related:
 | Per-item dimension breakdown | Stage 05 (packet evidence), Stage 06 | Five named dimensions with their points and the inputs each was computed from |
 | Corroboration count and firing dimensions | Stage 05 — **required for banding** | Integer 0–5 + the named dimensions above midpoint |
 | Ranked portfolio | Stage 05, Stage 06 | Items ordered by total, descending |
-| Per-item scoring caveats | Stage 05 (packet), Stage 06 | Low-confidence staleness, degraded mapping, unmapped status, unknown due date — per item |
+| Per-item scoring caveats | Stage 05 (packet), Stage 06 | Low-confidence staleness, degraded mapping, unmapped status, unknown due date, inferred-dictionary provenance — per item |
 | Calibration status declaration | Stage 05, Stage 06; cycle decision log | Ratified / unratified, with the model's `artifact-version` |
 | Sanity-check result vs. Stage 02 | Cycle decision log | Pass, or the divergence found |
 
