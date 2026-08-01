@@ -1,3 +1,24 @@
+---
+id: accomplishments-digest-stage-04
+title: "Stage 04 — Draft"
+type: stage-context
+stage: 4
+review-intensity: light
+artifact-version: "1.0"
+status: living
+truth-level: verified
+created: 2026-07-08
+updated: 2026-07-15
+owner: operator
+source: human+ai
+generated-by: flow-foundry
+generated-by-version: "1.4"
+data-class: public
+related:
+  - "[[accomplishments-digest]]"
+  - "[[accomplishments-drafter]]"
+---
+
 # Stage 4 — Draft (`CONTEXT.md`)
 
 ## Inputs

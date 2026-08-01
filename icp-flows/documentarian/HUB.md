@@ -236,12 +236,12 @@ happen at instantiation, the operator's act, per
 
 | Artifact | Location | Covers |
 |---|---|---|
-| Doc-Type Registry | `reference/doc-type-registry.md` (to-review, house-drafted) | Schema registry for the six governed doc types (sop, mop, runbook, sad, kb-article, meeting-notes): required sections, metadata, surface mapping, default open sections; out-of-scope table |
-| Documentation Standards | `reference/documentation-standards.md` (to-review, house-drafted) | The Stage 5 baseline: naming, structure, labeling, link hygiene, staleness thresholds, archive criteria |
-| Collaborative Sections Protocol | `reference/collaborative-sections-protocol.md` (to-review, house-drafted) | Open-section marker syntax, ownership, resolution rules, and the Stage 6 waiver gate |
-| AI-Refinement Handoff Contract | `reference/ai-refinement-handoff-contract.md` (to-review, house-drafted) | The meeting job type's candidate-work-item output, shaped as ai-refinement Stage 01 input |
-| Custody Model | `reference/custody-model.md` (to-review, house-drafted) | Doc-registry index shape, freshness signals, archive procedure, standing-custodian operating notes |
-| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (to-review, house-drafted) | Page-tree structure, property mapping, and operator checklist for Confluence migration and Rovo deployment — prepared, not executed |
+| Doc-Type Registry | `reference/doc-type-registry.md` (verified, house-drafted) | Schema registry for the six governed doc types (sop, mop, runbook, sad, kb-article, meeting-notes): required sections, metadata, surface mapping, default open sections; out-of-scope table |
+| Documentation Standards | `reference/documentation-standards.md` (verified, house-drafted) | The Stage 5 baseline: naming, structure, labeling, link hygiene, staleness thresholds, archive criteria |
+| Collaborative Sections Protocol | `reference/collaborative-sections-protocol.md` (verified, house-drafted) | Open-section marker syntax, ownership, resolution rules, and the Stage 6 waiver gate |
+| AI-Refinement Handoff Contract | `reference/ai-refinement-handoff-contract.md` (verified, house-drafted) | The meeting job type's candidate-work-item output, shaped as ai-refinement Stage 01 input |
+| Custody Model | `reference/custody-model.md` (verified, house-drafted) | Doc-registry index shape, freshness signals, archive procedure, standing-custodian operating notes |
+| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified, house-drafted) | Page-tree structure, property mapping, and operator checklist for Confluence migration and Rovo deployment — prepared, not executed |
 | Flow Primer Brief | `flow-foundry/backlog-flow-starters/fp-documentarian.md` | Original crystallized intent this flowspace was built from |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |

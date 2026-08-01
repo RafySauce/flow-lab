@@ -1,3 +1,24 @@
+---
+id: accomplishments-digest-stage-03
+title: "Stage 03 — Gather — Confluence & Collaboration"
+type: stage-context
+stage: 3
+review-intensity: light
+artifact-version: "1.0"
+status: living
+truth-level: verified
+created: 2026-07-08
+updated: 2026-07-15
+owner: operator
+source: human+ai
+generated-by: flow-foundry
+generated-by-version: "1.4"
+data-class: public
+related:
+  - "[[accomplishments-digest]]"
+  - "[[confluence-contribution-gatherer]]"
+---
+
 # Stage 3 — Gather — Confluence & Collaboration (`CONTEXT.md`)
 
 ## Inputs
