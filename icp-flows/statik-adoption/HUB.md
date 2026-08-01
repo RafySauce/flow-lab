@@ -84,7 +84,7 @@ flowchart LR
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Service Framing & Source Binding | heavy | internal | Rovo, Copilot | `jira-portfolio-ingest` (promoted, `produced-skills/`) for board binding + inline service framing and fitness-criteria elicitation |
+| 1 | Service Framing & Source Binding | heavy | internal | Rovo, Copilot | `jira-portfolio-ingest` (promoted, `produced-skills/`) or `servicenow-ticket-ingest` (backlog-staged, `skill-foundry/backlog-skill-starters/`, not yet built) for board/ticket binding + inline service framing and fitness-criteria elicitation |
 | 2 | Sources of Dissatisfaction | heavy¹ | internal | Rovo, Copilot | `fitness-and-dissatisfaction-profiler` (to-review, `skill-foundry/review-skills/`) |
 | 3 | Demand Analysis | light | internal | Rovo, Copilot | `demand-profiler` (to-review, `skill-foundry/review-skills/`) |
 | 4 | Capability Analysis | light | internal | Rovo, Copilot | `flow-capability-analyzer` (to-review, `skill-foundry/review-skills/`) |
@@ -131,9 +131,14 @@ they are documented here instead of drawn as edges.
   set at instantiation, the sole source of truth for the instance.
 - **External systems read:** Jira — one board, project, or filter per run,
   read-only, via the engine's native Jira capability (Stage 01 binds it; Stages
-  03–05 read the bound set). Confluence read-only where the service already has
-  documented SLAs or service definitions that bear on fitness criteria (Stage
-  01–02, optional).
+  03–05 read the bound set). ServiceNow — one table (incident, request, or a
+  named custom table) per run, read-only, via `servicenow-ticket-ingest`
+  (backlog-staged, not yet built — see Known gaps); once built it binds
+  identically to `jira-portfolio-ingest` so Stages 03–05 read the same shape
+  regardless of source system. A service tracked in both binds both explicitly
+  rather than merging silently. Confluence read-only where the service already
+  has documented SLAs or service definitions that bear on fitness criteria
+  (Stage 01–02, optional).
 - **External systems written:** none. This flow produces a *design*; a human
   configures the board. Publishing the finished design to Confluence at Stage 08
   is a human act, deliberately outside the flow's write boundary.
@@ -195,6 +200,23 @@ acts. Until then, this flowspace is a complete design whose Layer-3 is unproven.
 | `workflow-modeler` | `sp-workflow-modeler` | 5 | to-review — 1.0; gate pending; deployment pending |
 | `class-of-service-designer` | `sp-class-of-service-designer` | 6 | to-review — 1.0; gate pending; deployment pending |
 | `kanban-system-designer` | `sp-kanban-system-designer` | 7 | to-review — 1.0; gate pending; deployment pending |
+
+**ServiceNow ingest is designed-for but not built (2026-08-01).** Stage 01 now
+accepts a live-ServiceNow or ServiceNow-export source mode, and
+`reference/board-evidence-requirements.md` §7 maps ServiceNow's fields onto
+the flow's canonical set, but the ingest skill itself —
+`servicenow-ticket-ingest` — is only a primer brief at
+`skill-foundry/backlog-skill-starters/sp-servicenow-ticket-ingest.md`, staged
+the same way `sp-servicenow-kb-commit` was staged for documentarian: the
+gap is registry-visible rather than living only in prose, and the brief holds
+the place without authorizing a build. Per
+`methodology/mirroring-protocol.md` §2, ServiceNow is already sanctioned as a
+*read* target in principle — unlike the KB-commit write path, this is not
+blocked on a policy question, only on the skill-foundry build-and-gate cycle
+(spec, adapters, five-point gate) that every Layer-3 skill goes through before
+promotion to `produced-skills/`. Until then, a ServiceNow-tracked service runs
+Stage 01 in conversation-only mode, or the operator pastes ticket data through
+the degrade path the brief describes.
 
 **The ingest history delta (open, operator call).** Stage 01 reuses
 `jira-portfolio-ingest`, which emits a *point-in-time* normalized item set.
