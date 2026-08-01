@@ -8,7 +8,12 @@ description: >
   same shape regardless of where the data came from. Read-only and
   portfolio-scoped: it screens the data class before typing the data further,
   halts on count mismatch, pagination truncation, or a missing hard-required
-  field, and never auto-accepts a field map. Invoke at Stage 01 of
+  field, and never auto-accepts a field map. It also checks whether the
+  backlog's own parent links point outside the bound project — the ART-board
+  pattern, where one board holds the portfolio/solution epics driving several
+  feature-delivery team projects — and, on the operator's say-so, resolves
+  just those specific parent keys (never a second whole-project query) so
+  portfolio-profiler can draw the full hierarchy. Invoke at Stage 01 of
   portfolio-rationalization, or standalone on "normalize this Jira export,"
   "pull the whole project into a normalized set," "bind this export for
   portfolio analysis." Do NOT use to refine or create a single work item
@@ -18,11 +23,11 @@ description: >
 # --- provenance (house layer) ---
 id: jira-portfolio-ingest
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -32,6 +37,7 @@ related:
   - "[[sp-jira-portfolio-ingest]]"
   - "[[portfolio-rationalization]]"
   - "[[export-and-field-requirements]]"
+  - "[[work-item-schemas]]"
 ---
 
 # Jira Portfolio Ingest
@@ -62,7 +68,11 @@ flowchart LR
     Screen -->|No| Halt["Halt the run — not redacted,<br/>not carried forward"]:::halt
     Screen -->|Yes| P3["Step 4 — Count and field map<br/>Confirm count against expectation;<br/>present the map, never auto-accept"]:::process
     P3 --> P4["Step 5 — Requirements and report<br/>Hard fields present or halt;<br/>availability report + denominator"]:::process
-    P4 --> Output(["Output: normalized item set,<br/>field-availability report, denominator,<br/>scope record, degraded-signal list"]):::output
+    P4 --> Discover{"Parent keys point<br/>outside this project?"}:::decision
+    Discover -->|No| Output(["Output: normalized item set,<br/>field-availability report, denominator,<br/>scope record, degraded-signal list,<br/>connected-space hierarchy context"]):::output
+    Discover -->|"Yes — operator declines"| Output
+    Discover -->|"Yes — operator resolves"| Resolve["Step 6 — Connected-space discovery<br/>Targeted parent-key lookup only,<br/>read-only, never a second whole-project query"]:::process
+    Resolve --> Output
 
     classDef start fill:#1e293b,stroke:#94a3b8,color:#f1f5f9
     classDef process fill:#1e3a8a,stroke:#60a5fa,color:#dbeafe
@@ -169,9 +179,35 @@ flowchart LR
     empty rich-text containers that serialize as markup with no text all count
     as genuinely empty. **A missing field is unavailable, never zero:** an item
     is not more complete or less complete because its export lacked a column.
-11. **Confirm setup with the operator** — scope, source mode, item count,
-    denominator, field map, degraded-signal list — and obtain an explicit
-    "proceed" before anything advances.
+11. **Discover connected spaces — the ART-board pattern.** A backlog's
+    portfolio and solution epics often live on a different board than the one
+    just bound — commonly an ART (Agile Release Train) board spanning several
+    feature-delivery team projects. Group the normalized set's populated
+    `Parent key` values by issue-key project prefix; any prefix that differs
+    from the bound project is a **candidate connected space**.
+    - No off-project prefixes found → say so plainly and move on; nothing to
+      discover this cycle.
+    - Otherwise, present the candidates (prefix, reference count, and level
+      where `Issue Type` is available) and offer explicitly: **resolve** the
+      specific referenced keys, or **decline** and leave them unresolved.
+    - **If resolving:** look up only the named keys, read-only, through the
+      engine's native Jira capability (or ask the operator to paste them if
+      none exists) — a **targeted lookup, never a second whole-project or
+      JQL query.** Walk each resolved item's own `Parent key` upward the same
+      way, deduping, until an item has no `Parent key` or a lookup fails; the
+      hierarchy is four levels deep at most, so this always terminates. Run
+      the same data-class screen (step 4) against anything resolved.
+    - Record what resolves — key, Issue Type, Summary, Parent key, Status
+      only — as a separate **connected-space hierarchy context**. **Never add
+      it to the normalized item set or its count** — no distribution, no
+      mapping, no score, no packet; its only job is completing parent chains
+      for `portfolio-profiler`'s hierarchy view.
+    - Record the outcome (no candidates / resolved / declined) in the scope
+      record.
+12. **Confirm setup with the operator** — scope, source mode, item count,
+    denominator, field map, degraded-signal list, and the connected-space
+    discovery outcome — and obtain an explicit "proceed" before anything
+    advances.
 
 **Quality bar:** a live-bound cycle and an export-bound cycle over the same
 portfolio produce **identical** normalized sets. That is checkable, and it is
@@ -182,11 +218,16 @@ this skill's definition of correct.
 Reads: the operator's scope declaration; a live Jira project/space (read-only)
 or an export file or pasted content; the session capability-probe result
 carried in from `START-HERE.md` Step 1; the field requirements, parity
-contract, degraded-signal table, and denominator rule in the flowspace's
-`reference/export-and-field-requirements.md`; Jira field names and hierarchy
-from `icp-flows/ai-refinement/reference/work-item-schemas.md` (read, never
+contract, degraded-signal table, denominator rule, and hierarchy-linkage
+conventions in the flowspace's `reference/export-and-field-requirements.md`
+§8; Jira field names and hierarchy from
+`icp-flows/ai-refinement/reference/work-item-schemas.md` (read, never
 written); the prior cycle's field-availability report and denominator from the
-instance `decision-log/`, if this is not the first cycle.
+instance `decision-log/`, if this is not the first cycle. When connected-space
+discovery resolves candidates, also reads specific named issues in a
+different project/space than the one bound — read-only, and only the exact
+keys the normalized set already references (never a second whole-project
+query).
 
 Grounding rules: every value in the normalized set traces to the source record
 it came from — no inferred statuses, no reconstructed dates, no filled-in
@@ -211,6 +252,11 @@ silently. A halt is a valid, complete output of this skill.
   degrade path needs neither.
 - **No write scope is requested or needed**, at this skill or anywhere in this
   flow.
+- **Connected-space discovery is the one narrow exception to single-project
+  scope.** It reads specific named issues in a different project/space than
+  the one bound — never a second whole-project or JQL query — and only after
+  the operator explicitly elects to resolve. Anything it reads passes the
+  same data-class screen as the primary source before joining the cycle.
 
 ## What this skill is not
 
@@ -228,6 +274,11 @@ silently. A halt is a valid, complete output of this skill.
   instead — it does not route the request onward.
 - **Not a redactor.** Content above the ceiling halts the cycle; this skill
   does not sanitize a portfolio into compliance.
+- **Not a multi-project binder.** Connected-space discovery resolves the
+  specific named parent keys a backlog already references — it never pages
+  through, profiles, or otherwise binds a second project's own backlog as
+  part of this cycle. Analyzing that other board in its own right is a
+  separate run of this skill, not a side-effect of this one.
 
 ## Review criteria
 
@@ -257,7 +308,12 @@ A single output of this skill is acceptable when:
    or hardcoded, and is recorded with the item count.
 10. The normalized set uses canonical field names and ISO dates with
     empty-equivalents resolved, and no missing field was rendered as a zero.
-11. The operator confirmed "proceed."
+11. Connected-space discovery ran against `Parent key`/`Issue Type`; any
+    candidates were presented with reference counts, and the resolve/decline
+    choice — or the no-candidates finding — is recorded. Anything resolved
+    passed the same data-class screen as the primary source and was kept out
+    of the normalized item set and its count.
+12. The operator confirmed "proceed."
 
 **The parity test, run once at instantiation:** bind the same portfolio in both
 live and export mode and diff the normalized sets. They must match. A
@@ -268,9 +324,15 @@ downstream.
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
+| Rovo | adapters/rovo-agent.md | 1.1 |
+| Copilot | adapters/copilot-prompt.md | 1.1 |
 
 ## Changelog
 
+- **1.1** (2026-08-01) — Added connected-space discovery (the ART-board
+  pattern): groups `Parent key` by project prefix, offers the operator a
+  targeted read-only resolve of off-project parent keys, and emits the result
+  as a separate connected-space hierarchy context that never joins the
+  normalized item set or its count. Feeds `portfolio-profiler`'s new
+  hierarchy view.
 - **1.0** (2026-07-28) — Initial build from `sp-jira-portfolio-ingest`.

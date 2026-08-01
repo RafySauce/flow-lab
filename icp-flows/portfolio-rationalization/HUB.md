@@ -2,11 +2,11 @@
 id: portfolio-rationalization
 title: "Jira Portfolio Rationalization — Hygiene & Objective Alignment Review"
 type: flowspace
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-29
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -18,6 +18,7 @@ related:
   - "[[close-score-model]]"
   - "[[export-and-field-requirements]]"
   - "[[portfolio-rationalization-stage-03p]]"
+  - "[[work-item-schemas]]"
 ---
 
 # Jira Portfolio Rationalization — Hygiene & Objective Alignment Review
@@ -31,7 +32,14 @@ routed to the people who own the work.
 
 It runs against either a **live Jira project/space** or an **export of the same
 data** — Stage 01 normalizes both into one canonical item set, and every stage
-downstream reads that set rather than the raw source.
+downstream reads that set rather than the raw source. Because a backlog's
+strategic parents often sit on a different board — an ART (Agile Release
+Train) board holding the portfolio and solution epics that drive several
+feature-delivery team projects is the common shape — Stage 01 also looks for
+those connected spaces and, on the operator's say-so, resolves just enough of
+them to complete the chain. Stage 02 turns that chain into a Portfolio →
+Solution → Feature hierarchy diagram and calls out how many items have no
+resolvable parent.
 
 The flow's governing principle: **do not close work simply because it is old.**
 Closure pressure comes only when multiple weak signals line up — old age, stale
@@ -139,12 +147,21 @@ live in the instance, never here.
    the data-class screen, checks the required-field set against what the source
    actually carries, and emits the normalized item set with a field-availability
    report. Missing fields are recorded as degraded-signal warnings, not
-   blockers: the flow runs with fewer signals and says which.
+   blockers: the flow runs with fewer signals and says which. It then checks
+   whether this backlog's own `Parent key` values point outside the bound
+   project — the ART-board pattern, where one board holds the portfolio and
+   solution epics driving several feature-delivery team projects — and, if so,
+   offers to resolve just those specific parent keys (never a second
+   whole-project query) so Stage 02 can draw the full hierarchy.
 3. **Stage 02** profiles the portfolio and stops before judgment. It presents
-   the distributions and then offers the exploration lenses — status, assignee
-   workload, due dates and risk, priority, labels, custom fields — so the
-   operator inspects the shape before anything is scored. This ordering is
-   deliberate and is the stage's whole point.
+   the distributions, builds a Portfolio Epic → Solution Epic → Feature →
+   child hierarchy diagram from `Issue Type`/`Parent key` (folding in
+   anything Stage 01 resolved from a connected space) with orphan and
+   dangling-reference counts called out by type, and then offers the
+   exploration lenses — status, assignee workload, due dates and risk,
+   priority, labels, custom fields — so the operator inspects the shape
+   before anything is scored. This ordering is deliberate and is the stage's
+   whole point.
 4. **Stage 03** loads the instance's objective dictionary and maps every item,
    emitting mapped area, confidence, score, matched keywords, and any secondary
    possible match. Items with no clear alignment land in `Needs objective

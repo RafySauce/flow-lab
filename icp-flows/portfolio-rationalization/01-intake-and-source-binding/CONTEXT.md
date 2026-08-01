@@ -4,11 +4,11 @@ title: "Stage 01 — Intake & Source Binding"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -17,6 +17,7 @@ data-class: public
 related:
   - "[[portfolio-rationalization]]"
   - "[[export-and-field-requirements]]"
+  - "[[work-item-schemas]]"
 ---
 
 # Stage 01 — Intake & Source Binding
@@ -98,9 +99,58 @@ related:
 10. **Emit the normalized item set.** One record per work item, canonical field
     names, values normalized (dates to ISO, empty-equivalents like `None` and
     `-` and empty rich-text containers resolved to genuinely empty).
-11. **Confirm setup with the operator** — scope, source mode, item count,
-    denominator, field map, and the degraded-signal list — and obtain explicit
-    "proceed" before advancing.
+11. **Discover connected spaces — the ART-board pattern.** A backlog's
+    portfolio and solution epics often do not live in the project or space
+    just bound: an overarching ART (Agile Release Train) board commonly holds
+    the portfolio/solution epics that drive strategic goals across several
+    feature-delivery team projects, each with its own board. Before this
+    cycle's scope is treated as complete, check whether this backlog's own
+    hierarchy reaches outside it.
+    - Group every populated `Parent key` value in the normalized set by its
+      issue-key project prefix. Any prefix that differs from the primary
+      scope's own project/space is a **candidate connected space**.
+    - If no `Parent key` values are populated, or every one resolves to the
+      primary project's own prefix, say so plainly and move to step 12 —
+      there is nothing to discover this cycle.
+    - Otherwise, present the candidate list to the operator: each distinct
+      external prefix, how many in-scope items reference it, and (where
+      `Issue Type` is available) what level those referencing items sit at.
+      Offer the choice explicitly — **resolve** the specific referenced
+      parent keys to complete the hierarchy for Stage 02, or **decline** and
+      leave those references unresolved this cycle. Either answer is valid;
+      this is the same offer-and-wait discipline Stage 02 uses for its
+      exploration lenses, not a default to talk the operator out of.
+    - **If the operator elects to resolve:** look up the named parent keys
+      only — read-only, through the engine's native Jira capability, or by
+      asking the operator to paste the resolved items if no such capability
+      exists. This is a **targeted lookup of specific keys, never a second
+      whole-project or JQL query** — the one-project-per-cycle discipline
+      (`../reference/export-and-field-requirements.md` §5) still governs the
+      *primary* scope; a connected space is read only far enough to complete
+      the hierarchy, nothing more. Walk each resolved item's own `Parent key`
+      upward the same way, deduping keys already resolved, until an item
+      carries no `Parent key` (top of the hierarchy) or a lookup fails. The
+      hierarchy `../../ai-refinement/reference/work-item-schemas.md` defines
+      is four levels deep at most, so this walk always terminates. A key that
+      fails to resolve is recorded **unresolved**, not retried, and discovery
+      continues.
+    - Run the same data-class screen (step 4) against anything resolved this
+      way before it joins the cycle. A connected space earns no lower-trust
+      exemption for being "just parent context."
+    - Record what resolves as a **connected-space hierarchy context** —
+      Issue key, Issue Type, Summary, Parent key, and Status only, the
+      minimum Stage 02 needs to draw a parent chain. **These items never join
+      the primary normalized item set or its count.** They carry no
+      status/assignee/priority/due-date distribution, no objective mapping,
+      no close score, no disposition packet — their sole purpose is
+      completing parent chains in Stage 02's hierarchy view.
+    - Record the discovery outcome — no candidates found; candidates found
+      and resolved; candidates found and declined — in the cycle scope
+      record, along with the connected-space list and item count when
+      resolved.
+12. **Confirm setup with the operator** — scope, source mode, item count,
+    denominator, field map, degraded-signal list, and the connected-space
+    discovery outcome — and obtain explicit "proceed" before advancing.
 
 ## Outputs
 
@@ -113,6 +163,8 @@ related:
 | Cycle scope record (project/space, JQL filter verbatim, source mode, run date) | Stages 05, 06; instance decision log | Text |
 | Degraded-signal list (which fields are missing and what each degrades) | Stages 02, 03, 04, 05 | Field → consequence table |
 | Data-class screen result | Instance decision log | Pass, or halt with cause |
+| Connected-space discovery outcome (no candidates / resolved / declined) | Stage 02, instance decision log | Text, plus the connected-space list when resolved |
+| Connected-space hierarchy context (conditional — present only when discovery resolved candidates) | Stage 02 (hierarchy view only) | Key, Issue Type, Summary, Parent key, Status — never added to the primary item set or its count |
 
 ## Verify
 
@@ -125,7 +177,10 @@ present or explicitly absent. The failure this catches is Stage 02 profiling a
 silently truncated item set — a paginated query that stopped early, or an
 export whose embedded newlines split rows — and reporting distributions over a
 portfolio that is not the portfolio. Running this check leaves a one-line
-result in the cycle's decision log.
+result in the cycle's decision log. Connected-space hierarchy context, when
+resolved, is checked separately and does not participate in this trace: it is
+never counted into the primary item count, so its presence or absence cannot
+by itself explain a mismatch here.
 
 - [ ] Trigger phrase matched and target project/space named
 - [ ] The read-only, recommendation-not-decision framing was stated before any
@@ -149,6 +204,12 @@ result in the cycle's decision log.
       hardcoded, and recorded with the item count
 - [ ] Normalized set uses canonical field names and ISO dates, with
       empty-equivalents resolved
+- [ ] Connected-space discovery ran against `Parent key`/`Issue Type`;
+      candidates (if any) were presented with reference counts, and the
+      resolve/decline choice — or the no-candidates finding — is recorded
+- [ ] Any resolved connected-space items passed the same data-class screen as
+      the primary source and were kept out of the primary item set and its
+      count
 - [ ] Operator confirmed "proceed"
 
 ## Review
@@ -161,7 +222,8 @@ result in the cycle's decision log.
   denominator produces plausible completion percentages that mean nothing.
 - **Evidence:** the setup confirmation echoed in the session, plus a
   decision-log entry recording scope, source mode, item count, denominator,
-  field map, degraded signals, and the data-class screen result.
+  field map, degraded signals, the data-class screen result, and the
+  connected-space discovery outcome.
 
 ## Data boundary
 
@@ -176,5 +238,12 @@ result in the cycle's decision log.
   `internal` and are the flow's only sustained personal-data surface.
 - Real portfolio content never enters this public design repo — it lives only in
   the instance, per `methodology/mirroring-protocol.md`.
+- **Connected-space discovery is the one narrow exception to the single-project
+  scope above.** It may read specific named issues in a different project or
+  space than the one bound at step 3 — but only the exact parent keys the
+  primary set already references, never a second whole-project or JQL query,
+  and only after the operator explicitly elects to resolve. Everything
+  resolved this way is read-only and passes the same step-4 data-class screen
+  before it joins the cycle.
 - A handoff into this stage from an engine outside this boundary is invalid —
   stop and re-route.

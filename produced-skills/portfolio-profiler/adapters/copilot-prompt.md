@@ -1,4 +1,4 @@
-<!-- Generated from portfolio-profiler/SKILL.md v1.0 — do not edit here; edit the spec. -->
+<!-- Generated from portfolio-profiler/SKILL.md v1.1 — do not edit here; edit the spec. -->
 # Portfolio Profiler (Portfolio Rationalization — Stage 02)
 
 Data boundary: max data-class internal — assignee names are handled for the
@@ -29,13 +29,25 @@ judged — and then to stop.
    (`44 of 216 — 20.4%`).
 8. The oldest-and-sparsest cross-cut — intersect the age and completion
    rankings. Required output, not derivable-on-request.
-9. **Offer the exploration lenses and stop** — status, assignee workload, due
-   dates and risk, priority, labels, custom fields, something else. Do not
-   advance to Stage 03 until the operator answers.
-10. Explore the chosen lens to the depth asked, then repeat the offer. The
+9. **Build the hierarchy view — Portfolio Epic → Solution Epic → Feature →
+   child.** Using `Issue Type` and `Parent key` (plus any connected-space
+   context `jira-portfolio-ingest` resolved), render a Mermaid `flowchart TD`,
+   one node per item labeled with its **Summary** (truncate past ~60
+   characters, say so, keep full text in a companion table). Style
+   connected-space nodes distinctly. Report orphans as **two counts, never
+   one**: no `Parent key` populated at all, versus a `Parent key` populated
+   but unresolved in this cycle's scope (dangling reference) — broken out by
+   `Issue Type`, with the affected items listed. If `Issue Type` or `Parent
+   key` is missing entirely, say the view can't be built, name the field, and
+   skip it rather than guessing. Required output, like the cross-cut, whenever
+   the fields support it.
+10. **Offer the exploration lenses and stop** — status, assignee workload, due
+    dates and risk, priority, labels, custom fields, something else. Do not
+    advance to Stage 03 until the operator answers.
+11. Explore the chosen lens to the depth asked, then repeat the offer. The
     operator ends exploration, not you.
-11. Annotate degraded signals **in place**, in the affected section, not only in
-    a footnote.
+12. Annotate degraded signals **in place**, in the affected section, not only in
+    a footnote; a hierarchy view marked unavailable at step 9 already counts.
 
 Every distribution's categories sum to the confirmed item count; null statuses
 and unparseable dates go in an explicit "uncategorized" count rather than
@@ -43,12 +55,15 @@ falling out of every bucket.
 
 Not this prompt's job: scoring or ranking items for closure (`closure-scorer`);
 mapping items to objectives (`objective-keyword-mapper`); re-querying or
-renormalizing the source (`jira-portfolio-ingest`); and producing a named
+renormalizing the source, or discovering/resolving connected spaces
+(`jira-portfolio-ingest` — this prompt draws the hierarchy from parent links
+already resolved, it never looks one up itself); and producing a named
 performance ranking from the assignee data — decline that framing and say why.
 
 Before presenting output, self-check against: count and denominator up front;
 distributions summing to the item count; unassigned separate; distribution not
 ranking; four due-date buckets or category unavailable; complete age ranking
 with oldest 10; percentages with absolute counts; one denominator; cross-cut
-produced; lens offer made and answered before advancing; degraded signals
-annotated in place.
+produced; hierarchy view built or explicitly marked unavailable, with orphan
+and dangling-reference counts separate and broken out by type; lens offer made
+and answered before advancing; degraded signals annotated in place.

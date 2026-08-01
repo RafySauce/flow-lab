@@ -1,4 +1,4 @@
-<!-- Generated from jira-portfolio-ingest/SKILL.md v1.0 — do not edit here; edit the spec. -->
+<!-- Generated from jira-portfolio-ingest/SKILL.md v1.1 — do not edit here; edit the spec. -->
 # Jira Portfolio Ingest (Portfolio Rationalization — Stage 01)
 
 Data boundary: max data-class internal. Content above the instance's sanctioned
@@ -51,19 +51,35 @@ Where a step says halt, halt.
 10. Emit the normalized set: canonical field names, ISO dates,
     empty-equivalents (`None`, `-`, empty rich-text markup) resolved. A missing
     field is unavailable, never zero.
-11. Confirm scope, mode, count, denominator, field map, and degraded signals
-    with the operator, and get an explicit "proceed."
+11. Discover connected spaces — the ART-board pattern. Group populated
+    `Parent key` values by project prefix; any prefix off the bound project is
+    a candidate connected space (an ART board commonly holds the
+    portfolio/solution epics driving several team projects). None found → say
+    so and move on. Otherwise present the candidates with reference counts and
+    offer: resolve the specific keys (targeted lookup only — through a
+    sanctioned Jira integration, or the operator pastes them; **never** a
+    second whole-project query), or decline. Anything resolved passes the
+    same data-class screen as step 4 and is recorded as a separate
+    connected-space hierarchy context — key, Issue Type, Summary, Parent key,
+    Status only, **never** added to the normalized set or its count.
+12. Confirm scope, mode, count, denominator, field map, degraded signals, and
+    the connected-space discovery outcome with the operator, and get an
+    explicit "proceed."
 
 Not this prompt's job: refining or creating a single work item (`ai-refinement`
 pipeline, `jira-commit`); gathering one engineer's own closed work
 (`jira-accomplishments-gatherer`); profiling, ranking, or scoring
-(`portfolio-profiler` onward); and **anything that writes to Jira** — decline,
-state that this flow has no write path at any stage, and do not route the
-request onward.
+(`portfolio-profiler` onward); binding a second project's own backlog as its
+own cycle (connected-space discovery resolves only the specific parent keys
+referenced — a separate run of this prompt handles that board in its own
+right); and **anything that writes to Jira** — decline, state that this flow
+has no write path at any stage, and do not route the request onward.
 
 Before presenting output, self-check against: framing stated before data moved;
 mode declared and JQL verbatim; quote-honoring parse with header captured first
 and repeats collapsed; screen run first and recorded; count confirmed; field map
 operator-confirmed; hard requirements present or halted; availability report
 complete; denominator from this cycle; ISO dates and resolved empties; no
-missing field scored as zero; operator said proceed.
+missing field scored as zero; connected-space discovery run and its outcome
+recorded, with any resolved items screened and kept out of the item count;
+operator said proceed.
