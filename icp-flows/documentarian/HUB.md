@@ -2,11 +2,11 @@
 id: documentarian
 title: "Documentarian — Documentation Production & Custody Pipeline"
 type: flowspace
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: verified
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -92,12 +92,12 @@ flowchart LR
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
 | 1 | Intake & Routing | heavy¹ | internal | Rovo, Copilot | inline — guardrails, job-type routing, registry pointers (`reference/doc-type-registry.md`, `reference/documentation-standards.md`) |
-| 2 | Evidence Gathering | light | internal | Rovo | TBD — brief filed (`sp-doc-evidence-gatherer`) |
-| 3 | Doc Plan & Template Match | heavy² | internal | Rovo, Copilot | TBD — brief filed (`sp-doc-planner`) |
-| 4 | Draft & Update | light | internal | Rovo, Copilot | TBD — briefs filed (`sp-doc-drafter`; `sp-sad-diagram-maintainer` for the sad-update job type) |
-| 5 | Standards Validation | light | internal | Rovo, Copilot | TBD — brief filed (`sp-doc-standards-validator`); `provenance-stamper` (verified, `produced-skills/`) referenced for mirror-side artifact stamping |
-| 6 | Commit & Link | heavy¹ | internal | Rovo | TBD — brief filed (`sp-confluence-page-commit`); ServiceNow write path deferred (`sp-servicenow-kb-commit`); ai-refinement handoff packaging inline per `reference/ai-refinement-handoff-contract.md` |
-| 7 | Custody & Close | heavy³ | internal | Rovo | TBD — brief filed (`sp-doc-custodian`); archive-confirmation dialogue inline |
+| 2 | Evidence Gathering | light | internal | Rovo | `doc-evidence-gatherer` (verified, `produced-skills/`) |
+| 3 | Doc Plan & Template Match | heavy² | internal | Rovo, Copilot | `doc-planner` (verified, `produced-skills/`) |
+| 4 | Draft & Update | light | internal | Rovo, Copilot | `doc-drafter` (verified, `produced-skills/`); `sad-diagram-maintainer` (verified, `produced-skills/`) for the sad-update job type |
+| 5 | Standards Validation | light | internal | Rovo, Copilot | `doc-standards-validator` (verified, `produced-skills/`); `provenance-stamper` (verified, `produced-skills/`) referenced for mirror-side artifact stamping |
+| 6 | Commit & Link | heavy¹ | internal | Rovo | `confluence-page-commit` (verified, `produced-skills/`); ServiceNow write path deferred (`sp-servicenow-kb-commit`); ai-refinement handoff packaging inline per `reference/ai-refinement-handoff-contract.md` |
+| 7 | Custody & Close | heavy³ | internal | Rovo | `doc-custodian` (verified, `produced-skills/`); archive-confirmation dialogue inline |
 
 ¹ First stage and commit boundary — heavy per the U-curve default,
 unconditionally; never compressed.
@@ -198,20 +198,26 @@ inconvenience.
 
 ## Known gaps
 
-All seven active stages beyond Stage 1 depend on skills that do not exist
-yet. Eight skill-primer-briefs are filed in
-`skill-foundry/backlog-skill-starters/` per the demand loop — seven active,
-one explicitly deferred:
+**Gap closure (2026-08-01):** all seven of the skills below were built
+2026-07-15, and were re-gated and promoted to `truth-level: verified` in
+`produced-skills/` on 2026-08-01 following a simulated live test per skill
+against its own spec's seeded Review-criteria scenario. This closes the
+first gap as originally written (the skills no longer "do not exist");
+`servicenow-kb-commit` remains deferred, unchanged. Evidence:
+`skill-foundry/decision-log/2026-08-01-documentarian-skill-batch-promotion.md`.
+**Not closed by this:** none of the seven has had a true on-engine
+invocation (Rovo or Copilot) — the simulated pass is agent-side evidence
+only, per the same tier the 2026-07-15 accomplishments-digest batch used.
 
-| Skill (planned) | Primer brief | Target stage | Status |
+| Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `doc-evidence-gatherer` | `sp-doc-evidence-gatherer` | 2 | brief filed 2026-07-15 |
-| `doc-planner` | `sp-doc-planner` | 3 | brief filed 2026-07-15 |
-| `doc-drafter` | `sp-doc-drafter` | 4 | brief filed 2026-07-15 |
-| `sad-diagram-maintainer` | `sp-sad-diagram-maintainer` | 4 (sad-update jobs) | brief filed 2026-07-15 — flagged merge candidate into `doc-drafter`; the skill-foundry decides |
-| `doc-standards-validator` | `sp-doc-standards-validator` | 5 | brief filed 2026-07-15 |
-| `confluence-page-commit` | `sp-confluence-page-commit` | 6 | brief filed 2026-07-15 — no existing skill writes to Confluence; `jira-commit` is the shape to model |
-| `doc-custodian` | `sp-doc-custodian` | 7 | brief filed 2026-07-15 |
+| `doc-evidence-gatherer` | `sp-doc-evidence-gatherer` | 2 | verified — built and gated 2026-08-01; on-engine test pending |
+| `doc-planner` | `sp-doc-planner` | 3 | verified — built and gated 2026-08-01; on-engine test pending |
+| `doc-drafter` | `sp-doc-drafter` | 4 | verified — built and gated 2026-08-01; on-engine test pending |
+| `sad-diagram-maintainer` | `sp-sad-diagram-maintainer` | 4 (sad-update jobs) | verified — built standalone (merge into `doc-drafter` declined), gated 2026-08-01; on-engine test pending |
+| `doc-standards-validator` | `sp-doc-standards-validator` | 5 | verified — built and gated 2026-08-01; on-engine test pending |
+| `confluence-page-commit` | `sp-confluence-page-commit` | 6 | verified — built and gated 2026-08-01; on-engine test pending |
+| `doc-custodian` | `sp-doc-custodian` | 7 | verified — built and gated 2026-08-01; on-engine test pending |
 | `servicenow-kb-commit` | `sp-servicenow-kb-commit` | 6 (ServiceNow path) | **deferred** — designed-for gap; no sanctioned ServiceNow integration exists; brief filed 2026-07-15 so the gap stays registry-visible |
 
 Second gap: no stakeholder register exists for the documentation domain.
