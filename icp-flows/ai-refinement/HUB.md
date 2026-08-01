@@ -2,9 +2,9 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.20"
+artifact-version: "1.21"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
 updated: 2026-08-01
 owner: operator
@@ -70,20 +70,19 @@ flowchart LR
 
 > Stages 2–6 carry their true review-intensity colors: each stage's skill is
 > `truth-level: verified` and lives in `produced-skills/` (repo top level) —
-> operator promotion 2026-07-03, accepting the agent pre-run of the
-> five-point gate (spec review, simulated live test per adapter on synthetic
-> data, trigger check, collision check) and the 1.2 revision-pass re-run as
-> the review record; evidence in
-> `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-promotion.md`.
-> The simulated live tests are not engine runs: the first on-engine
-> invocation per adapter happens at deployment, which remains the operator's
-> act at instantiation. See Known gaps.
+> originally promoted 2026-07-03, evidence in
+> `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-promotion.md`;
+> re-gated and re-promoted 2026-08-01 on a confirmed Rovo live test across
+> the flow and all six ai-refinement-family skills, evidence in
+> `decision-log/2026-08-01-rovo-live-test-reverification.md` and
+> `skill-foundry/decision-log/2026-08-01-ai-refinement-skill-batch-reverification.md`.
+> Copilot-adapter live tests remain outstanding — see Known gaps.
 
 ## Stage table
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all seven refinable types); plus two conditional handoffs — to `value-decomposition` (verified, `produced-skills/`) when the user asks to decompose (or "break down") a selected parent-level item, and to `bulk-child-creation` (to-review, `skill-foundry/review-skills/`) when the input is set-shaped and the user accepts bulk creation mode |
+| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all seven refinable types); plus two conditional handoffs — to `value-decomposition` (verified, `produced-skills/`) when the user asks to decompose (or "break down") a selected parent-level item, and to `bulk-child-creation` (verified, `produced-skills/`) when the input is set-shaped and the user accepts bulk creation mode |
 | 2 | Context & Problem Framing | heavy¹ | internal | Rovo, Copilot | `context-elicitation` (verified, `produced-skills/`) |
 | 3 | Scope & Dependencies | light² | internal | Rovo, Copilot | `scope-dependency-mapper` (verified, `produced-skills/`) |
 | 4 | Field-by-Field Refinement | light² | internal | Rovo, Copilot | `field-refinement-cadence` (verified, `produced-skills/`) |
@@ -295,6 +294,18 @@ inconvenience.
 
 ## Known gaps
 
+**Gate closure (2026-08-01):** the flow and its six directly-built skills
+(`context-elicitation`, `scope-dependency-mapper`, `workitem-validation`,
+`jira-commit`, `value-decomposition`, `bulk-child-creation`) were re-gated
+and promoted back to `truth-level: verified` on the operator's confirmation
+of a real Rovo run across the flow — "all tested in rovo and worked well."
+This closes the re-gate/deployment-pending language attached to the seventh
+through eleventh gaps below for the Rovo path specifically. **Not closed by
+this:** the Copilot adapter for any of these six skills has not had its own
+live invocation — the five-point gate requires one per adapter, and only
+Rovo's has run. `field-refinement-cadence` is unaffected (it was never
+demoted). Evidence: `decision-log/2026-08-01-rovo-live-test-reverification.md`.
+
 Twelfth gap (2026-08-01): `value-decomposition` (ninth gap below) is the
 pipeline's only top-down decomposition path, and it is built entirely around
 the value-delivery deck's model — persona value statements, MVP thinking,
@@ -458,13 +469,13 @@ at deployment, the operator's act, recorded in each skill card.
 
 | Skill (spec + adapters) | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `context-elicitation` | `sp-context-elicitation` | 2 | to-review — 1.5 (nine-type input taxonomy, supporting-context steering: architecture material seeds the stakeholder sweep, prior completed items seed "tried before"); re-gate pending; deployment pending |
-| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | to-review — 1.3 (SAD/topology integration-seam dependency sweep, prior-process risk seeding); re-gate pending; deployment pending |
+| `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.5 (nine-type input taxonomy, supporting-context steering: architecture material seeds the stakeholder sweep, prior completed items seed "tried before"); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
+| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — 1.3 (SAD/topology integration-seam dependency sweep, prior-process risk seeding); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
 | `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.3 (conditionally-scoped cadence: fast-track consolidation vs. one-at-a-time, communication_style citation); promoted 2026-07-03; deployment pending |
-| `workitem-validation` | `sp-workitem-validation` | 5 | to-review — 1.3 (mandatory-label check renamed to the versioned provenance label); promoted 2026-07-03, since revised; deployment pending |
-| `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.9 (provenance label renamed to its versioned form); promoted 2026-07-03, since revised; deployment pending |
-| `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | to-review — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 adds the bulk-creation branch for a large accepted child set, dropping it from `verified` pending a gate re-run); deployment pending |
-| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | to-review — 1.0 (built 2026-07-31; staged in `skill-foundry/review-skills/`, **not** promoted — the five-point gate and placement in `produced-skills/` are the operator's acts); deployment pending |
+| `workitem-validation` | `sp-workitem-validation` | 5 | verified — 1.3 (mandatory-label check renamed to the versioned provenance label); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
+| `jira-commit` | `sp-jira-commit` | 6 | verified — 1.9 (provenance label renamed to its versioned form); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
+| `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot adapter live test still outstanding |
+| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | verified — 1.0 (built 2026-07-31; gated and promoted 2026-08-01 on a confirmed Rovo live test, now in `produced-skills/`); Copilot adapter live test still outstanding |
 
 Second gap (2026-07-03): the work-item schema registry
 (`reference/work-item-schemas.md`) completes type coverage — the source
@@ -594,12 +605,12 @@ first live run). Rationale:
 
 | Artifact | Location | Covers |
 |---|---|---|
-| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eight house amendments (five on-engine-proven, three operator-raised) |
-| Bulk Child Creation | `skill-foundry/review-skills/bulk-child-creation/SKILL.md` (to-review, staged — not promoted) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation with halt-on-failure, Markdown handoff degrade path |
-| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints; mandatory-label cross-cutting note |
+| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (verified — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eight house amendments (five on-engine-proven, three operator-raised) |
+| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (verified) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation with halt-on-failure, Markdown handoff degrade path |
+| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (verified, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints; mandatory-label cross-cutting note |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
-| Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (to-review, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |
-| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (to-review, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |
-| On-Engine Validation Checklist | `reference/on-engine-validation-checklist.md` (to-review, house extension) | Per-type, per-check matrix for REC-09 (first on-engine validation run) — prepared, not executed |
+| Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (verified, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |
+| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |
+| On-Engine Validation Checklist | `reference/on-engine-validation-checklist.md` (verified, house extension) | Per-type, per-check matrix for REC-09 (first on-engine validation run) — prepared, not executed |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |

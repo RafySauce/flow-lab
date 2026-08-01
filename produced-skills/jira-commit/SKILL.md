@@ -20,9 +20,9 @@ id: jira-commit
 type: skill
 artifact-version: "1.10"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-07-31
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: skill-foundry
