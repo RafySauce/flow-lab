@@ -2,11 +2,11 @@
 id: ai-refinement-on-engine-validation-checklist
 title: "On-Engine Validation Checklist — AI Refinement"
 type: specification
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-31
 owner: operator
 source: human+ai
 data-class: public
@@ -94,6 +94,53 @@ this same row.
       translation.
 - [ ] **Post-commit transition offer** — offered once, response (accept or
       decline) recorded, correct end state either way.
+
+## Supporting-context research checks (Stage 01 step 8)
+
+Run once per engine (Rovo; Copilot, if the OneDrive/SharePoint surface is
+deployed there per §4a of `confluence-instantiation-guide.md`), not once per
+type — this step's behavior doesn't vary by work-item type.
+
+- [ ] **Scope confirmed before search** — the proposed research scope
+      (spaces, projects, terms, document types, time window) was presented
+      and explicitly confirmed, trimmed, or redirected by the user before
+      any search ran, on both Confluence and Jira.
+- [ ] **Recency default, not a blanket sweep** — the initial proposal named
+      specific spaces/projects (top 3 most recently created/touched for the
+      requesting user), not a generic "search all of Confluence" framing;
+      if a person or team was named or appeared in supplied material, the
+      proposal expanded to their associated spaces/projects.
+- [ ] **OneDrive/SharePoint gate** — where the host engine was Copilot and a
+      live Microsoft Graph/OneDrive connector was present, the surface was
+      proposed with the same recency default, folded into the single scope
+      confirmation; where either condition was absent, the surface was
+      skipped and recorded as a gap, not silently proposed or silently
+      omitted.
+- [ ] **Keyword filter merge** — a user-supplied search term (tested with at
+      least one of: tech stack name, app/system code, team name, team
+      member name) appeared in the proposal alongside agent-proposed terms;
+      a stated override replaced the named term explicitly, never silently.
+- [ ] **Time-frame default and override** — with no user-stated window, the
+      proposal named the past-6-months default; with a user-stated window,
+      that window replaced the default and was named in the proposal and
+      the research record.
+- [ ] **Child-page/child-folder sweep** — a parent Confluence page (and, if
+      OneDrive is deployed, a parent OneDrive folder) entering the session
+      triggered a one-level relevance pass over its children, with relevant
+      children surfaced as additional candidates rather than the parent
+      treated as self-contained; confirm the sweep stayed one level deep
+      absent an explicit user request to go deeper.
+- [ ] **Widening confirmed** — a user request to widen the hunt (more
+      spaces, more projects, more OneDrive folders, a deeper child sweep)
+      was treated as its own explicit confirmation, never silently folded
+      into the original scope.
+- [ ] **Screen applied to retrieved content** — every document entering the
+      session via search (including child-page/child-folder sweep results)
+      passed the Stage 01 data-safety screen and received a taxonomy type
+      tag, identical to user-supplied material.
+- [ ] **Research record completeness** — sought/found/selected/not-found is
+      recorded alongside the surfaces actually searched, the confirmed time
+      window, and any child-page/child-folder sweep results.
 
 ## After all rows pass
 

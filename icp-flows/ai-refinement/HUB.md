@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.18"
+artifact-version: "1.19"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -189,11 +189,28 @@ selected:
 3. **Confirm-then-hunt loop** — the agent proposes a concrete research scope
    (Confluence spaces, Jira projects, search terms, document types; read-only,
    via the engine's native Confluence/Jira capabilities — the same access
-   class as the team_code and parent-candidate queries). The user confirms,
-   trims, or redirects the scope before any search runs; findings come back
-   as a candidate list the user selects from; the user may widen the hunt
-   ("search these other spaces too"), each widening explicitly confirmed.
-4. **Research record** — what was sought, found, selected, and *not found* is
+   class as the team_code and parent-candidate queries). Since 2026-07-31 the
+   proposed spaces and projects default to recency — the top 3 most recently
+   created/touched Confluence spaces and Jira projects for the requesting
+   user, expanded to any spaces/projects tied to a person or team the user
+   names or that appears in supplied material — never a blanket sweep. The
+   user may supply search terms directly (technology stack, app/system
+   codes, team names, team members) alongside the agent's own, additive
+   unless the user states an override; documents default to a 6-month
+   recency window unless the user states otherwise. Where the host engine is
+   Copilot and a live Microsoft Graph/OneDrive connector is present (per
+   `START-HERE.md`'s capability probe), an OneDrive/SharePoint proposal —
+   same top-3/6-month defaults — folds into this one confirmation; absent
+   Copilot or the connector, that surface is skipped and recorded as a gap.
+   The user confirms, trims, or redirects the scope before any search runs;
+   findings come back as a candidate list the user selects from. A parent
+   Confluence page or OneDrive folder entering the session gets a quick
+   one-level relevance pass over its children, folded into the same
+   candidate list. The user may widen the hunt ("search these other spaces
+   too"), each widening explicitly confirmed.
+4. **Research record** — what was sought, found, selected, and *not found* —
+   plus the surfaces actually searched, the confirmed time window, and any
+   child-page/child-folder sweep results — is
    recorded and handed to Stages 2–3. A missing SAD is a recorded gap, not a
    blocker.
 
@@ -277,6 +294,35 @@ Human inspects at every stage boundary — that's the method, not an
 inconvenience.
 
 ## Known gaps
+
+Eleventh gap (2026-07-31): the supporting-context research step (sixth gap
+below) proposed a search scope from pure inference, with no recency signal —
+in practice as likely to propose a blanket sweep as a narrow one, and the
+user had to already know which spaces or projects to name. Closed here by
+revising the seventh house amendment, `supporting_context_research`, in
+place (`reference/ai-refinement-hybrid.md` 1.5 → 1.6): the default proposed
+scope is now the top 3 most recently created/touched Confluence spaces and
+Jira projects for the requesting user, expanded to spaces/projects tied to
+any person or team the user names or that appears in supplied material (a
+transcript, a meeting summary); a new engine-conditioned OneDrive/SharePoint
+surface is proposed when the host engine is Copilot and a live Microsoft
+Graph/OneDrive connector is present (skipped and recorded as a gap
+otherwise); the user may supply search-term filters (tech stack, app/system
+codes, team names, team members) as an addition to or explicit override of
+agent-proposed terms; documents default to a 6-month recency window unless
+the user states otherwise; and a parent Confluence page or OneDrive folder
+entering the session gets a one-level relevance pass over its children
+rather than being treated as self-contained. Confirm-then-hunt discipline is
+unchanged — these are defaults for the proposal only, never an unconfirmed
+auto-search. Stage 01 (1.14 → 1.15) carries the procedural detail; `START-HERE.md`
+(1.0 → 1.1) gains the OneDrive/SharePoint capability-probe row and degrade
+path; `reference/confluence-instantiation-guide.md` (1.0 → 1.1) and
+`reference/on-engine-validation-checklist.md` (1.2 → 1.3) are extended to
+close the REC-02/REC-09 follow-ups the sixth gap's decision log left open.
+`context-elicitation` and `scope-dependency-mapper` are untouched — the
+shape of what Stage 01 hands them is unchanged. None of this has run on a
+live engine. Raised directly by the operator. Rationale:
+`decision-log/2026-07-31-supporting-context-research-scope-defaults.md`.
 
 Tenth gap (2026-07-31): the pipeline had no path for a user who already holds
 the item set. Its founding premise ("one run = one fully refined work item")

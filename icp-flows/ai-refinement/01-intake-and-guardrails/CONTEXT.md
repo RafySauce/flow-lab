@@ -4,7 +4,7 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.14"
+artifact-version: "1.15"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -38,6 +38,9 @@ related:
 | User's stated expected item count, for a tabular or exported set | User | If bulk |
 | User-supplied context material (Confluence pages/links, exported Miro content, PDF files, email content, meeting notes) | User, prompted at the supporting-context research step | No |
 | Confluence/Jira search results for the confirmed research scope (read-only, engine-native) | Confluence + Jira (via native lookup) | No |
+| OneDrive/SharePoint search results for the confirmed research scope (Copilot + live Microsoft Graph/OneDrive connector only, read-only, engine-native) | OneDrive/SharePoint (via native Graph lookup) | No |
+| User-supplied search-term filters (technology stack names, app/system codes, team names, team member names) — addition to or explicit override of agent-proposed terms | User | No |
+| User-stated time-frame for supporting-context research (defaults to the past 6 months if unspecified) | User | No |
 | Stakeholder register, if one is loaded for this domain | `../reference/platform-stakeholder-register.md` or a domain instance of `platform-stakeholder-register-template.md` | No |
 | Existing Jira labels for the target project/space (live query, for team_code inference) | Jira (via native lookup) | Yes |
 
@@ -168,21 +171,57 @@ creation mode
      search terms, and document types to be searched (read-only, via the
      engine's native Confluence/Jira capabilities — the same access class as
      the team_code query below and Stage 06's parent-candidate query). The
-     user confirms, trims, or redirects the scope before any search runs. **No
+     proposed spaces and projects default to recency, never a blanket sweep:
+     start from the top 3 most recently created and most recently touched
+     Confluence spaces and Jira projects for the requesting user, determined
+     via the engine's native lookup. Where a person or team is named — by
+     the user directly, or surfaced from supplied material such as a
+     transcript or meeting summary — also propose spaces/projects associated
+     with that person or team, expanding the top-3 default rather than
+     replacing it. Search terms combine two sources in one proposal: the
+     agent's work-focus-inferred terms, and any terms the user supplies
+     directly — offer technology stack names, app/system codes, team names,
+     and team member names as explicit examples of what the user can
+     provide. A user-supplied term is additive by default; if the user
+     states it replaces an agent-proposed term, name that replacement
+     explicitly rather than dropping the term silently. Bound documents to a
+     default 6-month window (creation or last-updated date) unless the user
+     states a different window, which overrides the default; name the
+     confirmed window in the proposal. The user confirms, trims, or
+     redirects the whole scope — spaces/projects,
+     terms, document types, and time window — before any search runs. **No
      live Confluence/Jira query path available** (running in a chat session
      with no native connector or sanctioned integration, per
      `START-HERE.md`'s capability probe): skip the hunt-and-present step below
      and rely on the context prompt above instead — ask the user to paste any
      additional material they hold rather than proposing a search that can't
      run; record the missing search as a gap, same as a document not found.
-   - **Hunt and present** — run the confirmed searches; present findings as a
+   - **OneDrive/SharePoint surface (Copilot-conditioned)** — where the
+     session's host engine is Copilot and a live Microsoft Graph/OneDrive
+     connector is present (per `START-HERE.md`'s capability probe), fold an
+     OneDrive/SharePoint proposal — the same top-3 recency default and
+     6-month window — into the one scope confirmation above; it is never a
+     separate approval step. **Engine is not Copilot, or no live Graph/
+     OneDrive connector is present:** skip this surface entirely — do not
+     propose it — and record the skipped surface as a gap, same as a
+     document not found.
+   - **Hunt and present** — run the confirmed searches (Confluence, Jira, and
+     OneDrive/SharePoint when in scope); present findings as a
      candidate list (title, location, why it looks relevant); the user
      selects what enters the session. Every selected document passes the
-     step 4 data-safety screen and gets a taxonomy type tag. If the user
-     asks to widen the hunt (more Confluence spaces, more Jira projects),
+     step 4 data-safety screen and gets a taxonomy type tag. Where a parent
+     Confluence page or OneDrive folder enters the session — whether
+     user-supplied at the context prompt or surfaced by the hunt — give its
+     immediate children a quick relevance pass and fold relevant ones into
+     the same candidate list, one level deep by default; treat a deeper
+     crawl as an explicit widening, not automatic. If the user
+     asks to widen the hunt (more Confluence spaces, more Jira projects,
+     more OneDrive folders, a deeper child-page/child-folder crawl),
      repeat with the widened scope — every widening explicitly
      user-confirmed, never silently expanded.
-   - **Record** — note what was sought, found, selected, and *not found*. A
+   - **Record** — note what was sought, found, selected, and *not found*,
+     along with the surfaces actually searched, the confirmed time window,
+     and any child-page/child-folder sweep results. A
      missing expected document (e.g., no SAD for an engineering-focused item)
      is a recorded gap for Stages 02–03 to work around, never a blocker and
      never silently substituted with invented content.
@@ -327,7 +366,7 @@ creation mode
 | Screened source material + input-type tag (when provided) | Stage 02 | text + type tag |
 | Work-focus classification (engineering/enhancement, operations, or mixed) + rationale | Stages 02, 03 | text |
 | Supporting-context document set (each item typed + screened) | Stages 02, 03 | tagged document list |
-| Research record (sought / found / selected / not found) | Stages 02, 03; run decision log | text |
+| Research record (sought / found / selected / not found, surfaces searched, confirmed time window, and any child-page/child-folder sweep results) | Stages 02, 03; run decision log | text |
 | Selected mode (fast-track / full-interactive) + rationale | Stages 02–06 | text |
 | Selected creation mode (bulk / single-item) + rationale, item count, and per-row type reading | `bulk-child-creation` (Band ③), Stages 05–06 | text + typed row list |
 | Bulk acknowledgment record (taken as its own act, with the five stated points) | `bulk-child-creation`, Stage 06; run decision log | boolean + transcript reference |
@@ -382,6 +421,25 @@ Running this check leaves a one-line result in the run's decision log.
 - [ ] The research scope (spaces, projects, terms, document types) was
       user-confirmed *before* any search ran, and every subsequent widening
       was explicitly user-confirmed — no silent scope expansion
+- [ ] The default research scope proposal cited recency (top 3 most
+      recently created/touched Confluence spaces and Jira projects), not a
+      blanket sweep, with the proposal expanded to any named person's or
+      team's spaces/projects where applicable
+- [ ] If the host engine was Copilot and a live Microsoft Graph/OneDrive
+      connector was present, the OneDrive/SharePoint surface was proposed
+      with the same top-3/6-month defaults, folded into the single scope
+      confirmation; if Copilot or the connector was absent, the surface was
+      skipped and recorded as a gap, not silently omitted
+- [ ] User-supplied search terms (tech stack, app/system codes, team names,
+      team members) appeared in the proposal alongside agent-proposed
+      terms, and any stated override was named explicitly rather than
+      silently dropped
+- [ ] The confirmed time-frame (default: past 6 months, or a user-stated
+      window) was named in the scope proposal and recorded in the research
+      record
+- [ ] A parent Confluence page or OneDrive folder entering the session got a
+      one-level child sweep, with relevant children surfaced as candidates
+      rather than the parent/folder treated as self-contained
 - [ ] Every document entering the session (user-supplied or search-selected)
       carries a taxonomy type tag and passed the data-safety screen
 - [ ] The research record notes what was sought, found, selected, and not
@@ -443,7 +501,15 @@ Running this check leaves a one-line result in the run's decision log.
   in the same engine-native access class — search scope is user-confirmed
   before any query runs, results are capped at data-class `internal`, and
   every retrieved document passes the data-safety screen before entering the
-  session; no write action occurs.
+  session; no write action occurs. The default proposed scope is
+  recency-drawn (the requesting user's most recently created/touched spaces
+  and projects, expanded to named people/teams), never a blanket sweep,
+  though it stays fully user-confirmable like any other proposal. Where
+  Copilot is the host engine and a live Microsoft Graph/OneDrive connector
+  is confirmed present (per `START-HERE.md`'s capability probe), the same
+  read-only/user-confirmed/`internal`-ceiling access class extends to
+  OneDrive/SharePoint — this extension is strictly gated on that probe and
+  never assumed.
 - An enumerated item set (taxonomy row 10) is the highest-risk carrier this
   stage handles: a spreadsheet or export brings every column, including
   description and comment columns that routinely carry personal names,
