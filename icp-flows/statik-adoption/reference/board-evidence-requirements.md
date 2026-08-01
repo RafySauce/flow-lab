@@ -28,8 +28,15 @@ all three; only the evidence basis and the sufficiency of the findings differ.**
 | Mode | What it is | What changes |
 |---|---|---|
 | **Live Jira** | Bound to a project, board, or saved filter via the engine's native Jira capability | Findings can be `measured`; history may or may not be retrievable — checked separately |
-| **Export** | A file supplied by the operator, normalized by `jira-portfolio-ingest` | Same as live, bounded by what the export's columns carry; history usually absent unless deliberately exported |
-| **Conversation-only** | No board, or a board that does not reflect the work | Every finding is `estimated`; no finding is ever labelled `measured` |
+| **Jira export** | A file supplied by the operator, normalized by `jira-portfolio-ingest` | Same as live, bounded by what the export's columns carry; history usually absent unless deliberately exported |
+| **Live ServiceNow** | Bound to an incident, request, or named custom table via `servicenow-ticket-ingest` (§7 — backlog-staged, not yet built) | Same parity guarantee as Jira once built: findings can be `measured`; history is a separate audit-table query, checked separately |
+| **ServiceNow export** | A file supplied by the operator, normalized by `servicenow-ticket-ingest` | Same as live ServiceNow, bounded by what the export's columns carry |
+| **Conversation-only** | No board/table, or one that does not reflect the work | Every finding is `estimated`; no finding is ever labelled `measured` |
+
+A service tracked in both Jira and ServiceNow binds both sources explicitly
+at Stage 01 and records the split — the two bound sets are never silently
+merged, since a merged set would double-count or arbitrarily drop items that
+exist in both systems.
 
 Three rules make parity real rather than nominal:
 
@@ -140,3 +147,44 @@ on count mismatch, and that halt must not be overridden) and **filtered
 history** (an export that appears to carry transitions but only carries the most
 recent one, which yields a residency analysis that is wrong rather than absent —
 the more dangerous failure).
+
+## 7. ServiceNow as a source
+
+`servicenow-ticket-ingest` (backlog-staged at
+`skill-foundry/backlog-skill-starters/sp-servicenow-ticket-ingest.md`, not yet
+built) is designed to emit the identical canonical shape
+`jira-portfolio-ingest` produces, so §§1–6 above apply unchanged once it
+exists — the same parity contract, the same field-to-stage table, the same
+sufficiency floors, the same history question, the same personal-data
+constraint, the same export cautions. This section carries only what is
+ServiceNow-specific: the field mapping and its instance-taxonomy caveats.
+
+**Field mapping — ServiceNow (`incident` table, representative) to canonical:**
+
+| ServiceNow field | Canonical field | Notes |
+|---|---|---|
+| `number` | Issue key | e.g. `INC0012345` |
+| `short_description` | Summary | |
+| `state` / `incident_state` | Status | **Numeric in the underlying field, label-mapped per instance** — the raw integer is never the canonical status; resolve through the instance's label map before mapping |
+| `opened_at` | Created | |
+| `resolved_at` (falls back to `closed_at` if resolution is not tracked separately) | Resolved / completed date | Instance-dependent which field is populated; check both |
+| `category` / `subcategory` | Issue type candidate | Administrative artifact exactly as Jira's issue-type field is (see Stage 03 §1) — cluster on request content, not the raw category |
+| `assignment_group` | Reporter / requesting-group proxy | A group, not a person — consistent with §5's aggregate-only constraint |
+| `priority` | Priority | |
+
+A request/catalog table (`sc_request`, `sc_req_item`) maps analogously with
+`requested_for` in place of `assignment_group` and its own state model — the
+skill presents the map for confirmation per table, never auto-accepts, exactly
+as `jira-portfolio-ingest` does for Jira's custom fields.
+
+**History is a separate query**, as in Jira: the base table is a point-in-time
+record; per-state residency needs the `sys_audit`/state-transition history,
+checked and recorded separately per §4's discipline. A closed incident can be
+reopened, which the point-in-time set alone will not show — record this as a
+known limitation alongside the history-availability finding when ServiceNow is
+the bound source.
+
+**Until `servicenow-ticket-ingest` is built**, a ServiceNow-tracked service
+either runs Stage 01 in conversation-only mode or uses the operator-paste
+degrade path with the field gaps stated — the same reduced path
+`jira-portfolio-ingest` offers when no Jira connector is available.

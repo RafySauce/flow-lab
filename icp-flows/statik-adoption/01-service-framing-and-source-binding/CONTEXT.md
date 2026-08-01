@@ -33,9 +33,11 @@ happen together.
 |---|---|---|
 | Trigger phrase ("Run STATIK", "design a Kanban system for this service", "I want to introduce Kanban here") | Service owner / delivery manager / coach | Yes |
 | Service name and one-sentence description of what it delivers | Operator | Yes |
-| Source mode declaration — live Jira, Jira export, or conversation-only | Operator | Yes |
+| Source mode declaration — live Jira, Jira export, live ServiceNow, ServiceNow export, or conversation-only | Operator | Yes |
 | Jira board / project key / saved filter identifying the service's work | Operator | Only in live-Jira mode |
-| Export file with the columns listed in `reference/board-evidence-requirements.md` §2 | Operator | Only in export mode |
+| Export file with the columns listed in `reference/board-evidence-requirements.md` §2 | Operator | Only in Jira export mode |
+| ServiceNow table (`incident`, `sc_request`/`sc_req_item`, or a named custom table) and encoded query/view identifying the service's work | Operator | Only in live-ServiceNow mode |
+| ServiceNow export file with the columns listed in `reference/board-evidence-requirements.md` §7 | Operator | Only in ServiceNow export mode |
 | Existing service definition, SLA, or OLA documentation | Confluence or operator paste | No — recorded as a gap if absent |
 | Names of the customer groups the service delivers to | Operator | Yes |
 
@@ -60,12 +62,19 @@ happen together.
    is exactly the judgment that must be made deliberately, and a wrong split
    propagates into every downstream number. Offer the operator the choice of
    re-binding to a filtered scope they define, or splitting into two runs.
-4. **Bind the source.** In live-Jira or export mode, invoke
-   `jira-portfolio-ingest` to produce the normalized item set and its
-   field-availability report. That skill owns the data-class screen, the field
-   map confirmation, and the halt conditions (count mismatch, pagination
-   truncation, missing hard-required field) — do not duplicate them here. In
-   conversation-only mode, skip binding entirely and record the reason.
+4. **Bind the source.** In live-Jira or Jira-export mode, invoke
+   `jira-portfolio-ingest`. In live-ServiceNow or ServiceNow-export mode,
+   invoke `servicenow-ticket-ingest` (backlog-staged at
+   `skill-foundry/backlog-skill-starters/sp-servicenow-ticket-ingest.md`,
+   not yet built — see `HUB.md` Known gaps). Both skills produce the identical
+   normalized item set and field-availability report shape, so Stages 03–05
+   never need to branch on which ticketing system a service actually uses.
+   Whichever skill is bound owns the data-class screen, the field map
+   confirmation, and the halt conditions (count mismatch, pagination
+   truncation, missing hard-required field) — do not duplicate them here. A
+   service that genuinely tracks work in both systems binds both and records
+   the split explicitly rather than merging silently. In conversation-only
+   mode, skip binding entirely and record the reason.
 5. **Inventory history separately from fields.** The field-availability report
    says which *columns* exist; it does not say whether status-transition history
    is available. Check and record separately: are per-item state-entry and
@@ -90,7 +99,8 @@ happen together.
    criteria, bound scope with item count, history availability, and the mode
    declaration — presented together, confirmed before Stage 02 opens.
 
-`Layer-3: jira-portfolio-ingest` (steps 4–5, board binding only) ·
+`Layer-3: jira-portfolio-ingest` (steps 4–5, Jira board binding only) ·
+`Layer-3: servicenow-ticket-ingest` (steps 4–5, ServiceNow binding only — backlog-staged, not yet built) ·
 `Layer-3: inline (one-off — service framing, customer separation, fitness-criteria elicitation, mode declaration)`
 
 ## Outputs
@@ -99,7 +109,7 @@ happen together.
 |---|---|---|
 | Service frame | Service name, one-sentence delivery statement, and a table of customer groups each tagged `recipient` or `dependant` with what they come for | `work/01-service-frame.md` |
 | Fitness criteria set | 3–7 criteria, each with: the criterion, the customer group holding it, the axis (lead time / predictability / quality / safety / regulatory), and how it could be measured — or `unmeasurable` with the reason | `work/01-fitness-criteria.md` |
-| Bound item set + field-availability report | `jira-portfolio-ingest`'s canonical outputs, unmodified | `work/01-bound-set.md` |
+| Bound item set + field-availability report | `jira-portfolio-ingest`'s or `servicenow-ticket-ingest`'s canonical outputs (identical shape), unmodified, tagged with the source system bound | `work/01-bound-set.md` |
 | History-availability finding | One of `full transition history` / `created and resolved only` / `not checked` / `n-a (conversation-only)`, with what was checked | `work/01-history-availability.md` |
 | Mode declaration | A table, one row per STATIK step 1–8: step, `evidence-grounded` or `conversation-only`, and the one-line reason (which floor was met or missed) | `work/01-mode-declaration.md` |
 
