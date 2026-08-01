@@ -185,6 +185,42 @@ and the boundary needs to be explicit or the two will drift into each other:
 
 Both briefs state this boundary in their own words, in both directions.
 
+### 9. Agent-side pre-checks: structural only
+
+`foundry-spec.md` §5 stages a build once "the scaffold, Layer-3 triage, and
+agent-side pre-checks are complete." What was actually checked, stated plainly so
+the operator knows what the gate still has to do:
+
+**Checked (gate 1, structural completeness — partial):**
+
+- Stage folders match the `HUB.md` stage table one-for-one — 8 and 8.
+- The Stage Flow Diagram matches the stage table one-for-one — 8 nodes, same
+  order, `classDef` values copied verbatim from the house palette.
+- Frontmatter present and valid on every stamped artifact; every
+  `type: stage-context` carries `stage` and `review-intensity`, and each matches
+  its `HUB.md` row.
+- `truth-level` is `to-review` everywhere except the two decision logs (which
+  record events); nothing self-declares `verified`.
+- `data-class: public` throughout — no employer content entered the repo.
+- Source-repo mapping declared; every reference artifact linked from `HUB.md`
+  exists.
+
+**Checked (gate 2, Layer-3 status declared):** every stage is explicitly one of
+referenced skill (Stage 01), built-but-ungated skill (Stages 02–07), or inline
+one-off (Stage 08).
+
+**Not checked — outstanding for the operator:**
+
+- **Mermaid rendering on GitLab has not been confirmed**, because this session had
+  no GitLab surface. Gate 1 requires viewing the rendered `.md`, not the diff.
+- **`contract-reviewer` was not run** against the eight stage contracts. They were
+  authored to the populated-vs-present standard, but that is an authoring claim,
+  not a review result.
+- **Gate 3, the human dry-run**, is the operator's by definition — walking the
+  contracts in order and confirming Inputs are concretely scoped, Process is
+  actionable, Outputs are specific enough to write the next Inputs from, and each
+  Verify is a real cross-stage check.
+
 ## Follow-ups for the operator
 
 1. **`produced-skills/CONTEXT.md` has drifted.** The folder holds 25 skills;
