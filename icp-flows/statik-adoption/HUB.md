@@ -2,7 +2,7 @@
 id: statik-adoption
 title: "STATIK Adoption — Evidence-Grounded Kanban System Design"
 type: flowspace
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-08-01
@@ -57,12 +57,12 @@ with the run so no later stage claims empirical support it does not have.
 ```mermaid
 flowchart LR
     S1["1. Service Framing &amp;<br/>Source Binding<br/>review: heavy"]:::heavy
-    S2["2. Sources of<br/>Dissatisfaction<br/>review: heavy"]:::gap
-    S3["3. Demand Analysis<br/>review: light"]:::gap
-    S4["4. Capability Analysis<br/>review: light"]:::gap
-    S5["5. Workflow Modeling<br/>review: heavy"]:::gap
-    S6["6. Classes of Service<br/>review: light"]:::gap
-    S7["7. Kanban System Design<br/>review: light"]:::gap
+    S2["2. Sources of<br/>Dissatisfaction<br/>review: heavy"]:::heavy
+    S3["3. Demand Analysis<br/>review: light"]:::light
+    S4["4. Capability Analysis<br/>review: light"]:::light
+    S5["5. Workflow Modeling<br/>review: heavy"]:::heavy
+    S6["6. Classes of Service<br/>review: light"]:::light
+    S7["7. Kanban System Design<br/>review: light"]:::light
     S8["8. Socialization &amp;<br/>Rollout<br/>review: heavy"]:::heavy
 
     S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8
@@ -72,25 +72,28 @@ flowchart LR
     classDef gap   fill:#7f1d1d,stroke:#f87171,color:#fee2e2
 ```
 
-> Stages 2–7 carry the `gap` color because their Layer-3 skills are built but
-> **not promoted** — all six are staged at `truth-level: to-review` in
-> `skill-foundry/review-skills/`, awaiting the five-point gate. Per the
-> diagram guide, `gap` overrides the review-intensity color on the diagram
-> while the Stage table below carries the real intensity. When the operator
-> promotes the six skills, these nodes take their true colors: S2 and S5
-> `heavy`, S3/S4/S6/S7 `light`.
+> Stages 2–7 now carry their true review-intensity colors: all six skills
+> were built 2026-08-01 and, following a full simulated end-to-end run (one
+> synthetic service walked through all six skills in STATIK order,
+> including the Stage 5→4 and Stage 6 stale-basis loop-back paths), promoted
+> to `truth-level: verified` in `produced-skills/` on 2026-08-01. Evidence:
+> `skill-foundry/decision-log/2026-08-01-statik-adoption-skill-batch-promotion.md`.
+> **Not yet closed:** no on-engine invocation, and this flowspace design
+> itself stays `to-review` — see Known gaps for the remaining
+> operator-owned items (ServiceNow ingest, the ingest history delta,
+> unreached source articles, uncalibrated sufficiency floors).
 
 ## Stage table
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Service Framing & Source Binding | heavy | internal | Rovo, Copilot | `jira-portfolio-ingest` (promoted, `produced-skills/`) or `servicenow-ticket-ingest` (backlog-staged, `skill-foundry/backlog-skill-starters/`, not yet built) for board/ticket binding + inline service framing and fitness-criteria elicitation |
-| 2 | Sources of Dissatisfaction | heavy¹ | internal | Rovo, Copilot | `fitness-and-dissatisfaction-profiler` (to-review, `skill-foundry/review-skills/`) |
-| 3 | Demand Analysis | light | internal | Rovo, Copilot | `demand-profiler` (to-review, `skill-foundry/review-skills/`) |
-| 4 | Capability Analysis | light | internal | Rovo, Copilot | `flow-capability-analyzer` (to-review, `skill-foundry/review-skills/`) |
-| 5 | Workflow Modeling | heavy² | internal | Rovo, Copilot | `workflow-modeler` (to-review, `skill-foundry/review-skills/`) |
-| 6 | Classes of Service | light | internal | Rovo, Copilot | `class-of-service-designer` (to-review, `skill-foundry/review-skills/`) |
-| 7 | Kanban System Design | light | internal | Rovo, Copilot | `kanban-system-designer` (to-review, `skill-foundry/review-skills/`) |
+| 1 | Service Framing & Source Binding | heavy | internal | Rovo, Copilot | `jira-portfolio-ingest` (verified, `produced-skills/`) or `servicenow-ticket-ingest` (backlog-staged, `skill-foundry/backlog-skill-starters/`, not yet built) for board/ticket binding + inline service framing and fitness-criteria elicitation |
+| 2 | Sources of Dissatisfaction | heavy¹ | internal | Rovo, Copilot | `fitness-and-dissatisfaction-profiler` (verified, `produced-skills/`) |
+| 3 | Demand Analysis | light | internal | Rovo, Copilot | `demand-profiler` (verified, `produced-skills/`) |
+| 4 | Capability Analysis | light | internal | Rovo, Copilot | `flow-capability-analyzer` (verified, `produced-skills/`) |
+| 5 | Workflow Modeling | heavy² | internal | Rovo, Copilot | `workflow-modeler` (verified, `produced-skills/`) |
+| 6 | Classes of Service | light | internal | Rovo, Copilot | `class-of-service-designer` (verified, `produced-skills/`) |
+| 7 | Kanban System Design | light | internal | Rovo, Copilot | `kanban-system-designer` (verified, `produced-skills/`) |
 | 8 | Socialization & Rollout | heavy | internal | Rovo, Copilot | inline (one-off) — structure in `reference/rollout-and-socialization-guide.md` |
 
 ¹ **Breaks the U-curve default with cause.** Every fitness criterion the rest of
@@ -185,21 +188,25 @@ take the loop-back rather than patching forward; see Iteration above.
 
 ## Known gaps
 
-**Six Layer-3 skills built, none promoted (2026-08-01).** All six were authored
-in the same pass as this flowspace and are staged at `truth-level: to-review` in
-`skill-foundry/review-skills/`. None has run on a live engine: the five-point
-gate (spec review, live test per adapter, trigger check, boundary/collision
-check, evidence recorded) and placement in `produced-skills/` are the operator's
-acts. Until then, this flowspace is a complete design whose Layer-3 is unproven.
+**Gap closure (2026-08-01): all six Layer-3 skills built, gated, and
+promoted to `produced-skills/`.** All six were authored in the same pass as
+this flowspace and, following a simulated end-to-end live-test pass (no
+prior agent-side gate pre-run existed for this batch, unlike the
+documentarian and portfolio-rationalization batches — the full five-point
+gate, including spec review and boundary/collision check, was run for the
+first time this session), promoted to `truth-level: verified`. Evidence:
+`skill-foundry/decision-log/2026-08-01-statik-adoption-skill-batch-promotion.md`.
+**Still open:** no on-engine invocation for any of the six, and this
+flowspace design itself remains `to-review`.
 
 | Skill (spec + adapters) | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `fitness-and-dissatisfaction-profiler` | `sp-fitness-and-dissatisfaction-profiler` | 1–2 | to-review — 1.0; gate pending; deployment pending |
-| `demand-profiler` | `sp-demand-profiler` | 3 | to-review — 1.0; gate pending; deployment pending |
-| `flow-capability-analyzer` | `sp-flow-capability-analyzer` | 4 | to-review — 1.0; gate pending; deployment pending |
-| `workflow-modeler` | `sp-workflow-modeler` | 5 | to-review — 1.0; gate pending; deployment pending |
-| `class-of-service-designer` | `sp-class-of-service-designer` | 6 | to-review — 1.0; gate pending; deployment pending |
-| `kanban-system-designer` | `sp-kanban-system-designer` | 7 | to-review — 1.0; gate pending; deployment pending |
+| `fitness-and-dissatisfaction-profiler` | `sp-fitness-and-dissatisfaction-profiler` | 1–2 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
+| `demand-profiler` | `sp-demand-profiler` | 3 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
+| `flow-capability-analyzer` | `sp-flow-capability-analyzer` | 4 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
+| `workflow-modeler` | `sp-workflow-modeler` | 5 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
+| `class-of-service-designer` | `sp-class-of-service-designer` | 6 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
+| `kanban-system-designer` | `sp-kanban-system-designer` | 7 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
 
 **ServiceNow ingest is designed-for but not built (2026-08-01).** Stage 01 now
 accepts a live-ServiceNow or ServiceNow-export source mode, and
