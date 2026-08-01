@@ -19,17 +19,17 @@ description: >
 # --- provenance (house layer) ---
 id: value-decomposition
 type: skill
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-15
-updated: 2026-07-31
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: skill-foundry
-generated-by-version: "1.4"
+generated-by-version: "1.5"
 data-class: public
-related: ["[[sp-value-decomposition]]", "[[ai-refinement]]", "[[bulk-child-creation]]"]
+related: ["[[sp-value-decomposition]]", "[[ai-refinement]]", "[[bulk-child-creation]]", "[[process-decomposition]]"]
 ---
 
 # Value Decomposition
@@ -215,6 +215,15 @@ fails.
   multi-level breakdown is multiple user-driven passes.
 - **Not a below-Feature decomposer** — `story`/`task`/`spike`/`bug` are
   never the parent of a pass; the deck's model stops at Feature.
+- **Not the process decomposer** — `process-decomposition` owns the case
+  where the *whole parent* is a repetitive, sequential, procedure-driven
+  rollout grounded in a runbook (PMI/PMBOK practice, horizontal
+  sequence-driven children, rolling-wave bounding). The line is drawn at
+  the whole-parent level: this skill keeps owning the case where *one*
+  child within an otherwise value-shaped decomposition is elected
+  technical/project-driven framing (step 5's exception, unchanged) — that
+  is still this skill's job, not the sibling's. A decomposition where every
+  child is process-shaped routes to `process-decomposition` instead.
 
 ## Review criteria
 
@@ -247,11 +256,21 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.1 |
-| Copilot | adapters/copilot-prompt.md | 1.1 |
+| Rovo | adapters/rovo-agent.md | 1.2 |
+| Copilot | adapters/copilot-prompt.md | 1.2 |
 
 ## Changelog
 
+- **1.2** (2026-08-01) — Boundary cross-reference added ("Not the process
+  decomposer") for the new sibling `process-decomposition`
+  (`skill-foundry/review-skills/process-decomposition/`, `to-review`,
+  staged same day), which owns the case where the whole parent is a
+  procedure-driven rollout. No method, review-criteria, or Flow Diagram
+  change — this skill's step-5 technical-framing exception is unaffected
+  and keeps owning a single technical child inside an otherwise
+  value-shaped set; only a whole-parent process-shaped decomposition now
+  routes to the sibling instead. See
+  `../../skill-foundry/decision-log/2026-08-01-process-decomposition-skill-build.md`.
 - **1.1** (2026-07-31) — Method step 8 gains a second destination for accepted
   children: alongside the existing per-child Band 2 run, a single bulk
   creation pass (`bulk-child-creation`, Band ③) is **offered** — never

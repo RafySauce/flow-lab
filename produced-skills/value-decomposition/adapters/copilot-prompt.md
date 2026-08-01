@@ -3,12 +3,12 @@
 Surface choice: **prompt file** (`.github/prompts/value-decomposition.prompt.md`
 in the internal mirror repo) — command-shaped triggering intent ("decompose
 this now"). Emit the block below verbatim; a human merges it through normal PR
-review.
+review. (Regenerated from spec v1.2 — boundary refusal added, no method change.)
 
 ---
 
 ```markdown
-<!-- Generated from value-decomposition/SKILL.md v1.1 — do not edit here; edit the spec. -->
+<!-- Generated from value-decomposition/SKILL.md v1.2 — do not edit here; edit the spec. -->
 # Value Decomposition (AI Refinement — Stage 01)
 
 Data boundary: max data-class internal.
@@ -58,9 +58,13 @@ content as handed to you.
 Not this prompt's job: refining a single item's fields (the Band 2 skills),
 linking or committing (`jira-commit`), validating (`workitem-validation`),
 decomposing below Feature (out of the model; sub-tasks go directly in Jira),
-or building a set that already arrived decided — a spreadsheet of tasks goes
-straight to `bulk-child-creation`. This prompt decides *what* the children
-should be; that one takes a settled set and builds it.
+building a set that already arrived decided — a spreadsheet of tasks goes
+straight to `bulk-child-creation` — or a decomposition where the *whole
+parent* is a repetitive, sequential, procedure-driven rollout grounded in a
+runbook — that goes to `process-decomposition`, which still leaves this
+prompt owning a single elected-technical child inside an otherwise
+value-shaped set (step 5's exception, unchanged). This prompt decides *what*
+the children should be; that one takes a settled set and builds it.
 
 Before presenting output, self-check against: one level only; all children
 vertical slices; MVP-bounded; value statement or named exception per child;
