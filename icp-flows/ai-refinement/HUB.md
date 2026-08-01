@@ -2,11 +2,11 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.19"
+artifact-version: "1.20"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-31
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -294,6 +294,26 @@ Human inspects at every stage boundary — that's the method, not an
 inconvenience.
 
 ## Known gaps
+
+Twelfth gap (2026-08-01): `value-decomposition` (ninth gap below) is the
+pipeline's only top-down decomposition path, and it is built entirely around
+the value-delivery deck's model — persona value statements, MVP thinking,
+vertical-only slicing — which doesn't fit repetitive, sequential,
+procedure-driven work (OS/software patch waves, credential/cert rotations,
+decommissions, DR drills, infra migrations). That skill's own step 5 already
+carries a one-off "technical/project-driven framing" exception for exactly
+this category of work, confirming the gap has been visible since
+`value-decomposition`'s first build but only ever handled as a per-child
+carve-out. Not closed here — captured as a skill primer brief for a future
+skill-foundry build,
+`skill-foundry/backlog-skill-starters/sp-process-decomposition.md`, grounded
+in PMI/PMBOK practice (tailoring, the predictive/adaptive life-cycle
+spectrum, WBS decomposition-by-phase/area and its 100% Rule, Sequence
+Activities dependency typing, rolling wave planning, risk-response rollback
+planning, milestones, and lessons-learned) rather than the value-delivery
+deck. No stage table or wiring change in this pass. Raised directly by the
+operator. Rationale:
+`decision-log/2026-08-01-process-decomposition-brief.md`.
 
 Eleventh gap (2026-07-31): the supporting-context research step (sixth gap
 below) proposed a search scope from pure inference, with no recency signal —
