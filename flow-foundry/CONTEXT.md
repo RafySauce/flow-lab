@@ -8,6 +8,7 @@ The production line for **flowspaces** — ICM-structured, human-reviewed, multi
 flow-foundry/
 ├── CONTEXT.md                   # this file — read before working in this folder
 ├── foundry-spec.md              # the method: triage → setup → scaffold → validate
+├── flow-foundry-architecture.md # the method, drawn: one Mermaid build diagram
 ├── templates/
 │   ├── flow-primer-brief-template.md   # intake path 1: crystallized intent
 │   ├── flowspace-scaffold.md           # the output shape: HUB.md + stage folders
