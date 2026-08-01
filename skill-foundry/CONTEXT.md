@@ -8,6 +8,7 @@ The production line for **skills** — discrete, reusable AI capability definiti
 skill-foundry/
 ├── CONTEXT.md                   # this file — read before working in this folder
 ├── foundry-spec.md              # the method: triage → vet → author → adapt → review
+├── skill-foundry-architecture.md # the method, drawn: one Mermaid build diagram
 ├── templates/
 │   ├── skill-primer-brief-template.md  # intake path 1: crystallized intent
 │   ├── skill-spec-template.md          # the engine-neutral core spec

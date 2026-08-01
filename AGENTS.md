@@ -39,6 +39,7 @@ It holds **method, templates, and sanitized exemplars only**. No employer conten
 | Use a **completed** skill | `produced-skills/` |
 | Build or normalize a flowspace | `flow-foundry/foundry-spec.md` (confirm invocation first — rule 2) |
 | Build or revise a skill | `skill-foundry/foundry-spec.md` (confirm invocation first — rule 2) |
+| See a foundry's own build logic as a diagram | `flow-foundry/flow-foundry-architecture.md` · `skill-foundry/skill-foundry-architecture.md` |
 | See flowspaces in progress | `flow-foundry/backlog-flow-starters/` |
 | See skills in progress | `skill-foundry/backlog-skill-starters/` |
 | Review a **finished** flowspace awaiting promotion | `flow-foundry/review-flowspaces/` |
