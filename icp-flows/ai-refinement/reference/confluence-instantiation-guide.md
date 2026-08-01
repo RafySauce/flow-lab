@@ -2,11 +2,11 @@
 id: ai-refinement-confluence-instantiation-guide
 title: "Confluence Instantiation Guide — AI Refinement"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-07-31
 owner: operator
 source: human+ai
 data-class: public
@@ -108,6 +108,16 @@ notice) at this step — it is safe only in employer tenancy.
 - [ ] Knowledge scoping for each agent matches its `SKILL.md`'s "Knowledge
       scoping" section — the instantiated Confluence page tree only, not the
       whole space.
+- [ ] Since the 2026-07-31 supporting-context research revision (Stage 01's
+      research step now defaults its proposed scope to the requesting user's
+      most recently created/touched Confluence spaces and Jira projects),
+      the knowledge scope this agent needs is no longer a fixed,
+      originally-approved list — the recency default can surface spaces or
+      projects outside whatever was pre-approved at instantiation. Confirm
+      with the operator whether a ceiling or allowlist on searchable spaces
+      is required, or whether the existing read-only/`internal`-ceiling/
+      user-confirmed-before-query controls (Stage 01's Data boundary
+      section) are sufficient on their own.
 - [ ] Confirm the target Jira project's board configuration actually
       supports what `jira-commit` assumes: a parent-candidate query action,
       a native (or connector) transition-issue action, and the custom fields
@@ -115,9 +125,29 @@ notice) at this step — it is safe only in employer tenancy.
       `question_to_answer`, `timebox` — see REC-04 / the schema-ratification
       gap in `HUB.md`'s Known gaps).
 
+## 4a. Copilot + Microsoft Graph/OneDrive deployment checklist (new surface)
+
+Only applies where the operator wants the OneDrive/SharePoint research
+surface (Stage 01 step 8) live for a Copilot-hosted deployment. Skip this
+section entirely for a Rovo-only deployment, or a Copilot deployment that
+doesn't grant Graph access.
+
+- [ ] A read-only Microsoft Graph/OneDrive connector is granted to the
+      Copilot deployment — no write scope, matching the read-only access
+      class the Confluence/Jira research surface already uses.
+- [ ] The scope of drives/sites the connector can read is confirmed with the
+      operator and matches the same recency-default, user-confirmed-before-
+      query discipline as the Confluence/Jira surface — not a blanket grant
+      across every drive/site the requesting user can see.
+- [ ] `START-HERE.md`'s capability probe correctly detects this connector
+      (present only when the host engine is Copilot) so Stage 01 step 8's
+      OneDrive/SharePoint proposal fires only when the connector is actually
+      live, and degrades cleanly (skip + record as a gap) otherwise.
+
 ## 5. Sequencing note
 
 Do §3 before §4 — the Rovo agents' instructions reference Confluence page
-IDs, so the page tree needs to exist first. Do the on-engine validation
+IDs, so the page tree needs to exist first. Do §4a, if applicable, alongside
+§4 — same sequencing dependency. Do the on-engine validation
 checklist (`on-engine-validation-checklist.md`) after both, using the newly
 deployed agents.

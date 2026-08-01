@@ -2,7 +2,7 @@
 id: ai-refinement-hybrid
 title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
-artifact-version: "1.5"
+artifact-version: "1.6"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -49,7 +49,23 @@ related:
 > suggested-work-separation fixed in the rule; see
 > `decision-log/2026-07-31-bulk-creation-mode.md`. `truth-level`
 > returns to `to-review`: the new amendment is house-authored pending
-> operator sign-off.
+> operator sign-off. **1.6** revises the seventh amendment,
+> `supporting_context_research`, in place — no new amendment number: the
+> agent's default *proposed* scope now comes from recency (the requesting
+> user's most recently created/touched Confluence spaces and Jira projects,
+> expanded to any spaces/projects tied to people or teams the user names or
+> that appear in supplied material) rather than pure inference; a new
+> engine-conditioned OneDrive/SharePoint surface is proposed when the host
+> engine is Copilot and a live Microsoft Graph/OneDrive connector is
+> present; the user may supply search-term filters (technology stack names,
+> app/system codes, team names, team member names) as an addition to or
+> explicit override of agent-proposed terms; a default 6-month time-frame
+> now bounds document recency unless the user states otherwise; and a parent
+> Confluence page or OneDrive folder entering the session gets a quick
+> one-level relevance pass over its children rather than being treated as
+> self-contained. Confirm-then-hunt discipline is unchanged throughout —
+> these are defaults for the proposal, never an unconfirmed auto-search; see
+> `decision-log/2026-07-31-supporting-context-research-scope-defaults.md`.
 
 # AI Refinement – Hybrid Definition (Markdown + YAML)
 
@@ -185,7 +201,7 @@ triggers:
 
 ---
 
-## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21; eighth added 2026-07-31)
+## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21, revised 2026-07-31; eighth added 2026-07-31)
 
 The first five rules below are house-authored, discovered through the
 flowspace's first on-engine invocation (Rovo, NEADD-1827) and the resulting
@@ -310,20 +326,59 @@ house_amendments:
       which Confluence spaces, Jira projects, search terms, and document
       types it intends to search, read-only, via the engine's native
       Confluence/Jira capabilities — and the user confirms, trims, or
-      redirects that scope before any search runs. Search results are
-      presented as a candidate list (title, location, relevance rationale);
-      the user selects what enters the session, and every selected document
-      is screened and taxonomy-typed like user-supplied material. The user
+      redirects that scope before any search runs. The proposed spaces and
+      projects default to recency, never a blanket sweep: the top 3 most
+      recently created and most recently touched Confluence spaces and Jira
+      projects for the requesting user, determined via the engine's native
+      lookup, form the starting proposal; where a person or team is named —
+      by the user directly, or surfaced from supplied material such as a
+      transcript or meeting summary — the agent also proposes spaces and
+      projects associated with that person or team, expanding the top-3
+      default rather than replacing it. This recency default governs only
+      what the agent proposes; the user may accept, trim, or replace it
+      entirely, same as any other proposed scope. Where the session's host
+      engine is Copilot and a live Microsoft Graph/OneDrive connector is
+      present (per START-HERE.md's capability probe), the agent folds an
+      OneDrive/SharePoint proposal — the same top-3 recency default — into
+      this same single scope confirmation, never a separate approval step;
+      absent Copilot or a live connector, this surface is skipped and
+      recorded as a gap, never silently proposed. Search terms combine both
+      sources in one proposal: the agent's work-focus-inferred terms and any
+      terms the user supplies directly — technology stack names, app/system
+      codes, team names, and team member names are named as explicit
+      examples to offer the user. A user-supplied term is additive by
+      default; an explicit user statement that it replaces an
+      agent-proposed term is honored and named, never silently dropped.
+      Documents are filtered to a default 6-month window (creation or
+      last-updated date) across every surface in scope, unless the user
+      states a different window, which overrides the default; the confirmed
+      window is named in the proposal and carried into the research record.
+      Search results are presented as a candidate list (title, location,
+      relevance rationale); the user selects what enters the session, and
+      every selected document is screened and taxonomy-typed like
+      user-supplied material. A Confluence page entering the session —
+      supplied by the user or surfaced by the hunt — that is a parent page
+      gets a quick relevance pass over its immediate child pages; relevant
+      children join the candidate list the user selects from, one level
+      deep by default (a deeper crawl is an explicit widening, not
+      automatic). The same one-level check applies to a nested
+      OneDrive/SharePoint folder when that surface is in scope. The user
       may widen the hunt to further Confluence documents or Jira projects;
       each widening is explicitly user-confirmed — the agent never expands
       its own search scope silently. What was sought, found, selected, and
-      not found is recorded; a missing expected document (e.g., no SAD for
+      not found is recorded, along with the surfaces actually searched, the
+      confirmed time window, and any child-page or child-folder sweep
+      results; a missing expected document (e.g., no SAD for
       an engineering item) is recorded as a gap, never a blocker, and never
       silently substituted with invented content.
     origin: 2026-07-21, operator request — the pipeline previously only
       classified user-supplied source material and never went looking for
       the SAD or other grounding documents that anchor scope, stakeholders,
-      and dependencies.
+      and dependencies; revised 2026-07-31, operator request to default the
+      proposed scope to recency instead of pure inference, add a
+      Copilot-gated OneDrive/SharePoint surface, allow user-supplied keyword
+      filters, bound recency to a default 6-month window, and sweep a
+      parent page's or folder's immediate children.
 
   bulk_creation_acknowledgment:
     rule: >
@@ -403,6 +458,25 @@ house_amendments:
 
 ## Changelog
 
+- **1.6** (2026-07-31) — Revised the seventh house amendment,
+  `supporting_context_research`, in place: the agent's default proposed
+  scope now comes from recency (top 3 most recently created/touched
+  Confluence spaces and Jira projects for the requesting user, expanded to
+  spaces/projects tied to any person or team the user names or that appears
+  in supplied material) instead of pure inference; a new engine-conditioned
+  OneDrive/SharePoint surface is proposed when the host engine is Copilot
+  and a live Microsoft Graph/OneDrive connector is present, folded into the
+  same scope confirmation, and skipped with a recorded gap otherwise; the
+  user may supply search-term filters (technology stack names, app/system
+  codes, team names, team member names) as an addition to or explicit
+  override of agent-proposed terms; documents are bounded by a default
+  6-month recency window unless the user states otherwise; and a parent
+  Confluence page or OneDrive folder entering the session gets a quick
+  one-level relevance pass over its children rather than being treated as
+  self-contained. Confirm-then-hunt discipline is unchanged — these are
+  defaults for the proposal only, never an unconfirmed auto-search.
+  Raised directly by the operator. `truth-level` stays `to-review`. See
+  `decision-log/2026-07-31-supporting-context-research-scope-defaults.md`.
 - **1.5** (2026-07-31) — Added an eighth house amendment,
   `bulk_creation_acknowledgment`: the pipeline recognizes set-shaped input
   (spreadsheet, export, pasted list, vendor documentation, conversation, or an

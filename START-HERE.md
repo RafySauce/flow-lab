@@ -2,11 +2,11 @@
 id: start-here
 title: "Start Here — Running a Flow or Skill Right Now"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: draft
 created: 2026-07-27
-updated: 2026-07-28
+updated: 2026-07-31
 owner: operator
 source: human+ai
 data-class: public
@@ -48,6 +48,7 @@ session context (don't ask the user to enumerate this themselves):
 |---|---|---|
 | Jira read/write | A native connector (Rovo's built-in Jira actions) or an MCP/tool-use Jira integration | No live query or write; ask the user to paste relevant ticket content directly |
 | Confluence read/write | A native connector or MCP/tool-use Confluence integration | No live query or write; ask the user to paste relevant page content directly |
+| OneDrive/SharePoint read (Copilot only) | A live Microsoft Graph/OneDrive connector, present only when the host engine is Copilot | No live query; `ai-refinement`'s supporting-context research step skips the OneDrive/SharePoint surface and relies on the Confluence/Jira scope and the context prompt instead |
 | GitLab/GitHub repo write | Repo write access in this session (e.g., a connected repo the agent can commit to) | No commit; produce file content as chat output for the user to save/commit themselves |
 | Local file / chat output | Always available | This is the universal fallback — every flow can always produce a complete result this way |
 
@@ -145,6 +146,10 @@ Once the user names or picks one:
    - `jira-accomplishments-gatherer` / `confluence-contribution-gatherer` →
      ask the user to paste the relevant closed tickets / pages / activity
      directly instead of querying live.
+   - `ai-refinement`'s supporting-context research step (Stage 01) → when the
+     host engine isn't Copilot, or no live Microsoft Graph/OneDrive connector
+     is present, skip the OneDrive/SharePoint proposal entirely and record it
+     as a gap; the Confluence/Jira scope and the context prompt still apply.
    - `repo-context-enricher` → ask the user to paste the relevant commits/PRs
      instead of searching the repo live.
    - Any skill without a stated degrade path and a hard dependency on an
