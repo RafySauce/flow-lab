@@ -2,11 +2,11 @@
 id: close-score-model
 title: "Close-Score Model & Recommendation Taxonomy"
 type: specification
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-29
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -196,8 +196,9 @@ and is flagged in the breakdown, never silently scored.
 > **Naming note.** The source taxonomy's top band was `Closed`. Renamed here to
 > `Close (recommended)`: `Closed` reads as a Jira status and invites the reading
 > that the flow already closed something, which it cannot do — this flow has no
-> write path to Jira at any stage. Proposed per `AGENTS.md` rule 7, awaiting
-> operator ratification.
+> write path to Jira at any stage. Proposed per `AGENTS.md` rule 7, ratified by
+> the operator 2026-08-01 —
+> `flow-foundry/decision-log/2026-08-01-portfolio-rationalization-gap-ratifications.md`.
 
 Every band label is a **triage recommendation, not an action.** Nothing in this
 flow closes, merges, or edits anything. Stage 06 captures what the humans

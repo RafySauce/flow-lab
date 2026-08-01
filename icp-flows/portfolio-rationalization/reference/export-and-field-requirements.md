@@ -2,7 +2,7 @@
 id: export-and-field-requirements
 title: "Export & Field Requirements — Live/Export Parity Contract"
 type: specification
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-28
@@ -101,29 +101,39 @@ because its export lacked a column.
 Stage 02 computes populated-fields-over-available-columns per item. The
 denominator rule:
 
-1. **Capture the denominator per cycle**, from the actual source. Do not
-   hardcode it. Column counts vary by Jira configuration, by export settings,
-   and over time as fields are added — a fixed denominator silently changes
-   meaning between cycles.
-2. **Record it in the cycle's decision log** alongside the item count, so a
-   cycle-over-cycle comparison can tell whether a completion shift is real or
-   an artifact of a changed column set.
-3. **Count a field populated** when it holds a non-empty, non-whitespace value.
+1. **The denominator is the count of §2's canonical field set that resolve for
+   this cycle's field map — not the raw column count of the source.** Stage 01
+   maps each of §2's canonical fields (Issue key through Labels — 19 fields) to
+   a real column in whatever it is bound to; the denominator is how many of
+   those 19 resolve, not how many columns the source happens to carry. A raw
+   export routinely carries far more columns than that — unused custom fields,
+   workflow scaffolding, integration metadata the flow never reads — none of
+   which belong in a completion denominator for tickets this flow scores.
+2. **This is what makes the figure comparable across cycles *and* across Jira
+   configurations.** A raw column count made a 216-column portfolio and a
+   90-column portfolio produce percentages that looked comparable and were
+   not — the two configurations disagreed on what a column even was. Pegging
+   the denominator to this flow's own fixed canonical set removes that
+   disagreement: both cycles denominate against the same ≤19 fields, so a
+   completion shift is either a real change in how thoroughly tickets are
+   filled out or a change in which canonical fields this instance's Jira
+   configuration exposes at all — and the second case is visible, not hidden,
+   because it moves the denominator itself. Resolved 2026-08-01, closing the
+   open question the intake brief carried; rationale in
+   `flow-foundry/decision-log/2026-08-01-portfolio-rationalization-gap-ratifications.md`.
+3. **Record the resolved denominator per cycle** — the count and which (if any)
+   of the 19 canonical fields were unavailable this cycle — in the cycle's
+   decision log alongside the item count, so a cycle-over-cycle comparison can
+   tell whether a completion shift is real or an artifact of a changed
+   canonical-field set.
+4. **Count a field populated** when it holds a non-empty, non-whitespace value.
    Jira's placeholder empties (`None`, `-`, an empty rich-text container that
    serializes as markup with no text) count as empty.
-4. **Same denominator for every item in a cycle.** Per-item denominators would
+5. **Same denominator for every item in a cycle.** Per-item denominators would
    make completion percentages incomparable within the cycle, which is the one
    comparison Stage 02 actually needs.
 
-> **Open question, carried from the intake brief.** Whether to further exclude
-> always-empty system columns from the denominator. Doing so makes percentages
-> comparable across cycles but not across Jira configurations; not doing so
-> means a portfolio with 216 columns and one with 90 produce percentages that
-> look comparable and are not. Unresolved — the operator decides at
-> instantiation, and whichever way it goes, the choice is recorded with the
-> denominator.
-
-Absolute counts travel with every percentage (`44 of 216 — 20.4%`), because the
+Absolute counts travel with every percentage (`44 of 19 — 23.2%`), because the
 denominator matters and a bare percentage hides it.
 
 ## 5. Source binding — live Jira

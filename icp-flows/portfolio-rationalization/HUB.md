@@ -2,7 +2,7 @@
 id: portfolio-rationalization
 title: "Jira Portfolio Rationalization — Hygiene & Objective Alignment Review"
 type: flowspace
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
 truth-level: to-review
 created: 2026-07-28
@@ -223,12 +223,13 @@ produce a review volume the governance process can actually absorb, is an
 operator act before the first live run. Until then every number in that file is
 a proposal.
 
-**Recommendation label rename, pending ratification.** The source taxonomy's
+**Recommendation label rename — ratified 2026-08-01.** The source taxonomy's
 top band was `Closed`. This design renames it `Close (recommended)` because
 `Closed` reads as a Jira status and invites the reading that the flow already
 closed something — which it cannot do, having no write path. Proposed per
-`AGENTS.md` rule 7, not minted; the operator ratifies or reverts. Rationale:
-`flow-foundry/decision-log/2026-07-28-portfolio-rationalization-triage-and-scaffold.md`.
+`AGENTS.md` rule 7; the operator ratified the rename over reverting. Original
+proposal: `flow-foundry/decision-log/2026-07-28-portfolio-rationalization-triage-and-scaffold.md`;
+ratification: `flow-foundry/decision-log/2026-08-01-portfolio-rationalization-gap-ratifications.md`.
 
 **Objective dictionary does not exist yet — no longer a run-blocking gap,
 still an unresolved input.** The mold is here; the instance's actual
@@ -243,11 +244,15 @@ governance-grade recommendation cycle (Stages 04–06) still requires a
 dictionary someone stands behind, authored or inferred-and-confirmed.
 Authoring one, or confirming an inference, remains an operator act.
 
-**Field-completion denominator, unresolved.** The design captures the column
-count per cycle rather than fixing it, because export column counts vary by
-Jira configuration. Whether to further exclude always-empty system columns from
-the denominator — making completion percentages comparable across cycles but
-not across configurations — is an open question carried from the intake brief.
+**Field-completion denominator — resolved 2026-08-01.** Raw export/live column
+counts vary by Jira configuration, so a fixed denominator wasn't an option and
+neither, on its own, was excluding just the always-empty system columns — that
+closes the cross-cycle comparison but not the cross-configuration one. The
+operator's call: peg the denominator to `export-and-field-requirements.md`
+§2's canonical field set (≤19 fields this flow actually reads) instead of the
+source's raw column count. `jira-portfolio-ingest` and `portfolio-profiler`
+were updated accordingly (both bumped to `1.2`). Rationale:
+`flow-foundry/decision-log/2026-08-01-portfolio-rationalization-gap-ratifications.md`.
 
 ## Reference material (Layer-3)
 

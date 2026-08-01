@@ -21,7 +21,7 @@ description: >
 # --- provenance (house layer) ---
 id: portfolio-profiler
 type: skill
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: verified
 created: 2026-07-28
@@ -98,10 +98,11 @@ flowchart LR
 ## Method
 
 1. **State the frame.** Open with the portfolio's size *and* the completion
-   denominator, together, with the cycle scope: "216 items across 90 columns,
-   scope `project = NE AND type != Sub-task`." Both numbers always travel
-   together — a completion percentage without its denominator hides the thing
-   that gives it meaning.
+   denominator, together, with the cycle scope: "216 items against a 17-field
+   denominator (2 of 19 canonical fields unavailable this cycle), scope
+   `project = NE AND type != Sub-task`." Both numbers always travel together —
+   a completion percentage without its denominator hides the thing that gives
+   it meaning.
 2. **Distribution by status.** Count items per status, and per `Status
    Category` where available. Report **counts, not percentages alone**: "14
    In Progress, 12 Backlog, 5 Analyzing, 3 Review, 1 On Hold, 1 Ready" is
@@ -127,7 +128,7 @@ flowchart LR
    **Same denominator for every item in the cycle** — per-item denominators
    make completion figures incomparable within the cycle, which is the one
    comparison this stage actually needs. **Report every percentage with its
-   absolute counts:** `44 of 216 — 20.4%`.
+   absolute counts:** `44 of 19 — 23.2%`.
 8. **The oldest-and-sparsest cross-cut.** Intersect the age ranking with the
    completion ranking: items that are both old and thinly populated. This is
    the highest-value view this skill produces and the one no single-axis read
@@ -266,11 +267,17 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.1 |
-| Copilot | adapters/copilot-prompt.md | 1.1 |
+| Rovo | adapters/rovo-agent.md | 1.2 |
+| Copilot | adapters/copilot-prompt.md | 1.2 |
 
 ## Changelog
 
+- **1.2** (2026-08-01) — Field-completion denominator redesigned upstream in
+  `jira-portfolio-ingest` (now the count of canonical fields resolved this
+  cycle, not the source's raw column count); worked examples here updated to
+  match. This skill still only reads the denominator, never computes it.
+  Rationale:
+  `flow-foundry/decision-log/2026-08-01-portfolio-rationalization-gap-ratifications.md`.
 - **1.1** (2026-08-01) — Added the Portfolio Epic → Solution Epic → Feature →
   child hierarchy view: a Mermaid `flowchart TD` labeled by item summary,
   built from `Issue Type`/`Parent key` and any connected-space context

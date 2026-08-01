@@ -4,7 +4,7 @@ title: "Stage 01 — Intake & Source Binding"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-28
@@ -92,10 +92,13 @@ related:
    or absent, and for present fields, how many items actually populate it. This
    is what tells Stage 03 whether it is mapping on rich text or on summaries
    alone, and what tells Stage 04 whether staleness can use comment timestamps.
-9. **Capture the completion denominator** — the actual column count from this
-   cycle's source, per §4 of the requirements file. Do not carry forward a
-   prior cycle's denominator, and do not hardcode one. Record it alongside the
-   item count.
+9. **Capture the completion denominator** — the count of §2's canonical fields
+   that resolved in this cycle's field map (step 6), per §4 of the
+   requirements file. Not the source's raw column count: a raw export or live
+   project routinely carries fields this flow never reads, and those don't
+   belong in the denominator. Do not carry forward a prior cycle's
+   denominator, and do not hardcode one. Record it, and which canonical fields
+   (if any) were unavailable this cycle, alongside the item count.
 10. **Emit the normalized item set.** One record per work item, canonical field
     names, values normalized (dates to ISO, empty-equivalents like `None` and
     `-` and empty rich-text containers resolved to genuinely empty).
@@ -158,7 +161,7 @@ related:
 |---|---|---|
 | Normalized item set | Stages 02, 03, 04, 05 | One record per item, canonical field names, ISO dates, empties resolved |
 | Field-availability report | Stages 02, 03, 04 | Per canonical field: present/absent + populated-item count |
-| Completion denominator (this cycle's column count) | Stage 02 | Integer, with the source it came from |
+| Completion denominator (count of §2 canonical fields resolved this cycle) | Stage 02 | Integer (≤19), with which canonical fields (if any) were unavailable |
 | Confirmed item count | Stage 02 | Integer |
 | Cycle scope record (project/space, JQL filter verbatim, source mode, run date) | Stages 05, 06; instance decision log | Text |
 | Degraded-signal list (which fields are missing and what each degrades) | Stages 02, 03, 04, 05 | Field → consequence table |

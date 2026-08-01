@@ -20,8 +20,9 @@ In an instance, each cycle writes here. What a cycle is expected to record:
 | Cycle record | Stage 06 | Dispositions with rationales, divergences, deferrals with blockers, dictionary and calibration feedback, no-writes confirmation |
 | Verify results | Every stage | One line per stage's cross-stage trace check |
 
-Two instantiation-time decisions also belong here, written once rather than per
-cycle: the **status→adjustment mapping** (`reference/close-score-model.md`
-§3.5, mapping the instance's real workflow statuses onto the model's table) and
-the **completion-denominator choice** (`reference/export-and-field-requirements.md`
-§4, whether always-empty system columns are excluded).
+One instantiation-time decision also belongs here, written once rather than
+per cycle: the **status→adjustment mapping** (`reference/close-score-model.md`
+§3.5, mapping the instance's real workflow statuses onto the model's table).
+The completion-denominator rule itself is fixed at design time (§4's canonical
+field set) — no per-instance choice remains, only the per-cycle count each
+Stage 01 run captures (row above).

@@ -1,4 +1,4 @@
-Generated from portfolio-profiler/SKILL.md v1.1 — edit the spec, not the live agent.
+Generated from portfolio-profiler/SKILL.md v1.2 — edit the spec, not the live agent.
 
 # Rovo Agent — Portfolio Profiler
 
@@ -43,7 +43,7 @@ the cycle here.
    summary, and age in days.
 7. Per-item field completion: populated fields ÷ this cycle's denominator, the
    **same denominator for every item**, and **every percentage with its absolute
-   counts** (`44 of 216 — 20.4%`).
+   counts** (`44 of 19 — 23.2%`).
 8. The oldest-and-sparsest cross-cut: intersect the age and completion rankings.
    This is a required, first-class output — it is the shape that corroborates,
    and no single-axis read surfaces it.

@@ -23,17 +23,17 @@ In an instance, each run writes here. What a run is expected to record:
 | Loop-back record | Any stage | Which stage looped back to which, what triggered it, and which outputs were superseded — the superseded version stays in the record with its reason |
 | Verify results | Every stage | One line per stage's cross-stage trace check |
 
-Three instantiation-time decisions also belong here, written once rather than
+Two instantiation-time decisions also belong here, written once rather than
 per run:
 
 1. **The sufficiency floors** (`reference/board-evidence-requirements.md` §3) —
    ratified or amended against this operator's actual boards. They are reasoned
    defaults, not calibrated figures, and they become policy the moment a run
    uses them.
-2. **The history resolution** (`reference/board-evidence-requirements.md` §4) —
-   which of the three options was taken for `jira-portfolio-ingest`'s
-   point-in-time limitation, since it determines whether Stage 07's WIP limits
-   can ever be derived rather than tuned.
-3. **The capacity-allocation stance** (`reference/classes-of-service-model.md`) —
+2. **The capacity-allocation stance** (`reference/classes-of-service-model.md`) —
    whether Stage 06 keeps the conservative rule (propose only where measured
    demand supports it) or offers conventional figures as a starting point.
+
+The history resolution (`reference/board-evidence-requirements.md` §4) is no
+longer an instantiation-time choice — resolved at design time 2026-08-01 (the
+degrade path is permanent); see `HUB.md`'s Known gaps.

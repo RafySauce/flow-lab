@@ -4,7 +4,7 @@ title: "Stage 01 — Service Framing & Source Binding"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-08-01
@@ -64,12 +64,12 @@ happen together.
    re-binding to a filtered scope they define, or splitting into two runs.
 4. **Bind the source.** In live-Jira or Jira-export mode, invoke
    `jira-portfolio-ingest`. In live-ServiceNow or ServiceNow-export mode,
-   invoke `servicenow-ticket-ingest` (backlog-staged at
-   `skill-foundry/backlog-skill-starters/sp-servicenow-ticket-ingest.md`,
-   not yet built — see `HUB.md` Known gaps). Both skills produce the identical
-   normalized item set and field-availability report shape, so Stages 03–05
-   never need to branch on which ticketing system a service actually uses.
-   Whichever skill is bound owns the data-class screen, the field map
+   invoke `servicenow-ticket-ingest` (`produced-skills/servicenow-ticket-ingest/`,
+   verified — built 2026-08-01; no on-engine test yet, see `HUB.md` Known
+   gaps). Both skills produce the identical normalized item set and
+   field-availability report shape, so Stages 03–05 never need to branch on
+   which ticketing system a service actually uses. Whichever skill is bound
+   owns the data-class screen, the field map
    confirmation, and the halt conditions (count mismatch, pagination
    truncation, missing hard-required field) — do not duplicate them here. A
    service that genuinely tracks work in both systems binds both and records
@@ -100,7 +100,7 @@ happen together.
    declaration — presented together, confirmed before Stage 02 opens.
 
 `Layer-3: jira-portfolio-ingest` (steps 4–5, Jira board binding only) ·
-`Layer-3: servicenow-ticket-ingest` (steps 4–5, ServiceNow binding only — backlog-staged, not yet built) ·
+`Layer-3: servicenow-ticket-ingest` (steps 4–5, ServiceNow binding only — verified, built 2026-08-01) ·
 `Layer-3: inline (one-off — service framing, customer separation, fitness-criteria elicitation, mode declaration)`
 
 ## Outputs
