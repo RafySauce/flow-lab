@@ -6,9 +6,9 @@ stage: 1
 review-intensity: heavy
 artifact-version: "1.15"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-07-31
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -51,12 +51,11 @@ transcribed from ../reference/ai-refinement-hybrid.md; the schema bullets
 transcribe ../reference/work-item-schemas.md, the registry that completes the
 refinable set. All of it is specific to this flowspace), plus two conditional
 handoffs: at step 7 to `value-decomposition` (skill spec in
-`produced-skills/value-decomposition/`, `to-review` as of 1.1) when the user
+`produced-skills/value-decomposition/`, `verified` as of 1.1) when the user
 asks to decompose (or "break down") a selected parent-level item, and at step
 10b to `bulk-child-creation` (skill spec in
-`skill-foundry/review-skills/bulk-child-creation/`, `to-review` as of 1.0 —
-staged, not promoted) when the input is set-shaped and the user accepts bulk
-creation mode
+`produced-skills/bulk-child-creation/`, `verified` as of 1.0) when the input
+is set-shaped and the user accepts bulk creation mode
 
 1. **Trigger detection** — recognize one of the defined trigger phrases.
 2. **Flowspace purpose statement** — displayed immediately under the
@@ -317,8 +316,8 @@ creation mode
       with the concrete final count at the batch preview.
     - **Handoff.** On an acknowledged acceptance, control passes to
       `bulk-child-creation`
-      (`skill-foundry/review-skills/bulk-child-creation/`, `to-review` —
-      staged, not promoted), which runs Band ③ in place of Stages 02–04 for
+      (`produced-skills/bulk-child-creation/`, `verified`), which runs Band
+      ③ in place of Stages 02–04 for
       that set: ingest and normalize the set (quote-honoring parse for tabular
       sources, header row captured before bodies, repeated identical-header
       columns collapsed, parsed count confirmed against the user's stated

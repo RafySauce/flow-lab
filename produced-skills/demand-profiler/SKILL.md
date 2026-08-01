@@ -22,7 +22,7 @@ id: demand-profiler
 type: skill
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-08-01
 updated: 2026-08-01
 owner: operator

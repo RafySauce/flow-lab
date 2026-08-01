@@ -1,3 +1,23 @@
+---
+id: accomplishments-digest-stage-01
+title: "Stage 01 — Frame"
+type: stage-context
+stage: 1
+review-intensity: heavy
+artifact-version: "1.0"
+status: living
+truth-level: verified
+created: 2026-07-08
+updated: 2026-07-15
+owner: operator
+source: human+ai
+generated-by: flow-foundry
+generated-by-version: "1.4"
+data-class: public
+related:
+  - "[[accomplishments-digest]]"
+---
+
 # Stage 1 — Frame (`CONTEXT.md`)
 
 ## Inputs

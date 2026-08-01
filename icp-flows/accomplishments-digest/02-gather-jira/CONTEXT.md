@@ -1,3 +1,24 @@
+---
+id: accomplishments-digest-stage-02
+title: "Stage 02 — Gather — Jira"
+type: stage-context
+stage: 2
+review-intensity: light
+artifact-version: "1.0"
+status: living
+truth-level: verified
+created: 2026-07-08
+updated: 2026-07-15
+owner: operator
+source: human+ai
+generated-by: flow-foundry
+generated-by-version: "1.4"
+data-class: public
+related:
+  - "[[accomplishments-digest]]"
+  - "[[jira-accomplishments-gatherer]]"
+---
+
 # Stage 2 — Gather — Jira (`CONTEXT.md`)
 
 ## Inputs

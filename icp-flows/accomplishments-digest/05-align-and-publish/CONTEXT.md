@@ -1,3 +1,23 @@
+---
+id: accomplishments-digest-stage-05
+title: "Stage 05 — Align & Publish"
+type: stage-context
+stage: 5
+review-intensity: heavy
+artifact-version: "1.0"
+status: living
+truth-level: verified
+created: 2026-07-08
+updated: 2026-07-15
+owner: operator
+source: human+ai
+generated-by: flow-foundry
+generated-by-version: "1.4"
+data-class: public
+related:
+  - "[[accomplishments-digest]]"
+---
+
 # Stage 5 — Align & Publish (`CONTEXT.md`)
 
 ## Inputs

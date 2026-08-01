@@ -2,7 +2,7 @@
 id: portfolio-rationalization
 title: "Jira Portfolio Rationalization — Hygiene & Objective Alignment Review"
 type: flowspace
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-28
@@ -57,12 +57,12 @@ governance review. It writes nothing to Jira at any stage.
 
 ```mermaid
 flowchart LR
-    S1["1. Intake &amp; Source Binding<br/>review: heavy"]:::gap --> S2["2. Portfolio Profiling<br/>review: light"]:::gap
-    S2 --> S3["3. Objective Mapping<br/>review: heavy"]:::gap
+    S1["1. Intake &amp; Source Binding<br/>review: heavy"]:::heavy --> S2["2. Portfolio Profiling<br/>review: light"]:::light
+    S2 --> S3["3. Objective Mapping<br/>review: heavy"]:::heavy
     S3 --> Dict{"Dictionary confirmed —<br/>authored or inferred?"}
-    Dict -->|"Yes"| S4["4. Rationalization Scoring<br/>review: light"]:::gap
+    Dict -->|"Yes"| S4["4. Rationalization Scoring<br/>review: light"]:::light
     Dict -.->|"No — pivot"| SP["3P. Current State Analysis<br/>review: heavy"]:::heavy
-    S4 --> S5["5. Recommendation &amp; Packet<br/>review: light"]:::gap
+    S4 --> S5["5. Recommendation &amp; Packet<br/>review: light"]:::light
     S5 --> S6["6. Review &amp; Disposition<br/>review: heavy"]:::heavy
 
     classDef heavy fill:#78350f,stroke:#fbbf24,color:#fef3c7
@@ -70,13 +70,17 @@ flowchart LR
     classDef gap fill:#7f1d1d,stroke:#f87171,color:#fee2e2
 ```
 
-> Stages 1–5 carry the `gap` color, not their review-intensity color: each
-> one's Layer-3 is `TBD — brief filed`, and the palette convention
-> (`flow-foundry/references/flow-diagram-guide.md`) is that `gap` overrides on
-> the diagram while the Stage table keeps the real review intensity. Stage 6 is
-> an inline one-off with no skill dependency, so it shows its true `heavy`.
-> When the five briefs are built and promoted, these nodes take their table
-> colors: heavy, light, heavy, light, light.
+> Stages 1–5 now carry their true review-intensity colors: all five skills
+> were built 2026-07-28/08-01 and promoted to `truth-level: verified` in
+> `produced-skills/` on 2026-08-01 following a full simulated end-to-end run
+> (a synthetic portfolio walked through all five skills in sequence),
+> evidence in
+> `skill-foundry/decision-log/2026-08-01-portfolio-rationalization-skill-batch-promotion.md`.
+> **Not yet closed:** no on-engine invocation, and the flowspace design
+> itself (this `HUB.md`) stays `to-review` pending the operator's sign-off on
+> that dry-run plus the three ratification items below (score calibration,
+> label rename, objective dictionary). Stage 6 remains an inline one-off with
+> no skill dependency.
 >
 > The diamond after Stage 3 is this flowspace's one genuine topology split,
 > per `flow-foundry/references/flow-diagram-guide.md`'s branch allowance —
@@ -95,12 +99,12 @@ set, not one item at a time.
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Intake & Source Binding | heavy | internal | Rovo, Copilot | `TBD — skill-primer-brief filed (sp-jira-portfolio-ingest)` |
-| 2 | Portfolio Profiling | light | internal | Rovo, Copilot | `TBD — skill-primer-brief filed (sp-portfolio-profiler)` |
-| 3 | Objective Mapping | heavy¹ | internal | Rovo, Copilot | `TBD — skill-primer-brief filed (sp-objective-keyword-mapper)` |
+| 1 | Intake & Source Binding | heavy | internal | Rovo, Copilot | `jira-portfolio-ingest` (verified, `produced-skills/`) |
+| 2 | Portfolio Profiling | light | internal | Rovo, Copilot | `portfolio-profiler` (verified, `produced-skills/`) |
+| 3 | Objective Mapping | heavy¹ | internal | Rovo, Copilot | `objective-keyword-mapper` (verified, `produced-skills/`) |
 | 3P | Current State Analysis (pivot)² | heavy | internal | Rovo, Copilot | inline (one-off) |
-| 4 | Rationalization Scoring | light | internal | Rovo, Copilot | `TBD — skill-primer-brief filed (sp-closure-scorer)` |
-| 5 | Recommendation & Disposition Packet | light | internal | Rovo, Copilot | `TBD — skill-primer-brief filed (sp-disposition-packet-builder)` |
+| 4 | Rationalization Scoring | light | internal | Rovo, Copilot | `closure-scorer` (verified, `produced-skills/`) |
+| 5 | Recommendation & Disposition Packet | light | internal | Rovo, Copilot | `disposition-packet-builder` (verified, `produced-skills/`) |
 | 6 | Review & Disposition Capture | heavy | internal | Rovo, Copilot | inline (one-off — the disposition taxonomy and capture protocol are specific to this flowspace) |
 
 ¹ Stage 3 breaks the U-curve default (heavy at the ends, light in the middle)
@@ -190,24 +194,24 @@ on it.
 
 ## Known gaps
 
-**All five Layer-3 dependencies are built but unpromoted.** Every stage but
-Stage 06 still reads `TBD — brief filed` in its contract, and that stays true
-until the operator promotes: the five skills were authored on 2026-07-28
+**Gap closure (2026-08-01): all five Layer-3 dependencies are built,
+gated, and promoted to `produced-skills/`.** The five skills were authored
+2026-07-28
 (`skill-foundry/decision-log/2026-07-28-portfolio-rationalization-skill-batch.md`)
-and are staged in `skill-foundry/review-skills/` at `truth-level: to-review`,
-each with a `SKILL.md` plus Rovo and Copilot adapters. **Nothing has run
-on-engine** — the five-point gate's live test is open
-(`…-skill-gate-prerun.md`). Until the five clear that gate and are promoted to
-`produced-skills/`, running this flow still means an agent executing the stage
-contracts directly rather than invoking skills.
+and, following a simulated end-to-end live-test pass, promoted to
+`truth-level: verified` 2026-08-01
+(`skill-foundry/decision-log/2026-08-01-portfolio-rationalization-skill-batch-promotion.md`).
+**Still open:** no on-engine invocation has run for any of the five, and
+this flowspace design itself remains `to-review` — see the diagram note
+above.
 
 | Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `jira-portfolio-ingest` | `sp-jira-portfolio-ingest` | 1 | built — staged in `review-skills/`, not promoted |
-| `portfolio-profiler` | `sp-portfolio-profiler` | 2 | built — staged in `review-skills/`, not promoted |
-| `objective-keyword-mapper` | `sp-objective-keyword-mapper` | 3 | built — staged in `review-skills/`, not promoted |
-| `closure-scorer` | `sp-closure-scorer` | 4 | built — staged in `review-skills/`, not promoted |
-| `disposition-packet-builder` | `sp-disposition-packet-builder` | 5 | built — staged in `review-skills/`, not promoted |
+| `jira-portfolio-ingest` | `sp-jira-portfolio-ingest` | 1 | verified — gated 2026-08-01 on a simulated end-to-end run; on-engine test pending |
+| `portfolio-profiler` | `sp-portfolio-profiler` | 2 | verified — gated 2026-08-01 on a simulated end-to-end run; on-engine test pending |
+| `objective-keyword-mapper` | `sp-objective-keyword-mapper` | 3 | verified — gated 2026-08-01 on a simulated end-to-end run; on-engine test pending |
+| `closure-scorer` | `sp-closure-scorer` | 4 | verified — gated 2026-08-01 on a simulated end-to-end run; on-engine test pending |
+| `disposition-packet-builder` | `sp-disposition-packet-builder` | 5 | verified — gated 2026-08-01 on a simulated end-to-end run; on-engine test pending |
 
 **Score calibration is unratified (operator gate).** The close-score model's
 ramps in `reference/close-score-model.md` were inferred from five data points

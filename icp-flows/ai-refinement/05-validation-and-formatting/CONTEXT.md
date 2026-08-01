@@ -6,9 +6,9 @@ stage: 5
 review-intensity: light
 artifact-version: "1.6"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-07-31
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -38,8 +38,8 @@ related:
 ## Process
 
 `Layer-3: workitem-validation` (skill spec in
-`produced-skills/workitem-validation/`, `to-review` as of 1.3 — provenance
-label renamed to its versioned form, gate re-run owed)
+`produced-skills/workitem-validation/`, `verified` as of 1.3 — re-gated and
+promoted 2026-08-01 on a confirmed Rovo live test)
 
 1. **Completeness scan** — walk the schema's required-field list and confirm every field has a non-empty value.
 2. **Mandatory label check** — distinct from schema completeness (labels are

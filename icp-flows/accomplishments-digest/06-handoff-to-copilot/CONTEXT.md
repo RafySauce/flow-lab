@@ -1,3 +1,24 @@
+---
+id: accomplishments-digest-stage-06
+title: "Stage 06 — Handoff to Copilot"
+type: stage-context
+stage: 6
+review-intensity: light
+artifact-version: "1.0"
+status: living
+truth-level: verified
+created: 2026-07-08
+updated: 2026-07-15
+owner: operator
+source: human+ai
+generated-by: flow-foundry
+generated-by-version: "1.4"
+data-class: public
+related:
+  - "[[accomplishments-digest]]"
+  - "[[accomplishments-docx-finisher]]"
+---
+
 # Stage 6 — Handoff to Copilot (`CONTEXT.md`)
 
 > Optional, additional terminal stage. Stage 5 already produces a complete,

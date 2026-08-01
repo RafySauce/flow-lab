@@ -13,9 +13,9 @@ id: scope-dependency-mapper
 type: skill
 artifact-version: "1.3"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-07-21
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: skill-foundry

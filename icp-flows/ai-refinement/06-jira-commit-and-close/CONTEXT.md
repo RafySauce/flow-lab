@@ -6,9 +6,9 @@ stage: 6
 review-intensity: heavy
 artifact-version: "1.10"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-07-31
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -41,8 +41,8 @@ related:
 ## Process
 
 `Layer-3: jira-commit` (skill spec in
-`produced-skills/jira-commit/`, `to-review` as of 1.9 — provenance label
-renamed to its versioned form, gate re-run owed)
+`produced-skills/jira-commit/`, `verified` as of 1.9 — re-gated and promoted
+2026-08-01 on a confirmed Rovo live test)
 
 1. **Field mapping, registry-driven, format-translated** — translate the
    refined field key-value pairs into Jira field IDs, the field set read from

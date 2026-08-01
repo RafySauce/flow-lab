@@ -1,3 +1,23 @@
+---
+id: accomplishments-docx-finisher-stage-03
+title: "Stage 03 — Align & Publish"
+type: stage-context
+stage: 3
+review-intensity: heavy
+artifact-version: "1.0"
+status: living
+truth-level: verified
+created: 2026-07-08
+updated: 2026-07-15
+owner: operator
+source: human+ai
+generated-by: flow-foundry
+generated-by-version: "1.4"
+data-class: public
+related:
+  - "[[accomplishments-docx-finisher]]"
+---
+
 # Stage 3 — Align & Publish (`CONTEXT.md`)
 
 ## Inputs

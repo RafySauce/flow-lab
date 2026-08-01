@@ -20,9 +20,9 @@ id: disposition-packet-builder
 type: skill
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: skill-foundry
