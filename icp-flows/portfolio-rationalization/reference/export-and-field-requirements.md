@@ -2,11 +2,11 @@
 id: export-and-field-requirements
 title: "Export & Field Requirements — Live/Export Parity Contract"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -49,12 +49,13 @@ maps its real fields onto it at Stage 01.
 | Canonical field | Used by | Required |
 |---|---|---|
 | Issue key | All stages — item identity | **Yes** — no key, no run |
-| Summary | Stage 03 (mapping), Stage 05 (packet) | **Yes** |
+| Summary | Stage 03 (mapping), Stage 05 (packet), Stage 02 (hierarchy view node labels) | **Yes** |
 | Status | Stage 02 (counts), Stage 04 (§3.5 adjustment) | **Yes** |
 | Status Category | Stage 04 — fallback when a status is unmapped | Strongly preferred |
 | Assignee | Stage 02 (workload), Stage 05 (outreach routing) | Strongly preferred |
 | Created | Stage 02 (age ranking), Stage 04 (age dimension) | **Yes** |
 | Updated | Stage 02, Stage 04 (staleness dimension) | **Yes** |
+| Issue Type | Stage 01 (connected-space discovery), Stage 02 (hierarchy level, orphan classification by type) | Strongly preferred |
 | Due date | Stage 02 (due-date categories), Stage 04 (overdue) | Preferred |
 | Priority | Stage 02 (distribution) | Optional |
 | Description | Stage 03 (mapping) | Preferred |
@@ -63,7 +64,7 @@ maps its real fields onto it at Stage 01.
 | Acceptance Criteria | Stage 03 | Optional |
 | Dependencies | Stage 03 (secondary matches) | Optional |
 | Risks | Stage 03 (weakest mapping signal) | Optional |
-| Parent key | Stage 05 — merge-candidate context | Optional |
+| Parent key | Stage 01 (connected-space discovery), Stage 02 (hierarchy view, orphan/dangling-reference detection), Stage 05 (merge-candidate context) | Strongly preferred |
 | Comments | Stage 04 — human-touch staleness refinement | Optional |
 | Labels | Stage 02 (lens) | Optional |
 
@@ -88,6 +89,8 @@ states the degradation in its output rather than silently scoring around it.
 | Assignee | No workload lens, no outreach routing | Stage 02 reports the unassigned count; Stage 05 routes those packets to the operator |
 | Comments | Staleness uses raw `Updated` | Staleness scores flagged low-confidence per `close-score-model.md` §3.3 |
 | Status Category | Unmapped statuses cannot fall back | Unmapped statuses score 0 and are flagged individually |
+| Issue Type | No hierarchy level to place a node at, and no way to tell an ART-board connected space from a same-level reference | Stage 01's connected-space discovery and Stage 02's hierarchy view are explicitly marked unavailable, naming the missing field; every other section of both stages runs unaffected |
+| Parent key | No parent-chain to trace | Stage 01's connected-space discovery has nothing to find (stated plainly, not treated as "no connected spaces exist"); Stage 02's hierarchy view is unavailable; Stage 05's merge-candidate context loses that input |
 
 **The rule underneath all of these:** a missing signal scores zero, never a
 penalty. Absent data is not evidence of neglect — an item is not more closeable
@@ -168,3 +171,48 @@ credentials pasted into a ticket by someone in a hurry.
   distribution rather than a named ranking.
 - **Nothing from a real portfolio ever enters this public repo** — instance
   data lives in employer tenancy, per `methodology/mirroring-protocol.md`.
+
+## 8. Hierarchy linkage and connected-space discovery
+
+Stage 01's connected-space discovery step and Stage 02's hierarchy view (both
+added 2026-08-01) read `Issue Type` and `Parent key` together. This section
+states what those two canonical fields mean here and how they relate to the
+hierarchy `icp-flows/ai-refinement/reference/work-item-schemas.md` defines.
+
+- **`Parent key` is one canonical name for whichever hierarchy-linking field
+  the instance actually uses at a given level.** Jira configurations vary:
+  the same portfolio may use a classic "Epic Link" field for one hierarchy
+  step and a "Parent"/"Parent Link" field for another, per
+  `ai-refinement`'s `parent_mapping_confirmation` house amendment
+  (`icp-flows/ai-refinement/06-jira-commit-and-close/CONTEXT.md`). Stage 01's
+  field-mapping step (§2, above) resolves whichever field the instance
+  populates at each level onto this one canonical name — this flow **reads**
+  those links; it never sets one.
+- **`Issue Type` is what places an item at a hierarchy level** (Portfolio
+  Epic / Solution Epic / Feature / Story / Task / Spike / Bug — the
+  refinable set `work-item-schemas.md` defines) and is what lets Stage 01
+  tell "a reference to a same-level item" apart from "a reference to a
+  genuinely connected space." Neither field is a **hard** requirement — the
+  flow's baseline distributions, scoring, and packets run without them — but
+  both are **strongly preferred**, because without them the hierarchy view
+  and connected-space discovery cannot run at all rather than merely running
+  in a degraded form.
+- **The ART-board pattern this exists for:** one overarching board — often
+  an Agile Release Train (ART) board — holds the portfolio and solution
+  epics that drive strategic goals across several feature-delivery team
+  projects, each with its own board. A cycle scoped to one team project's
+  backlog therefore routinely finds `Parent key` values pointing at issue
+  keys outside that project. Stage 01 surfaces those as candidate connected
+  spaces rather than silently reporting every referencing item as an orphan.
+- **An orphan and a dangling reference are different findings, reported
+  separately** (Stage 02, step 9): an orphan is a `Parent key` never
+  populated at all; a dangling reference is a `Parent key` populated but
+  unresolved within this cycle's scope (declined connected-space discovery,
+  a resolution that failed, or a genuinely broken link). Collapsing the two
+  into one count would hide which situation is which, and they call for
+  different operator action — one needs a parent assigned, the other needs
+  the link investigated.
+- **Nothing discovered through connected-space resolution is scored, mapped,
+  or packeted.** It exists solely to complete parent chains for Stage 02's
+  hierarchy diagram (§8 of this document; Stage 01 step 11; Stage 02 step 9)
+  and is excluded from every count this document's §2–§4 govern.

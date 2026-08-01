@@ -4,11 +4,11 @@ title: "Stage 02 — Portfolio Profiling"
 type: stage-context
 stage: 2
 review-intensity: light
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -17,6 +17,7 @@ data-class: public
 related:
   - "[[portfolio-rationalization]]"
   - "[[export-and-field-requirements]]"
+  - "[[work-item-schemas]]"
 ---
 
 # Stage 02 — Portfolio Profiling
@@ -37,6 +38,9 @@ related:
 | Degraded-signal list | Stage 01 | Yes |
 | Cycle scope record | Stage 01 | Yes |
 | Denominator rule and degraded-signal handling | `../reference/export-and-field-requirements.md` §3–4 | Yes |
+| Connected-space discovery outcome | Stage 01 | Yes |
+| Connected-space hierarchy context, if Stage 01 resolved any candidates | Stage 01 | No — present only when discovery resolved candidates |
+| Work item type hierarchy (Portfolio Epic → Solution Epic → Feature → Story/Task/Spike/Bug) | `../../ai-refinement/reference/work-item-schemas.md` | Yes — only for the hierarchy view; the rest of this stage does not depend on it |
 | Prior cycle's profile, if this is not the first cycle | Instance `decision-log/` | No |
 
 ## Process
@@ -75,19 +79,53 @@ related:
    the cross-cut that matters most downstream — it is the shape that
    corroborates rather than any single ranking — and it is the one view a
    status-by-status read will never surface.
-9. **Offer the exploration lenses, and stop.** Present the angles available for
-   deeper inspection — status, assignee workload, due dates and risk, priority,
-   labels, custom fields, or something else — and ask which the operator wants
-   to explore first. **Do not proceed to Stage 03 until the operator has had
-   this offer.** Jumping from distributions straight to objective mapping is
-   the single most likely way this flow degrades into a scoring machine that
-   nobody trusts, because nobody looked at the data first.
-10. **Explore the chosen lens** in whatever depth the operator asks, and repeat
+9. **Build the hierarchy view — Portfolio Epic → Solution Epic → Feature →
+   child.** Using `Issue Type` and `Parent key` from the normalized item set
+   — plus any connected-space hierarchy context Stage 01 resolved — trace
+   every item's parent chain against the hierarchy
+   `../../ai-refinement/reference/work-item-schemas.md` defines (Portfolio
+   Epic → Solution Epic → Feature → Story/Task/Spike/Bug).
+   - **Render a Mermaid `flowchart TD`**, one node per item, labeled with its
+     **Summary** — this is a hierarchy of what the work *is*, not a bare key
+     list. Truncate labels past ~60 characters for legibility and say so
+     where the diagram is presented; the full Summary always stays available
+     in an accompanying key/summary/type/parent table, never only inside the
+     diagram. Edges run parent → child. Give any node Stage 01 resolved from
+     a connected space a visibly distinct style (a separate `classDef`, per
+     `flow-foundry/references/flow-diagram-guide.md`'s palette convention),
+     so the operator can tell primary-scope work from imported hierarchy
+     context at a glance.
+   - **Call out orphans — two counts, never folded into one.** Per
+     `work-item-schemas.md`, every refinable type except Portfolio Epic
+     expects a parent. Report, separately: items with **no `Parent key`
+     populated at all**, and items whose `Parent key` **is populated but does
+     not resolve** to any item in the primary set or the connected-space
+     context — a dangling reference, a different fact from "no parent
+     stated" and one that points at a different problem (a broken link
+     versus one never made). Break both counts out by `Issue Type` and list
+     the affected items (key + summary) so the operator can act on them.
+   - **Degrade explicitly — do not fabricate a hierarchy from partial data.**
+     If `Issue Type` or `Parent key` is absent from the source entirely,
+     state that the hierarchy view cannot be built, name the missing field,
+     and skip the diagram — the same discipline step 11 (below) applies
+     everywhere else in this stage.
+   - This is a **first-class output**, produced whenever the fields support
+     it — like the oldest-and-sparsest cross-cut, not something the operator
+     has to request as a lens.
+10. **Offer the exploration lenses, and stop.** Present the angles available for
+    deeper inspection — status, assignee workload, due dates and risk, priority,
+    labels, custom fields, or something else — and ask which the operator wants
+    to explore first. **Do not proceed to Stage 03 until the operator has had
+    this offer.** Jumping from distributions straight to objective mapping is
+    the single most likely way this flow degrades into a scoring machine that
+    nobody trusts, because nobody looked at the data first.
+11. **Explore the chosen lens** in whatever depth the operator asks, and repeat
     the offer. The operator ends the exploration and advances, not the agent.
-11. **Note degraded signals in the profile itself**, not only in a footnote:
+12. **Note degraded signals in the profile itself**, not only in a footnote:
     if Due date is absent, the due-date section says so where the counts would
-    be; if Assignee is absent, the workload section says so. A missing section
-    reads as "nothing to report," which is a different claim.
+    be; if Assignee is absent, the workload section says so; if the hierarchy
+    view could not be built, step 9 already said so in place. A missing
+    section reads as "nothing to report," which is a different claim.
 
 ## Outputs
 
@@ -97,6 +135,7 @@ related:
 | Age ranking (all items) + oldest-10 detail | Stage 04 (sanity-check against age scores), Stage 05 | Ordered list: key, summary, days since Created |
 | Per-item field-completion percentage with absolute counts | Stage 04 (completion dimension input) | Key → `X of Y — Z%` |
 | Oldest-and-sparsest cross-cut | Stage 05 (packet context), Stage 06 | Item list with both rankings shown |
+| Hierarchy view — Portfolio Epic → Solution Epic → Feature → child, by summary, plus orphan and dangling-reference counts by type | Stage 05 (packet context), Stage 06 (review framing) | Mermaid `flowchart TD` block + companion key/summary/type/parent table + two orphan-family counts broken out by `Issue Type` |
 | Lens exploration record — which lenses the operator examined and what they observed | Stage 06; cycle decision log | Text |
 | Degraded-signal annotations, in-place in the profile | Stages 03, 04, 05 | Inline notes per affected section |
 
@@ -110,7 +149,11 @@ Due date field counted explicitly rather than dropped. The failure this catches
 is items vanishing between stages — an item with a null status or an unparseable
 date silently falling out of every bucket, so the distributions look complete
 and describe a smaller portfolio than the one under review. Running this check
-leaves a one-line result in the cycle's decision log.
+leaves a one-line result in the cycle's decision log. The hierarchy view's
+orphan and dangling-reference accounting is checked separately, against the
+same normalized set plus any resolved connected-space context — it does not
+feed this trace and a hierarchy-view gap cannot by itself explain a count
+mismatch here.
 
 - [ ] Item count and denominator stated together, up front
 - [ ] Status distribution counts sum to the confirmed item count
@@ -124,6 +167,18 @@ leaves a one-line result in the cycle's decision log.
 - [ ] Every completion percentage carries its absolute counts
 - [ ] Same denominator applied to every item
 - [ ] Oldest-and-sparsest cross-cut produced
+- [ ] Hierarchy view built from `Issue Type` and `Parent key` when both are
+      available; explicitly marked unavailable, naming the missing field,
+      when they are not
+- [ ] Every item in the primary set (and any resolved connected-space
+      context) is classified as exactly one of: has a resolving parent, no
+      parent stated (orphan), or parent stated but unresolved (dangling) —
+      none silently dropped from the accounting
+- [ ] Orphan and dangling-reference counts reported separately and broken out
+      by `Issue Type`
+- [ ] Diagram nodes labeled with Summary, truncated past the stated limit
+      with full text in the companion table; connected-space nodes visually
+      distinguished from primary-scope nodes
 - [ ] The exploration-lens offer was made and the operator responded **before**
       advancing to Stage 03
 - [ ] Degraded signals annotated in-place in the affected profile sections, not
@@ -137,8 +192,10 @@ leaves a one-line result in the cycle's decision log.
   reading the profile, not to the agent producing it.
 - **Evidence:** the lens exploration record — which lenses were examined and
   what the operator observed — as a decision-log line. An advance to Stage 03
-  with no lens record means step 9 was skipped, which is a review failure even
-  if every number is right.
+  with no lens record means step 10 was skipped, which is a review failure
+  even if every number is right. The hierarchy view's orphan and
+  dangling-reference counts travel in the same decision-log line when the
+  view was built.
 
 ## Data boundary
 
@@ -147,7 +204,9 @@ leaves a one-line result in the cycle's decision log.
 - Assignee names are handled here for workload distribution. They stay at
   `internal`, and the distribution-not-ranking rule in step 3 is a data-handling
   constraint, not a presentation preference.
-- This stage performs no external queries — it reads Stage 01's normalized set
-  only. No new data enters the cycle here.
+- This stage performs no external queries — it reads Stage 01's normalized set,
+  and any connected-space hierarchy context Stage 01 already resolved, only.
+  No new data enters the cycle here; this stage does not itself reach outside
+  the primary scope.
 - A handoff into this stage from an engine outside this boundary is invalid —
   stop and re-route.

@@ -4,25 +4,28 @@ description: >
   Profiles a normalized Jira portfolio before any judgment is applied —
   distributions by status, assignee, priority, and due-date category; an age
   ranking by Created; per-item field completion against one cycle denominator;
-  and the oldest-and-sparsest cross-cut — then offers the operator exploration
-  lenses and stops until they answer. Every percentage carries its absolute
-  counts, every distribution's categories sum to the confirmed item count,
-  uncategorized items are surfaced rather than dropped, and degraded signals
-  are annotated in place where the missing numbers would have been. Invoke at
-  Stage 02 of portfolio-rationalization, or standalone on "profile this
-  portfolio," "what does our backlog look like," "how complete are these
-  tickets." Do NOT use to score or rank items for closure (closure-scorer), to
-  map items to objectives (objective-keyword-mapper), or to produce a named
+  the oldest-and-sparsest cross-cut; and a Portfolio Epic → Solution Epic →
+  Feature → child Mermaid hierarchy diagram (by item summary) with orphan and
+  dangling-parent-reference counts broken out by type — then offers the
+  operator exploration lenses and stops until they answer. Every percentage
+  carries its absolute counts, every distribution's categories sum to the
+  confirmed item count, uncategorized items are surfaced rather than dropped,
+  and degraded signals are annotated in place where the missing numbers would
+  have been. Invoke at Stage 02 of portfolio-rationalization, or standalone on
+  "profile this portfolio," "what does our backlog look like," "how complete
+  are these tickets," "show the portfolio hierarchy," "how many orphan items
+  do we have." Do NOT use to score or rank items for closure (closure-scorer),
+  to map items to objectives (objective-keyword-mapper), or to produce a named
   performance ranking from the assignee data — the assignee output is a
   workload distribution and this skill declines that framing explicitly.
 # --- provenance (house layer) ---
 id: portfolio-profiler
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-08-01
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -32,6 +35,7 @@ related:
   - "[[sp-portfolio-profiler]]"
   - "[[portfolio-rationalization]]"
   - "[[export-and-field-requirements]]"
+  - "[[work-item-schemas]]"
 ---
 
 # Portfolio Profiler
@@ -53,11 +57,15 @@ flowchart LR
     P1 --> P2["Step 2 — Distributions<br/>Status, assignee (unassigned counted),<br/>priority, due-date buckets"]:::process
     P2 --> P3["Step 3 — Age and completion<br/>Age ranking by Created, oldest 10;<br/>per-item completion, one denominator"]:::process
     P3 --> P4["Step 4 — Oldest-and-sparsest cross-cut<br/>Intersect the two rankings"]:::process
-    P4 --> Lens{"Lens offer made<br/>and answered?"}:::decision
+    P4 --> P5{"Issue Type and<br/>Parent key available?"}:::decision
+    P5 -->|No| Skip["Hierarchy view marked unavailable,<br/>naming the missing field"]:::process
+    P5 -->|Yes| Hier["Step 5 — Hierarchy view<br/>Portfolio→Solution→Feature→child Mermaid<br/>diagram by summary; orphan +<br/>dangling-reference counts by type"]:::process
+    Skip --> Lens{"Lens offer made<br/>and answered?"}:::decision
+    Hier --> Lens
     Lens -->|No| Wait["Stop and wait for the operator —<br/>never advance past the offer"]:::halt
-    Lens -->|Yes| Explore["Step 6 — Explore the chosen lens<br/>to the depth asked"]:::process
+    Lens -->|Yes| Explore["Step 7 — Explore the chosen lens<br/>to the depth asked"]:::process
     Explore -.->|"operator asks for another lens"| Lens
-    Explore --> Output(["Output: portfolio profile, age ranking,<br/>completion figures, cross-cut,<br/>lens exploration record"]):::output
+    Explore --> Output(["Output: portfolio profile, age ranking,<br/>completion figures, cross-cut, hierarchy<br/>view, lens exploration record"]):::output
 
     classDef start fill:#1e293b,stroke:#94a3b8,color:#f1f5f9
     classDef process fill:#1e3a8a,stroke:#60a5fa,color:#dbeafe
@@ -126,18 +134,34 @@ flowchart LR
    surfaces — it is a *shape that corroborates*, which is what the flow's
    governing principle is built on. It is a first-class output, not something
    derivable on request.
-9. **Offer the exploration lenses, and stop.** Present the angles available for
-   deeper inspection — status, assignee workload, due dates and risk, priority,
-   labels, custom fields, or something else — and ask which the operator wants
-   to explore first. **Do not advance until the operator has answered.**
-   Jumping from distributions straight to objective mapping is the single most
-   likely way this flow degrades into a scoring machine nobody trusts, because
-   nobody looked at the data first.
-10. **Explore the chosen lens** to whatever depth is asked, then repeat the
+9. **Build the hierarchy view — Portfolio Epic → Solution Epic → Feature →
+   child.** Using `Issue Type` and `Parent key` (plus any connected-space
+   hierarchy context `jira-portfolio-ingest` resolved), trace each item's
+   parent chain against the hierarchy `work-item-schemas.md` defines. Render
+   a Mermaid `flowchart TD`, one node per item, **labeled with its Summary**
+   (truncate past ~60 characters and say so; full text stays in a companion
+   table). Give connected-space nodes a visibly distinct style. **Call out
+   orphans — two counts, never one:** items with no `Parent key` populated at
+   all, and items whose `Parent key` is populated but does not resolve within
+   this cycle's scope (a dangling reference — a different fact from "no
+   parent stated"). Break both out by `Issue Type` and list the affected
+   items. If `Issue Type` or `Parent key` is absent from the source entirely,
+   say the view cannot be built, name the missing field, and skip it — do not
+   fabricate a hierarchy from partial data. Required output, like the
+   cross-cut, whenever the fields support it.
+10. **Offer the exploration lenses, and stop.** Present the angles available for
+    deeper inspection — status, assignee workload, due dates and risk, priority,
+    labels, custom fields, or something else — and ask which the operator wants
+    to explore first. **Do not advance until the operator has answered.**
+    Jumping from distributions straight to objective mapping is the single most
+    likely way this flow degrades into a scoring machine nobody trusts, because
+    nobody looked at the data first.
+11. **Explore the chosen lens** to whatever depth is asked, then repeat the
     offer. **The operator ends the exploration and advances, not this skill.**
-11. **Annotate degraded signals in place.** If Due date is absent, the due-date
+12. **Annotate degraded signals in place.** If Due date is absent, the due-date
     section says so *where the counts would be*; if Assignee is absent, the
-    workload section says so. A missing section reads as "nothing to report,"
+    workload section says so; if the hierarchy view could not be built, step 9
+    already said so in place. A missing section reads as "nothing to report,"
     which is a different claim from "this field does not exist in the source."
     Footnotes are not enough.
 
@@ -151,12 +175,19 @@ under review.
 
 Reads, all from `jira-portfolio-ingest`: the normalized item set, the confirmed
 item count, this cycle's completion denominator, the field-availability report,
-the degraded-signal list, and the cycle scope record. Rules for the denominator
-and for degraded signals come from the flowspace's
-`reference/export-and-field-requirements.md` §3–4 (design copy:
-`flow-foundry/review-flowspaces/portfolio-rationalization/reference/export-and-field-requirements.md`).
-The prior cycle's profile, from the instance `decision-log/`, is optional
-context.
+the degraded-signal list, the cycle scope record, the connected-space
+discovery outcome, and — when discovery resolved candidates — the
+connected-space hierarchy context (key, Issue Type, Summary, Parent key,
+Status only; never counted into the item set above). Rules for the
+denominator and for degraded signals come from the flowspace's
+`reference/export-and-field-requirements.md` §3–4, §8 (hierarchy linkage) —
+design copy:
+`flow-foundry/review-flowspaces/portfolio-rationalization/reference/export-and-field-requirements.md`.
+The hierarchy itself — Portfolio Epic → Solution Epic → Feature →
+Story/Task/Spike/Bug — comes from
+`icp-flows/ai-refinement/reference/work-item-schemas.md` (read, never
+written). The prior cycle's profile, from the instance `decision-log/`, is
+optional context.
 
 Grounding rules: this skill performs **no external queries** — no new data
 enters the cycle here. Every number is computed from the handed set and is
@@ -173,7 +204,10 @@ dropped to make the arithmetic tidy.
   presentation preference.** Named individuals paired with a performance
   reading is a different and more sensitive artifact than a workload count, and
   this skill does not produce it.
-- No external access; computes over Stage 01's output only.
+- No external access; computes over Stage 01's output only — including any
+  connected-space hierarchy context, which Stage 01 already resolved and
+  screened before handing it forward. This skill does not itself reach
+  outside the primary scope.
 - **Sanctioned engines:** Rovo and Copilot both. No constraint.
 
 ## What this skill is not
@@ -191,6 +225,10 @@ dropped to make the arithmetic tidy.
   break the one comparison Stage 04 depends on.
 - **Not the operator's judgment** — it offers lenses and reports what it is
   asked to look at; deciding what the shape means is the human's work.
+- **Not a hierarchy resolver.** It draws the diagram from whatever parent
+  links `jira-portfolio-ingest` already resolved; it does not itself look up
+  a `Parent key` or discover a connected space. An unresolved off-project
+  reference shows up as a dangling reference here, not as a fresh lookup.
 
 ## Review criteria
 
@@ -210,20 +248,34 @@ A single output of this skill is acceptable when:
 7. Every completion percentage carries its absolute counts, and the same
    denominator was applied to every item.
 8. The oldest-and-sparsest cross-cut was produced as a first-class output.
-9. The exploration-lens offer was made and the operator answered **before**
-   anything advanced to Stage 03.
-10. Degraded signals are annotated in the affected profile sections themselves,
+9. The hierarchy view was built from `Issue Type`/`Parent key` when both were
+   available, with orphan and dangling-reference counts reported separately
+   and broken out by type — or explicitly marked unavailable, naming the
+   missing field, when they were not.
+10. Diagram nodes are labeled with Summary (truncated past the stated limit,
+    full text in the companion table), and connected-space nodes are visually
+    distinguished from primary-scope nodes.
+11. The exploration-lens offer was made and the operator answered **before**
+    anything advanced to Stage 03.
+12. Degraded signals are annotated in the affected profile sections themselves,
     not only footnoted.
-11. Every item is accounted for in every dimension — uncategorized items appear
+13. Every item is accounted for in every dimension — uncategorized items appear
     in an explicit uncategorized count rather than vanishing.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
+| Rovo | adapters/rovo-agent.md | 1.1 |
+| Copilot | adapters/copilot-prompt.md | 1.1 |
 
 ## Changelog
 
+- **1.1** (2026-08-01) — Added the Portfolio Epic → Solution Epic → Feature →
+  child hierarchy view: a Mermaid `flowchart TD` labeled by item summary,
+  built from `Issue Type`/`Parent key` and any connected-space context
+  `jira-portfolio-ingest` resolved, plus orphan (no parent stated) and
+  dangling-reference (parent stated but unresolved) counts broken out by
+  type. Degrades explicitly, without fabricating a hierarchy, when either
+  field is absent.
 - **1.0** (2026-07-28) — Initial build from `sp-portfolio-profiler`.
