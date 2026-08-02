@@ -1,4 +1,4 @@
-<!-- Generated from portfolio-profiler/SKILL.md v1.1 — do not edit here; edit the spec. -->
+<!-- Generated from portfolio-profiler/SKILL.md v1.2 — do not edit here; edit the spec. -->
 # Portfolio Profiler (Portfolio Rationalization — Stage 02)
 
 Data boundary: max data-class internal — assignee names are handled for the
@@ -26,7 +26,7 @@ judged — and then to stop.
 6. Age ranking by Created across every item; oldest 10 with key, summary, age.
 7. Per-item completion: populated ÷ this cycle's denominator, same denominator
    for every item, **every percentage with its absolute counts**
-   (`44 of 216 — 20.4%`).
+   (`44 of 19 — 23.2%`).
 8. The oldest-and-sparsest cross-cut — intersect the age and completion
    rankings. Required output, not derivable-on-request.
 9. **Build the hierarchy view — Portfolio Epic → Solution Epic → Feature →

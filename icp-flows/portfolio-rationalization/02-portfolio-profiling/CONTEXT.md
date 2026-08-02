@@ -4,7 +4,7 @@ title: "Stage 02 — Portfolio Profiling"
 type: stage-context
 stage: 2
 review-intensity: light
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-28
@@ -33,7 +33,7 @@ related:
 |---|---|---|
 | Normalized item set | Stage 01 | Yes |
 | Confirmed item count | Stage 01 | Yes |
-| Completion denominator (this cycle's column count) | Stage 01 | Yes |
+| Completion denominator (count of §2 canonical fields resolved this cycle) | Stage 01 | Yes |
 | Field-availability report | Stage 01 | Yes |
 | Degraded-signal list | Stage 01 | Yes |
 | Cycle scope record | Stage 01 | Yes |
@@ -48,7 +48,8 @@ related:
 `Layer-3: TBD — skill-primer-brief filed (sp-portfolio-profiler)`
 
 1. **State the frame.** Open with the portfolio's size and the denominator:
-   "N items across M columns, scope `<project/filter>`." Both numbers, always
+   "N items against an M-field denominator (K of 19 canonical fields
+   unavailable this cycle), scope `<project/filter>`." Both numbers, always
    together — a completion percentage without its denominator hides the thing
    that gives it meaning.
 2. **Distribution by status.** Count items per status, and per Status Category
@@ -72,7 +73,7 @@ related:
    days. Surface the oldest 10 with key, summary, and age.
 7. **Field completion per item.** Compute populated-fields ÷ denominator per
    item, per the rule in `../reference/export-and-field-requirements.md` §4.
-   Report every percentage with its absolute counts (`44 of 216 — 20.4%`).
+   Report every percentage with its absolute counts (`44 of 19 — 23.2%`).
    Same denominator for every item in the cycle.
 8. **The oldest-and-sparsest cross-cut.** Intersect the age ranking with the
    completion ranking: items that are both old and thinly populated. This is

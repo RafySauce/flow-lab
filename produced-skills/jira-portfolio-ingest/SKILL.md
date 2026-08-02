@@ -23,7 +23,7 @@ description: >
 # --- provenance (house layer) ---
 id: jira-portfolio-ingest
 type: skill
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: verified
 created: 2026-07-28
@@ -124,11 +124,12 @@ flowchart LR
      Embedded newlines and delimiters inside description and comment fields are
      routine in Jira exports; a naive line-split produces phantom rows and a
      corrupted item count. **Capture the header row before parsing bodies** —
-     it is both the denominator source and the left-hand side of the field map.
-     Jira exports repeated fields (labels, comments, links) as repeated columns
-     with identical headers: **collapse each repeat group into one canonical
-     field**, and count the collapsed field once in the denominator, not once
-     per repeat.
+     it is the left-hand side of the field map (the denominator itself comes
+     from §2's canonical field set, not the header row — see step 9). Jira
+     exports repeated fields (labels, comments, links) as repeated columns with
+     identical headers: **collapse each repeat group into one canonical
+     field** before mapping, so a repeated column resolves to the same single
+     canonical field the live-mode path would produce.
    - **Degrade path.** The session capability probe (`START-HERE.md` Step 1)
      found no Jira connector and the operator has no export file: ask the
      operator to paste the item set directly, in whatever shape they have it,
@@ -169,11 +170,15 @@ flowchart LR
    This is what tells Stage 03 whether it is mapping on rich text or on
    summaries alone, and what tells Stage 04 whether staleness can use comment
    timestamps rather than raw `Updated`.
-9. **Capture the completion denominator** — the actual column count from *this
-   cycle's* source, per §4 of the requirements file. Do not hardcode one and do
-   not carry a prior cycle's forward: a fixed denominator silently changes
-   meaning between cycles and produces plausible completion percentages that
-   mean nothing. Record it alongside the item count.
+9. **Capture the completion denominator** — the count of §2's canonical fields
+   that resolved in *this cycle's* field map (step 6), per §4 of the
+   requirements file. This is **not** the source's raw column count: a raw
+   export or live project routinely carries fields this flow never reads, and
+   counting those would make completion percentages incomparable across Jira
+   configurations. Do not hardcode the denominator and do not carry a prior
+   cycle's forward — a canonical field genuinely unavailable this cycle (step
+   8) lowers it, and that has to show up, not get papered over. Record it, and
+   which canonical fields (if any) were unavailable, alongside the item count.
 10. **Emit the normalized item set.** One record per work item, canonical field
     names, dates to ISO, empty-equivalents resolved — Jira's `None`, `-`, and
     empty rich-text containers that serialize as markup with no text all count
@@ -304,8 +309,9 @@ A single output of this skill is acceptable when:
 8. The field-availability report lists every canonical field with its
    populated-item count — complete enough that Stage 03 can tell whether it is
    mapping on rich text or summaries alone without asking.
-9. The denominator was captured from this cycle's source, not carried forward
-   or hardcoded, and is recorded with the item count.
+9. The denominator was computed from this cycle's resolved canonical-field
+   set (§2), not the source's raw column count, not carried forward from a
+   prior cycle, and is recorded with the item count.
 10. The normalized set uses canonical field names and ISO dates with
     empty-equivalents resolved, and no missing field was rendered as a zero.
 11. Connected-space discovery ran against `Parent key`/`Issue Type`; any
@@ -324,11 +330,17 @@ downstream.
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.1 |
-| Copilot | adapters/copilot-prompt.md | 1.1 |
+| Rovo | adapters/rovo-agent.md | 1.2 |
+| Copilot | adapters/copilot-prompt.md | 1.2 |
 
 ## Changelog
 
+- **1.2** (2026-08-01) — Field-completion denominator redesigned: now the
+  count of `export-and-field-requirements.md` §2's canonical fields resolved
+  in this cycle's field map, not the source's raw column count. Closes the
+  denominator open question — comparable across cycles *and* Jira
+  configurations. Rationale:
+  `flow-foundry/decision-log/2026-08-01-portfolio-rationalization-gap-ratifications.md`.
 - **1.1** (2026-08-01) — Added connected-space discovery (the ART-board
   pattern): groups `Parent key` by project prefix, offers the operator a
   targeted read-only resolve of off-project parent keys, and emits the result

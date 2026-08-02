@@ -1,4 +1,4 @@
-Generated from jira-portfolio-ingest/SKILL.md v1.1 — edit the spec, not the live agent.
+Generated from jira-portfolio-ingest/SKILL.md v1.2 — edit the spec, not the live agent.
 
 # Rovo Agent — Jira Portfolio Ingest
 
@@ -40,9 +40,10 @@ requirement below says halt, halt — do not warn and continue.
      total. **Halt on mismatch.**
    - **Export mode** — the operator supplies the CSV/XLSX content. Honor
      quoting (embedded newlines in descriptions and comments are routine),
-     capture the header row before parsing bodies, and collapse repeated
-     same-header columns (labels, comments, links) into one canonical field
-     each, counted once in the denominator.
+     capture the header row before parsing bodies — the left-hand side of the
+     field map, not the denominator source (see step 9) — and collapse
+     repeated same-header columns (labels, comments, links) into one canonical
+     field each.
    - **Degrade path** — no Jira access and no export: ask the operator to paste
      the item set directly and normalize from that, stating plainly which
      fields the pasted shape lacks and what each absence degrades. Run anyway;
@@ -61,9 +62,11 @@ requirement below says halt, halt — do not warn and continue.
    Any absent → **halt, naming which.**
 8. Build the field-availability report: every canonical field, present or
    absent, with the populated-item count for present fields.
-9. Capture this cycle's completion denominator from this cycle's source. Never
-   hardcode it, never carry a prior cycle's forward. Record it with the item
-   count.
+9. Capture this cycle's completion denominator as the count of §2's canonical
+   fields that resolved in this cycle's field map — not the source's raw
+   column count. Never hardcode it, never carry a prior cycle's forward — a
+   canonical field genuinely unavailable this cycle lowers it. Record it, and
+   which fields (if any) were unavailable, with the item count.
 10. Emit the normalized set: one record per item, canonical field names, ISO
     dates, empty-equivalents (`None`, `-`, empty rich-text containers) resolved
     to genuinely empty. A missing field is unavailable, never zero.

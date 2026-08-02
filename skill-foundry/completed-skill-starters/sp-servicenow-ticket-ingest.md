@@ -4,7 +4,7 @@ title: "Skill Primer Brief — ServiceNow Ticket Ingest"
 type: skill-primer-brief
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-08-01
 updated: 2026-08-01
 owner: operator
@@ -16,7 +16,14 @@ related:
   - "[[statik-adoption]]"
   - "[[jira-portfolio-ingest]]"
   - "[[board-evidence-requirements]]"
+  - "[[servicenow-ticket-ingest]]"
 ---
+
+> **Built and promoted 2026-08-01.** See
+> `produced-skills/servicenow-ticket-ingest/` and
+> `skill-foundry/decision-log/2026-08-01-servicenow-ticket-ingest-skill-build.md`
+> / `2026-08-01-servicenow-ticket-ingest-skill-promotion.md`. This brief
+> stays as the intake record, per `foundry-spec.md` §4.
 
 # Skill Primer Brief — ServiceNow Ticket Ingest
 

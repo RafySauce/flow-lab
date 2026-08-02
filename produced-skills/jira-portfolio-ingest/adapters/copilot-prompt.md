@@ -1,4 +1,4 @@
-<!-- Generated from jira-portfolio-ingest/SKILL.md v1.1 — do not edit here; edit the spec. -->
+<!-- Generated from jira-portfolio-ingest/SKILL.md v1.2 — do not edit here; edit the spec. -->
 # Jira Portfolio Ingest (Portfolio Rationalization — Stage 01)
 
 Data boundary: max data-class internal. Content above the instance's sanctioned
@@ -22,9 +22,9 @@ Where a step says halt, halt.
    - **Export mode (primary here)** — parse with a real, quote-honoring
      CSV/XLSX reader. Embedded newlines in descriptions and comments are
      routine; a naive line-split produces phantom rows. Capture the header row
-     before parsing bodies. Collapse repeated same-header columns (labels,
-     comments, links) into one canonical field each, counted once in the
-     denominator.
+     before parsing bodies — it's the left-hand side of the field map, not the
+     denominator source (see step 9). Collapse repeated same-header columns
+     (labels, comments, links) into one canonical field each.
    - **Live mode** — only through a sanctioned Jira integration: read-only,
      paged to completion, returned count matched against the query's reported
      total. **Halt on truncation.**
@@ -46,8 +46,11 @@ Where a step says halt, halt.
    Any absent → **halt, naming which.**
 8. Build the field-availability report: every canonical field, present/absent,
    with populated-item counts.
-9. Capture this cycle's completion denominator from this cycle's source — never
-   hardcoded, never carried forward — and record it with the item count.
+9. Capture this cycle's completion denominator as the count of §2's canonical
+   fields that resolved in this cycle's field map — not the source's raw
+   column count. Never hardcoded, never carried forward — a canonical field
+   genuinely unavailable this cycle lowers it. Record it, and which fields (if
+   any) were unavailable, with the item count.
 10. Emit the normalized set: canonical field names, ISO dates,
     empty-equivalents (`None`, `-`, empty rich-text markup) resolved. A missing
     field is unavailable, never zero.

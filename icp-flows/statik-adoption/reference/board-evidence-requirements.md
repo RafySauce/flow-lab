@@ -2,7 +2,7 @@
 id: board-evidence-requirements
 title: "Board Evidence Requirements — Fields, History, Floors, and Parity"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-08-01
@@ -29,7 +29,7 @@ all three; only the evidence basis and the sufficiency of the findings differ.**
 |---|---|---|
 | **Live Jira** | Bound to a project, board, or saved filter via the engine's native Jira capability | Findings can be `measured`; history may or may not be retrievable — checked separately |
 | **Jira export** | A file supplied by the operator, normalized by `jira-portfolio-ingest` | Same as live, bounded by what the export's columns carry; history usually absent unless deliberately exported |
-| **Live ServiceNow** | Bound to an incident, request, or named custom table via `servicenow-ticket-ingest` (§7 — backlog-staged, not yet built) | Same parity guarantee as Jira once built: findings can be `measured`; history is a separate audit-table query, checked separately |
+| **Live ServiceNow** | Bound to an incident, request, or named custom table via `servicenow-ticket-ingest` (§7 — built and verified 2026-08-01, on-engine test pending) | Same parity guarantee as Jira: findings can be `measured`; history is a separate audit-table query, checked separately |
 | **ServiceNow export** | A file supplied by the operator, normalized by `servicenow-ticket-ingest` | Same as live ServiceNow, bounded by what the export's columns carry |
 | **Conversation-only** | No board/table, or one that does not reflect the work | Every finding is `estimated`; no finding is ever labelled `measured` |
 
@@ -111,11 +111,18 @@ Stage 04 states the degrade explicitly in its output rather than omitting the
 sections, because a missing section reads as "nothing to report" — a different
 and much stronger claim than "not measurable here."
 
-**Open (operator call, recorded in `HUB.md`):** whether to extend
-`jira-portfolio-ingest` with an optional history mode (it is promoted and
-`portfolio-rationalization` also depends on it), to have
-`flow-capability-analyzer` request history itself, or to accept the degrade
-permanently.
+**Resolved 2026-08-01 (operator call):** accept the degrade path permanently.
+`jira-portfolio-ingest` stays point-in-time-only — no history mode is added to
+the shared ingest skill `portfolio-rationalization` also depends on, and
+`flow-capability-analyzer` does not grow a second history-fetch path of its
+own. `flow-capability-analyzer` already implements this degrade path as
+described above (lead time, throughput, arrival-versus-throughput, and
+due-date performance from `Created`/`Resolved` alone) — no build work follows
+from this decision. The residual cost stands as stated: no per-state
+residency, no flow efficiency, no blocked-time analysis, and Stage 07's WIP
+limits stay tuned starting points rather than derived figures, labelled as
+such wherever they appear. Rationale:
+`flow-foundry/decision-log/2026-08-01-statik-adoption-gap-ratifications.md`.
 
 ## 5. Personal data
 
@@ -150,14 +157,15 @@ the more dangerous failure).
 
 ## 7. ServiceNow as a source
 
-`servicenow-ticket-ingest` (backlog-staged at
-`skill-foundry/backlog-skill-starters/sp-servicenow-ticket-ingest.md`, not yet
-built) is designed to emit the identical canonical shape
-`jira-portfolio-ingest` produces, so §§1–6 above apply unchanged once it
-exists — the same parity contract, the same field-to-stage table, the same
-sufficiency floors, the same history question, the same personal-data
-constraint, the same export cautions. This section carries only what is
-ServiceNow-specific: the field mapping and its instance-taxonomy caveats.
+`servicenow-ticket-ingest` (`produced-skills/servicenow-ticket-ingest/`,
+built and verified 2026-08-01 — primer brief:
+`skill-foundry/completed-skill-starters/sp-servicenow-ticket-ingest.md`)
+emits the identical canonical shape `jira-portfolio-ingest` produces, so
+§§1–6 above apply unchanged — the same parity contract, the same
+field-to-stage table, the same sufficiency floors, the same history
+question, the same personal-data constraint, the same export cautions. This
+section carries only what is ServiceNow-specific: the field mapping and its
+instance-taxonomy caveats.
 
 **Field mapping — ServiceNow (`incident` table, representative) to canonical:**
 
@@ -168,6 +176,7 @@ ServiceNow-specific: the field mapping and its instance-taxonomy caveats.
 | `state` / `incident_state` | Status | **Numeric in the underlying field, label-mapped per instance** — the raw integer is never the canonical status; resolve through the instance's label map before mapping |
 | `opened_at` | Created | |
 | `resolved_at` (falls back to `closed_at` if resolution is not tracked separately) | Resolved / completed date | Instance-dependent which field is populated; check both |
+| `sys_updated_on` | Updated | Standard audit field on every ServiceNow table — last-modification timestamp, Jira `Updated`'s direct analog. Added 2026-08-01 during `servicenow-ticket-ingest`'s build: the flow's shared hard-requirement set (Issue key, Summary, Status, Created, Updated) needs a representative mapping for all five, and this table was silent on the fifth |
 | `category` / `subcategory` | Issue type candidate | Administrative artifact exactly as Jira's issue-type field is (see Stage 03 §1) — cluster on request content, not the raw category |
 | `assignment_group` | Reporter / requesting-group proxy | A group, not a person — consistent with §5's aggregate-only constraint |
 | `priority` | Priority | |
@@ -184,7 +193,8 @@ reopened, which the point-in-time set alone will not show — record this as a
 known limitation alongside the history-availability finding when ServiceNow is
 the bound source.
 
-**Until `servicenow-ticket-ingest` is built**, a ServiceNow-tracked service
-either runs Stage 01 in conversation-only mode or uses the operator-paste
-degrade path with the field gaps stated — the same reduced path
+`servicenow-ticket-ingest` has no on-engine test yet (§1's mode table notes
+this) — until the sanctioned ServiceNow read connector is confirmed on a
+specific engine, a ServiceNow-tracked service still has the operator-paste
+degrade path available with the field gaps stated, the same reduced path
 `jira-portfolio-ingest` offers when no Jira connector is available.

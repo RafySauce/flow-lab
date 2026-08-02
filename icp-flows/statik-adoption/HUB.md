@@ -2,7 +2,7 @@
 id: statik-adoption
 title: "STATIK Adoption — Evidence-Grounded Kanban System Design"
 type: flowspace
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-08-01
@@ -80,14 +80,15 @@ flowchart LR
 > `skill-foundry/decision-log/2026-08-01-statik-adoption-skill-batch-promotion.md`.
 > **Not yet closed:** no on-engine invocation, and this flowspace design
 > itself stays `to-review` — see Known gaps for the remaining
-> operator-owned items (ServiceNow ingest, the ingest history delta,
-> unreached source articles, uncalibrated sufficiency floors).
+> operator-owned items (unreached source articles, uncalibrated
+> sufficiency floors). ServiceNow ingest and the ingest history delta were
+> both resolved 2026-08-01 — see below.
 
 ## Stage table
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Service Framing & Source Binding | heavy | internal | Rovo, Copilot | `jira-portfolio-ingest` (verified, `produced-skills/`) or `servicenow-ticket-ingest` (backlog-staged, `skill-foundry/backlog-skill-starters/`, not yet built) for board/ticket binding + inline service framing and fitness-criteria elicitation |
+| 1 | Service Framing & Source Binding | heavy | internal | Rovo, Copilot | `jira-portfolio-ingest` (verified, `produced-skills/`) or `servicenow-ticket-ingest` (verified, `produced-skills/`) for board/ticket binding + inline service framing and fitness-criteria elicitation |
 | 2 | Sources of Dissatisfaction | heavy¹ | internal | Rovo, Copilot | `fitness-and-dissatisfaction-profiler` (verified, `produced-skills/`) |
 | 3 | Demand Analysis | light | internal | Rovo, Copilot | `demand-profiler` (verified, `produced-skills/`) |
 | 4 | Capability Analysis | light | internal | Rovo, Copilot | `flow-capability-analyzer` (verified, `produced-skills/`) |
@@ -136,10 +137,10 @@ they are documented here instead of drawn as edges.
   read-only, via the engine's native Jira capability (Stage 01 binds it; Stages
   03–05 read the bound set). ServiceNow — one table (incident, request, or a
   named custom table) per run, read-only, via `servicenow-ticket-ingest`
-  (backlog-staged, not yet built — see Known gaps); once built it binds
-  identically to `jira-portfolio-ingest` so Stages 03–05 read the same shape
-  regardless of source system. A service tracked in both binds both explicitly
-  rather than merging silently. Confluence read-only where the service already
+  (verified, built 2026-08-01 — see Known gaps); it binds identically to
+  `jira-portfolio-ingest` so Stages 03–05 read the same shape regardless of
+  source system. A service tracked in both binds both explicitly rather than
+  merging silently. Confluence read-only where the service already
   has documented SLAs or service definitions that bear on fitness criteria
   (Stage 01–02, optional).
 - **External systems written:** none. This flow produces a *design*; a human
@@ -207,37 +208,45 @@ flowspace design itself remains `to-review`.
 | `workflow-modeler` | `sp-workflow-modeler` | 5 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
 | `class-of-service-designer` | `sp-class-of-service-designer` | 6 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
 | `kanban-system-designer` | `sp-kanban-system-designer` | 7 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
+| `servicenow-ticket-ingest` | `sp-servicenow-ticket-ingest` | 1 (ServiceNow-tracked services) | verified — 1.0; built and gated 2026-08-01 on a simulated run; on-engine test pending |
 
-**ServiceNow ingest is designed-for but not built (2026-08-01).** Stage 01 now
-accepts a live-ServiceNow or ServiceNow-export source mode, and
+**ServiceNow ingest — built and promoted 2026-08-01.** Stage 01 accepts a
+live-ServiceNow or ServiceNow-export source mode, and
 `reference/board-evidence-requirements.md` §7 maps ServiceNow's fields onto
-the flow's canonical set, but the ingest skill itself —
-`servicenow-ticket-ingest` — is only a primer brief at
-`skill-foundry/backlog-skill-starters/sp-servicenow-ticket-ingest.md`, staged
-the same way `sp-servicenow-kb-commit` was staged for documentarian: the
-gap is registry-visible rather than living only in prose, and the brief holds
-the place without authorizing a build. Per
-`methodology/mirroring-protocol.md` §2, ServiceNow is already sanctioned as a
-*read* target in principle — unlike the KB-commit write path, this is not
-blocked on a policy question, only on the skill-foundry build-and-gate cycle
-(spec, adapters, five-point gate) that every Layer-3 skill goes through before
-promotion to `produced-skills/`. Until then, a ServiceNow-tracked service runs
-Stage 01 in conversation-only mode, or the operator pastes ticket data through
-the degrade path the brief describes.
+the flow's canonical set. The operator authorized the build this session
+(a ServiceNow-tracked service is coming up soon enough to warrant it);
+`servicenow-ticket-ingest` was authored, gated, and promoted to
+`produced-skills/`, mirroring `jira-portfolio-ingest`'s trust-boundary
+discipline and output shape. Evidence:
+`skill-foundry/decision-log/2026-08-01-servicenow-ticket-ingest-skill-build.md`
+and `2026-08-01-servicenow-ticket-ingest-skill-promotion.md`. **Still open:**
+no on-engine invocation — the sanctioned ServiceNow read connector is not yet
+confirmed against a specific engine, so a ServiceNow-tracked service can
+still fall back to conversation-only mode or the operator-paste degrade path
+until that confirmation lands. The deferred `sp-servicenow-kb-commit` write
+path is untouched by this decision — read-side ingest only, per the
+operator's answer.
 
-**The ingest history delta (open, operator call).** Stage 01 reuses
-`jira-portfolio-ingest`, which emits a *point-in-time* normalized item set.
-Stage 04's capability analysis needs status-transition *history* — when each item
-entered and left each state — which that skill does not carry. Three options,
-none taken here: extend `jira-portfolio-ingest` with an optional history mode
-(changes a promoted skill `portfolio-rationalization` also depends on); have
-`flow-capability-analyzer` request history itself (splits ingest across two
-skills); or accept the degrade path permanently and derive capability from
-created/resolved dates only (loses per-state residency, which is what makes a
-WIP limit defensible rather than guessed). `flow-capability-analyzer` declares
-history as an input requirement with a stated degrade path, so the flow runs
-either way. Rationale:
-`../../decision-log/2026-08-01-statik-adoption-triage-and-scaffold.md` §7.
+**The ingest history delta — resolved 2026-08-01 (operator call).** Stage 01
+reuses `jira-portfolio-ingest`, which emits a *point-in-time* normalized item
+set. Stage 04's capability analysis wants status-transition *history* — when
+each item entered and left each state — which that skill does not carry.
+Three options were on the table: extend `jira-portfolio-ingest` with an
+optional history mode (changes a promoted skill `portfolio-rationalization`
+also depends on); have `flow-capability-analyzer` request history itself
+(splits ingest across two skills); or accept the degrade path permanently and
+derive capability from created/resolved dates only. The operator took the
+third: **accept the degrade path permanently.** No build follows —
+`flow-capability-analyzer` already implements it (lead time, throughput,
+arrival-versus-throughput, due-date performance from `Created`/`Resolved`
+alone) and already declares history as a desired-not-required input with this
+exact degrade path stated. What's lost stands as designed: per-state
+residency, flow efficiency, and blocked-time analysis, and Stage 07's WIP
+limits stay tuned starting points rather than derived figures — already
+labelled as such throughout Stage 07. Original framing:
+`flow-foundry/decision-log/2026-08-01-statik-adoption-triage-and-scaffold.md` §7;
+resolution:
+`flow-foundry/decision-log/2026-08-01-statik-adoption-gap-ratifications.md`.
 
 **The two operator-supplied source articles were unreachable.** Both
 `aktiasolutions.com` and `hjavixcs.medium.com` returned HTTP 403 at the egress
@@ -265,10 +274,12 @@ recommendation. Whether this is the right balance — versus proposing
 conventional numbers as a starting point to be argued down — is open question 3
 in the primer brief.
 
-**`produced-skills/CONTEXT.md` has drifted** (flagged, not fixed — the catalog
-is operator-owned). The folder holds 25 skills; the "Available skills" table
-lists 13. Two of the missing twelve, `jira-portfolio-ingest` and
-`portfolio-profiler`, are directly referenced by this flowspace.
+**`produced-skills/CONTEXT.md` drift — closed 2026-08-01.** This gap was
+stale even before today's session: the catalog and the folder already
+matched at 32 entries each, not the 13-of-25 split originally recorded here.
+Verified directly (`diff` of the folder listing against the table's skill
+names) while adding `servicenow-ticket-ingest`'s row — both now stand at 33,
+one-for-one, no drift.
 
 ## Reference material (Layer-3)
 
