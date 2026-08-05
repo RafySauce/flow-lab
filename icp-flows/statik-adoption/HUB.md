@@ -2,11 +2,11 @@
 id: statik-adoption
 title: "STATIK Adoption — Evidence-Grounded Kanban System Design"
 type: flowspace
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -189,16 +189,15 @@ take the loop-back rather than patching forward; see Iteration above.
 
 ## Known gaps
 
-**Gap closure (2026-08-01): all six Layer-3 skills built, gated, and
-promoted to `produced-skills/`.** All six were authored in the same pass as
-this flowspace and, following a simulated end-to-end live-test pass (no
-prior agent-side gate pre-run existed for this batch, unlike the
-documentarian and portfolio-rationalization batches — the full five-point
-gate, including spec review and boundary/collision check, was run for the
-first time this session), promoted to `truth-level: verified`. Evidence:
+> Per `methodology/governance-and-audit.md` §5a: each entry below is a
+> pointer, not an archive — 1–3 sentences plus the decision-log citation
+> that carries the full rationale.
+
+**Gap closure (2026-08-01):** all six Layer-3 skills were authored in the
+same pass as this flowspace and promoted `verified` following a simulated
+end-to-end live-test pass. Still open: no on-engine invocation for any of
+the six, and this flowspace design itself remains `to-review`. Evidence:
 `skill-foundry/decision-log/2026-08-01-statik-adoption-skill-batch-promotion.md`.
-**Still open:** no on-engine invocation for any of the six, and this
-flowspace design itself remains `to-review`.
 
 | Skill (spec + adapters) | Primer brief | Target stage | Status |
 |---|---|---|---|
@@ -210,76 +209,52 @@ flowspace design itself remains `to-review`.
 | `kanban-system-designer` | `sp-kanban-system-designer` | 7 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
 | `servicenow-ticket-ingest` | `sp-servicenow-ticket-ingest` | 1 (ServiceNow-tracked services) | verified — 1.0; built and gated 2026-08-01 on a simulated run; on-engine test pending |
 
-**ServiceNow ingest — built and promoted 2026-08-01.** Stage 01 accepts a
-live-ServiceNow or ServiceNow-export source mode, and
-`reference/board-evidence-requirements.md` §7 maps ServiceNow's fields onto
-the flow's canonical set. The operator authorized the build this session
-(a ServiceNow-tracked service is coming up soon enough to warrant it);
-`servicenow-ticket-ingest` was authored, gated, and promoted to
-`produced-skills/`, mirroring `jira-portfolio-ingest`'s trust-boundary
-discipline and output shape. Evidence:
+**ServiceNow ingest — built and promoted 2026-08-01.** Stage 01 now accepts
+a live-ServiceNow or export source mode (`reference/board-evidence-requirements.md`
+§7 maps its fields onto the flow's canonical set), via the new
+`servicenow-ticket-ingest` skill, mirroring `jira-portfolio-ingest`'s trust
+boundary. Still open: no on-engine invocation — falls back to
+conversation-only or the operator-paste degrade path until the connector is
+confirmed. Evidence:
 `skill-foundry/decision-log/2026-08-01-servicenow-ticket-ingest-skill-build.md`
-and `2026-08-01-servicenow-ticket-ingest-skill-promotion.md`. **Still open:**
-no on-engine invocation — the sanctioned ServiceNow read connector is not yet
-confirmed against a specific engine, so a ServiceNow-tracked service can
-still fall back to conversation-only mode or the operator-paste degrade path
-until that confirmation lands. The deferred `sp-servicenow-kb-commit` write
-path is untouched by this decision — read-side ingest only, per the
-operator's answer.
+and `2026-08-01-servicenow-ticket-ingest-skill-promotion.md`.
 
-**The ingest history delta — resolved 2026-08-01 (operator call).** Stage 01
-reuses `jira-portfolio-ingest`, which emits a *point-in-time* normalized item
-set. Stage 04's capability analysis wants status-transition *history* — when
-each item entered and left each state — which that skill does not carry.
-Three options were on the table: extend `jira-portfolio-ingest` with an
-optional history mode (changes a promoted skill `portfolio-rationalization`
-also depends on); have `flow-capability-analyzer` request history itself
-(splits ingest across two skills); or accept the degrade path permanently and
-derive capability from created/resolved dates only. The operator took the
-third: **accept the degrade path permanently.** No build follows —
-`flow-capability-analyzer` already implements it (lead time, throughput,
-arrival-versus-throughput, due-date performance from `Created`/`Resolved`
-alone) and already declares history as a desired-not-required input with this
-exact degrade path stated. What's lost stands as designed: per-state
-residency, flow efficiency, and blocked-time analysis, and Stage 07's WIP
-limits stay tuned starting points rather than derived figures — already
-labelled as such throughout Stage 07. Original framing:
-`flow-foundry/decision-log/2026-08-01-statik-adoption-triage-and-scaffold.md` §7;
-resolution:
+**The ingest history delta — resolved 2026-08-01 (operator call).**
+`jira-portfolio-ingest` emits point-in-time data, not the status-transition
+history Stage 04's capability analysis wants; of three options (extend the
+ingest skill, split ingest across skills, or accept the degrade path
+permanently), the operator chose to **accept the degrade path
+permanently** — `flow-capability-analyzer` already derives lead
+time/throughput/due-date performance from `Created`/`Resolved` alone, and
+Stage 07's WIP limits stay tuned starting points rather than derived
+figures. Original framing:
+`flow-foundry/decision-log/2026-08-01-statik-adoption-triage-and-scaffold.md`
+§7; resolution:
 `flow-foundry/decision-log/2026-08-01-statik-adoption-gap-ratifications.md`.
 
 **The two operator-supplied source articles were unreachable.** Both
-`aktiasolutions.com` and `hjavixcs.medium.com` returned HTTP 403 at the egress
-proxy on CONNECT — an organization policy denial, not a paywall or a retryable
-fault. The method was reconstructed from reachable sources (named inline in
-`reference/statik-method-reference.md`), which agree on the canonical step
-sequence, so structural risk is low. Residual risk: the blocked articles may
-carry framing, worked examples, or a workshop shape this build does not reflect
-— the Aktia piece's title suggests rollout emphasis that would bear on Stage 08
-in particular. If the operator supplies the text, it enters as foreign material
-through `skill-foundry/templates/intake-vetting-checklist.md`, not silently.
+`aktiasolutions.com` and `hjavixcs.medium.com` returned HTTP 403 at the
+egress proxy — an organization policy denial. The method was reconstructed
+from reachable sources (named in `reference/statik-method-reference.md`);
+residual risk is that the blocked Aktia piece's rollout framing may bear on
+Stage 08. If the operator supplies the text, it enters as foreign material
+through `skill-foundry/templates/intake-vetting-checklist.md`.
 
-**Evidence-sufficiency floors are reasoned, not calibrated.** The design asserts
-that a lead-time distribution needs at least 30 completed items per work item
-type before being reported as a distribution rather than as a list of
-observations, and that demand analysis needs at least one full arrival cycle.
-Both are defensible defaults from general practice, neither is calibrated
-against this operator's actual boards, and both are the kind of number that
-quietly becomes policy. Operator ratification before the first live run.
+**Evidence-sufficiency floors are reasoned, not calibrated.** The design
+requires ≥30 completed items per work item type before reporting a
+lead-time distribution, and at least one full arrival cycle for demand
+analysis — defensible defaults, not calibrated against this operator's
+actual boards. Operator ratification required before the first live run.
 
-**Capacity allocation is deliberately conservative.** Stage 06 proposes starting
-allocations only where Stage 03's measured demand mix supports them, cites that
-mix, and states conventional figures separately as context rather than as a
-recommendation. Whether this is the right balance — versus proposing
-conventional numbers as a starting point to be argued down — is open question 3
-in the primer brief.
+**Capacity allocation is deliberately conservative.** Stage 06 proposes
+starting allocations only where Stage 03's measured demand mix supports
+them, citing that mix, with conventional figures stated separately as
+context rather than recommendation. Whether this is the right balance is
+open question 3 in the primer brief.
 
-**`produced-skills/CONTEXT.md` drift — closed 2026-08-01.** This gap was
-stale even before today's session: the catalog and the folder already
-matched at 32 entries each, not the 13-of-25 split originally recorded here.
-Verified directly (`diff` of the folder listing against the table's skill
-names) while adding `servicenow-ticket-ingest`'s row — both now stand at 33,
-one-for-one, no drift.
+**`produced-skills/CONTEXT.md` drift — closed 2026-08-01.** Verified
+directly (`diff` of the folder listing against the table): both stood at 33
+entries, one-for-one, no drift — the gap was stale before this session.
 
 ## Reference material (Layer-3)
 

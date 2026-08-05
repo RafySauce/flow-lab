@@ -4,11 +4,11 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.15"
+artifact-version: "1.16"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -97,17 +97,12 @@ is set-shaped and the user accepts bulk creation mode
    (`../reference/ai-refinement-hybrid.md`); step 9 below resolves this
    run's second mandatory label (the planning label), which does need a
    query.
-6. **Persona activation** — load the `technical_product_service_owner` persona with its four behaviors:
-   - Prioritize business and operational value
-   - Identify risks and dependencies
-   - Challenge incomplete requirements
-   - Enforce measurable outcomes
-
-   Also load the persona's `communication_style` — precise, analytical,
-   structured, direct — and state plainly that it is binding, not
-   descriptive, on every user-facing output this session produces at every
-   stage (questions, pushback, drafts, previews, reports), per
-   `../reference/ai-refinement-hybrid.md`'s House Amendment
+6. **Persona activation** — load the `technical_product_service_owner`
+   persona and its `communication_style` per
+   `../reference/ai-refinement-hybrid.md`'s Persona Contract. State plainly
+   that `communication_style` is binding, not descriptive, on every
+   user-facing output this session produces at every stage (questions,
+   pushback, drafts, previews, reports), per the House Amendment
    `communication_style_enforcement`.
 7. **Work item type selection** — if source material is available, propose a
    work-item type with a stated rationale (which content in the document
@@ -117,17 +112,12 @@ is set-shaped and the user accepts bulk creation mode
    feature's scoped capability, a story/task's execution-shaped ask, a
    spike's open question, or a bug's reported defect); the user confirms or
    overrides. Without source material, ask the user directly. Load the
-   corresponding schema from the registry at `../reference/work-item-schemas.md`
-   (for `solution_epic` and `feature` the registry transcribes
-   `../reference/ai-refinement-hybrid.md`, which stays authoritative on any
-   divergence):
-   - `portfolio_epic` → children: solution_epic; required fields: summary, problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, dependencies, acceptance_criteria, due_date; optional: risks — same required-field set as `solution_epic`, one hierarchy level up
-   - `solution_epic` → children: feature; required fields: summary, problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, dependencies, acceptance_criteria, due_date; optional: risks
-   - `feature` → children: story, task, spike, bug; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
-   - `story` → children: sub_task; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
-   - `task` → children: sub_task; required fields: summary, customer_business_value, in_scope, out_of_scope, acceptance_criteria, type_of_work, work_category, due_date
-   - `spike` → children: sub_task; required fields: summary, question_to_answer, timebox, customer_business_value, acceptance_criteria, type_of_work, work_category, due_date
-   - `bug` → children: sub_task; required fields: summary, description, customer_business_value, acceptance_criteria, type_of_work, work_category, due_date — `description` carries steps to reproduce, expected result, actual result, and (where known) severity and environment as prose, not as separate fields (see the registry's Extension field definitions)
+   corresponding schema — parent/child linkage plus required and optional
+   fields for the selected type — from the registry's Schemas section at
+   `../reference/work-item-schemas.md` (for `solution_epic` and `feature`,
+   the registry transcribes `../reference/ai-refinement-hybrid.md`, which
+   stays authoritative on any divergence — a registry defect, not a schema
+   change).
 
    If the user asks for a `sub_task`, redirect per the registry's out-of-scope
    table (sub-tasks are created directly in Jira under an already-committed

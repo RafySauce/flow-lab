@@ -2,11 +2,11 @@
 id: governance-and-audit
 title: "Governance and Audit — The Gates"
 type: specification
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
 truth-level: to-review
 created: 2026-07-02
-updated: 2026-07-16
+updated: 2026-08-05
 source: human+ai
 data-class: public
 related: ["[[provenance-spec]]", "[[mirroring-protocol]]"]
@@ -61,6 +61,19 @@ Each foundry (and each instantiated flowspace) carries a `decision-log/` folder 
 
 Entry shape — keep it to ~10 lines: **what was decided / by whom / the alternatives considered / the reason / what it affects.** The log is the audit trail *and* the improvement corpus: a periodic read-through of accumulated entries is how the foundries themselves get revised.
 
+## 5a. Pointer-section discipline
+
+Any in-file section whose job is to summarize and cite decisions — a
+`SKILL.md`'s or spec's `## Changelog`, a flowspace `HUB.md`'s `## Known
+gaps` — is a **pointer, not an archive**. Keep each entry to 1–3 sentences:
+what changed and its current status. Full rationale, options considered,
+and grounding belong exclusively in the decision-log entry the pointer
+cites. Reproducing that material in the pointer section is the same
+violation, in the other direction, that this section's ~10-line
+decision-log discipline exists to prevent — the two rules are one contract:
+detail lives once, in the decision log; everything that cites it stays
+terse.
+
 ## 6. AI-contribution disclosure
 
 The `source` field (`human` / `human+ai` / `ai`) is the disclosure mechanism, stamped at authoring time and preserved through revisions. Where a deliverable leaves the ICP structure (a report shipped to stakeholders, code merged to a product repo), carry the disclosure with it in whatever form the destination supports — a footer, a PR description line, a page property. Do not strip provenance at the boundary; that is where it matters most.
@@ -70,6 +83,12 @@ The `source` field (`human` / `human+ai` / `ai`) is the disclosure mechanism, st
 - Nothing is silently deleted: retired artifacts go `status: dead`; replaced ones go `status: replaced` + `superseded-by`.
 - Specs and foundries carry changelogs; version bumps are dated and reasoned.
 - Decision logs are append-only.
+- An editorial-only pass on a `verified` artifact — one that changes no
+  guardrail, schema, or behavior, e.g. trimming a pointer section back to
+  §5a's discipline — still needs the operator's go-ahead, a version bump,
+  and a decision-log entry, but may re-promote on a lightweight structural
+  confirmation rather than a full gate re-run, at operator discretion,
+  recorded the same as any promotion.
 
 ## 8. Periodic audit pass
 
@@ -87,6 +106,14 @@ The audit pass produces one decision-log entry summarizing findings and actions.
 
 ## Changelog
 
+- **1.3** (2026-08-05) — Added §5a "Pointer-section discipline": Changelog and
+  Known-gaps sections are pointers, not archives — 1–3 sentences per entry,
+  full rationale stays in the cited decision-log entry only. Added a §7
+  bullet covering editorial-only passes on `verified` artifacts (version
+  bump + decision-log entry required; re-promotion may be a lightweight
+  check, not a full re-gate). Raised directly by the operator, applying the
+  Interpretable Context Methodology (ICM) sibling project's routing-file
+  discipline. Rationale: `flow-foundry/decision-log/2026-08-05-pointer-section-discipline.md`.
 - **1.2** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `mirroring-protocol.md` 2.0): sanctioned-tool matrix wording now names external systems rather than mirror surfaces; supplementary review evidence is MR approval rather than Confluence change-comments; the audit pass's mirror drift check (moot with one surface) is replaced by structural re-validation of promoted flowspaces; CQL-driven sampling replaced by frontmatter greps.
 - **1.1** (2026-07-03) — Noted CQL-driven drift/classification sampling and Confluence version change-comments as supplementary (not sufficient) review evidence, per `mirroring-protocol.md` §7. *(Superseded by 1.2.)*
 - **1.0** (2026-07-02) — Initial gates.

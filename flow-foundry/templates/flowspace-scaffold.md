@@ -76,7 +76,10 @@ outputs land.
 
 ## Known gaps
 
-Skill-primer-briefs filed from this flowspace's Layer-3 triage, with ids and status.
+Skill-primer-briefs filed from this flowspace's Layer-3 triage, with ids and
+status. One to three sentences per gap — what changed, current status —
+ending in a decision-log citation. Full rationale lives in the cited
+decision-log entry, never here (`methodology/governance-and-audit.md` §5a).
 ```
 
-Rules: the stage table matches the stage folders one-for-one (checked at validation gate 1); the Stage Flow Diagram matches the stage table one-for-one (same gate); `work/` contents are per-run and never block promotion; nothing in the scaffold self-declares `verified`.
+Rules: the stage table matches the stage folders one-for-one (checked at validation gate 1); the Stage Flow Diagram matches the stage table one-for-one (same gate); `work/` contents are per-run and never block promotion; nothing in the scaffold self-declares `verified`; the Known gaps section follows the pointer-section discipline in `methodology/governance-and-audit.md` §5a — narrative re-litigation of a cited decision is not permitted at scaffold time or at any later edit.

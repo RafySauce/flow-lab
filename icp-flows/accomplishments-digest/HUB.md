@@ -2,11 +2,11 @@
 id: accomplishments-digest
 title: "Accomplishments Digest — Jira & Confluence Performance-Review Prep"
 type: flowspace
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-08
-updated: 2026-07-15
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -109,17 +109,18 @@ human-review stage before that version is shared.
 
 ## Known gaps
 
-All three skills demanded by Stages 2–4's Layer-3 triage are
-`truth-level: verified` and live in `produced-skills/` — operator (RJT)
-promotion 2026-07-15, evidence in
+> Per `methodology/governance-and-audit.md` §5a: each entry below is a
+> pointer, not an archive — 1–3 sentences plus the decision-log citation
+> that carries the full rationale.
+
+All three skills demanded by Stages 2–4 are `truth-level: verified` —
+promoted 2026-07-15, evidence in
 `skill-foundry/decision-log/2026-07-15-accomplishments-digest-skill-batch-promotion.md`
-(accepting the five-point-gate pre-run in
+(pre-run:
 `skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-gate-prerun.md`).
-Remaining gap: deployment — no adapter is published to a live engine yet, so
-the first on-engine invocation per adapter (the pre-run's simulated live
-tests are not engine runs) and confirming whether a Copilot-side
-Jira/Confluence connector is sanctioned both happen at deployment, the
-operator's act, recorded then.
+Remaining gap: no adapter is published to a live engine yet — first
+on-engine invocation and Copilot-connector sanctioning both happen at
+deployment, the operator's act.
 
 | Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
@@ -127,22 +128,18 @@ operator's act, recorded then.
 | `confluence-contribution-gatherer` | `sp-confluence-contribution-gatherer` | 3 | verified — promoted 2026-07-15; deployment pending |
 | `accomplishments-drafter` | `sp-accomplishments-drafter` | 4 | verified — promoted 2026-07-15; deployment pending |
 
-Second gap: the primer brief's own open question about per-tenant
-activity-history depth (comment/review visibility) is now operationalized as
-a one-time-per-tenant probe at
-`reference/confluence-activity-history-capability-check.md`, rather than a
-standing unknown — Stage 3's contract and the gatherer skill both already
-implement all three of that checklist's fallback modes; the checklist just
-tells the operator which mode a given tenant is actually in.
+Second gap: the primer brief's open question on per-tenant activity-history
+depth is operationalized as a one-time-per-tenant probe at
+`reference/confluence-activity-history-capability-check.md` — Stage 3 and
+the gatherer skill already implement all three fallback modes; the
+checklist just tells the operator which mode a tenant is in.
 
-Third gap (2026-07-08, 1.0 → 1.1 revision): Stage 6 (Handoff to Copilot) added
-on operator instruction — a second output artifact was requested: the
-Confluence-published document handed off to a companion, Copilot-primary
-flowspace (`accomplishments-docx-finisher`, staged alongside this one in
-`review-flowspaces/`) that adds repo/file-context enrichment and produces a
-final, stylized Word document. Stage 6 is `Layer-3: inline`, not a skill gap,
-per its `CONTEXT.md`; the receiving flowspace carries its own two skill gaps.
-Rationale: `decision-log/2026-07-08-copilot-handoff-revision.md`.
+Third gap (2026-07-08, 1.0 → 1.1): Stage 6 (Handoff to Copilot) added on
+operator instruction — a second output artifact handed off to the
+companion `accomplishments-docx-finisher` flowspace, which adds
+repo/file-context enrichment and produces a final, stylized Word document.
+Stage 6 is `Layer-3: inline`, not a skill gap. Rationale:
+`decision-log/2026-07-08-copilot-handoff-revision.md`.
 
 ## Reference material (Layer-3)
 
