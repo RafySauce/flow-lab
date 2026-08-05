@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.23"
+artifact-version: "1.24"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -355,272 +355,133 @@ inconvenience.
 
 ## Known gaps
 
-**Gate closure (2026-08-01):** the flow and its six directly-built skills
-(`context-elicitation`, `scope-dependency-mapper`, `workitem-validation`,
-`jira-commit`, `value-decomposition`, `bulk-child-creation`) were re-gated
-and promoted back to `truth-level: verified` on the operator's confirmation
-of a real Rovo run across the flow — "all tested in rovo and worked well."
-This closes the re-gate/deployment-pending language attached to the seventh
-through eleventh gaps below for the Rovo path specifically. **Not closed by
-this:** the Copilot adapter for any of these six skills has not had its own
-live invocation — the five-point gate requires one per adapter, and only
-Rovo's has run. `field-refinement-cadence` is unaffected (it was never
-demoted). Evidence: `decision-log/2026-08-01-rovo-live-test-reverification.md`.
+> Per `methodology/governance-and-audit.md` §5a: each entry below is a
+> pointer, not an archive — 1–3 sentences plus the decision-log citation
+> that carries the full rationale.
 
-Fourteenth gap (2026-08-05): a second, independent operator report of the
-same 2026-08-04 Rovo session incident the Thirteenth gap below closes,
-covering two problems that report didn't reach. First, the same session's
-bulk-creation pass degraded past roughly ten items — the agent lost track
-mid-batch and self-corrected by re-reading the approved set and re-issuing
-it as a single consolidated block, only completing after manual
-trial-and-error chunking; the Thirteenth gap's fixes don't touch batch
-creation. Second, while `session_budget_checkpoint` (below) already added a
-single 70%-usage warn-and-offer, this report asked for finer escalation: a
-per-stage self-reported marker on a schedule rather than one silent
-background check, informational at 50%, an explicit quality-degradation
-advisory at 60% and again at 70%, and a firmer stop-and-propose-a-split
-response past 80% rather than only an offer. Closed here: `bulk-child-creation`
-(1.0 → 1.1) gains sub-batch chunking in step 10 — sets over ten items split
-into sequential sub-batches of at most ten, each issued as one consolidated
-creation pass, with the running result table spanning every sub-batch, and
-both adapters regenerated; `session_budget_checkpoint`
-(`reference/ai-refinement-hybrid.md` 1.7 → 1.8) is revised in place — no new
-amendment number — to the escalating-threshold model above, and a new
-reference artifact, `reference/session-continuation-handoff.md` (1.0),
-gives the handoff document its own spec rather than the inline description
-the amendment previously carried, distinct from `documentarian`'s
-`ai-refinement-handoff-contract.md`, which carries candidate items *between*
-flows rather than resuming *this* flow's progress. All six stage
-`CONTEXT.md` files gain a one-line context-budget marker step and Verify
-checklist item. A related, repo-wide skill build — `export-log`, staged
-`to-review` in `skill-foundry/review-skills/`, for exporting sanitized
-session learnings on explicit request — came out of the same conversation
-but is not itself a flowspace artifact; see its own build decision log.
-None of this has run on-engine. Raised directly by the operator. Rationale:
+**Gate closure (2026-08-01):** the flow and its six directly-built skills
+were re-gated and re-promoted to `truth-level: verified` on a confirmed Rovo
+run across the flow, closing the Rovo-path re-gate language on gaps seven
+through eleven. Copilot-adapter live tests remain outstanding for all six;
+`field-refinement-cadence` was never demoted. Evidence:
+`decision-log/2026-08-01-rovo-live-test-reverification.md`. **This gate
+closure is reopened by the Thirteenth gap below** for `jira-commit` and
+`workitem-validation` (content-changed) and the touched stage contracts —
+the Rovo path needs a fresh confirmed run before those return to
+`verified`; Stages 02–04 and their skills are unaffected and stay at their
+2026-08-01 gate status.
+
+Fourteenth gap (2026-08-05): a second operator report on the same
+2026-08-04 Rovo session covered two problems the Thirteenth gap below
+didn't reach — bulk creation degrading past roughly ten items, and a
+request for finer, per-stage context-budget escalation (50%/60%/70%
+advisories, a firm stop past 80%) rather than one silent 70% check. Closed
+by `bulk-child-creation` 1.0 → 1.1 (sub-batch chunking: sets over ten items
+split into sequential sub-batches of ten), a revised
+`session_budget_checkpoint` amendment (`reference/ai-refinement-hybrid.md`
+1.7 → 1.8) with the escalating-threshold model, a new
+`reference/session-continuation-handoff.md` (1.0) spec, and a
+context-budget marker added to all six stage `CONTEXT.md` files. A related
+repo-wide `export-log` skill build came out of the same conversation but
+isn't itself a flowspace artifact. None of this has run on-engine. Raised
+by the operator. Rationale:
 `decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 
-**This gate closure is reopened by the Thirteenth gap below** for the two
-skills it content-changed (`jira-commit`, `workitem-validation`) and the
-touched stage contracts — the Rovo path needs a fresh confirmed run before
-those artifacts return to `verified`; the rest of the flow (Stages 02–04 and
-their skills) is unaffected and stays at its 2026-08-01 gate status.
-
 Thirteenth gap (2026-08-05): an operator retrospective on a live Rovo
-session (Feature + child Spike + duplicate closure) surfaced eight friction
-points and two resource-consumption findings with no mechanism in the flow
-to catch them: Confluence CQL/metadata search returning hits for pages the
-agent could not actually read, with the degradation invisible to the
-operator; five wasted queries assuming a Confluence space name matched its
-space key; an attempted Feature-as-child-of-Feature commit that the target
-project's own hierarchy metadata would have caught; a built Feature whose
-scope/dependencies/risks/customer-value content landed in `description`
-instead of the project's dedicated custom fields, undetected until manual
-review; three write-call retries from guessed API parameter names; an
-in-session Python state reset that forced a full content rebuild; a
-structural-change action presented and executed before the operator's
-explicit confirmation; and an estimated 110,000–140,000 of a 200,000-token
-context window consumed with no point in the flow that surfaced the
-consumption. Closed here by three new house amendments in
+session surfaced eight friction points and two resource-consumption
+findings — Confluence search returning unreadable-page hits with no
+visible degradation, space-name/key confusion, an invalid
+Feature-as-child-of-Feature commit attempt, scope/dependency content
+landing in the wrong Jira field, guessed API parameters, a state reset
+forcing a rebuild, an unconfirmed structural action, and roughly
+110,000–140,000 of a 200,000-token window consumed with no surfaced
+warning. Closed by three new house amendments in
 `reference/ai-refinement-hybrid.md` (1.6 → 1.7): `content_access_verification`
-(Confluence space-key resolution plus a `research_confidence` tag —
-verified/excerpt-only/inaccessible — on every research document, surfaced
-rather than silently treated as verified grounding); `commit_boundary_hardening`
-(API preflight before the first write call, live hierarchy-level validation
-before any parent-link write with structurally valid alternatives on
-mismatch, per-field capability testing in an ADF → plain-text →
-description-with-gap-named fallback order instead of defaulting to
-description, and a post-commit field audit that re-fetches every created
-item and reports any schema-required field that didn't actually land); and
-`session_budget_checkpoint` (a new "Session budget & handoff checkpoint"
-section, above — an advisory warn-and-offer at roughly 70% of the platform's
-context window, with a summarized handoff document as the alternative to
-continuing). The structural-confirmation gap closed with a smaller,
-non-mechanism fix: Stage 06's parent-mapping confirmation was already a hard
-carve-out never skipped by fast-track, but this hub's own carve-out
-enumeration (Run procedure step 3) had omitted it — added here rather than
-left as a drift between the hub's summary and Stage 06's canonical text. A
-new reference file, `reference/platform-quirks.md` (1.0), records the
-concrete Rovo-observed evidence behind `commit_boundary_hardening` (the
-specific misfired parameter names, the state-volatility mechanism, tool-
-inventory churn) separately from the rule itself, so future runs accumulate
-platform-specific findings without re-litigating the flow-design amendment
-each time. Stage 01 (1.15 → 1.16) carries space-key resolution and the
-content-access probe; Stage 05 (1.6 → 1.7) discloses research-confidence
-gaps at the completeness scan; Stage 06 (1.10 → 1.11) carries API preflight,
-hierarchy validation, field-capability testing, and the post-commit field
-audit; `reference/work-item-schemas.md` (1.6 → 1.7) gains a cross-cutting
-note distinguishing this registry's design-intent hierarchy from a live
-project's actual configuration. `jira-commit` (1.10 → 1.11) and
+(space-key resolution plus a research-confidence tag),
+`commit_boundary_hardening` (API preflight, live hierarchy validation,
+field-capability fallback ordering, a post-commit field audit), and
+`session_budget_checkpoint` (the ~70%-usage warn-and-offer, superseded by
+the Fourteenth gap's escalating model above); a new
+`reference/platform-quirks.md` (1.0) records the Rovo-specific evidence
+separately from the rule. Stages 01 (1.15 → 1.16), 05 (1.6 → 1.7), and 06
+(1.10 → 1.11) carry the changes; `jira-commit` (1.10 → 1.11) and
 `workitem-validation` (1.3 → 1.4) — the two skills whose Method actually
-changed — move to `truth-level: to-review`, both adapters regenerated;
-`context-elicitation`, `scope-dependency-mapper`, `field-refinement-cadence`,
-`value-decomposition`, and `bulk-child-creation` are untouched, since
-`research_confidence` rides along on Stage 01's existing document-set output
-with no change to what those skills consume or produce. None of this has run
-on-engine. Raised via a Rovo session retrospective document, not discovered
-through this repo's own on-engine testing. Rationale:
+changed — move to `truth-level: to-review`. None of this has run on-engine.
+Raised via a Rovo session retrospective. Rationale:
 `decision-log/2026-08-05-rovo-session-friction-fixes.md`.
 
-Twelfth gap (2026-08-01): `value-decomposition` (ninth gap below) is the
-pipeline's only top-down decomposition path, and it is built entirely around
-the value-delivery deck's model — persona value statements, MVP thinking,
-vertical-only slicing — which doesn't fit repetitive, sequential,
-procedure-driven work (OS/software patch waves, credential/cert rotations,
-decommissions, DR drills, infra migrations). That skill's own step 5 already
-carries a one-off "technical/project-driven framing" exception for exactly
-this category of work, confirming the gap has been visible since
-`value-decomposition`'s first build but only ever handled as a per-child
-carve-out. Not closed here — captured as a skill primer brief for a future
-skill-foundry build,
-`skill-foundry/backlog-skill-starters/sp-process-decomposition.md`, grounded
-in PMI/PMBOK practice (tailoring, the predictive/adaptive life-cycle
-spectrum, WBS decomposition-by-phase/area and its 100% Rule, Sequence
-Activities dependency typing, rolling wave planning, risk-response rollback
-planning, milestones, and lessons-learned) rather than the value-delivery
-deck. No stage table or wiring change in this pass. Raised directly by the
-operator. Rationale:
+Twelfth gap (2026-08-01): `value-decomposition`'s decomposition model
+(persona value statements, MVP thinking, vertical-only slicing) doesn't fit
+repetitive, procedure-driven work (patch waves, cert rotations,
+decommissions, DR drills, migrations). Not closed here — captured as a
+skill-primer-brief for a future skill-foundry build grounded in PMI/PMBOK
+practice, `skill-foundry/backlog-skill-starters/sp-process-decomposition.md`.
+Raised by the operator. Rationale:
 `decision-log/2026-08-01-process-decomposition-brief.md`.
 
-Eleventh gap (2026-07-31): the supporting-context research step (sixth gap
-below) proposed a search scope from pure inference, with no recency signal —
-in practice as likely to propose a blanket sweep as a narrow one, and the
-user had to already know which spaces or projects to name. Closed here by
-revising the seventh house amendment, `supporting_context_research`, in
-place (`reference/ai-refinement-hybrid.md` 1.5 → 1.6): the default proposed
-scope is now the top 3 most recently created/touched Confluence spaces and
-Jira projects for the requesting user, expanded to spaces/projects tied to
-any person or team the user names or that appears in supplied material (a
-transcript, a meeting summary); a new engine-conditioned OneDrive/SharePoint
-surface is proposed when the host engine is Copilot and a live Microsoft
-Graph/OneDrive connector is present (skipped and recorded as a gap
-otherwise); the user may supply search-term filters (tech stack, app/system
-codes, team names, team members) as an addition to or explicit override of
-agent-proposed terms; documents default to a 6-month recency window unless
-the user states otherwise; and a parent Confluence page or OneDrive folder
-entering the session gets a one-level relevance pass over its children
-rather than being treated as self-contained. Confirm-then-hunt discipline is
-unchanged — these are defaults for the proposal only, never an unconfirmed
-auto-search. Stage 01 (1.14 → 1.15) carries the procedural detail; `START-HERE.md`
-(1.0 → 1.1) gains the OneDrive/SharePoint capability-probe row and degrade
-path; `reference/confluence-instantiation-guide.md` (1.0 → 1.1) and
-`reference/on-engine-validation-checklist.md` (1.2 → 1.3) are extended to
-close the REC-02/REC-09 follow-ups the sixth gap's decision log left open.
-`context-elicitation` and `scope-dependency-mapper` are untouched — the
-shape of what Stage 01 hands them is unchanged. None of this has run on a
-live engine. Raised directly by the operator. Rationale:
+Eleventh gap (2026-07-31): the supporting-context research step's search-scope
+proposal had no recency signal, as likely to sweep broadly as narrowly.
+Closed by revising `supporting_context_research`
+(`reference/ai-refinement-hybrid.md` 1.5 → 1.6) to default to the top 3 most
+recently touched Confluence spaces/Jira projects plus any the user names, a
+conditional OneDrive/SharePoint proposal under Copilot, user-supplied
+search-term filters, a 6-month document recency default, and a one-level
+child-page/folder relevance pass. Stage 01, `START-HERE.md`, and the two
+instantiation/validation reference docs updated to match; none of it has run
+on a live engine. Raised by the operator. Rationale:
 `decision-log/2026-07-31-supporting-context-research-scope-defaults.md`.
 
 Tenth gap (2026-07-31): the pipeline had no path for a user who already holds
-the item set. Its founding premise ("one run = one fully refined work item")
-and `jira-commit`'s "not a bulk-import or migration tool" boundary together
-forced either N full Band ② runs or abandoning the flow for hand-creation in
-Jira — which loses the schema enforcement, labels, persona, and audit trail the
-pipeline exists to provide. Closed here by **bulk creation mode**: an eighth
-house amendment (`bulk_creation_acknowledgment` in
-`reference/ai-refinement-hybrid.md` 1.4 → 1.5), a tenth source-input taxonomy
-row, a new Band ③, and a new skill `bulk-child-creation` (1.0, `to-review`,
-staged in `skill-foundry/review-skills/` — **not** promoted; the five-point
-gate and placement in `produced-skills/` are the operator's acts). Stage 01
-(1.13 → 1.14) gains the set-shape assessment, the separate acknowledgment, list
-ingest, and the second conditional handoff; Stages 02 (1.6 → 1.7), 03 (1.5 →
-1.6), and 04 (1.4 → 1.5) fold into the batch-draft pass and drop from
-`verified` to `to-review`; Stage 05 (1.5 → 1.6) validates per item across the
-batch; Stage 06 (1.9 → 1.10) gains the batch preview, sequential commit with
-halt-on-failure, end-of-pass parent validation, and the Markdown handoff
-fallback. `jira-commit` (1.9 → 1.10) has its bulk boundary split — bulk
-import/edit of *existing* issues stays refused; batch commit of an approved
-creation set is now delegated to it — and `value-decomposition` (1.0 → 1.1,
-`verified` → `to-review`) gains a branch offering bulk creation for a large
-accepted child set. Two existing amendments narrow to batch scope within this
-mode only, stated explicitly rather than left to erode:
-`parent_mapping_confirmation` (one confirmation for the batch, validated at
-end of pass — sufficient because a parent link is editable after creation) and
-`due_date_elicitation` (the parent's due date is the anchor; a user-supplied
-sheet column is user-committed; otherwise one explicit batch elicitation). The
-load-bearing quality bar is anti-fabrication: the pass stops at the edge of the
-evidence and names underspecified items rather than padding them, because at
-batch volume an invented item is indistinguishable from a grounded one at
-review time. None of this has run on-engine. Raised directly by the operator.
-Rationale: `decision-log/2026-07-31-bulk-creation-mode.md`.
-
-Ninth gap (2026-07-30): the `value-decomposition` skill was built 2026-07-15
-(fifth gap below) at `produced-skills/value-decomposition/`, `truth-level:
-verified`, but the build never closed the loop on the flowspace side — its
-own frontmatter claimed "Invoke from Stage 01," yet neither this hub's
-Layer-3 stage table nor Layer-3 reference table nor Stage 01's own
-`01-intake-and-guardrails/CONTEXT.md` referenced it, leaving it orphaned
-(discoverable only by reading the skill spec directly). Closed here: Stage
-01 (1.11 → 1.13) gains a decomposition handoff at step 7 — if the selected
-type is parent-level (`portfolio_epic`, `solution_epic`, `feature`) and the
-user states a decomposition intent, worded as "decompose," "break down,"
-"break this into," "split this up," or equivalent (treated as the same
-intent, not distinct triggers, per operator feedback that "break down" is
-the more common everyday phrasing), control passes to `value-decomposition`
-instead of proceeding to field elicitation for the parent item directly,
-with a new Verify checklist item and Outputs row covering the handoff; this
-hub's stage table (Stage 1 row) and Layer-3 reference table both now list
-the skill, with its target stage marked as a conditional handoff rather
-than the stage's default path (unlike Stages 2–6, where the Layer-3 skill
-*is* the stage). No skill content changed — `value-decomposition` stays at
-its existing spec version 1.0 and `truth-level: verified` (its own
-Triggering intent already listed "break this ... into" as an example
-phrase; the gap was that Stage 01's wiring hadn't mirrored that breadth) —
-only the flowspace-side references were added. None of this has run
-on-engine.
+a full item set — forcing N full Band ② runs or hand-creation in Jira.
+Closed by **bulk creation mode**: a new `bulk_creation_acknowledgment` house
+amendment, a tenth source-input taxonomy row, Band ③, and the
+`bulk-child-creation` skill; Stage 01 gains set-shape assessment and the
+separate acknowledgment, Stages 02–04 fold into a batch-draft pass (dropping
+to `to-review`), Stage 05 validates per item across the batch, and Stage 06
+gains batch preview, sequential halt-on-failure commit, and a Markdown
+handoff fallback. Load-bearing rule: the pass stops at the edge of the
+evidence rather than padding thin rows. None of this has run on-engine.
 Raised by the operator. Rationale:
+`decision-log/2026-07-31-bulk-creation-mode.md`.
+
+Ninth gap (2026-07-30): `value-decomposition` (built 2026-07-15, fifth gap)
+was never wired into this hub's stage table or Stage 01's `CONTEXT.md`,
+leaving it orphaned. Closed by adding a decomposition handoff at Stage 01
+step 7 (trigger: "decompose," "break down," or equivalent, on a
+parent-level type) and listing the skill in the stage table and Layer-3
+reference table as a conditional handoff. No skill content changed. None of
+this has run on-engine. Raised by the operator. Rationale:
 `decision-log/2026-07-30-value-decomposition-wiring-fix.md`.
 
-Eighth gap (2026-07-28): the `mandatory_labels` provenance label changes from
-the static `refine-ai-built` to `refine-ai-flow-v<version>` — this
-flowspace's own `artifact-version`, needing no live query — replacing it
-outright rather than adding a second label. The rule now states the label's
-purpose explicitly: it flags an item as AI-produced and pending team review,
-and the team removes it once their review is complete — removal is the
-review-completion signal. Stage 01 (1.10 → 1.11) gains two new session-start
-items: the flowspace's purpose statement, shown immediately under the
-session-start header before anything else, and a provenance-label notice
-grouped with the other guardrails, stating the concrete label value and its
-purpose up front (no query needed, unlike `team_code`). Stages 05 (1.4 → 1.5)
-and 06 (1.8 → 1.9) rename the label in their checks/preview and drop from
-`truth-level: verified` to `to-review` (content change, no re-gate).
-`ai-refinement-hybrid.md` (1.3 → 1.4) and `work-item-schemas.md` (1.4 → 1.5)
-carry the amendment's canonical text. The `jira-commit` (1.8 → 1.9) and
-`workitem-validation` (1.2 → 1.3) skills rename the label in their Method and
-Review criteria; `workitem-validation`'s frontmatter `truth-level` is also
-corrected to `to-review` here, matching what its own 1.2 changelog entry
-already claimed happened but the frontmatter never reflected. Both skills'
-adapters regenerated. New coupling flagged: because the label now carries the
-*flowspace's* version rather than a fixed string, a future `HUB.md`-only
-version bump (one that doesn't touch `jira-commit`'s own spec) still requires
-regenerating `jira-commit`'s adapters for the label to stay accurate — a
-maintenance obligation `jira-commit`'s 1.9 changelog entry states explicitly.
-None of this has run on-engine. Raised directly by the operator. Rationale:
+Eighth gap (2026-07-28): the `mandatory_labels` provenance label changes
+from the static `refine-ai-built` to the versioned
+`refine-ai-flow-v<version>`, flagging an item as AI-produced and pending
+team review — removal signals review completion. Stages 01, 05, and 06,
+plus `jira-commit` and `workitem-validation`, updated to match and both
+skills' adapters regenerated; Stages 05/06 drop to `to-review` (content
+change, no re-gate). New coupling: because the label now carries the
+flowspace's own version, a future HUB-only version bump still requires
+regenerating `jira-commit`'s adapters. None of this has run on-engine.
+Raised by the operator. Rationale:
 `decision-log/2026-07-28-provenance-label-versioning.md`.
 
-Seventh gap (2026-07-27): a chat-session entry point (`START-HERE.md`, repo
-root) now lets this flow run directly against whatever a chat session
-referencing this repo has access to, without an employer-side source-repo.
-Stage 01 (1.9 → 1.10) gains degrade branches on the supporting-context
-research hunt and the team_code query (distinct from their existing
-"queried, found nothing" branches); the `jira-commit`, `jira-
-accomplishments-gatherer`, `confluence-contribution-gatherer`, and
-`repo-context-enricher` skills each gain one named degrade branch and move
-to `truth-level: to-review` alongside Stage 01 and this flowspace itself,
-pending a gate re-run. None of it has run on-engine. Rationale:
+Seventh gap (2026-07-27): a chat-session entry point (`START-HERE.md`) now
+lets this flow run directly against whatever a chat session has access to,
+without an employer-side source-repo. Stage 01 gains degrade branches on
+the supporting-context research hunt and the team_code query;
+`jira-commit`, `jira-accomplishments-gatherer`,
+`confluence-contribution-gatherer`, and `repo-context-enricher` each gain
+one named degrade branch, and all move to `truth-level: to-review` pending
+a gate re-run. None of it has run on-engine. Rationale:
 `decision-log/2026-07-27-chat-session-degrade-paths.md`.
 
-All five skills forming the default per-item pipeline (Stages 2–6) are
-`truth-level: verified` and live in `produced-skills/` — operator promotion
-2026-07-03, evidence in
+The five skills forming the default per-item pipeline (Stages 2–6) were
+promoted `verified` 2026-07-03: evidence in
 `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-promotion.md`
-(accepting the five-point-gate pre-run in
-`skill-foundry/decision-log/2026-07-03-ai-refinement-skill-gate-prerun.md`);
-the flowspace design's own promotion record is
-`flow-foundry/decision-log/2026-07-03-ai-refinement-promotion.md`.
-Remaining gap: deployment — no adapter is published to a live engine yet, so
-the first on-engine invocation per adapter (the pre-run's simulated live
-tests are not engine runs) and the instantiation-time surface checks happen
-at deployment, the operator's act, recorded in each skill card.
+and `flow-foundry/decision-log/2026-07-03-ai-refinement-promotion.md`.
+Remaining gap: no adapter is published to a live engine yet — first
+on-engine invocation per adapter happens at deployment, the operator's act,
+recorded in each skill card.
 
 | Skill (spec + adapters) | Primer brief | Target stage | Status |
 |---|---|---|---|
@@ -632,51 +493,32 @@ at deployment, the operator's act, recorded in each skill card.
 | `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot adapter live test still outstanding |
 | `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | to-review — 1.1 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, dropping back to `to-review` pending re-gate); Copilot adapter live test still outstanding |
 
-Second gap (2026-07-03): the work-item schema registry
-(`reference/work-item-schemas.md`) completes type coverage — the source
-clipping defined only `solution_epic` and `feature`, leaving three of the five
-selectable types unrunnable. The `story`, `task`, and `spike` schemas are
-house-drafted at `to-review`: the operator ratifies the field sets (and the
-two proposed spike fields, `question_to_answer` and `timebox`) and confirms
-them against the real Jira project configuration at instantiation. The logged
-follow-up — add the two spike fields to `jira-commit`'s custom-field list as a
-1.2 revision — was applied 2026-07-03 at operator instruction, ahead of
-ratification: `jira-commit` 1.2 now reads its field set from the registry per
-selected type, so the schemas themselves remain the single surface awaiting
-ratification. Rationale and assumptions:
+Second gap (2026-07-03): the work-item schema registry originally covered
+only `solution_epic`/`feature`; `story`/`task`/`spike` schemas are
+house-drafted at `to-review`, pending operator ratification against the
+real Jira project configuration at instantiation. The two proposed spike
+fields were applied to `jira-commit` ahead of ratification. Rationale:
 `decision-log/2026-07-03-work-item-schema-extension.md`; revision evidence:
 `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-revision-pass.md`.
 
 Third gap (2026-07-03): the first on-engine invocation (Rovo, NEADD-1827)
-surfaced five operator-observed defects at the commit boundary — raw
-Markdown reaching Jira fields, silent parent assignment with no user
-confirmation, a fabricated due date, no post-creation status-transition
-offer, and `story`/`spike` missing the board-required `type_of_work`/
-`work_category` fields. All five are fixed in that revision pass:
-`jira-commit` 1.2 → 1.3, `field-refinement-cadence` 1.1 → 1.2, the
-`work-item-schemas` registry 1.0 → 1.1 (story/spike field addition — bundled
-into the existing to-review ratification, not a separate approval), and
-Stages 01/04/06 CONTEXT.md updated to match. Rationale, simulated live-test
-re-run, and remaining operator items:
-`decision-log/2026-07-03-stage06-feedback-revision.md` (flowspace-side) and
-`skill-foundry/decision-log/2026-07-03-stage06-feedback-revision-pass.md`
-(gate evidence).
+surfaced five defects at the commit boundary — raw Markdown reaching Jira
+fields, silent parent assignment, a fabricated due date, no
+status-transition offer, and missing board-required fields on
+`story`/`spike`. All five fixed in `jira-commit` 1.2 → 1.3,
+`field-refinement-cadence` 1.1 → 1.2, and the schema registry 1.0 → 1.1.
+Rationale: `decision-log/2026-07-03-stage06-feedback-revision.md`; gate
+evidence:
+`skill-foundry/decision-log/2026-07-03-stage06-feedback-revision-pass.md`.
 
 Gap update (2026-07-03, drift-analysis revision pass): the same five house
 amendments backported into `reference/ai-refinement-hybrid.md`, plus
 communication_style enforcement, a broadened source-input taxonomy, a
-domain-configurable stakeholder register, and fast-track mode, are all new
-spec-only capabilities across Stages 01–06 and four produced skills
-(`context-elicitation` 1.3, `scope-dependency-mapper` 1.1,
-`field-refinement-cadence` 1.3, `jira-commit` 1.4) — none of it has run
-on-engine. Fast-track mode in particular introduces new behavior (agent-side
-extraction, mode selection, consolidated review) that the NEADD-1827 pre-run
-never exercised. Two new operator-facing prep artifacts scope what deployment
-and validation still require: `reference/confluence-instantiation-guide.md`
-(REC-01/02/10) and `reference/on-engine-validation-checklist.md` (REC-09) —
-both prepared, neither executed; publishing to Confluence, deploying live
-Rovo agents, and running the on-engine validation matrix remain the
-operator's acts. Rationale:
+domain-configurable stakeholder register, and fast-track mode — new
+spec-only capabilities across Stages 01–06 and four produced skills, none
+run on-engine. Two prep artifacts (`reference/confluence-instantiation-guide.md`,
+`reference/on-engine-validation-checklist.md`) scope deployment and
+validation, prepared but not executed. Rationale:
 `decision-log/2026-07-03-fast-track-mode.md`,
 `decision-log/2026-07-03-communication-style-enforcement.md`,
 `decision-log/2026-07-03-source-input-taxonomy-expansion.md`,
@@ -685,74 +527,32 @@ operator's acts. Rationale:
 `decision-log/2026-07-03-deployment-artifacts-prepared.md`; gate evidence:
 `skill-foundry/decision-log/2026-07-03-communication-style-and-fast-track-skill-revision-pass.md`.
 
-Fourth gap (2026-07-07): the refinable set grew by two types — `portfolio_epic`
-(now the top of the hierarchy, parent of `solution_epic`, superseding the
-2026-07-03 out-of-scope call) and `bug` (a new peer of `story`/`task`/`spike`
-under `feature`). Both are house extensions at `truth-level: to-review` in
-`reference/work-item-schemas.md`, same status as `story`/`task`/`spike` before
-ratification. Stages 01, 02, 03, and 06, and the `jira-commit`,
-`context-elicitation`, `scope-dependency-mapper`, and `field-refinement-cadence`
-skill specs were updated to route the two new types (Stage 06's hierarchy
-linkage in particular changes shape: `solution_epic` now has a parent to
-resolve, `portfolio_epic` is the new no-parent top). None of this has run
-on-engine or been re-gated — the four touched skills move to
-`truth-level: to-review` until a gate re-run closes that alongside the
-existing schema-ratification gap. Rationale and assumptions:
-`decision-log/2026-07-07-portfolio-epic-and-bug-type-extension.md`. Same-day
-operator feedback then simplified `bug` further: `steps_to_reproduce`/
-`expected_result`/`actual_result`/`severity`/`environment` collapsed from
-four custom fields into one standard `description` field (still content-
-constrained — see the registry's Extension field definitions), and
-`portfolio_epic`'s already-matching field set was confirmed rather than
-changed. See
+Fourth gap (2026-07-07): the refinable set grew by two types —
+`portfolio_epic` (new top of the hierarchy) and `bug` (new peer of
+`story`/`task`/`spike`) — added at `truth-level: to-review` in the schema
+registry, with Stages 01/02/03/06 and four skills updated to route them;
+none of it has run on-engine or been re-gated. Same-day feedback simplified
+`bug`'s fields to a single `description` field and confirmed
+`portfolio_epic`'s field set unchanged. Rationale:
+`decision-log/2026-07-07-portfolio-epic-and-bug-type-extension.md` and
 `decision-log/2026-07-07-bug-field-simplification-and-portfolio-epic-confirmation.md`.
 
 Fifth gap (2026-07-15): a sixth house amendment, `mandatory_labels`, adds
-`refine-ai-built` (every committed item) and a `<team_code>-<yyyy>-q<n>`
-planning label (`feature`/`story`/`task`/`spike`/`bug` only —
-`portfolio_epic`/`solution_epic` are exempt) to
-`ai-refinement-hybrid.md` (1.1 → 1.2). Unlike the first five amendments, this
-one was raised directly by the operator, not discovered through on-engine
-defect feedback. Stages 01 (1.7 → 1.8), 05 (1.3 → 1.4), and 06 (1.7 → 1.8)
-were updated to resolve, gate, and apply the labels respectively; team_code
-is resolved via a live Stage 01 query of the target Jira project/space
-(mirroring the `parent_mapping_confirmation` query-then-confirm pattern)
-rather than fixed config. `work-item-schemas.md` (1.3 → 1.4) gains a
-cross-cutting note — no field-set changes. The `jira-commit` skill
-(1.6 → 1.7, stays `to-review`) and the `workitem-validation` skill
-(1.1 → 1.2, `verified` → `to-review` — its first behavior change since
-initial promotion) were updated and both adapters regenerated; neither has
-run on-engine with this change, so both carry the re-gate obligation forward
-alongside the existing schema-ratification gap. Rationale, the enforcement
-tier (Stage 05 treats a missing/malformed label as warn-and-bypass, not a
-hard halt — deliberately narrower than the existing auto-correct/halt
-split), and the team_code live-inference mechanism:
-`decision-log/2026-07-15-provenance-and-planning-labels.md`. That same log
-also records a value-delivery decomposition capability — grounded in an
-operator-provided value-delivery deck, designed but explicitly **not**
-built in this change — handed off as
-`skill-foundry/backlog-skill-starters/sp-value-decomposition.md` for a
-future skill-foundry build.
+`refine-ai-built` and a `<team_code>-<yyyy>-q<n>` planning label (exempt for
+the two epic types); Stages 01/05/06 resolve, gate, and apply them, with
+`jira-commit` and `workitem-validation` updated and dropped to `to-review`.
+Raised by the operator. Also records a value-delivery decomposition
+capability designed but not built, handed off as
+`skill-foundry/backlog-skill-starters/sp-value-decomposition.md`. Rationale:
+`decision-log/2026-07-15-provenance-and-planning-labels.md`.
 
 Sixth gap (2026-07-21): a seventh house amendment,
-`supporting_context_research`, makes intake active instead of passive — the
-user is prompted for held context (Confluence documents, exported Miro
-content, PDFs, email content), the agent infers the work focus from the
-initial prompt (engineering/enhancement → SAD-first architecture/data/
-topology set; operations → runbooks/MOPs and especially prior completed
-same-type processes in the same areas), proposes a read-only Confluence/Jira
-research scope the user confirms before any search runs, and hunts with
-every widening explicitly user-confirmed. Like `mandatory_labels`, this was
-raised directly by the operator, not discovered on-engine. The source-input
-taxonomy grows a ninth row (prior completed work item or process record),
-Stage 01 (1.8 → 1.9) gains the research step, Stages 02 (1.5 → 1.6) and 03
-(1.4 → 1.5) consume the document set, and the `context-elicitation`
-(1.4 → 1.5) and `scope-dependency-mapper` (1.2 → 1.3) skills move to
-`truth-level: to-review` with both adapters each regenerated. None of it has
-run on-engine, and the Confluence read surface is new — the instantiation
-guide and on-engine validation checklist do not yet cover it (operator
-follow-up: extend REC-02's knowledge scoping and REC-09's matrix before the
-first live run). Rationale:
+`supporting_context_research`, makes intake active — prompting for held
+context, inferring work focus, and proposing a confirmed-before-search
+Confluence/Jira research scope. The source-input taxonomy gains a ninth
+row; Stage 01 gains the research step; Stages 02/03 and the
+`context-elicitation`/`scope-dependency-mapper` skills move to `to-review`.
+Raised by the operator; none of it has run on-engine. Rationale:
 `decision-log/2026-07-21-supporting-context-research.md`; gate evidence:
 `skill-foundry/decision-log/2026-07-21-supporting-context-skill-revision-pass.md`.
 

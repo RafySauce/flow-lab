@@ -2,11 +2,11 @@
 id: documentarian
 title: "Documentarian — Documentation Production & Custody Pipeline"
 type: flowspace
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -198,16 +198,16 @@ inconvenience.
 
 ## Known gaps
 
-**Gap closure (2026-08-01):** all seven of the skills below were built
-2026-07-15, and were re-gated and promoted to `truth-level: verified` in
-`produced-skills/` on 2026-08-01 following a simulated live test per skill
-against its own spec's seeded Review-criteria scenario. This closes the
-first gap as originally written (the skills no longer "do not exist");
-`servicenow-kb-commit` remains deferred, unchanged. Evidence:
+> Per `methodology/governance-and-audit.md` §5a: each entry below is a
+> pointer, not an archive — 1–3 sentences plus the decision-log citation
+> that carries the full rationale.
+
+**Gap closure (2026-08-01):** all seven skills below were built 2026-07-15
+and re-gated/promoted `verified` 2026-08-01 following a simulated live
+test per skill against its spec's seeded Review-criteria scenario;
+`servicenow-kb-commit` remains deferred. Not closed: none of the seven has
+had a true on-engine invocation. Evidence:
 `skill-foundry/decision-log/2026-08-01-documentarian-skill-batch-promotion.md`.
-**Not closed by this:** none of the seven has had a true on-engine
-invocation (Rovo or Copilot) — the simulated pass is agent-side evidence
-only, per the same tier the 2026-07-15 accomplishments-digest batch used.
 
 | Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
@@ -220,17 +220,16 @@ only, per the same tier the 2026-07-15 accomplishments-digest batch used.
 | `doc-custodian` | `sp-doc-custodian` | 7 | verified — built and gated 2026-08-01; on-engine test pending |
 | `servicenow-kb-commit` | `sp-servicenow-kb-commit` | 6 (ServiceNow path) | **deferred** — designed-for gap; no sanctioned ServiceNow integration exists; brief filed 2026-07-15 so the gap stays registry-visible |
 
-Second gap: no stakeholder register exists for the documentation domain.
-Doc-ownership and audience questions run in **ungrounded mode** (ask the user
-directly) until a documentation-owners register is instantiated from
-`icp-flows/ai-refinement/reference/platform-stakeholder-register-template.md`
-— the deferred setup-questionnaire item (foundry-spec §2, question 9) is
-recorded in `decision-log/2026-07-15-scaffold-triage.md`.
+Second gap: no stakeholder register exists for the documentation domain —
+doc-ownership and audience questions run in **ungrounded mode** until one
+is instantiated from
+`icp-flows/ai-refinement/reference/platform-stakeholder-register-template.md`.
+Recorded in `decision-log/2026-07-15-scaffold-triage.md`.
 
 Third gap: deployment. Nothing here has run on-engine; publishing to
-Confluence, deploying Rovo agents, and the first on-engine run per skill all
-happen at instantiation, the operator's act, per
-`reference/confluence-instantiation-guide.md` (prepared, not executed).
+Confluence, deploying Rovo agents, and the first on-engine run per skill
+happen at instantiation, per `reference/confluence-instantiation-guide.md`
+(prepared, not executed).
 
 ## Reference material (Layer-3)
 

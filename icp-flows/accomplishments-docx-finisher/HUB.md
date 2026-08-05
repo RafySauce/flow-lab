@@ -2,11 +2,11 @@
 id: accomplishments-docx-finisher
 title: "Accomplishments Docx Finisher — Copilot Word Styling Companion"
 type: flowspace
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-08
-updated: 2026-07-15
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -97,32 +97,30 @@ the source flow already owns that surface.
 
 ## Known gaps
 
-Both skills demanded by Stages 1–2's Layer-3 triage are
-`truth-level: verified` and live in `produced-skills/` — operator (RJT)
-promotion 2026-07-15, evidence in
+> Per `methodology/governance-and-audit.md` §5a: each entry below is a
+> pointer, not an archive — 1–3 sentences plus the decision-log citation
+> that carries the full rationale.
+
+Both skills demanded by Stages 1–2 are `truth-level: verified` — promoted
+2026-07-15, evidence in
 `skill-foundry/decision-log/2026-07-15-accomplishments-digest-skill-batch-promotion.md`
-(accepting the five-point-gate pre-run in
+(pre-run:
 `skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-gate-prerun.md`).
-Remaining gap: deployment — no adapter is published to a live engine yet, so
-the first on-engine invocation per adapter (the pre-run's simulated live
-tests are not engine runs) happens at deployment, the operator's act,
-recorded then. Both skills declare Copilot as their only sanctioned engine
-(no Rovo adapter) — see
-`skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-batch.md`
-for why.
+Remaining gap: no adapter is published to a live engine yet — first
+on-engine invocation happens at deployment. Both skills declare Copilot as
+their only sanctioned engine (no Rovo adapter) — see
+`skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-batch.md`.
 
 | Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
 | `repo-context-enricher` | `sp-repo-context-enricher` | 1 | verified — promoted 2026-07-15; deployment pending |
 | `accomplishments-docx-stylizer` | `sp-accomplishments-docx-stylizer` | 2 | verified — promoted 2026-07-15; deployment pending |
 
-Second gap: the house Word template/branding asset this flowspace
-depends on (Stage 2) still doesn't exist in this public repo — that's an
-instantiation-time, employer-specific asset no public method repo can hold —
-but Stage 2 now has a concrete, brand-neutral fallback to apply until one is
-sourced: `reference/docx-minimal-default-style.md`, wired into the
-`accomplishments-docx-stylizer` skill's Method as its default behavior, not
-left as an unstyled placeholder.
+Second gap: the house Word template/branding asset this flowspace depends
+on (Stage 2) doesn't exist in this public repo — an instantiation-time,
+employer-specific asset — but Stage 2 has a concrete, brand-neutral
+fallback, `reference/docx-minimal-default-style.md`, wired into
+`accomplishments-docx-stylizer`'s Method as default behavior.
 
 ## Reference material (Layer-3)
 

@@ -2,11 +2,11 @@
 id: portfolio-rationalization
 title: "Jira Portfolio Rationalization — Hygiene & Objective Alignment Review"
 type: flowspace
-artifact-version: "1.4"
+artifact-version: "1.5"
 status: living
 truth-level: to-review
 created: 2026-07-28
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -194,16 +194,17 @@ on it.
 
 ## Known gaps
 
-**Gap closure (2026-08-01): all five Layer-3 dependencies are built,
-gated, and promoted to `produced-skills/`.** The five skills were authored
-2026-07-28
-(`skill-foundry/decision-log/2026-07-28-portfolio-rationalization-skill-batch.md`)
-and, following a simulated end-to-end live-test pass, promoted to
-`truth-level: verified` 2026-08-01
-(`skill-foundry/decision-log/2026-08-01-portfolio-rationalization-skill-batch-promotion.md`).
-**Still open:** no on-engine invocation has run for any of the five, and
-this flowspace design itself remains `to-review` — see the diagram note
-above.
+> Per `methodology/governance-and-audit.md` §5a: each entry below is a
+> pointer, not an archive — 1–3 sentences plus the decision-log citation
+> that carries the full rationale.
+
+**Gap closure (2026-08-01):** all five Layer-3 skills were authored
+2026-07-28 and promoted `verified` 2026-08-01 following a simulated
+end-to-end run. Still open: no on-engine invocation for any of the five,
+and this flowspace design itself remains `to-review`. Evidence:
+`skill-foundry/decision-log/2026-07-28-portfolio-rationalization-skill-batch.md`
+and
+`skill-foundry/decision-log/2026-08-01-portfolio-rationalization-skill-batch-promotion.md`.
 
 | Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
@@ -213,45 +214,36 @@ above.
 | `closure-scorer` | `sp-closure-scorer` | 4 | verified — gated 2026-08-01 on a simulated end-to-end run; on-engine test pending |
 | `disposition-packet-builder` | `sp-disposition-packet-builder` | 5 | verified — gated 2026-08-01 on a simulated end-to-end run; on-engine test pending |
 
-**Score calibration is unratified (operator gate).** The close-score model's
-ramps in `reference/close-score-model.md` were inferred from five data points
-the operator described from an existing analysis workbook, not derived from its
-formulas. They reproduce the described top-ranked item closely — 101 against an
-observed 102 — but no ramp has been validated against a full cycle of real
-data. Calibrating against one real cycle, and confirming the band thresholds
-produce a review volume the governance process can actually absorb, is an
-operator act before the first live run. Until then every number in that file is
-a proposal.
+**Score calibration is unratified (operator gate).** The close-score
+model's ramps were inferred from five data points the operator described,
+not derived from formulas — they reproduce the described top-ranked item
+closely (101 vs. an observed 102) but are unvalidated against a full real
+cycle. Calibrating against one real cycle, and confirming band thresholds
+produce an absorbable review volume, is an operator act before the first
+live run.
 
-**Recommendation label rename — ratified 2026-08-01.** The source taxonomy's
-top band was `Closed`. This design renames it `Close (recommended)` because
-`Closed` reads as a Jira status and invites the reading that the flow already
-closed something — which it cannot do, having no write path. Proposed per
-`AGENTS.md` rule 7; the operator ratified the rename over reverting. Original
-proposal: `flow-foundry/decision-log/2026-07-28-portfolio-rationalization-triage-and-scaffold.md`;
-ratification: `flow-foundry/decision-log/2026-08-01-portfolio-rationalization-gap-ratifications.md`.
+**Recommendation label rename — ratified 2026-08-01.** The source
+taxonomy's top band, `Closed`, was renamed `Close (recommended)` —
+`Closed` reads as a Jira status and implies a write the flow cannot make.
+Proposed per `AGENTS.md` rule 7; the operator ratified the rename over
+reverting. Original proposal:
+`flow-foundry/decision-log/2026-07-28-portfolio-rationalization-triage-and-scaffold.md`;
+ratification:
+`flow-foundry/decision-log/2026-08-01-portfolio-rationalization-gap-ratifications.md`.
 
-**Objective dictionary does not exist yet — no longer a run-blocking gap,
-still an unresolved input.** The mold is here; the instance's actual
-objective areas are not. Stage 03 now attempts to infer a candidate
-dictionary from the portfolio's own vocabulary and Component/Label/Epic-Link
-structure when none is supplied, and presents it for operator confirmation
-(`reference/objective-dictionary-template.md` §9). If the operator cannot
-confirm an inferred dictionary and has none of their own, the cycle pivots
-to `03p-current-state-analysis/` rather than halting. This closes the
-"nothing happens" failure mode but not the underlying gap: a
-governance-grade recommendation cycle (Stages 04–06) still requires a
-dictionary someone stands behind, authored or inferred-and-confirmed.
-Authoring one, or confirming an inference, remains an operator act.
+**Objective dictionary does not exist yet — no longer run-blocking, still
+unresolved.** Stage 03 now infers a candidate dictionary from the
+portfolio's own vocabulary when none is supplied and presents it for
+operator confirmation (`reference/objective-dictionary-template.md` §9);
+absent confirmation, the cycle pivots to `03p-current-state-analysis/`
+rather than halting. Authoring a dictionary, or confirming an inference,
+remains an operator act.
 
-**Field-completion denominator — resolved 2026-08-01.** Raw export/live column
-counts vary by Jira configuration, so a fixed denominator wasn't an option and
-neither, on its own, was excluding just the always-empty system columns — that
-closes the cross-cycle comparison but not the cross-configuration one. The
-operator's call: peg the denominator to `export-and-field-requirements.md`
-§2's canonical field set (≤19 fields this flow actually reads) instead of the
-source's raw column count. `jira-portfolio-ingest` and `portfolio-profiler`
-were updated accordingly (both bumped to `1.2`). Rationale:
+**Field-completion denominator — resolved 2026-08-01.** Raw column counts
+vary by Jira configuration, so the operator pegged the denominator to
+`export-and-field-requirements.md` §2's canonical field set (≤19 fields)
+instead of the source's raw column count; `jira-portfolio-ingest` and
+`portfolio-profiler` updated accordingly (both bumped to `1.2`). Rationale:
 `flow-foundry/decision-log/2026-08-01-portfolio-rationalization-gap-ratifications.md`.
 
 ## Reference material (Layer-3)
