@@ -2,11 +2,11 @@
 id: work-item-schemas
 title: "Work Item Schemas — Refinable Set (House Extension)"
 type: specification
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -67,7 +67,13 @@ second cross-cutting note (see "Bulk creation mode," below) recording that
 bulk creation mode changes cadence only — every schema here applies per item
 unchanged, and a row whose context cannot support a required field is reported
 underspecified rather than padded to satisfy it; no `fields:` changes for any
-type; see `../decision-log/2026-07-31-bulk-creation-mode.md`.
+type; see `../decision-log/2026-07-31-bulk-creation-mode.md`. **1.7** adds a
+third cross-cutting note ("Hierarchy levels and field capability," below)
+clarifying that this registry's `children:` relationships encode design
+intent, not a live project's actual configured hierarchy or field metadata —
+both are now confirmed at Stage 06 commit time per the
+`commit_boundary_hardening` house amendment; no `fields:` changes for any
+type; see `../decision-log/2026-08-05-rovo-session-friction-fixes.md`.
 
 ## Refinable set and out-of-scope types
 
@@ -125,6 +131,32 @@ a fabricated field passes this registry's checks exactly as well as a real one.
 A mixed-type set is permitted (a feature's children may legitimately include
 stories, tasks, and a spike); each row loads its own type's schema from below.
 See `../decision-log/2026-07-31-bulk-creation-mode.md`.
+
+## Hierarchy levels and field capability (cross-cutting; house extension, 2026-08-05)
+
+This registry's `children:` relationships below encode this pipeline's
+*design intent* for the hierarchy — Portfolio Epic → Solution Epic → Feature
+→ (Story | Task | Spike | Bug) → Sub-Task. They are not a substitute for the
+target Jira project's own configured issue-type hierarchy, which can diverge
+from this design (a different project's board may not carry every level, or
+may number them differently). Stage 06 confirms the actual live hierarchy
+level of both the proposed parent and the item being committed before
+setting any parent link — `parent.hierarchyLevel == child.hierarchyLevel +
+1` — rather than relying on this registry's `children:` list alone; a
+mismatch halts the commit and offers structurally valid alternatives instead
+of reaching the API as a failed write. See the `commit_boundary_hardening`
+house amendment in `ai-refinement-hybrid.md` and Stage 06's Process for the
+full validation and recovery flow.
+
+The same commit-time discipline applies to custom-field mapping: this
+registry names the required fields per type, but a project's actual field
+metadata (e.g. a field typed `string` rather than `doc`) does not by itself
+determine what content that field will accept. Stage 06 tests each custom
+field's real capability (ADF, then plain text, then a description fallback
+with the gap named) rather than assuming the safest-looking option — the
+registry stays the source of *which* fields are required; it does not claim
+to know how each will actually accept content on a given instance. See
+`../decision-log/2026-08-05-rovo-session-friction-fixes.md`.
 
 ## Schemas
 
