@@ -2,11 +2,11 @@
 id: ai-refinement-hybrid
 title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 data-class: public
@@ -66,6 +66,16 @@ related:
 > self-contained. Confirm-then-hunt discipline is unchanged throughout —
 > these are defaults for the proposal, never an unconfirmed auto-search; see
 > `decision-log/2026-07-31-supporting-context-research-scope-defaults.md`.
+> **1.7** adds a ninth amendment, `context_budget_awareness` — operator-raised,
+> grounded in observed session behavior: Rovo can self-report its
+> context-window usage when directly asked, but nothing in the pipeline asked
+> it on a schedule, so users kept loading sessions past the point where
+> output quality holds up. The agent now self-reports a context-remaining
+> estimate at every stage boundary and after every bulk-creation sub-batch,
+> with escalating advisories at 50/60/70% used and a stop-and-split proposal
+> beyond that, handed off via
+> `reference/session-continuation-handoff.md`; see
+> `decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 
 # AI Refinement – Hybrid Definition (Markdown + YAML)
 
@@ -201,7 +211,7 @@ triggers:
 
 ---
 
-## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21, revised 2026-07-31; eighth added 2026-07-31)
+## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21, revised 2026-07-31; eighth added 2026-07-31; ninth added 2026-08-05)
 
 The first five rules below are house-authored, discovered through the
 flowspace's first on-engine invocation (Rovo, NEADD-1827) and the resulting
@@ -217,7 +227,10 @@ through on-engine defect feedback — see
 (`supporting_context_research`) was added 2026-07-21, also operator-raised —
 see `decision-log/2026-07-21-supporting-context-research.md`. The eighth
 (`bulk_creation_acknowledgment`) was added 2026-07-31, also operator-raised —
-see `decision-log/2026-07-31-bulk-creation-mode.md`.
+see `decision-log/2026-07-31-bulk-creation-mode.md`. The ninth
+(`context_budget_awareness`) was added 2026-08-05, also operator-raised —
+see
+`decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 
 ```yaml
 house_amendments:
@@ -452,12 +465,59 @@ house_amendments:
       abandoning the flow for hand-creation in Jira, which loses the schema
       enforcement, labels, persona, and audit trail the pipeline exists to
       provide.
+
+  context_budget_awareness:
+    rule: >
+      The pipeline does not let a session run silently toward the point
+      where output quality degrades. At every stage boundary (the transition
+      into and out of Stages 01 through 06) and after every bulk-creation
+      sub-batch (per bulk_creation_acknowledgment), the agent self-queries
+      its current context-window usage and states it plainly in the
+      session-start/stage-transition text: "Stage <n> — context remaining:
+      ~<percent>%." This is a direct self-report, not an inference — the
+      engine can answer this when asked, and the gap this amendment closes
+      is that nothing in the pipeline asked on a schedule. Three thresholds
+      escalate the response, each replacing rather than stacking on the
+      last: at 50% used, the marker itself is the only signal — informational,
+      no added text. At 60% and again at 70% used, the agent adds an explicit
+      advisory that output quality may begin to degrade as the window fills,
+      and recommends the user complete the field or item in progress before
+      continuing rather than opening new scope. Past 80% used, the agent
+      stops proposing further work in this session and instead states a
+      concrete split: what remains of the current item or batch that can
+      still be finished reliably in this session, and what should move to a
+      fresh session — then produces the handoff document defined in
+      `reference/session-continuation-handoff.md`, covering the stage
+      reached, items already completed (with keys/URLs where created), items
+      remaining with whatever drafting context already exists for them, and
+      the agent's recommended priority order for finishing the remainder.
+      The user decides whether to continue past 80% anyway, finish only what
+      the agent recommends, or take the handoff immediately; the agent never
+      ends the session unilaterally. This amendment adds no new gate to
+      creation or commit — it is advisory and informational only, layered on
+      top of every other amendment without narrowing any of them.
+    origin: 2026-08-05, operator request — grounded in a real Rovo bulk-creation
+      run where the session degraded well past the point the user could tell,
+      and only self-reported its context usage ("140/200") when asked
+      directly; nothing in the pipeline asked on a schedule or surfaced the
+      answer proactively.
 ```
 
 ---
 
 ## Changelog
 
+- **1.7** (2026-08-05) — Added a ninth house amendment,
+  `context_budget_awareness`: the agent self-reports its context-window usage
+  at every stage boundary and after every bulk-creation sub-batch
+  ("Stage <n> — context remaining: ~<percent>%"), with informational-only
+  reporting at 50%, escalating quality-degradation advisories at 60% and 70%,
+  and a stop-and-propose-a-split response past 80% that hands off via the new
+  `reference/session-continuation-handoff.md`. Advisory and informational
+  only — narrows no other amendment, adds no creation or commit gate. Raised
+  directly by the operator, grounded in a live Rovo session where usage was
+  only visible when directly asked. See
+  `decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 - **1.6** (2026-07-31) — Revised the seventh house amendment,
   `supporting_context_research`, in place: the agent's default proposed
   scope now comes from recency (top 3 most recently created/touched

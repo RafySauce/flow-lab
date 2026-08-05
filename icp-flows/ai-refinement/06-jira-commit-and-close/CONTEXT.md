@@ -4,11 +4,11 @@ title: "Stage 06 — Jira Commit & Close"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.10"
+artifact-version: "1.11"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -184,6 +184,15 @@ related:
    After a bulk pass, the loop offers the same choices plus routing any
    underspecified or fallout item into its own Band ② run, since those are the
    items most likely to need real refinement rather than another batch.
+10. **Context-budget marker** — per the `context_budget_awareness` house
+    amendment (`../reference/ai-refinement-hybrid.md`), self-query and state
+    context-window usage at this stage's exit (and after every bulk-creation
+    sub-batch, per `bulk-child-creation` step 10): "Stage 06 — context
+    remaining: ~<percent>%." Informational only at 50%; an escalating
+    quality-degradation advisory at 60% and 70%; past 80%, and if the loop
+    decision (step 9) was "refine another," stop and produce the handoff
+    defined in `../reference/session-continuation-handoff.md` instead of
+    looping back to Stage 02.
 
 ## Outputs
 
@@ -239,6 +248,8 @@ Running these checks leaves a one-line result in the run's decision log.
 - [ ] In bulk mode with no write path, the Markdown handoff document was
       produced, stated plainly that nothing was created and why, and carried
       the full set structured for a fresh session to finish
+- [ ] Context-remaining marker was stated at stage exit, with the correct
+      threshold advisory (or handoff, past 80%) attached if usage warranted it
 
 ## Review
 

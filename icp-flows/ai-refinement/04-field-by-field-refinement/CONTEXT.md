@@ -4,11 +4,11 @@ title: "Stage 04 — Field-by-Field Refinement"
 type: stage-context
 stage: 4
 review-intensity: light
-artifact-version: "1.5"
+artifact-version: "1.6"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -130,6 +130,14 @@ explicitly for the batch after the drafted acceptance criteria are visible as
 an effort reference. A date the agent derives from prose remains a reference
 point only, never a commitment — that part of the rule does not narrow.
 
+**Context-budget marker.** Per the `context_budget_awareness` house amendment
+(`../reference/ai-refinement-hybrid.md`), self-query and state context-window
+usage at this stage's exit: "Stage 04 — context remaining: ~<percent>%."
+Informational only at 50%; an escalating quality-degradation advisory at 60%
+and 70%; past 80%, stop proposing further stages and produce the handoff
+defined in `../reference/session-continuation-handoff.md` instead of
+proceeding.
+
 ## Outputs
 
 | Output | Consumed by | Format |
@@ -170,6 +178,8 @@ run's decision log.
       sheet column, or an explicit batch elicitation — never to a date the
       agent derived from prose
 - [ ] No PII or confidential data in any field
+- [ ] Context-remaining marker was stated at stage exit, with the correct
+      threshold advisory (or handoff, past 80%) attached if usage warranted it
 
 ## Review
 

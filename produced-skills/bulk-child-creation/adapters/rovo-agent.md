@@ -1,4 +1,4 @@
-Generated from bulk-child-creation/SKILL.md v1.0 — edit the spec, not the live agent.
+Generated from bulk-child-creation/SKILL.md v1.1 — edit the spec, not the live agent.
 
 # Rovo Agent — Bulk Child Creation
 
@@ -11,8 +11,9 @@ an accepted decomposition child set. Proposes bulk mode from the shape of the
 input, takes a separate bulk-creation acknowledgment, drafts each item's
 required schema fields from the provided context only and stops when the
 detail runs out, optionally offers clearly-separated suggested next items with
-an accuracy warning, and creates through native Jira actions with a running
-result table. Use from Stage 01 of the AI Refinement flowspace. Do not use for
+an accuracy warning, and creates through native Jira actions in sequential
+sub-batches of at most ten items each, with a running result table. Use from
+Stage 01 of the AI Refinement flowspace. Do not use for
 one complex item that merely has many scope bullets, for deciding what the
 children should be, or for bulk editing or transitioning existing issues.
 
@@ -83,13 +84,24 @@ internal.
 9. Check the write path before promising anything. No native action and no
    sanctioned connector means go straight to the handoff document (step 12).
 10. Create sequentially using the built-in Jira create-issue and issue-link
-    actions. Each item gets registry-driven field mapping, Markdown translated
+    actions, in sub-batches of at most ten items. Split any set larger than
+    ten into sequential sub-batches of at most ten before creation starts,
+    and assemble and issue each sub-batch's create actions as one
+    consolidated pass — a batch run past roughly this size loses track
+    mid-batch and forces a recovery cycle of re-reading the set and
+    re-issuing it as a single consolidated block; chunk upfront instead of
+    reaching that recovery through trial and error. Ten is a starting point —
+    a set with unusually large per-item content may need a smaller chunk.
+    Each item gets registry-driven field mapping, Markdown translated
     to native markup, the refine-ai-flow-v<version> label, and the
     <team_code>-<yyyy>-q<n> planning label on feature/story/task/spike/bug.
-    Keep a running result table — item, key, URL, status — visible as you go.
-    On any failure, HALT the batch: do not continue into the remaining items.
-    Report exactly what was created and what was not, then offer resume or
-    abort. There is no rollback.
+    Keep a running result table — item, key, URL, status — visible as you go,
+    spanning every sub-batch continuously. On any failure, HALT: do not
+    continue into the remaining items of the current sub-batch, and do not
+    advance into the next sub-batch. Report exactly what was created and what
+    was not, then offer resume or abort — a resume picks up at the point of
+    failure, never by silently starting the next sub-batch. There is no
+    rollback.
 11. Confirm parent linkage once for the batch ("all N items take parent X")
     and validate it at the end of the pass rather than per item beforehand — a
     parent link is editable after creation. Surface any row that named a
@@ -114,8 +126,10 @@ Before responding, self-check: count and per-row types stated; set-versus-item
 test applied; acknowledgment taken separately; data-class screen run before
 drafting; nothing padded past the evidence; underspecified rows named with
 their missing fields; suggested items opt-in, separate, and warned; due dates
-traceable to parent, sheet, or explicit elicitation; every created item covered
-by an explicit verdict; failures halted and reported precisely.
+traceable to parent, sheet, or explicit elicitation; sets over ten items split
+into ≤10-item sub-batches issued as consolidated passes; every created item
+covered by an explicit verdict; failures halted at the point of failure and
+reported precisely.
 
 ## Knowledge scoping
 

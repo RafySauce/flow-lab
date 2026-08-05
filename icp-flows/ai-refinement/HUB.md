@@ -2,11 +2,11 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.21"
+artifact-version: "1.22"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -105,7 +105,16 @@ a widening of it** — fast-track governs how deeply one item is elicited, bulk
 governs how many items one pass produces — and the two compose when the
 supplied context is rich enough. Bulk never relaxes what is checked: schemas,
 acceptance criteria, formatting, and both mandatory labels apply per item
-exactly as in a single-item run.
+exactly as in a single-item run. Since 2026-08-05, creation within Stage 6
+splits any set larger than ten items into sequential sub-batches of at most
+ten, each issued as one consolidated pass, rather than creating the whole set
+in a single unbounded pass.
+
+⁴ Since 2026-08-05, every stage boundary (and every bulk-creation sub-batch)
+carries a self-reported context-window usage marker (the
+`context_budget_awareness` house amendment) — informational at 50% used,
+an escalating quality-degradation advisory at 60%/70%, and a stop-and-handoff
+past 80%, via `reference/session-continuation-handoff.md`.
 
 ## Topology
 
@@ -306,6 +315,34 @@ live invocation — the five-point gate requires one per adapter, and only
 Rovo's has run. `field-refinement-cadence` is unaffected (it was never
 demoted). Evidence: `decision-log/2026-08-01-rovo-live-test-reverification.md`.
 
+Thirteenth gap (2026-08-05): two problems surfaced from a real Rovo
+bulk-creation run. First, batch creation degraded past roughly ten items —
+the agent lost track mid-batch and self-corrected by re-reading the approved
+set and re-issuing it as a single consolidated block, only completing after
+manual trial-and-error chunking. Second, the user had no visibility into
+context-window usage building up over a long session and kept loading it past
+the point where output quality held; Rovo could self-report usage when asked
+directly (a live "140/200" answer), but nothing in the pipeline asked on a
+schedule or surfaced it. Closed here: `bulk-child-creation` (1.0 → 1.1) gains
+sub-batch chunking in step 10 — sets over ten items split into sequential
+sub-batches of at most ten, each issued as one consolidated creation pass,
+with the running result table spanning every sub-batch, and both adapters
+regenerated; a ninth house amendment, `context_budget_awareness`
+(`reference/ai-refinement-hybrid.md` 1.6 → 1.7), has the agent self-report
+context-window usage at every stage boundary and bulk sub-batch, escalating
+from informational (50%) through quality-degradation advisories (60%/70%) to
+a stop-and-handoff (past 80%); and a new reference artifact,
+`reference/session-continuation-handoff.md` (1.0), defines the handoff
+document shape for resuming this flow's own progress in a fresh session —
+distinct from `documentarian`'s `ai-refinement-handoff-contract.md`, which
+carries candidate items *between* flows rather than resuming *this* flow's
+progress. All six stage `CONTEXT.md` files gain a one-line context-budget
+marker step and Verify checklist item, and drop `truth-level: verified` →
+`to-review` alongside `bulk-child-creation` and `ai-refinement-hybrid.md`,
+pending re-gate — none of this has run on-engine. Raised directly by the
+operator. Rationale:
+`decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
+
 Twelfth gap (2026-08-01): `value-decomposition` (ninth gap below) is the
 pipeline's only top-down decomposition path, and it is built entirely around
 the value-delivery deck's model — persona value statements, MVP thinking,
@@ -475,7 +512,7 @@ at deployment, the operator's act, recorded in each skill card.
 | `workitem-validation` | `sp-workitem-validation` | 5 | verified — 1.3 (mandatory-label check renamed to the versioned provenance label); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
 | `jira-commit` | `sp-jira-commit` | 6 | verified — 1.9 (provenance label renamed to its versioned form); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
 | `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot adapter live test still outstanding |
-| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | verified — 1.0 (built 2026-07-31; gated and promoted 2026-08-01 on a confirmed Rovo live test, now in `produced-skills/`); Copilot adapter live test still outstanding |
+| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | to-review — 1.1 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, dropping back to `to-review` pending re-gate); Copilot adapter live test still outstanding |
 
 Second gap (2026-07-03): the work-item schema registry
 (`reference/work-item-schemas.md`) completes type coverage — the source
@@ -605,8 +642,9 @@ first live run). Rationale:
 
 | Artifact | Location | Covers |
 |---|---|---|
-| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (verified — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eight house amendments (five on-engine-proven, three operator-raised) |
-| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (verified) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation with halt-on-failure, Markdown handoff degrade path |
+| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, nine house amendments (five on-engine-proven, four operator-raised) |
+| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (to-review — 1.1) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation in ≤10-item sub-batches with halt-on-failure, Markdown handoff degrade path |
+| Session-Continuation Handoff | `reference/session-continuation-handoff.md` (to-review) | Document shape for resuming this flow's own progress in a fresh session when `context_budget_awareness` stops the current one: stage reached, items completed, items remaining, recommended priority order |
 | Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (verified, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints; mandatory-label cross-cutting note |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
 | Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (verified, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |
