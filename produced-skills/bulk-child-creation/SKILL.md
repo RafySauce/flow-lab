@@ -10,9 +10,10 @@ description: >
   acknowledgment; drafts each item's required schema fields from the provided
   context only and STOPS when the detail runs out rather than inventing;
   optionally offers clearly-separated suggested next items with an accuracy
-  warning; creates through Rovo's native Jira tooling first, halting on
-  failure with a running result table, and degrades to a Markdown handoff
-  document when no write path works. Invoke from Stage 01 of the
+  warning; creates through Rovo's native Jira tooling first, in sequential
+  sub-batches of at most ten items each, halting on failure with a running
+  result table, and degrades to a Markdown handoff document when no write
+  path works. Invoke from Stage 01 of the
   ai-refinement flowspace. Do NOT use for one complex item that merely has
   many scope bullets (that is one item — the default Band 2 loop), for
   deciding what the children should be (value-decomposition), or for bulk
@@ -20,11 +21,11 @@ description: >
 # --- provenance (house layer) ---
 id: bulk-child-creation
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-31
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -70,7 +71,7 @@ flowchart LR
     S --> V["Step 8 — Present whole set<br/>accept all / edit / reject some / stop"]:::process
     V --> W{"Step 9 — Write path<br/>available?"}:::decision
     W -->|No| MD["Produce Markdown handoff<br/>document — nothing created"]:::halt
-    W -->|Yes| X["Step 10 — Create sequentially<br/>Native Jira tooling first;<br/>halt on failure, running result table"]:::process
+    W -->|Yes| X["Step 10 — Create in ≤10-item<br/>sub-batches, native tooling first;<br/>halt on failure, running result table"]:::process
     X --> P["Step 11 — Post-creation<br/>parent validation + review notice"]:::process
     P --> Output(["Output: created keys + URLs,<br/>or handoff document"]):::output
 
@@ -254,24 +255,42 @@ flowchart LR
    exists — no native engine action, no sanctioned connector — go straight to
    step 12's handoff document rather than attempting creation.
 
-10. **Create sequentially through native tooling first.** On Rovo, the built-in
-    Jira MCP create-issue and issue-link actions, with authentication and field
-    resolution handled by the platform; on engines without them (Copilot), the
-    workspace's sanctioned Jira integration. Each item is created to the same
-    standard a single-item run would produce: registry-driven field mapping,
-    Markdown translated to the platform's native markup, the
-    `refine-ai-flow-v<version>` provenance label on every item, and the
-    `<team_code>-<yyyy>-q<n>` planning label on every gated type
-    (`feature`, `story`, `task`, `spike`, `bug`).
+10. **Create sequentially through native tooling first, in sub-batches of at
+    most ten.** On Rovo, the built-in Jira MCP create-issue and issue-link
+    actions, with authentication and field resolution handled by the
+    platform; on engines without them (Copilot), the workspace's sanctioned
+    Jira integration. Each item is created to the same standard a single-item
+    run would produce: registry-driven field mapping, Markdown translated to
+    the platform's native markup, the `refine-ai-flow-v<version>` provenance
+    label on every item, and the `<team_code>-<yyyy>-q<n>` planning label on
+    every gated type (`feature`, `story`, `task`, `spike`, `bug`).
+
+    Sets larger than ten items are split into sequential sub-batches of at
+    most ten before creation starts, each sub-batch's create-issue and
+    create-issue-link actions assembled and issued as **one consolidated
+    pass**. This is not a precaution against a hypothetical: observed
+    directly on Rovo, a creation pass run past roughly this size loses track
+    mid-batch and self-corrects by re-reading the approved set and
+    re-issuing it as a single consolidated block — chunking upfront builds
+    that recovery in rather than reaching it through trial and error mid-run.
+    Ten is a starting point, not a derived ceiling; a set with unusually
+    large per-item content (long descriptions, many custom fields) may need a
+    smaller chunk, judged the same way an unusually detailed single row would
+    be.
 
     Maintain a **running result table** — item, key, URL, status — visible as
-    creation proceeds.
+    creation proceeds, spanning every sub-batch continuously so the batch
+    reads as one pass to the user regardless of how many sub-batches it took
+    internally.
 
-    **On any failure, halt the batch.** Do not continue past an error into the
-    remaining items. Report precisely what was created and what was not, then
-    offer resume-from-failure or abort. There is no rollback; items created
-    stay created, and the acknowledgment in step 3 said so before approval. The
-    user must never be left uncertain about what landed in Jira.
+    **On any failure, halt.** Do not continue past an error into the
+    remaining items of the current sub-batch, and do not advance into the
+    next sub-batch. Report precisely what was created and what was not, then
+    offer resume-from-failure or abort — a resume picks up at the point of
+    failure, never by silently starting the next sub-batch. There is no
+    rollback; items created stay created, and the acknowledgment in step 3
+    said so before approval. The user must never be left uncertain about
+    what landed in Jira.
 
 11. **Validate parents after creation, not per item before it.** Parent linkage
     for a bulk set is confirmed once for the batch — "all N items take parent
@@ -388,24 +407,41 @@ A single output of this skill is acceptable when:
 9. Every created item carries the same schema compliance, formatting rules, and
    labels a single-item run would produce — `refine-ai-flow-v<version>` on all,
    the planning label on gated types.
-10. A mid-batch failure **halted** the run and produced a precise account of
-    what was created and what was not, with resume-or-abort offered — no silent
-    continuation, no unreported partial state.
-11. With no write path available, the run produced the Markdown handoff
+10. A set larger than ten items was **split into sequential sub-batches of at
+    most ten**, each sub-batch's create actions assembled and issued as one
+    consolidated pass, with the running result table spanning every
+    sub-batch continuously.
+11. A failure **halted** at the point of failure — no continuation into the
+    rest of the current sub-batch and no silent advance into the next one —
+    and produced a precise account of what was created and what was not, with
+    resume-or-abort offered.
+12. With no write path available, the run produced the Markdown handoff
     document, stated plainly that nothing was created and why, and structured
     it so a fresh session could finish the job.
-12. Parent linkage was confirmed once for the batch and validated at the end of
+13. Parent linkage was confirmed once for the batch and validated at the end of
     the pass, with any differently-parented row surfaced individually.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
+| Rovo | adapters/rovo-agent.md | 1.1 |
+| Copilot | adapters/copilot-prompt.md | 1.1 |
 
 ## Changelog
 
+- **1.1** (2026-08-05) — Added sub-batch chunking to step 10: sets over ten
+  items split into sequential sub-batches of at most ten, each issued as one
+  consolidated creation pass, with the running result table spanning every
+  sub-batch. Closes the gap where an operator-run batch on Rovo lost track
+  mid-batch past roughly this size and had to recover by re-issuing the
+  remaining items as a single consolidated block — this builds that recovery
+  in rather than reaching it through trial and error. Review criteria 10–13
+  renumbered to add the chunking check; criterion 11 (failure handling)
+  restated to halt at the point of failure across sub-batch boundaries. Both
+  adapters regenerated. `truth-level` drops `verified` → `to-review` pending
+  re-gate; behavior change, not yet run on-engine. Rationale:
+  `icp-flows/ai-refinement/decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 - **1.0** (2026-07-31) — Initial build from `sp-bulk-child-creation`. Staged at
   `truth-level: to-review`; the five-point gate and promotion are the
   operator's. Not run on-engine.

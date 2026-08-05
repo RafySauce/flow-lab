@@ -4,11 +4,11 @@ title: "Stage 05 — Validation & Formatting"
 type: stage-context
 stage: 5
 review-intensity: light
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -38,10 +38,19 @@ related:
 ## Process
 
 `Layer-3: workitem-validation` (skill spec in
-`produced-skills/workitem-validation/`, `verified` as of 1.3 — re-gated and
-promoted 2026-08-01 on a confirmed Rovo live test)
+`produced-skills/workitem-validation/`, `to-review` as of 1.4 — content
+change 2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01
+on a confirmed Rovo live test)
 
-1. **Completeness scan** — walk the schema's required-field list and confirm every field has a non-empty value.
+1. **Completeness scan** — walk the schema's required-field list and confirm
+   every field has a non-empty value. **Research-confidence disclosure:**
+   for any required field grounded in supporting-context research, check the
+   backing document's Stage 01 `research_confidence` tag
+   (`content_access_verification`, `../reference/ai-refinement-hybrid.md`);
+   any `excerpt-only` or `inaccessible` document backing a required field is
+   named in the validation report, alongside the field it backs, rather than
+   silently treated as verified grounding. This is a disclosure, not a halt
+   — an excerpt-grounded field can still pass completeness.
 2. **Mandatory label check** — distinct from schema completeness (labels are
    not schema fields, per `../reference/work-item-schemas.md`'s cross-cutting
    note): `refine-ai-flow-v<version>` must be present for every type; for
@@ -99,12 +108,20 @@ Sign-off in bulk mode is one act covering the validated set, taken with the
 per-item table visible — the batch equivalent of the single-item sign-off, and
 the input to Stage 06's batch preview.
 
+**Context-budget marker.** Per the `session_budget_checkpoint` house amendment
+(`../reference/ai-refinement-hybrid.md`), self-query and state context-window
+usage at this stage's exit: "Stage 05 — context remaining: ~<percent>%."
+Informational only at 50%; an escalating quality-degradation advisory at 60%
+and 70%; past 80%, stop proposing further stages and produce the handoff
+defined in `../reference/session-continuation-handoff.md` instead of
+proceeding.
+
 ## Outputs
 
 | Output | Consumed by | Format |
 |---|---|---|
 | Validated + formatted work item payload | Stage 06 | Key-value pairs (clean) |
-| Validation report (incl. any named label bypass) | User / run decision log | Structured pass/fail |
+| Validation report (incl. any named label bypass and any named research-confidence gap) | User / run decision log | Structured pass/fail |
 | User sign-off confirmation | Stage 06 | Boolean |
 | Per-item validation table + fallout list (bulk mode) | Stage 06; user | Structured per-item pass/fail |
 
@@ -118,6 +135,9 @@ the validator silently rewriting content or a required field lost between
 stages. Running this check leaves a one-line result in the run's decision log.
 
 - [ ] Every required field passes completeness check
+- [ ] Any required field grounded in an `excerpt-only` or `inaccessible`
+      document is named in the validation report with the field it backs —
+      never silently passed as if the grounding were verified
 - [ ] All constraints pass (summary length, AC format, date validity,
       communication_style)
 - [ ] No bold or emoji characters remain in any field
@@ -138,6 +158,8 @@ stages. Running this check leaves a one-line result in the run's decision log.
 - [ ] In bulk mode, underspecified items appear in the report with their
       missing fields rather than being silently dropped, and any suggested
       items remain labelled as such through the report
+- [ ] Context-remaining marker was stated at stage exit, with the correct
+      threshold advisory (or handoff, past 80%) attached if usage warranted it
 
 ## Review
 

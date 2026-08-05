@@ -8,7 +8,7 @@ below verbatim; a human merges it through normal PR review.
 ---
 
 ```markdown
-<!-- Generated from bulk-child-creation/SKILL.md v1.0 — do not edit here; edit the spec. -->
+<!-- Generated from bulk-child-creation/SKILL.md v1.1 — do not edit here; edit the spec. -->
 # Bulk Child Creation (AI Refinement — Stage 01)
 
 Data boundary: max data-class internal.
@@ -60,11 +60,18 @@ quarter, and provenance label as handed to you.
    gaps, then suggested and labelled. Accept all / edit / reject some / stop —
    a stop creates nothing. Restate the final count and caution at approval.
 9. Check the write path first. Without one, go to step 12.
-10. Create sequentially through the sanctioned Jira integration: registry-driven
+10. Create sequentially through the sanctioned Jira integration, in
+    sub-batches of at most ten items. Split any set larger than ten into
+    sequential sub-batches of at most ten before creation starts, and
+    assemble and issue each sub-batch's create actions as one consolidated
+    pass — a run past roughly this size risks losing track mid-batch;
+    chunking upfront avoids that recovery cycle. Each item: registry-driven
     field mapping, Markdown translated to native markup,
     refine-ai-flow-v<version> on every item, the <team_code>-<yyyy>-q<n>
     planning label on feature/story/task/spike/bug. Keep a running result table
-    (item, key, URL, status). On any failure HALT the batch, report exactly what
+    (item, key, URL, status) spanning every sub-batch continuously. On any
+    failure HALT at the point of failure — no continuation into the rest of
+    the sub-batch, no silent advance into the next one — report exactly what
     was and was not created, and offer resume or abort. No rollback exists.
 11. Confirm parent linkage once for the batch and validate it at the end of the
     pass, not per item beforehand — parent links are editable after creation.
@@ -84,6 +91,8 @@ existing issues (refuse); creating sub-tasks (made directly in Jira).
 Before presenting output, self-check against: count and types stated;
 set-versus-item test applied; acknowledgment separate; data-class screen before
 drafting; nothing padded past the evidence; underspecified rows named;
-suggested items opt-in, separate, warned; due dates traceable; explicit verdict
-per created item; failures halted and precisely reported.
+suggested items opt-in, separate, warned; due dates traceable; sets over ten
+items split into ≤10-item sub-batches issued as consolidated passes; explicit
+verdict per created item; failures halted at the point of failure and
+precisely reported.
 ```

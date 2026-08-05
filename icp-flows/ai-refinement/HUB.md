@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.22"
+artifact-version: "1.24"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -68,15 +68,18 @@ flowchart LR
     classDef gap   fill:#7f1d1d,stroke:#f87171,color:#fee2e2
 ```
 
-> Stages 2–6 carry their true review-intensity colors: each stage's skill is
-> `truth-level: verified` and lives in `produced-skills/` (repo top level) —
-> originally promoted 2026-07-03, evidence in
+> Stages 2–6 carry their true review-intensity colors: each stage's skill
+> lives in `produced-skills/` (repo top level) — originally promoted
+> 2026-07-03, evidence in
 > `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-promotion.md`;
 > re-gated and re-promoted 2026-08-01 on a confirmed Rovo live test across
 > the flow and all six ai-refinement-family skills, evidence in
 > `decision-log/2026-08-01-rovo-live-test-reverification.md` and
 > `skill-foundry/decision-log/2026-08-01-ai-refinement-skill-batch-reverification.md`.
 > Copilot-adapter live tests remain outstanding — see Known gaps.
+> **2026-08-05:** a content-only revision pass (Thirteenth gap, below) moved
+> `jira-commit` and `workitem-validation` back to `truth-level: to-review` —
+> the other four skills are unaffected and stay `verified`.
 
 ## Stage table
 
@@ -105,7 +108,16 @@ a widening of it** — fast-track governs how deeply one item is elicited, bulk
 governs how many items one pass produces — and the two compose when the
 supplied context is rich enough. Bulk never relaxes what is checked: schemas,
 acceptance criteria, formatting, and both mandatory labels apply per item
-exactly as in a single-item run.
+exactly as in a single-item run. Since 2026-08-05, creation within Stage 6
+splits any set larger than ten items into sequential sub-batches of at most
+ten, each issued as one consolidated pass, rather than creating the whole set
+in a single unbounded pass.
+
+⁴ Since 2026-08-05, every stage boundary (and every bulk-creation sub-batch)
+carries a self-reported context-window usage marker (the
+`session_budget_checkpoint` house amendment) — informational at 50% used,
+an escalating quality-degradation advisory at 60%/70%, and a stop-and-handoff
+past 80%, via `reference/session-continuation-handoff.md`.
 
 ## Topology
 
@@ -213,6 +225,54 @@ selected:
    recorded and handed to Stages 2–3. A missing SAD is a recorded gap, not a
    blocker.
 
+## Session budget & handoff checkpoint
+
+Added 2026-08-05, revised in place the same day (`session_budget_checkpoint`,
+`reference/ai-refinement-hybrid.md`). Heavy research, a large decomposition,
+or a multi-item bulk pass can approach a platform's context window before a
+run's work is done. The agent self-reports its estimated context-window
+usage at every stage boundary and after every bulk-creation sub-batch —
+"Stage `<n>` — context remaining: ~`<percent>`%" — rather than only checking
+silently in the background, with the response escalating at three
+thresholds:
+
+- **50% used** — the marker itself is the only signal, informational.
+- **60% and 70% used** — an explicit advisory that output quality may begin
+  to degrade, plus the offer below.
+- **Past 80% used** — the agent stops proposing further work and states a
+  concrete split of what can still be finished reliably in this session
+  versus what should move to a fresh one.
+
+At 60% and above, the agent offers two paths:
+
+1. **Continue in this session** — with the caveat that earlier context may
+   be compressed or dropped as the session goes on.
+2. **Receive a handoff document now, and resume in a fresh session**, per
+   `reference/session-continuation-handoff.md`: stage reached, items already
+   completed (with keys/URLs where created), every confirmed field with its
+   value, every pending field with its outstanding options, operator
+   decisions made so far (mode selections, stakeholder-sweep answers,
+   hierarchy choices), research findings summarized rather than carried
+   forward as raw tool output, and the agent's recommended priority order
+   for the remainder. A fresh session picks up from this document rather
+   than re-deriving anything already settled — the same shape of
+   degrade-to-Markdown output Stage 06 already produces when no Jira write
+   path is available, applied here to context exhaustion instead of a
+   missing connector.
+
+This remains advisory at every threshold, including past 80% — the user
+always decides whether to continue, finish only what the agent recommends,
+or take the handoff immediately.
+
+This is advisory, not a hard stop — the operator decides whether to continue
+or hand off, same as every other mode choice in this pipeline — and the 70%
+figure is a trigger for the offer, not a ceiling enforced against the
+operator. The check applies throughout a run, most usefully checked at each
+stage boundary alongside the existing human-inspection gate, and explicitly
+at Stage 06's session loop decision (Run procedure step 5) before the
+operator chooses "refine another" — starting a second item's Band ② pass
+deep into an already-heavy session is exactly where this offer matters most.
+
 ## Surfaces
 
 - **Primary:** Confluence — `<space set at instantiation; confirm the Mermaid
@@ -267,7 +327,8 @@ per-run content.
    the source material are extracted with citation and presented together at
    a consolidated checkpoint, while unextractable fields and the hard
    carve-outs (stakeholder sweep, coalition/conflict-axis annotation, due-date
-   elicitation) stay interactive regardless of mode. The TPSO persona
+   elicitation, and Stage 06's parent-mapping confirmation) stay interactive
+   regardless of mode. The TPSO persona
    challenges incomplete requirements, enforces measurable outcomes, and
    holds every user-facing output to its communication_style throughout; the
    stakeholder register (where loaded for the domain) drives whose needs are
@@ -303,7 +364,51 @@ were re-gated and re-promoted to `truth-level: verified` on a confirmed Rovo
 run across the flow, closing the Rovo-path re-gate language on gaps seven
 through eleven. Copilot-adapter live tests remain outstanding for all six;
 `field-refinement-cadence` was never demoted. Evidence:
-`decision-log/2026-08-01-rovo-live-test-reverification.md`.
+`decision-log/2026-08-01-rovo-live-test-reverification.md`. **This gate
+closure is reopened by the Thirteenth gap below** for `jira-commit` and
+`workitem-validation` (content-changed) and the touched stage contracts —
+the Rovo path needs a fresh confirmed run before those return to
+`verified`; Stages 02–04 and their skills are unaffected and stay at their
+2026-08-01 gate status.
+
+Fourteenth gap (2026-08-05): a second operator report on the same
+2026-08-04 Rovo session covered two problems the Thirteenth gap below
+didn't reach — bulk creation degrading past roughly ten items, and a
+request for finer, per-stage context-budget escalation (50%/60%/70%
+advisories, a firm stop past 80%) rather than one silent 70% check. Closed
+by `bulk-child-creation` 1.0 → 1.1 (sub-batch chunking: sets over ten items
+split into sequential sub-batches of ten), a revised
+`session_budget_checkpoint` amendment (`reference/ai-refinement-hybrid.md`
+1.7 → 1.8) with the escalating-threshold model, a new
+`reference/session-continuation-handoff.md` (1.0) spec, and a
+context-budget marker added to all six stage `CONTEXT.md` files. A related
+repo-wide `export-log` skill build came out of the same conversation but
+isn't itself a flowspace artifact. None of this has run on-engine. Raised
+by the operator. Rationale:
+`decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
+
+Thirteenth gap (2026-08-05): an operator retrospective on a live Rovo
+session surfaced eight friction points and two resource-consumption
+findings — Confluence search returning unreadable-page hits with no
+visible degradation, space-name/key confusion, an invalid
+Feature-as-child-of-Feature commit attempt, scope/dependency content
+landing in the wrong Jira field, guessed API parameters, a state reset
+forcing a rebuild, an unconfirmed structural action, and roughly
+110,000–140,000 of a 200,000-token window consumed with no surfaced
+warning. Closed by three new house amendments in
+`reference/ai-refinement-hybrid.md` (1.6 → 1.7): `content_access_verification`
+(space-key resolution plus a research-confidence tag),
+`commit_boundary_hardening` (API preflight, live hierarchy validation,
+field-capability fallback ordering, a post-commit field audit), and
+`session_budget_checkpoint` (the ~70%-usage warn-and-offer, superseded by
+the Fourteenth gap's escalating model above); a new
+`reference/platform-quirks.md` (1.0) records the Rovo-specific evidence
+separately from the rule. Stages 01 (1.15 → 1.16), 05 (1.6 → 1.7), and 06
+(1.10 → 1.11) carry the changes; `jira-commit` (1.10 → 1.11) and
+`workitem-validation` (1.3 → 1.4) — the two skills whose Method actually
+changed — move to `truth-level: to-review`. None of this has run on-engine.
+Raised via a Rovo session retrospective. Rationale:
+`decision-log/2026-08-05-rovo-session-friction-fixes.md`.
 
 Twelfth gap (2026-08-01): `value-decomposition`'s decomposition model
 (persona value statements, MVP thinking, vertical-only slicing) doesn't fit
@@ -383,10 +488,10 @@ recorded in each skill card.
 | `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.5 (nine-type input taxonomy, supporting-context steering: architecture material seeds the stakeholder sweep, prior completed items seed "tried before"); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
 | `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — 1.3 (SAD/topology integration-seam dependency sweep, prior-process risk seeding); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
 | `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.3 (conditionally-scoped cadence: fast-track consolidation vs. one-at-a-time, communication_style citation); promoted 2026-07-03; deployment pending |
-| `workitem-validation` | `sp-workitem-validation` | 5 | verified — 1.3 (mandatory-label check renamed to the versioned provenance label); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
-| `jira-commit` | `sp-jira-commit` | 6 | verified — 1.9 (provenance label renamed to its versioned form); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
+| `workitem-validation` | `sp-workitem-validation` | 5 | to-review — 1.4 (completeness scan names any excerpt-only/inaccessible research grounding backing a required field); content change 2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
+| `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.11 (API preflight, hierarchy-level validation before parent-link writes, field-capability testing, post-commit field audit); content change 2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
 | `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot adapter live test still outstanding |
-| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | verified — 1.0 (built 2026-07-31; gated and promoted 2026-08-01 on a confirmed Rovo live test, now in `produced-skills/`); Copilot adapter live test still outstanding |
+| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | to-review — 1.1 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, dropping back to `to-review` pending re-gate); Copilot adapter live test still outstanding |
 
 Second gap (2026-07-03): the work-item schema registry originally covered
 only `solution_epic`/`feature`; `story`/`task`/`spike` schemas are
@@ -455,12 +560,14 @@ Raised by the operator; none of it has run on-engine. Rationale:
 
 | Artifact | Location | Covers |
 |---|---|---|
-| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (verified — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eight house amendments (five on-engine-proven, three operator-raised) |
-| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (verified) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation with halt-on-failure, Markdown handoff degrade path |
-| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (verified, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints; mandatory-label cross-cutting note |
+| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eleven house amendments (five on-engine-proven, six operator-raised) |
+| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (to-review — 1.1) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation in ≤10-item sub-batches with halt-on-failure, Markdown handoff degrade path |
+| Session-Continuation Handoff | `reference/session-continuation-handoff.md` (to-review) | Document shape for resuming this flow's own progress in a fresh session when `session_budget_checkpoint` stops the current one: stage reached, items completed, items remaining, recommended priority order |
+| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints; mandatory-label, hierarchy-level, and field-capability cross-cutting notes |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
 | Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (verified, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |
 | Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |
 | On-Engine Validation Checklist | `reference/on-engine-validation-checklist.md` (verified, house extension) | Per-type, per-check matrix for REC-09 (first on-engine validation run) — prepared, not executed |
+| Platform Quirks | `reference/platform-quirks.md` (to-review, house extension) | Rovo/Copilot-specific execution observations — session state volatility, API parameter-naming differences, tool-inventory churn — evidence behind the `commit_boundary_hardening` house amendment, not the rule itself |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |

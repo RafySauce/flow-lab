@@ -2,11 +2,11 @@
 id: ai-refinement-hybrid
 title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
-artifact-version: "1.6"
+artifact-version: "1.8"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 data-class: public
@@ -66,6 +66,39 @@ related:
 > self-contained. Confirm-then-hunt discipline is unchanged throughout —
 > these are defaults for the proposal, never an unconfirmed auto-search; see
 > `decision-log/2026-07-31-supporting-context-research-scope-defaults.md`.
+> **1.7** adds three amendments (ninth through eleventh), all drawn from a
+> 2026-08-04 Rovo session retrospective: `content_access_verification`
+> (Confluence space-key resolution plus a research_confidence tag —
+> verified/excerpt-only/inaccessible — on every document the research step
+> touches, since CQL/metadata access and full-body read access are different
+> permission gates the pipeline previously treated as one);
+> `commit_boundary_hardening` (four disciplines at the Stage 06 commit
+> boundary: reading write-API stubs before the first call, validating
+> hierarchy levels against a live project query before setting a parent
+> link, testing each custom field's actual accepted format instead of
+> defaulting to the description fallback, and re-reading the created issue
+> after commit to confirm every required field actually landed); and
+> `session_budget_checkpoint` (an advisory warn-and-offer when estimated
+> context consumption crosses roughly 70% of the platform's window, with a
+> summarized handoff document as the alternative to continuing). All three
+> are operator-raised via the retrospective, not discovered through this
+> repo's own on-engine testing; see
+> `../decision-log/2026-08-05-rovo-session-friction-fixes.md`. `truth-level`
+> returns to `to-review`. **1.8** revises the eleventh amendment,
+> `session_budget_checkpoint`, in place — no new amendment number: a second,
+> independent operator report of the same underlying incident asked for the
+> single 70% trigger to become three escalating thresholds (50/60/70%,
+> informational through quality-degradation advisory) plus a firmer
+> stop-and-split response past 80%, and for every stage boundary to
+> self-report its own context-remaining estimate on a schedule rather than
+> only checking silently in the background. The handoff document's shape
+> also moved out of the amendment's own prose into a dedicated reference
+> artifact, `reference/session-continuation-handoff.md`, matching the
+> existing cross-flow handoff-contract's pattern; and `bulk-child-creation`
+> gains a related but independent fix — sequential creation now splits a set
+> over ten items into sub-batches of at most ten — since the same
+> retrospective's bulk-creation pass also lost track mid-batch. See
+> `../decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 
 # AI Refinement – Hybrid Definition (Markdown + YAML)
 
@@ -201,7 +234,7 @@ triggers:
 
 ---
 
-## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21, revised 2026-07-31; eighth added 2026-07-31)
+## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21, revised 2026-07-31; eighth added 2026-07-31; ninth through eleventh added 2026-08-05; eleventh revised same day)
 
 The first five rules below are house-authored, discovered through the
 flowspace's first on-engine invocation (Rovo, NEADD-1827) and the resulting
@@ -217,7 +250,15 @@ through on-engine defect feedback — see
 (`supporting_context_research`) was added 2026-07-21, also operator-raised —
 see `decision-log/2026-07-21-supporting-context-research.md`. The eighth
 (`bulk_creation_acknowledgment`) was added 2026-07-31, also operator-raised —
-see `decision-log/2026-07-31-bulk-creation-mode.md`.
+see `decision-log/2026-07-31-bulk-creation-mode.md`. The ninth through
+eleventh (`content_access_verification`, `commit_boundary_hardening`,
+`session_budget_checkpoint`) were added 2026-08-05, drawn from an operator
+retrospective on a live Rovo session rather than discovered through this
+repo's own on-engine testing — see
+`../decision-log/2026-08-05-rovo-session-friction-fixes.md`. The eleventh
+was revised in place the same day, from a second independent operator
+report of the same underlying incident — see
+`../decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 
 ```yaml
 house_amendments:
@@ -452,12 +493,195 @@ house_amendments:
       abandoning the flow for hand-creation in Jira, which loses the schema
       enforcement, labels, persona, and audit trail the pipeline exists to
       provide.
+
+  content_access_verification:
+    rule: >
+      Before broad research runs against a Confluence space the user named by
+      team or project name rather than space key, the agent first resolves
+      the human-friendly name to its space key — searching spaces by title
+      match, presenting options if more than one matches — and caches the
+      resolved key for every subsequent query in the session; assuming a
+      name matches its key outright is not this step. Once a target space is
+      identified, before broad content queries run against it, the agent
+      probes one known page's full body in that space. CQL and other
+      metadata-level search can find and title-match pages the agent cannot
+      actually read — the two access gates are not the same permission, and
+      treating a title/excerpt hit as equivalent to a verified read silently
+      degrades research quality with no signal to the user. Every document
+      that enters the session through the supporting-context research step,
+      whether user-supplied or search-selected, is tagged with a
+      research_confidence value: verified (the agent read the full body),
+      excerpt-only (only a CQL/metadata-level excerpt or title was
+      accessible), or inaccessible (found but unreadable, or the probe
+      failed for the space entirely). Anything short of verified is stated to
+      the user plainly, with three options offered: proceed with
+      excerpt-level research, flagging the resulting confidence gaps as the
+      research progresses; paste the key content inline so the agent can
+      incorporate it directly; or pause so access can be granted and the read
+      retried. The choice is the user's, never assumed. research_confidence
+      travels with the research record Stage 01 hands to Stages 02–05, and
+      Stage 05's completeness scan names any excerpt-only or inaccessible
+      document backing a required field rather than treating it as settled
+      fact.
+    origin: 2026-08-04, Rovo session retrospective — a live run found CQL
+      search returning titles and excerpts for pages in a restricted
+      Confluence space while the full-content read returned null bodies for
+      all seven pages attempted, with no mechanism in the pipeline to detect
+      or flag the degradation; the same session burned five queries assuming
+      a space name matched its space key before a fallback title search
+      found the real key.
+
+  commit_boundary_hardening:
+    rule: >
+      Four related disciplines apply at the Stage 06 commit boundary, all
+      aimed at the same failure mode: a write call that fails, half-succeeds,
+      or silently under-delivers because the agent assumed something about
+      the target instance instead of checking it. First, api_preflight:
+      before the first write call of the session (create issue, update
+      issue, transition issue, create issue link, add comment), the agent
+      reads that action's actual function signature or stub rather than
+      guessing parameter names from convention — parameter naming for the
+      same underlying Jira REST operation varies by platform and engine
+      integration, and a guessed name is a wasted round-trip, not a
+      reasonable default. Second, hierarchy validation: before setting any
+      parent or epic link, the agent validates the proposed relationship
+      against the target project's actual, live-queried issue-type hierarchy
+      levels — parent.hierarchyLevel == child.hierarchyLevel + 1 — rather
+      than relying on the registry's type-level candidate query alone; a
+      project's real hierarchy configuration can diverge from this
+      flowspace's design-time assumptions, and attempting the write before
+      checking turns a preventable mismatch into a failed API call. On a
+      validation failure, the agent halts before attempting the write and
+      presents structurally valid alternatives — create as top-level and
+      link to the intended parent instead, change the item's type to one
+      that fits the hierarchy, or ask the user how to restructure — rather
+      than surfacing only the raw API error. Third, field-capability
+      testing: for each field the registry maps to a project custom field,
+      the agent tests the field's actual accepted format in a defined
+      fallback order — rich ADF payload first, then plain text, then folding
+      the content into description with the gap named — instead of
+      defaulting straight to the description fallback because a field's
+      metadata looked ambiguous (e.g. typed string rather than doc). Folding
+      structured content into description as a blanket "safe" choice is
+      itself the defect this closes; the fallback is a last resort per
+      field, tested, not assumed. Fourth, post-commit field audit: after a
+      successful commit, the agent re-reads the created issue and verifies
+      every schema-required field for the type — per
+      reference/work-item-schemas.md — is actually populated, along with
+      labels and dates, before declaring the commit complete; any gap is
+      reported to the user, never silently left for a later, unprompted
+      discovery. None of the four disciplines changes what gets committed —
+      they change whether the agent checks before writing and checks again
+      after, instead of finding out from a failed call or a quiet omission.
+    origin: 2026-08-04, Rovo session retrospective — a live run attempted to
+      create a Feature as a child of another Feature (a hierarchy-level
+      violation the target project's own metadata would have caught), lost
+      three round-trips to guessed API parameter names
+      (get_create_issue_metadata's project_ids vs. project_id_or_key,
+      create_issue_link's type_name vs. type, transition_issue's
+      transition_id vs. a transition dict), and committed a Feature with its
+      built scope/dependencies/risks/customer-value content folded into the
+      description field rather than the project's dedicated custom fields,
+      undetected until a manual post-hoc review.
+
+  session_budget_checkpoint:
+    rule: >
+      Long-running sessions — heavy research, a large decomposition, or a
+      multi-item bulk pass — can approach a platform's context window before
+      the work is done. The agent self-queries and states its estimated
+      context-window usage at every stage boundary (the transition into and
+      out of Stages 01 through 06) and after every bulk-creation sub-batch
+      (per bulk_creation_acknowledgment): "Stage <n> — context remaining:
+      ~<percent>%." This is a direct self-report, not an inference — the
+      engine can answer this when asked, and the gap this closes is that
+      nothing in the pipeline asked on a schedule. Three thresholds escalate
+      the response, each replacing rather than stacking on the last: at 50%
+      used, the marker itself is the only signal — informational, no added
+      text. At 60% and again at 70% used, the agent adds an explicit advisory
+      that output quality may begin to degrade as the window fills, and
+      offers two paths — continue in the current session, with the caveat
+      that earlier context may be compressed or dropped as the session
+      continues, or receive a handoff document now and resume in a fresh
+      session — rather than only naming the risk. Past 80% used, the agent
+      stops proposing further work in this session and instead states a
+      concrete split: what remains of the current item or batch that can
+      still be finished reliably here, and what should move to a fresh
+      session. The handoff document, whenever requested, follows
+      `reference/session-continuation-handoff.md`: stage reached, items
+      already completed (with keys/URLs where created), every confirmed
+      field with its value, every pending field with its outstanding
+      options, operator decisions made so far (mode selections,
+      stakeholder-sweep answers, hierarchy choices), research findings
+      summarized rather than carried forward as raw tool output, and the
+      agent's recommended priority order for finishing the remainder. A
+      fresh session picks up from this document rather than re-deriving
+      anything already settled. This remains advisory, not a hard stop, at
+      every threshold up to and including 80% — the user always decides
+      whether to continue, finish only what the agent recommends, or take
+      the handoff immediately; the agent never ends the session
+      unilaterally. Adds no new gate to creation or commit — layered on top
+      of every other amendment without narrowing any of them.
+    origin: 2026-08-04, Rovo session retrospective — a single-Feature,
+      single-child-Spike, single-duplicate-closure session consumed an
+      estimated 110,000-140,000 of a 200,000-token window with no point in
+      the flow that surfaced the consumption or offered a handoff, and a
+      platform-side execution-state reset mid-session forced a full rebuild
+      of already-constructed content, doubling part of that cost. Revised
+      2026-08-05, the same day, from a second independent operator report of
+      the same underlying incident — the single 70% trigger became three
+      escalating thresholds (50/60/70/80%) with a per-stage self-report
+      marker rather than one silent background check, and the handoff
+      document's shape moved out of this amendment's own prose into a
+      dedicated reference artifact, matching the existing cross-flow
+      handoff-contract's pattern, rather than being specified inline here.
+    note: >
+      Estimating consumption and constructing the handoff document are
+      agent-side judgment calls with no fixed formula — this amendment
+      states the triggers and the offers, not an exact token-counting
+      mechanism the agent is expected to implement precisely.
 ```
 
 ---
 
 ## Changelog
 
+- **1.8** (2026-08-05) — Revised the eleventh house amendment,
+  `session_budget_checkpoint`, in place (no new amendment number): the single
+  70%-usage trigger became three escalating thresholds (50% informational,
+  60%/70% quality-degradation advisory, past 80% a stop-and-propose-a-split
+  response), the agent now self-reports at every stage boundary and after
+  every bulk-creation sub-batch ("Stage <n> — context remaining:
+  ~<percent>%") rather than only checking silently in the background, and
+  the handoff document's shape moved into a dedicated reference artifact,
+  `reference/session-continuation-handoff.md`, modeled on the existing
+  cross-flow handoff-contract pattern. Remains advisory and informational
+  only — narrows no other amendment, adds no creation or commit gate.
+  Companion fix in the same pass, unrelated to this amendment:
+  `bulk-child-creation` (1.0 → 1.1) now splits a set over ten items into
+  sequential sub-batches of at most ten, since the same retrospective's
+  bulk-creation pass also lost track mid-batch. Raised by a second,
+  independent operator report of the same 2026-08-04 incident. See
+  `decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
+- **1.7** (2026-08-05) — Added three house amendments (ninth through
+  eleventh), all drawn from an operator retrospective on a live Rovo session
+  rather than discovered through this repo's own on-engine testing:
+  `content_access_verification` (Confluence space-key resolution before
+  content queries, plus a `research_confidence` tag —
+  verified/excerpt-only/inaccessible — on every document the supporting-context
+  research step touches, since CQL/metadata access and full-body read access
+  turned out to be different permission gates the pipeline had been treating
+  as one); `commit_boundary_hardening` (api_preflight — read write-API stubs
+  before the first call; hierarchy validation against a live project query
+  before setting a parent link, with structurally valid alternatives offered
+  on mismatch instead of a raw API error; field-capability testing — ADF,
+  then plain text, then description-with-gap-named, tested per field instead
+  of defaulting to description; and a post-commit field audit that re-reads
+  the created issue and reports any schema-required field that didn't
+  actually land); and `session_budget_checkpoint` (an advisory warn-and-offer
+  at roughly 70% of the platform's context window, with a summarized handoff
+  document as the alternative to continuing). Raised via the retrospective,
+  not discovered on-engine. `truth-level` returns to `to-review`. See
+  `../decision-log/2026-08-05-rovo-session-friction-fixes.md`.
 - **1.6** (2026-07-31) — Revised the seventh house amendment,
   `supporting_context_research`, in place: the agent's default proposed
   scope now comes from recency (top 3 most recently created/touched

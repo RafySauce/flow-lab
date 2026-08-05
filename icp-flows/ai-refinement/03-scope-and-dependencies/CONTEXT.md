@@ -4,11 +4,11 @@ title: "Stage 03 — Scope & Dependencies"
 type: stage-context
 stage: 3
 review-intensity: light
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -110,6 +110,14 @@ never filled with a plausible-sounding boundary. Dependency classification runs
 across the set, since a bulk set's items frequently depend on each other, and
 the resulting links are created at Stage 06 exactly as in a single-item run.
 
+**Context-budget marker.** Per the `session_budget_checkpoint` house amendment
+(`../reference/ai-refinement-hybrid.md`), self-query and state context-window
+usage at this stage's exit: "Stage 03 — context remaining: ~<percent>%."
+Informational only at 50%; an escalating quality-degradation advisory at 60%
+and 70%; past 80%, stop proposing further stages and produce the handoff
+defined in `../reference/session-continuation-handoff.md` instead of
+proceeding.
+
 ## Outputs
 
 | Output | Consumed by | Format |
@@ -147,6 +155,8 @@ party. Running these checks leaves a one-line result in the run's decision log.
       transcript and the user confirmed it explicitly
 - [ ] User explicitly confirmed the scope package
 - [ ] No PII or confidential data introduced
+- [ ] Context-remaining marker was stated at stage exit, with the correct
+      threshold advisory (or handoff, past 80%) attached if usage warranted it
 
 ## Review
 
