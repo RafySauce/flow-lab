@@ -379,6 +379,13 @@ is set-shaped and the user accepts bulk creation mode
     resolved team_code and planning quarter (or the exemption, if the
     selected type is `portfolio_epic` or `solution_epic`). Obtain user
     "proceed" before advancing.
+13. **Context-budget marker** — per the `session_budget_checkpoint` house
+    amendment (`../reference/ai-refinement-hybrid.md`), self-query and state
+    context-window usage at this stage boundary: "Stage 01 — context
+    remaining: ~<percent>%." Informational only at 50%; an escalating
+    quality-degradation advisory at 60% and 70%; past 80%, stop proposing
+    further stages and produce the handoff defined in
+    `../reference/session-continuation-handoff.md` instead of proceeding.
 
 ## Outputs
 
@@ -513,6 +520,8 @@ Running this check leaves a one-line result in the run's decision log.
       recorded for Stage 06 (or the type's exemption was recorded, for
       `portfolio_epic`/`solution_epic`)
 - [ ] User confirmed "proceed"
+- [ ] Context-remaining marker was stated at stage exit, with the correct
+      threshold advisory (or handoff, past 80%) attached if usage warranted it
 
 ## Review
 

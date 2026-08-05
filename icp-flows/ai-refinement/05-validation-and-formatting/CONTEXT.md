@@ -108,6 +108,14 @@ Sign-off in bulk mode is one act covering the validated set, taken with the
 per-item table visible — the batch equivalent of the single-item sign-off, and
 the input to Stage 06's batch preview.
 
+**Context-budget marker.** Per the `session_budget_checkpoint` house amendment
+(`../reference/ai-refinement-hybrid.md`), self-query and state context-window
+usage at this stage's exit: "Stage 05 — context remaining: ~<percent>%."
+Informational only at 50%; an escalating quality-degradation advisory at 60%
+and 70%; past 80%, stop proposing further stages and produce the handoff
+defined in `../reference/session-continuation-handoff.md` instead of
+proceeding.
+
 ## Outputs
 
 | Output | Consumed by | Format |
@@ -150,6 +158,8 @@ stages. Running this check leaves a one-line result in the run's decision log.
 - [ ] In bulk mode, underspecified items appear in the report with their
       missing fields rather than being silently dropped, and any suggested
       items remain labelled as such through the report
+- [ ] Context-remaining marker was stated at stage exit, with the correct
+      threshold advisory (or handoff, past 80%) attached if usage warranted it
 
 ## Review
 

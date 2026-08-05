@@ -2,7 +2,7 @@
 id: ai-refinement-hybrid
 title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
-artifact-version: "1.7"
+artifact-version: "1.8"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -84,7 +84,21 @@ related:
 > are operator-raised via the retrospective, not discovered through this
 > repo's own on-engine testing; see
 > `../decision-log/2026-08-05-rovo-session-friction-fixes.md`. `truth-level`
-> returns to `to-review`.
+> returns to `to-review`. **1.8** revises the eleventh amendment,
+> `session_budget_checkpoint`, in place — no new amendment number: a second,
+> independent operator report of the same underlying incident asked for the
+> single 70% trigger to become three escalating thresholds (50/60/70%,
+> informational through quality-degradation advisory) plus a firmer
+> stop-and-split response past 80%, and for every stage boundary to
+> self-report its own context-remaining estimate on a schedule rather than
+> only checking silently in the background. The handoff document's shape
+> also moved out of the amendment's own prose into a dedicated reference
+> artifact, `reference/session-continuation-handoff.md`, matching the
+> existing cross-flow handoff-contract's pattern; and `bulk-child-creation`
+> gains a related but independent fix — sequential creation now splits a set
+> over ten items into sub-batches of at most ten — since the same
+> retrospective's bulk-creation pass also lost track mid-batch. See
+> `../decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 
 # AI Refinement – Hybrid Definition (Markdown + YAML)
 
@@ -220,7 +234,7 @@ triggers:
 
 ---
 
-## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21, revised 2026-07-31; eighth added 2026-07-31; ninth through eleventh added 2026-08-05)
+## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21, revised 2026-07-31; eighth added 2026-07-31; ninth through eleventh added 2026-08-05; eleventh revised same day)
 
 The first five rules below are house-authored, discovered through the
 flowspace's first on-engine invocation (Rovo, NEADD-1827) and the resulting
@@ -241,7 +255,10 @@ eleventh (`content_access_verification`, `commit_boundary_hardening`,
 `session_budget_checkpoint`) were added 2026-08-05, drawn from an operator
 retrospective on a live Rovo session rather than discovered through this
 repo's own on-engine testing — see
-`../decision-log/2026-08-05-rovo-session-friction-fixes.md`.
+`../decision-log/2026-08-05-rovo-session-friction-fixes.md`. The eleventh
+was revised in place the same day, from a second independent operator
+report of the same underlying incident — see
+`../decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 
 ```yaml
 house_amendments:
@@ -571,32 +588,56 @@ house_amendments:
     rule: >
       Long-running sessions — heavy research, a large decomposition, or a
       multi-item bulk pass — can approach a platform's context window before
-      the work is done. When the agent estimates cumulative context
-      consumption has crossed roughly 70% of the platform's stated window, it
-      warns the user plainly, states the rough percentage, and offers two
-      paths: continue in the current session, with the caveat that earlier
-      context may be compressed or dropped as the session continues; or
-      receive a handoff document now and resume in a fresh session. The
-      handoff document, when requested, serializes: every confirmed field
-      with its value, every pending field with its outstanding options,
-      operator decisions made so far (mode selections, stakeholder-sweep
-      answers, hierarchy choices), research findings summarized rather than
-      carried forward as raw tool output, and the concrete next steps
-      remaining. A fresh session picks up from this document rather than
-      re-deriving anything already settled. This is advisory, not a hard
-      stop — the user decides whether to continue or hand off, same as every
-      other mode choice in this pipeline — and the 70% figure is a trigger
-      for the offer, not a hard ceiling enforced against the user.
+      the work is done. The agent self-queries and states its estimated
+      context-window usage at every stage boundary (the transition into and
+      out of Stages 01 through 06) and after every bulk-creation sub-batch
+      (per bulk_creation_acknowledgment): "Stage <n> — context remaining:
+      ~<percent>%." This is a direct self-report, not an inference — the
+      engine can answer this when asked, and the gap this closes is that
+      nothing in the pipeline asked on a schedule. Three thresholds escalate
+      the response, each replacing rather than stacking on the last: at 50%
+      used, the marker itself is the only signal — informational, no added
+      text. At 60% and again at 70% used, the agent adds an explicit advisory
+      that output quality may begin to degrade as the window fills, and
+      offers two paths — continue in the current session, with the caveat
+      that earlier context may be compressed or dropped as the session
+      continues, or receive a handoff document now and resume in a fresh
+      session — rather than only naming the risk. Past 80% used, the agent
+      stops proposing further work in this session and instead states a
+      concrete split: what remains of the current item or batch that can
+      still be finished reliably here, and what should move to a fresh
+      session. The handoff document, whenever requested, follows
+      `reference/session-continuation-handoff.md`: stage reached, items
+      already completed (with keys/URLs where created), every confirmed
+      field with its value, every pending field with its outstanding
+      options, operator decisions made so far (mode selections,
+      stakeholder-sweep answers, hierarchy choices), research findings
+      summarized rather than carried forward as raw tool output, and the
+      agent's recommended priority order for finishing the remainder. A
+      fresh session picks up from this document rather than re-deriving
+      anything already settled. This remains advisory, not a hard stop, at
+      every threshold up to and including 80% — the user always decides
+      whether to continue, finish only what the agent recommends, or take
+      the handoff immediately; the agent never ends the session
+      unilaterally. Adds no new gate to creation or commit — layered on top
+      of every other amendment without narrowing any of them.
     origin: 2026-08-04, Rovo session retrospective — a single-Feature,
       single-child-Spike, single-duplicate-closure session consumed an
       estimated 110,000-140,000 of a 200,000-token window with no point in
       the flow that surfaced the consumption or offered a handoff, and a
       platform-side execution-state reset mid-session forced a full rebuild
-      of already-constructed content, doubling part of that cost.
+      of already-constructed content, doubling part of that cost. Revised
+      2026-08-05, the same day, from a second independent operator report of
+      the same underlying incident — the single 70% trigger became three
+      escalating thresholds (50/60/70/80%) with a per-stage self-report
+      marker rather than one silent background check, and the handoff
+      document's shape moved out of this amendment's own prose into a
+      dedicated reference artifact, matching the existing cross-flow
+      handoff-contract's pattern, rather than being specified inline here.
     note: >
       Estimating consumption and constructing the handoff document are
       agent-side judgment calls with no fixed formula — this amendment
-      states the trigger and the offer, not an exact token-counting
+      states the triggers and the offers, not an exact token-counting
       mechanism the agent is expected to implement precisely.
 ```
 
@@ -604,6 +645,23 @@ house_amendments:
 
 ## Changelog
 
+- **1.8** (2026-08-05) — Revised the eleventh house amendment,
+  `session_budget_checkpoint`, in place (no new amendment number): the single
+  70%-usage trigger became three escalating thresholds (50% informational,
+  60%/70% quality-degradation advisory, past 80% a stop-and-propose-a-split
+  response), the agent now self-reports at every stage boundary and after
+  every bulk-creation sub-batch ("Stage <n> — context remaining:
+  ~<percent>%") rather than only checking silently in the background, and
+  the handoff document's shape moved into a dedicated reference artifact,
+  `reference/session-continuation-handoff.md`, modeled on the existing
+  cross-flow handoff-contract pattern. Remains advisory and informational
+  only — narrows no other amendment, adds no creation or commit gate.
+  Companion fix in the same pass, unrelated to this amendment:
+  `bulk-child-creation` (1.0 → 1.1) now splits a set over ten items into
+  sequential sub-batches of at most ten, since the same retrospective's
+  bulk-creation pass also lost track mid-batch. Raised by a second,
+  independent operator report of the same 2026-08-04 incident. See
+  `decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 - **1.7** (2026-08-05) — Added three house amendments (ninth through
   eleventh), all drawn from an operator retrospective on a live Rovo session
   rather than discovered through this repo's own on-engine testing:

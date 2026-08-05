@@ -2,7 +2,7 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.22"
+artifact-version: "1.23"
 status: living
 truth-level: to-review
 created: 2026-07-03
@@ -108,7 +108,16 @@ a widening of it** — fast-track governs how deeply one item is elicited, bulk
 governs how many items one pass produces — and the two compose when the
 supplied context is rich enough. Bulk never relaxes what is checked: schemas,
 acceptance criteria, formatting, and both mandatory labels apply per item
-exactly as in a single-item run.
+exactly as in a single-item run. Since 2026-08-05, creation within Stage 6
+splits any set larger than ten items into sequential sub-batches of at most
+ten, each issued as one consolidated pass, rather than creating the whole set
+in a single unbounded pass.
+
+⁴ Since 2026-08-05, every stage boundary (and every bulk-creation sub-batch)
+carries a self-reported context-window usage marker (the
+`session_budget_checkpoint` house amendment) — informational at 50% used,
+an escalating quality-degradation advisory at 60%/70%, and a stop-and-handoff
+past 80%, via `reference/session-continuation-handoff.md`.
 
 ## Topology
 
@@ -218,25 +227,42 @@ selected:
 
 ## Session budget & handoff checkpoint
 
-Added 2026-08-05 (`session_budget_checkpoint`,
+Added 2026-08-05, revised in place the same day (`session_budget_checkpoint`,
 `reference/ai-refinement-hybrid.md`). Heavy research, a large decomposition,
 or a multi-item bulk pass can approach a platform's context window before a
-run's work is done. When the agent estimates cumulative context consumption
-has crossed roughly 70% of the platform's stated window, it warns the
-operator plainly, states the rough percentage, and offers two paths:
+run's work is done. The agent self-reports its estimated context-window
+usage at every stage boundary and after every bulk-creation sub-batch —
+"Stage `<n>` — context remaining: ~`<percent>`%" — rather than only checking
+silently in the background, with the response escalating at three
+thresholds:
+
+- **50% used** — the marker itself is the only signal, informational.
+- **60% and 70% used** — an explicit advisory that output quality may begin
+  to degrade, plus the offer below.
+- **Past 80% used** — the agent stops proposing further work and states a
+  concrete split of what can still be finished reliably in this session
+  versus what should move to a fresh one.
+
+At 60% and above, the agent offers two paths:
 
 1. **Continue in this session** — with the caveat that earlier context may
    be compressed or dropped as the session goes on.
-2. **Receive a handoff document now, and resume in a fresh session.** The
-   document serializes: every confirmed field with its value, every pending
-   field with its outstanding options, operator decisions made so far (mode
-   selections, stakeholder-sweep answers, hierarchy choices), research
-   findings summarized rather than carried forward as raw tool output, and
-   the concrete next steps remaining. A fresh session picks up from this
-   document rather than re-deriving anything already settled — the same
-   shape of degrade-to-Markdown output Stage 06 already produces when no
-   Jira write path is available, applied here to context exhaustion instead
-   of a missing connector.
+2. **Receive a handoff document now, and resume in a fresh session**, per
+   `reference/session-continuation-handoff.md`: stage reached, items already
+   completed (with keys/URLs where created), every confirmed field with its
+   value, every pending field with its outstanding options, operator
+   decisions made so far (mode selections, stakeholder-sweep answers,
+   hierarchy choices), research findings summarized rather than carried
+   forward as raw tool output, and the agent's recommended priority order
+   for the remainder. A fresh session picks up from this document rather
+   than re-deriving anything already settled — the same shape of
+   degrade-to-Markdown output Stage 06 already produces when no Jira write
+   path is available, applied here to context exhaustion instead of a
+   missing connector.
+
+This remains advisory at every threshold, including past 80% — the user
+always decides whether to continue, finish only what the agent recommends,
+or take the handoff immediately.
 
 This is advisory, not a hard stop — the operator decides whether to continue
 or hand off, same as every other mode choice in this pipeline — and the 70%
@@ -340,6 +366,38 @@ this:** the Copilot adapter for any of these six skills has not had its own
 live invocation — the five-point gate requires one per adapter, and only
 Rovo's has run. `field-refinement-cadence` is unaffected (it was never
 demoted). Evidence: `decision-log/2026-08-01-rovo-live-test-reverification.md`.
+
+Fourteenth gap (2026-08-05): a second, independent operator report of the
+same 2026-08-04 Rovo session incident the Thirteenth gap below closes,
+covering two problems that report didn't reach. First, the same session's
+bulk-creation pass degraded past roughly ten items — the agent lost track
+mid-batch and self-corrected by re-reading the approved set and re-issuing
+it as a single consolidated block, only completing after manual
+trial-and-error chunking; the Thirteenth gap's fixes don't touch batch
+creation. Second, while `session_budget_checkpoint` (below) already added a
+single 70%-usage warn-and-offer, this report asked for finer escalation: a
+per-stage self-reported marker on a schedule rather than one silent
+background check, informational at 50%, an explicit quality-degradation
+advisory at 60% and again at 70%, and a firmer stop-and-propose-a-split
+response past 80% rather than only an offer. Closed here: `bulk-child-creation`
+(1.0 → 1.1) gains sub-batch chunking in step 10 — sets over ten items split
+into sequential sub-batches of at most ten, each issued as one consolidated
+creation pass, with the running result table spanning every sub-batch, and
+both adapters regenerated; `session_budget_checkpoint`
+(`reference/ai-refinement-hybrid.md` 1.7 → 1.8) is revised in place — no new
+amendment number — to the escalating-threshold model above, and a new
+reference artifact, `reference/session-continuation-handoff.md` (1.0),
+gives the handoff document its own spec rather than the inline description
+the amendment previously carried, distinct from `documentarian`'s
+`ai-refinement-handoff-contract.md`, which carries candidate items *between*
+flows rather than resuming *this* flow's progress. All six stage
+`CONTEXT.md` files gain a one-line context-budget marker step and Verify
+checklist item. A related, repo-wide skill build — `export-log`, staged
+`to-review` in `skill-foundry/review-skills/`, for exporting sanitized
+session learnings on explicit request — came out of the same conversation
+but is not itself a flowspace artifact; see its own build decision log.
+None of this has run on-engine. Raised directly by the operator. Rationale:
+`decision-log/2026-08-05-bulk-batch-chunking-and-context-budget-awareness.md`.
 
 **This gate closure is reopened by the Thirteenth gap below** for the two
 skills it content-changed (`jira-commit`, `workitem-validation`) and the
@@ -572,7 +630,7 @@ at deployment, the operator's act, recorded in each skill card.
 | `workitem-validation` | `sp-workitem-validation` | 5 | to-review — 1.4 (completeness scan names any excerpt-only/inaccessible research grounding backing a required field); content change 2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
 | `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.11 (API preflight, hierarchy-level validation before parent-link writes, field-capability testing, post-commit field audit); content change 2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
 | `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot adapter live test still outstanding |
-| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | verified — 1.0 (built 2026-07-31; gated and promoted 2026-08-01 on a confirmed Rovo live test, now in `produced-skills/`); Copilot adapter live test still outstanding |
+| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | to-review — 1.1 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, dropping back to `to-review` pending re-gate); Copilot adapter live test still outstanding |
 
 Second gap (2026-07-03): the work-item schema registry
 (`reference/work-item-schemas.md`) completes type coverage — the source
@@ -703,7 +761,8 @@ first live run). Rationale:
 | Artifact | Location | Covers |
 |---|---|---|
 | AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eleven house amendments (five on-engine-proven, six operator-raised) |
-| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (verified) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation with halt-on-failure, Markdown handoff degrade path |
+| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (to-review — 1.1) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation in ≤10-item sub-batches with halt-on-failure, Markdown handoff degrade path |
+| Session-Continuation Handoff | `reference/session-continuation-handoff.md` (to-review) | Document shape for resuming this flow's own progress in a fresh session when `session_budget_checkpoint` stops the current one: stage reached, items completed, items remaining, recommended priority order |
 | Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints; mandatory-label, hierarchy-level, and field-capability cross-cutting notes |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
 | Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (verified, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |

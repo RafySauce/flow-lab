@@ -4,11 +4,11 @@ title: "Stage 02 — Context & Problem Framing"
 type: stage-context
 stage: 2
 review-intensity: heavy
-artifact-version: "1.7"
+artifact-version: "1.8"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -136,6 +136,14 @@ deliberate:
 An item the pass reports as **underspecified** may be routed into an ordinary
 Band ② run, where this stage applies in full and unchanged.
 
+**Context-budget marker.** Per the `session_budget_checkpoint` house amendment
+(`../reference/ai-refinement-hybrid.md`), self-query and state context-window
+usage at this stage's exit: "Stage 02 — context remaining: ~<percent>%."
+Informational only at 50%; an escalating quality-degradation advisory at 60%
+and 70%; past 80%, stop proposing further stages and produce the handoff
+defined in `../reference/session-continuation-handoff.md` instead of
+proceeding.
+
 ## Outputs
 
 | Output | Consumed by | Format |
@@ -177,6 +185,8 @@ instead. Running these checks leaves a one-line result in the run's decision log
 - [ ] The stakeholder sweep (step 2) ran interactively regardless of mode —
       never fast-track-extracted or skipped
 - [ ] No PII or confidential data was introduced
+- [ ] Context-remaining marker was stated at stage exit, with the correct
+      threshold advisory (or handoff, past 80%) attached if usage warranted it
 
 ## Review
 
