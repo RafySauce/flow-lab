@@ -136,7 +136,7 @@ deliberate:
 An item the pass reports as **underspecified** may be routed into an ordinary
 Band ② run, where this stage applies in full and unchanged.
 
-**Context-budget marker.** Per the `context_budget_awareness` house amendment
+**Context-budget marker.** Per the `session_budget_checkpoint` house amendment
 (`../reference/ai-refinement-hybrid.md`), self-query and state context-window
 usage at this stage's exit: "Stage 02 — context remaining: ~<percent>%."
 Informational only at 50%; an escalating quality-degradation advisory at 60%

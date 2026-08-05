@@ -130,7 +130,7 @@ explicitly for the batch after the drafted acceptance criteria are visible as
 an effort reference. A date the agent derives from prose remains a reference
 point only, never a commitment — that part of the rule does not narrow.
 
-**Context-budget marker.** Per the `context_budget_awareness` house amendment
+**Context-budget marker.** Per the `session_budget_checkpoint` house amendment
 (`../reference/ai-refinement-hybrid.md`), self-query and state context-window
 usage at this stage's exit: "Stage 04 — context remaining: ~<percent>%."
 Informational only at 50%; an escalating quality-degradation advisory at 60%

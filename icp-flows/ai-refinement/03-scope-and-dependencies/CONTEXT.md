@@ -110,7 +110,7 @@ never filled with a plausible-sounding boundary. Dependency classification runs
 across the set, since a bulk set's items frequently depend on each other, and
 the resulting links are created at Stage 06 exactly as in a single-item run.
 
-**Context-budget marker.** Per the `context_budget_awareness` house amendment
+**Context-budget marker.** Per the `session_budget_checkpoint` house amendment
 (`../reference/ai-refinement-hybrid.md`), self-query and state context-window
 usage at this stage's exit: "Stage 03 — context remaining: ~<percent>%."
 Informational only at 50%; an escalating quality-degradation advisory at 60%

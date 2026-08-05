@@ -132,7 +132,7 @@ context.
 ## Demand source
 
 Raised directly by the operator, 2026-08-05, alongside the
-`context_budget_awareness` house amendment: a general, repo-wide way for
+`session_budget_checkpoint` house amendment: a general, repo-wide way for
 anyone to export sanitized session learnings so they can feed back into
 improving the flows and skills themselves, standardized rather than ad hoc.
 

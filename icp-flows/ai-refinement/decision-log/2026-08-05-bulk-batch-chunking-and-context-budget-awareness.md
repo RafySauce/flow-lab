@@ -24,16 +24,46 @@ both raised directly by the operator from a real Rovo run. First,
 **sub-batch chunking** in `bulk-child-creation`: sets larger than ten items
 are split into sequential sub-batches of at most ten before creation starts,
 each sub-batch's create actions assembled and issued as one consolidated
-pass. Second, a ninth house amendment, **`context_budget_awareness`**: the
-agent self-reports its context-window usage at every stage boundary and
-after every bulk sub-batch, with escalating advisories at 50/60/70% used and
-a stop-and-handoff response past 80%, backed by a new reference artifact,
+pass. Second, a revision-in-place of the eleventh house amendment,
+**`session_budget_checkpoint`**: the agent self-reports its context-window
+usage at every stage boundary and after every bulk sub-batch, with
+escalating advisories at 50/60/70% used and a stop-and-handoff response past
+80%, backed by a new reference artifact,
 `reference/session-continuation-handoff.md`. **By whom:** agent, on direct
 operator instruction. **What it affects:** `bulk-child-creation` (1.0 → 1.1,
-both adapters regenerated), `reference/ai-refinement-hybrid.md` (1.6 → 1.7),
+both adapters regenerated), `reference/ai-refinement-hybrid.md` (1.7 → 1.8),
 a new `reference/session-continuation-handoff.md` (1.0), all six stage
 `CONTEXT.md` files (light touch — one Process step and one Verify item
-each), and `HUB.md` (1.21 → 1.22).
+each), and `HUB.md` (1.22 → 1.23).
+
+## Merge reconciliation with PR #47
+
+This work was built on a branch cut from `main` before PR #47
+("Incorporate Rovo session friction report into ai-refinement flow") merged.
+That PR turned out to draw from an **independent operator report of the
+same 2026-08-04 Rovo session incident**, and had already added a
+`session_budget_checkpoint` house amendment (eleventh, ninth-through-eleventh
+batch) covering much of the same ground as the `context_budget_awareness`
+amendment originally designed here — a single 70%-usage warn-and-offer with
+an inline-specified handoff document. Bringing this branch up to date against
+`main` surfaced the collision as a real merge conflict, not just a line-level
+one.
+
+Resolved by reconciling rather than duplicating: `context_budget_awareness`
+was withdrawn as a would-be ninth amendment, and its escalating-threshold
+design (50/60/70/80%, per-stage self-report marker) was merged into
+`session_budget_checkpoint` as an in-place revision instead — the same
+pattern this flowspace already uses when a later operator ask refines an
+existing amendment rather than justifying a new one (e.g.
+`supporting_context_research`'s 1.6 revision). The handoff document's shape
+moved out of the amendment's inline prose into the dedicated
+`reference/session-continuation-handoff.md` this branch had already built,
+which is additive to PR #47's design rather than competing with it. The
+`bulk-child-creation` sub-batch chunking fix is unrelated to anything PR #47
+touched and merged without incident. `HUB.md`'s gap log entry for this work
+is renumbered Fourteenth (PR #47's is Thirteenth, and merged first) and
+rescoped to describe only what PR #47's fixes didn't already cover, rather
+than re-describing the shared incident from scratch.
 
 ## The gap this closes
 
@@ -78,18 +108,22 @@ pipeline anticipated the limits of a single Rovo context window.
    what "halt" means: no continuation into the rest of the current
    sub-batch, no silent advance into the next one, resume picks up exactly
    where it stopped.
-4. **Context-budget awareness is advisory, not a new gate.** It adds no
-   creation or commit gate and narrows no other amendment — it only adds
-   information (the usage marker) and, past the highest threshold, a
-   proposal (the handoff) that the user can decline. This keeps it
-   consistent with the existing amendments' pattern of stating a fact or
-   requiring a confirmation, never silently blocking.
+4. **Session-budget awareness stays advisory, not a new gate.** The revision
+   adds no creation or commit gate and narrows no other amendment — it only
+   adds information (the usage marker) and, past the highest threshold, a
+   firmer proposal (the handoff) that the user can still decline. This keeps
+   it consistent with the existing amendments' pattern of stating a fact or
+   requiring a confirmation, never silently blocking — and with
+   `session_budget_checkpoint`'s own original design, which this revision
+   sharpens rather than overrides.
 5. **The usage marker is a direct self-report, not a heuristic.** The
    operator's own test — asking Rovo directly and getting "140/200" — showed
-   the engine can already answer this question. The amendment asks it on a
-   schedule (every stage boundary, every bulk sub-batch) rather than
+   the engine can already answer this question. The revised amendment asks
+   it on a schedule (every stage boundary, every bulk sub-batch) rather than
    inventing a proxy signal (turn count, item count) that would need
-   separate calibration and could drift from what the engine actually knows.
+   separate calibration and could drift from what the engine actually knows —
+   consistent with the original `session_budget_checkpoint`'s own note that
+   estimation is an agent-side judgment call, not a fixed formula.
 6. **Three escalating thresholds, not one.** 50% is informational only —
    the marker itself is the signal. 60% and 70% add an explicit advisory
    that quality may be starting to degrade, recommending the user finish
@@ -121,13 +155,14 @@ pipeline anticipated the limits of a single Rovo context window.
 - `bulk-child-creation` drops `verified` → `to-review` (behavior change to
   step 10; re-gate owed alongside the existing Copilot-adapter live-test
   gap).
-- `ai-refinement-hybrid.md` drops `verified` → `to-review` (new house
-  amendment, house-authored pending operator sign-off — same pattern as
-  every prior amendment addition).
-- All six stage `CONTEXT.md` files drop `verified` → `to-review` (new
-  Process step + Verify item in every stage).
-- `HUB.md` drops `verified` → `to-review` (gap log entry, reference-table
-  and footnote changes reflecting all of the above).
+- `ai-refinement-hybrid.md` stays `to-review` (already dropped by PR #47's
+  1.7; this pass's 1.8 revision doesn't change the truth-level, only the
+  content of one amendment already pending sign-off).
+- All six stage `CONTEXT.md` files stay `to-review` (already dropped by PR
+  #47 for Stage 01/05/06's content changes; Stages 02–04 drop here for the
+  first time, for the new Process step + Verify item this pass adds).
+- `HUB.md` stays `to-review` (already dropped by PR #47; this pass adds the
+  Fourteenth gap entry, reference-table, and footnote changes on top).
 - `session-continuation-handoff.md` is new, staged at `to-review` —
   house-authored, pending the same operator sign-off as every other
   reference artifact in this flowspace.

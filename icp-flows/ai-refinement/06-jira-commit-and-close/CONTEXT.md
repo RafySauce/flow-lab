@@ -41,18 +41,37 @@ related:
 ## Process
 
 `Layer-3: jira-commit` (skill spec in
-`produced-skills/jira-commit/`, `verified` as of 1.9 — re-gated and promoted
-2026-08-01 on a confirmed Rovo live test)
+`produced-skills/jira-commit/`, `to-review` as of 1.11 — content change
+2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01 on a
+confirmed Rovo live test)
 
-1. **Field mapping, registry-driven, format-translated** — translate the
-   refined field key-value pairs into Jira field IDs, the field set read from
-   the selected type's schema in `../reference/work-item-schemas.md`:
+0. **API preflight — before the first write call of the session.** Read the
+   actual function signature or stub for every write API this run will call
+   (create issue, update issue, transition issue, create issue link, add
+   comment) before calling it for the first time. Parameter naming for the
+   same underlying Jira REST operation varies by platform and engine
+   integration; a name guessed from convention is a wasted round-trip, not a
+   reasonable default. This is the flowspace's `commit_boundary_hardening`
+   house amendment (`../reference/ai-refinement-hybrid.md`).
+1. **Field mapping, registry-driven, format-translated, capability-tested** —
+   translate the refined field key-value pairs into Jira field IDs, the field
+   set read from the selected type's schema in
+   `../reference/work-item-schemas.md`:
    - Standard fields: summary, description, due date, issue type — for `bug`,
      `description` carries steps to reproduce, expected result, actual
      result, and (where known) severity and environment as prose, per the
      registry's Extension field definitions; no bug-specific custom fields
      to discover
    - Custom fields (per the type's registry schema): problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria, question_to_answer, timebox (spike — map or create at instantiation per the registry)
+   - **Field-capability test** (`commit_boundary_hardening`): for each custom
+     field, test its actual accepted format in a defined fallback order —
+     rich ADF payload first, then plain text, then folding the content into
+     `description` with the gap explicitly named — instead of defaulting
+     straight to the `description` fallback because a field's metadata
+     looked ambiguous (e.g. typed `string` rather than `doc`). Folding
+     structured content into `description` as a blanket "safe" choice
+     without testing the field first is the defect this replaces; the
+     fallback is a last-resort, per-field outcome, not a default.
    - Format-translation gate: convert the payload's Markdown structure
      (headings, bullet lists, code blocks) into the target platform's native
      markup — Atlassian Document Format (ADF) for Jira Cloud — before mapping
@@ -68,6 +87,21 @@ related:
    or skipped by fast-track mode — the mode selected at Stage 01 governs how
    many Stages 02–05 fields were extracted versus elicited; it has no bearing
    here.
+
+   **Hierarchy validation, before any parent-link write** — validate the
+   proposed parent-child relationship against the target project's actual,
+   live-queried issue-type hierarchy levels: `parent.hierarchyLevel ==
+   child.hierarchyLevel + 1`. This registry's `children:` relationships
+   (`../reference/work-item-schemas.md`) encode design intent; a real
+   project's configured hierarchy can diverge from it, and attempting the
+   write before checking turns a preventable mismatch into a failed API
+   call. On a validation failure, halt before attempting the write and
+   present structurally valid alternatives — create as top-level and link
+   to the intended parent instead, change the item's type to one that fits
+   the hierarchy, or ask the operator how to restructure — rather than
+   surfacing only the raw API error. This is the flowspace's
+   `commit_boundary_hardening` house amendment
+   (`../reference/ai-refinement-hybrid.md`).
 
    **In bulk creation mode** the confirmation is taken once for the batch
    rather than once per item, and validated at the end of the pass rather than
@@ -169,6 +203,20 @@ related:
    in this mode. Close by restating that every created item carries
    `refine-ai-flow-v<version>` as a pending-review flag and needs team review
    before work starts.
+
+   7b. **Post-commit field audit (both modes).** Re-fetch every issue this
+   pass created — the single item in single-item mode, every created item in
+   bulk mode — and verify each schema-required field for its type, per
+   `../reference/work-item-schemas.md`, is actually populated, alongside the
+   mandatory labels and the due date. This catches exactly the gap between
+   "the field was built" and "the field was included in the create call" —
+   content the agent constructed upstream but never mapped in step 1 (e.g.
+   folded into `description` by an untested fallback, or dropped from the
+   payload silently). Report any gap to the operator before declaring the
+   commit complete; a gap found here is a defect to fix (a follow-up update
+   call), not a note for later. This is the flowspace's
+   `commit_boundary_hardening` house amendment
+   (`../reference/ai-refinement-hybrid.md`).
 8. **Offer status transition** — ask whether to move the item to In Progress
    (or the board's equivalent active status); execute via the engine's native
    Jira capabilities on confirmation, leave the default status on decline.
@@ -184,7 +232,7 @@ related:
    After a bulk pass, the loop offers the same choices plus routing any
    underspecified or fallout item into its own Band ② run, since those are the
    items most likely to need real refinement rather than another batch.
-10. **Context-budget marker** — per the `context_budget_awareness` house
+10. **Context-budget marker** — per the `session_budget_checkpoint` house
     amendment (`../reference/ai-refinement-hybrid.md`), self-query and state
     context-window usage at this stage's exit (and after every bulk-creation
     sub-batch, per `bulk-child-creation` step 10): "Stage 06 — context
@@ -203,6 +251,7 @@ related:
 | Session summary (if closing) | User / audit | Structured summary |
 | Batch result table (item, key, URL, status) + not-created list | User; run decision log | Structured per-item table |
 | Markdown handoff document (bulk mode, no write path) | User / a fresh session | Markdown file |
+| Post-commit field audit result (per created item) | User; run decision log | Structured pass/gap list |
 
 ## Verify
 
@@ -213,7 +262,12 @@ Stage 03's classified list must appear as a Jira issue link — the failures
 these catch are post-sign-off content mutation and dropped dependency links.
 Running these checks leaves a one-line result in the run's decision log.
 
-- [ ] All required Jira fields are mapped (no unmapped required fields)
+- [ ] Function stubs for every write API used this session were read before
+      the first write call — no parameter name was guessed from convention
+- [ ] All required Jira fields are mapped (no unmapped required fields);
+      each custom field's capability was tested in the ADF → plain-text →
+      description-with-gap-named order, not defaulted straight to
+      `description`
 - [ ] Committed payload matches the Stage 05 signed-off payload (content
       unchanged; only markup was translated to the platform's native format)
 - [ ] No raw Markdown syntax (heading markers, list markers, code fences)
@@ -221,6 +275,11 @@ Running these checks leaves a one-line result in the run's decision log.
 - [ ] For applicable types, candidate parents were presented and the user
       explicitly confirmed, skipped, or requested a new parent — never a
       silently-carried-forward hierarchy position
+- [ ] Before any parent-link write, the relationship was validated against
+      the target project's live-queried hierarchy levels
+      (`parent.hierarchyLevel == child.hierarchyLevel + 1`); a mismatch
+      halted before the write and presented structurally valid alternatives
+      rather than surfacing a raw API error
 - [ ] Parent item exists in Jira (if hierarchy linkage applies)
 - [ ] Every Stage 03 blocking dependency has a Jira issue link
 - [ ] Stakeholder tags / annotations applied as labels
@@ -248,6 +307,10 @@ Running these checks leaves a one-line result in the run's decision log.
 - [ ] In bulk mode with no write path, the Markdown handoff document was
       produced, stated plainly that nothing was created and why, and carried
       the full set structured for a fresh session to finish
+- [ ] Every created item (single item, or each item in a bulk set) was
+      re-fetched and its schema-required fields, labels, and due date were
+      confirmed actually populated before the commit was declared complete;
+      any gap found was reported and fixed, not left for later discovery
 - [ ] Context-remaining marker was stated at stage exit, with the correct
       threshold advisory (or handoff, past 80%) attached if usage warranted it
 
@@ -272,5 +335,9 @@ Running these checks leaves a one-line result in the run's decision log.
 - Jira API payloads contain `internal` data — transmitted over authenticated, encrypted channels only.
 - Issue keys and URLs are `internal` — shareable within the organization.
 - API credentials are handled by the platform (Rovo/Copilot) — never included in flowspace artifacts.
+- The hierarchy-validation query (target project's issue-type hierarchy
+  levels) and the post-commit field-audit re-fetch are additional read-only
+  calls, the same access class as the existing parent-candidate query —
+  neither is a write action.
 - A handoff into this stage from an engine outside this boundary is invalid —
   stop and re-route.

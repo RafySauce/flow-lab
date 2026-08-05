@@ -38,6 +38,8 @@ related:
 | User's stated expected item count, for a tabular or exported set | User | If bulk |
 | User-supplied context material (Confluence pages/links, exported Miro content, PDF files, email content, meeting notes) | User, prompted at the supporting-context research step | No |
 | Confluence/Jira search results for the confirmed research scope (read-only, engine-native) | Confluence + Jira (via native lookup) | No |
+| Resolved Confluence space key(s), when the operator names a space by team/project name rather than key | Confluence space-title search (via native lookup) | If a space is named |
+| Content-access probe result per document (verified / excerpt-only / inaccessible) | Confluence + Jira (via native lookup) | No |
 | OneDrive/SharePoint search results for the confirmed research scope (Copilot + live Microsoft Graph/OneDrive connector only, read-only, engine-native) | OneDrive/SharePoint (via native Graph lookup) | No |
 | User-supplied search-term filters (technology stack names, app/system codes, team names, team member names) — addition to or explicit override of agent-proposed terms | User | No |
 | User-stated time-frame for supporting-context research (defaults to the past 6 months if unspecified) | User | No |
@@ -169,8 +171,16 @@ is set-shaped and the user accepts bulk creation mode
    - **Propose research scope** — name the Confluence spaces, Jira projects,
      search terms, and document types to be searched (read-only, via the
      engine's native Confluence/Jira capabilities — the same access class as
-     the team_code query below and Stage 06's parent-candidate query). The
-     proposed spaces and projects default to recency, never a blanket sweep:
+     the team_code query below and Stage 06's parent-candidate query).
+     **Space-key resolution first:** where the operator names a Confluence
+     space by team or project name rather than its space key, resolve the
+     key before any content query runs — search spaces by title match, and
+     if more than one space matches, present the options for the operator to
+     pick. Cache the resolved key for every subsequent query this session;
+     never assume a name matches its key outright. This is the flowspace's
+     `content_access_verification` house amendment
+     (`../reference/ai-refinement-hybrid.md`). The proposed spaces and
+     projects default to recency, never a blanket sweep:
      start from the top 3 most recently created and most recently touched
      Confluence spaces and Jira projects for the requesting user, determined
      via the engine's native lookup. Where a person or team is named — by
@@ -218,9 +228,25 @@ is set-shaped and the user accepts bulk creation mode
      more OneDrive folders, a deeper child-page/child-folder crawl),
      repeat with the widened scope — every widening explicitly
      user-confirmed, never silently expanded.
+   - **Content-access probe** — before broad content queries run against a
+     resolved Confluence space, attempt to read one known page's full body
+     in that space (`content_access_verification`,
+     `../reference/ai-refinement-hybrid.md`). Metadata-level search (CQL,
+     title match) and full-body read access are different permission gates
+     — a title/excerpt hit is not evidence the body is readable. Tag every
+     document entering the session — user-supplied or search-selected —
+     with `research_confidence`: `verified` (full body read), `excerpt-only`
+     (only a CQL/metadata-level excerpt or title was accessible), or
+     `inaccessible` (found but unreadable, or the space's probe failed
+     outright). Anything short of `verified` is stated to the operator
+     plainly, with three options: proceed with excerpt-level research
+     (confidence gaps flagged as research progresses), paste the key content
+     inline, or pause for access remediation and retry. The operator's
+     choice, never assumed.
    - **Record** — note what was sought, found, selected, and *not found*,
      along with the surfaces actually searched, the confirmed time window,
-     and any child-page/child-folder sweep results. A
+     any child-page/child-folder sweep results, and each selected
+     document's `research_confidence` tag. A
      missing expected document (e.g., no SAD for an engineering-focused item)
      is a recorded gap for Stages 02–03 to work around, never a blocker and
      never silently substituted with invented content.
@@ -353,7 +379,7 @@ is set-shaped and the user accepts bulk creation mode
     resolved team_code and planning quarter (or the exemption, if the
     selected type is `portfolio_epic` or `solution_epic`). Obtain user
     "proceed" before advancing.
-13. **Context-budget marker** — per the `context_budget_awareness` house
+13. **Context-budget marker** — per the `session_budget_checkpoint` house
     amendment (`../reference/ai-refinement-hybrid.md`), self-query and state
     context-window usage at this stage boundary: "Stage 01 — context
     remaining: ~<percent>%." Informational only at 50%; an escalating
@@ -372,7 +398,8 @@ is set-shaped and the user accepts bulk creation mode
 | Screened source material + input-type tag (when provided) | Stage 02 | text + type tag |
 | Work-focus classification (engineering/enhancement, operations, or mixed) + rationale | Stages 02, 03 | text |
 | Supporting-context document set (each item typed + screened) | Stages 02, 03 | tagged document list |
-| Research record (sought / found / selected / not found, surfaces searched, confirmed time window, and any child-page/child-folder sweep results) | Stages 02, 03; run decision log | text |
+| research_confidence per document (verified / excerpt-only / inaccessible) | Stages 02, 03, 05 | tag per document |
+| Research record (sought / found / selected / not found, surfaces searched, confirmed time window, any child-page/child-folder sweep results, and per-document research_confidence) | Stages 02, 03; run decision log | text |
 | Selected mode (fast-track / full-interactive) + rationale | Stages 02–06 | text |
 | Selected creation mode (bulk / single-item) + rationale, item count, and per-row type reading | `bulk-child-creation` (Band ③), Stages 05–06 | text + typed row list |
 | Bulk acknowledgment record (taken as its own act, with the five stated points) | `bulk-child-creation`, Stage 06; run decision log | boolean + transcript reference |
@@ -446,8 +473,17 @@ Running this check leaves a one-line result in the run's decision log.
 - [ ] A parent Confluence page or OneDrive folder entering the session got a
       one-level child sweep, with relevant children surfaced as candidates
       rather than the parent/folder treated as self-contained
+- [ ] A Confluence space named by team/project name was resolved to its
+      space key (with options presented if the title match was ambiguous)
+      before any content query ran against it, and the resolved key was
+      reused for the rest of the session
 - [ ] Every document entering the session (user-supplied or search-selected)
       carries a taxonomy type tag and passed the data-safety screen
+- [ ] Every document entering the session carries a `research_confidence`
+      tag (verified / excerpt-only / inaccessible); anything short of
+      `verified` was stated to the operator with the three-option choice
+      (proceed excerpt-only, paste content inline, or pause for access
+      remediation) rather than silently treated as equivalent to a full read
 - [ ] The research record notes what was sought, found, selected, and not
       found — expected-but-missing documents (e.g., no SAD for an
       engineering-focused item) recorded as gaps, not blockers
@@ -517,7 +553,11 @@ Running this check leaves a one-line result in the run's decision log.
   is confirmed present (per `START-HERE.md`'s capability probe), the same
   read-only/user-confirmed/`internal`-ceiling access class extends to
   OneDrive/SharePoint — this extension is strictly gated on that probe and
-  never assumed.
+  never assumed. Space-key resolution (a space-title search) and the
+  content-access probe (one page's full-body read per resolved space) are
+  the same read-only access class as the rest of this surface — neither is
+  a write action, and a probe failure is a research-confidence signal, not
+  a run-blocking error.
 - An enumerated item set (taxonomy row 10) is the highest-risk carrier this
   stage handles: a spreadsheet or export brings every column, including
   description and comment columns that routinely carry personal names,

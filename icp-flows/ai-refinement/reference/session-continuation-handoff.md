@@ -21,7 +21,7 @@ related:
 # Session-Continuation Handoff — Resuming AI Refinement in a Fresh Session
 
 How `ai-refinement` hands its own progress from a session running low on
-context budget (per the `context_budget_awareness` house amendment,
+context budget (per the `session_budget_checkpoint` house amendment,
 `reference/ai-refinement-hybrid.md`) into a fresh session that continues the
 same flow. This is a different problem from
 `icp-flows/documentarian/reference/ai-refinement-handoff-contract.md`, which
@@ -33,7 +33,7 @@ same mirroring-protocol §5 handoff shape (state, never instructions).
 
 ## When this fires
 
-The `context_budget_awareness` amendment's highest threshold (context usage
+The `session_budget_checkpoint` amendment's highest threshold (context usage
 past 80%): the agent stops proposing further work in the current session,
 states a concrete split of what can still be finished reliably here versus
 what should move to a fresh session, and produces this document. It may also
@@ -122,7 +122,7 @@ date not yet elicited>
 ## Changelog
 
 - **1.0** (2026-08-05) — Initial build, alongside the
-  `context_budget_awareness` house amendment it serves as the handoff target
+  `session_budget_checkpoint` house amendment it serves as the handoff target
   for. Modeled structurally on `ai-refinement-handoff-contract.md` (frontmatter
   + package shape + rules) but resumption-shaped rather than
   transfer-shaped: that contract carries candidate items *between* flows,
