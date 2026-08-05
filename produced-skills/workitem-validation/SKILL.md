@@ -2,8 +2,9 @@
 name: workitem-validation
 description: >
   Runs the completeness and constraint gate on a refined Jira work item and
-  applies the formatting rules (no bold, no emojis): schema completeness scan,
-  a mandatory-label check (refine-ai-flow-v<version> plus, for gated types, the
+  applies the formatting rules (no bold, no emojis): schema completeness scan
+  (disclosing any excerpt-only or inaccessible research grounding behind a
+  required field), a mandatory-label check (refine-ai-flow-v<version> plus, for gated types, the
   <team_code>-<yyyy>-q<n> planning label), constraint checks (summary ≤ 10
   words, AC starters, valid future due date), a strict auto-correct-vs-halt
   boundary (with a warn-and-bypass tier for the label check only), and a
@@ -13,11 +14,11 @@ description: >
 # --- provenance (house layer) ---
 id: workitem-validation
 type: skill
-artifact-version: "1.3"
+artifact-version: "1.4"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -74,7 +75,15 @@ flowchart LR
 
 1. **Completeness scan.** Walk the schema's required-field list for the
    selected type; every field must be non-empty and non-placeholder. A missing
-   field is a halt, never a silent skip.
+   field is a halt, never a silent skip. **Research-confidence disclosure:**
+   for any required field grounded in Stage 01's supporting-context research,
+   check the backing document's `research_confidence` tag
+   (`content_access_verification`,
+   `../../icp-flows/ai-refinement/reference/ai-refinement-hybrid.md`); any
+   `excerpt-only` or `inaccessible` document backing a required field is
+   named in the validation report, alongside the field it backs, rather than
+   treated as if the grounding were fully verified. This is a disclosure,
+   not a halt — an excerpt-grounded field can still pass completeness.
 2. **Mandatory label check.** Distinct from schema completeness — labels are
    not schema fields, per `work-item-schemas.md`'s cross-cutting note.
    `refine-ai-flow-v<version>` (the `ai-refinement` flowspace's own
@@ -117,8 +126,9 @@ flowchart LR
 Reads: Stage 04's refined field set and conflict report (if any), the
 work-item schema from Stage 01, the formatting rules in the flowspace's
 `reference/ai-refinement-hybrid.md`, Stage 01's resolved team_code and
-session planning quarter, and `work-item-schemas.md`'s cross-cutting note on
-which types the planning label gates. Grounding rules: the report claims only
+session planning quarter, Stage 01's `research_confidence` tags on the
+supporting-context document set, and `work-item-schemas.md`'s cross-cutting
+note on which types the planning label gates. Grounding rules: the report claims only
 what was actually checked — no "all constraints pass" without enumerating
 them; unverifiable checks (e.g., Jira reachability for dependency references)
 are reported as "not checked," never assumed; a mandatory-label bypass is
@@ -158,16 +168,34 @@ A single output of this skill is acceptable when:
    vs. output payload shows no wording change.
 6. Every halt-level issue was surfaced to the user, none silently fixed.
 7. The user's sign-off on the final payload is explicit in the transcript.
+8. Any required field backed by an `excerpt-only` or `inaccessible`
+   research-confidence tag is named in the report, alongside the field it
+   backs — never silently treated as if the grounding were verified.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.3 |
-| Copilot | adapters/copilot-prompt.md | 1.3 |
+| Rovo | adapters/rovo-agent.md | 1.4 |
+| Copilot | adapters/copilot-prompt.md | 1.4 |
 
 ## Changelog
 
+- **1.4** (2026-08-05) — Method step 1's completeness scan gains a
+  research-confidence disclosure: any required field grounded in a document
+  Stage 01 tagged `excerpt-only` or `inaccessible`
+  (`content_access_verification`,
+  `../../icp-flows/ai-refinement/reference/ai-refinement-hybrid.md`) is
+  named in the validation report alongside the field it backs, rather than
+  silently treated as verified grounding — a disclosure, not a halt. New
+  Review criterion 8; Inputs and grounding gains Stage 01's
+  `research_confidence` tags as a read input. Drawn from a Rovo session
+  retrospective in which restricted-Confluence content that the agent could
+  only find by title/excerpt was treated as equivalent to a verified read,
+  with no mechanism to flag the degradation before commit. `truth-level`
+  stays `to-review` — content change, gate re-run still owed. Both adapters
+  regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-08-05-rovo-session-friction-fixes.md`.
 - **1.3** (2026-07-28) — Method step 2's mandatory label check and Review
   criterion 2 rename the provenance label from the static `refine-ai-built`
   to `refine-ai-flow-v<version>` (the `ai-refinement` flowspace's own

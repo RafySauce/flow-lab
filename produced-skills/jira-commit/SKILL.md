@@ -2,27 +2,31 @@
 name: jira-commit
 description: >
   Maps a validated, signed-off Jira work item payload to Jira fields per the
-  selected type's schema in the work-item-schemas registry — translating
-  Markdown into the target platform's native markup — resolves hierarchy
-  (with explicit user confirmation of the parent) and dependency links,
-  applies stakeholder tags plus the mandatory refine-ai-flow-v<version> and
-  planning labels as labels, shows a mandatory dry-run preview rendered in native form
-  (with a per-item planning-quarter override for gated types), executes the
-  commit through the engine's native Jira capabilities, offers a post-commit
-  status transition, and manages the session loop/close decision. Invoke at
-  Stage 06 of the ai-refinement flowspace with a signed-off Stage 05 payload
-  in hand. Also executes the per-item commits of an approved bulk-creation
-  set on behalf of bulk-child-creation, sequentially and halting on first
-  failure. Do NOT use to validate the payload (workitem-validation) or for
-  bulk imports, migrations, or edits of issues that already exist.
+  selected type's schema in the work-item-schemas registry — reading write-API
+  stubs before the first call, translating Markdown into the target
+  platform's native markup, and testing each custom field's actual accepted
+  format — resolves hierarchy (validated against the target project's live
+  hierarchy levels, with explicit user confirmation of the parent) and
+  dependency links, applies stakeholder tags plus the mandatory
+  refine-ai-flow-v<version> and planning labels as labels, shows a mandatory
+  dry-run preview rendered in native form (with a per-item planning-quarter
+  override for gated types), executes the commit through the engine's native
+  Jira capabilities, re-fetches and audits every created item's required
+  fields, offers a post-commit status transition, and manages the session
+  loop/close decision. Invoke at Stage 06 of the ai-refinement flowspace with
+  a signed-off Stage 05 payload in hand. Also executes the per-item commits
+  of an approved bulk-creation set on behalf of bulk-child-creation,
+  sequentially and halting on first failure. Do NOT use to validate the
+  payload (workitem-validation) or for bulk imports, migrations, or edits of
+  issues that already exist.
 # --- provenance (house layer) ---
 id: jira-commit
 type: skill
-artifact-version: "1.10"
+artifact-version: "1.11"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-08-05
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -47,9 +51,12 @@ Everything upstream drafts and gates; this skill acts.
 
 ```mermaid
 flowchart LR
-    Start(["Trigger: signed-off payload<br/>from Stage 05"]):::start --> M["Step 1 — Map fields<br/>Registry schema for the type →<br/>standard + discovered custom IDs;<br/>Markdown → native platform markup"]:::process
-    M --> L["Step 2 — Resolve links<br/>Query + present parent candidates<br/>for confirmation; blocking deps;<br/>stakeholder labels"]:::process
-    L --> PC{"Parent confirmed,<br/>skipped, or new<br/>parent requested?"}:::decision
+    Start(["Trigger: signed-off payload<br/>from Stage 05"]):::start --> PF["Step 0 — API preflight<br/>Read write-API stubs before<br/>the first call this session"]:::process
+    PF --> M["Step 1 — Map fields<br/>Registry schema for the type →<br/>standard + discovered custom IDs;<br/>field-capability test (ADF → plain<br/>text → description); Markdown →<br/>native platform markup"]:::process
+    M --> L["Step 2 — Resolve links<br/>Validate hierarchy level live;<br/>query + present parent candidates<br/>for confirmation; blocking deps;<br/>stakeholder labels"]:::process
+    L --> HV{"Hierarchy level<br/>valid for target<br/>project?"}:::decision
+    HV -->|No| HALT["Halt — present alternatives:<br/>top-level + link, change type,<br/>or restructure"]:::halt
+    HV -->|Yes| PC{"Parent confirmed,<br/>skipped, or new<br/>parent requested?"}:::decision
     PC -->|"New parent"| NP["Halt — spawn a new<br/>Band 2 run for the parent"]:::halt
     PC -->|"Confirmed / Skipped"| P{"Parent + fields resolve<br/>in target instance?"}:::decision
     P -->|No| H["Halt — report unmapped<br/>field / missing parent"]:::halt
@@ -57,7 +64,8 @@ flowchart LR
     DR --> A{"User approves?"}:::decision
     A -->|No| H2["Stop — return payload<br/>for revision"]:::halt
     A -->|Yes| X["Step 4 — Commit<br/>Native Jira actions (or sanctioned<br/>connector); confirm key + URL"]:::process
-    X --> T{"Step 5 — Offer transition<br/>to In Progress?"}:::decision
+    X --> AU["Step 4a — Post-commit field audit<br/>Re-fetch; verify every required<br/>field, label, and date landed"]:::process
+    AU --> T{"Step 5 — Offer transition<br/>to In Progress?"}:::decision
     T -->|Yes| TX["Execute transition<br/>via native Jira action"]:::process
     T -->|No| SL
     TX --> SL["Step 6 — Session loop<br/>Refine another / done"]:::process
@@ -93,33 +101,61 @@ flowchart LR
 
 ## Method
 
-1. **Field mapping, registry-driven, format-translated.** Load the selected
-   type's schema from the flowspace's `reference/work-item-schemas.md` — the
-   registry is the authoritative required-field set per type; the payload's
-   completeness was gated upstream against it. Map standard fields
-   (`summary`, `description`, `duedate`, `issuetype`) directly — for `bug`,
-   `description` is where reproduction steps, expected/actual result, and
-   (where known) severity/environment live, per the registry's content rule
-   for that field; no bug-specific custom fields to discover. Map every
-   remaining registry field for the type — problem_statement,
-   business_outcomes, customer_business_value, in_scope, out_of_scope,
-   type_of_work, work_category, acceptance_criteria, and for spikes
-   question_to_answer and timebox — via per-instance custom-field-ID
-   discovery, seeded by the registry's field names. A field the target
-   instance lacks is a halt with a named field, never a silent drop.
-   **Format-translation gate:** the Stage 05 payload is clean of bold/emoji
-   but may still carry Markdown structure (headings, bullet lists, code
-   blocks) from drafting — detect the target platform's accepted markup and
-   convert before mapping. For Jira Cloud, translate to Atlassian Document
-   Format (ADF) node structures (headings, bulleted/numbered lists, code
-   blocks) via the engine's native rendering; where only a plain-text field is
-   available, translate Markdown heading/list syntax into a plain readable
-   layout instead of passing `#`/`*`/`` ``` `` characters through literally.
-   Passing Markdown source syntax into a Jira field verbatim is a defect, not
-   an acceptable degradation.
+0. **API preflight.** Before the first write call of the session (create
+   issue, update issue, transition issue, create issue link, add comment),
+   read that action's actual function signature or stub rather than guessing
+   parameter names from convention — parameter naming for the same
+   underlying Jira REST operation varies by platform and engine integration,
+   and a guessed name costs a wasted round-trip. This is the flowspace's
+   `commit_boundary_hardening` house amendment.
+1. **Field mapping, registry-driven, format-translated, capability-tested.**
+   Load the selected type's schema from the flowspace's
+   `reference/work-item-schemas.md` — the registry is the authoritative
+   required-field set per type; the payload's completeness was gated
+   upstream against it. Map standard fields (`summary`, `description`,
+   `duedate`, `issuetype`) directly — for `bug`, `description` is where
+   reproduction steps, expected/actual result, and (where known)
+   severity/environment live, per the registry's content rule for that
+   field; no bug-specific custom fields to discover. For every remaining
+   registry field for the type — problem_statement, business_outcomes,
+   customer_business_value, in_scope, out_of_scope, type_of_work,
+   work_category, acceptance_criteria, and for spikes question_to_answer and
+   timebox — discover the per-instance custom-field ID, seeded by the
+   registry's field names, then **test the field's actual accepted format**
+   in a defined fallback order: rich ADF payload first, then plain text,
+   then folding the content into `description` with the gap explicitly
+   named. Defaulting straight to the `description` fallback because a
+   field's metadata looked ambiguous (e.g. typed `string` rather than `doc`)
+   is the defect this replaces — the fallback is a tested, last-resort
+   outcome per field, never an assumed "safe" default. A field the target
+   instance lacks entirely (no ID discoverable at any tier) is a halt with a
+   named field, never a silent drop. **Format-translation gate:** the Stage
+   05 payload is clean of bold/emoji but may still carry Markdown structure
+   (headings, bullet lists, code blocks) from drafting — detect the target
+   platform's accepted markup and convert before mapping. For Jira Cloud,
+   translate to Atlassian Document Format (ADF) node structures (headings,
+   bulleted/numbered lists, code blocks) via the engine's native rendering;
+   where only a plain-text field is available, translate Markdown
+   heading/list syntax into a plain readable layout instead of passing
+   `#`/`*`/`` ``` `` characters through literally. Passing Markdown source
+   syntax into a Jira field verbatim is a defect, not an acceptable
+   degradation.
 2. **Linkage resolution.** Parent mapping is default behavior for every
    committed type except `portfolio_epic` (top of the refinable set — no
-   parent within scope): query the target instance, via the engine's native
+   parent within scope). **Hierarchy validation, before any parent-link
+   write:** validate the proposed relationship against the target project's
+   actual, live-queried issue-type hierarchy levels —
+   `parent.hierarchyLevel == child.hierarchyLevel + 1` — rather than relying
+   on the registry's type-level candidate query alone; a project's real
+   hierarchy configuration can diverge from the registry's design intent,
+   and attempting the write before checking turns a preventable mismatch
+   into a failed API call. On a validation failure, halt before attempting
+   the write and present structurally valid alternatives — create as
+   top-level and link to the intended parent instead, change the item's
+   type to one that fits the hierarchy, or ask the user how to restructure
+   — rather than surfacing only the raw API error. This is also part of the
+   `commit_boundary_hardening` house amendment. Once the level is valid,
+   query the target instance, via the engine's native
    Jira lookup, for existing candidates of the appropriate parent type for
    the item's hierarchy level (portfolio epics for a solution epic; solution
    epics for a feature; the epic's existing features for a
@@ -173,6 +209,17 @@ flowchart LR
    valid, complete output of this skill, not a failure state; it lets the
    user copy the finished payload into Jira by hand or resume later once a
    connection exists.
+4a. **Post-commit field audit.** Re-fetch every issue this run created — the
+   single item in a single-item commit, every created item in a batch — and
+   verify each schema-required field for its type, per
+   `reference/work-item-schemas.md`, is actually populated, alongside the
+   mandatory labels and the due date. This catches the gap between "the
+   field was built upstream" and "the field was actually included in the
+   create call" — content constructed in drafting but never mapped in step
+   1 (e.g. folded into `description` by an untested fallback, or dropped
+   silently). Report any gap to the user before declaring the commit
+   complete; a gap found here is a defect to fix with a follow-up update
+   call, not a note for later. Also part of `commit_boundary_hardening`.
 5. **Post-commit transition offer.** After confirming the commit succeeded,
    ask the user directly and plainly: "Would you like to move this item to In
    Progress?" (or the board's equivalent active status) — one clear question,
@@ -235,10 +282,13 @@ commit exactly the signed-off payload — any mutation after sign-off invalidate
 the run, except the format translation this skill itself applies at the commit
 boundary (markup only, never content); the field set comes from the registry
 per type, never from memory; discover custom-field IDs from the live instance
-rather than assuming them, seeded by the registry's field names; parent
-candidates come from a live query of the target instance, never assumed or
-carried forward silently from Stage 01's hierarchy position; report the
-platform's actual response, never a presumed success.
+rather than assuming them, seeded by the registry's field names, and test
+each field's actual accepted format rather than assuming it from metadata;
+parent candidates come from a live query of the target instance, never
+assumed or carried forward silently from Stage 01's hierarchy position;
+validate hierarchy levels against the target project's live configuration
+rather than trusting the registry's design-intent hierarchy alone; report
+the platform's actual response, never a presumed success.
 
 ## Data boundary
 
@@ -310,16 +360,53 @@ A single output of this skill is acceptable when:
 11. A request to bulk-import, migrate, bulk-close, bulk-label, or
     bulk-transition issues that **already exist** was refused at any volume —
     the delegation in criterion 10 covers newly drafted sets only.
+12. Before the first write call of the session, the transcript shows the
+    agent read the write-API's function signature or stub rather than
+    guessing a parameter name from convention.
+13. Before any parent-link write, the transcript shows a hierarchy-level
+    validation against the target project's live-queried configuration; a
+    mismatch halted the write and offered structurally valid alternatives
+    (top-level + link, type change, restructure) instead of surfacing a raw
+    API error.
+14. Each custom field's format was tested in the ADF → plain-text →
+    description-with-gap-named fallback order; no field was defaulted
+    straight to the description fallback without a documented test.
+15. Every created item (single item, or each item in a bulk set) was
+    re-fetched post-commit and its schema-required fields, labels, and due
+    date were confirmed populated before the commit was declared complete;
+    any gap found was reported and fixed, not left for later discovery.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.10 |
-| Copilot | adapters/copilot-prompt.md | 1.10 |
+| Rovo | adapters/rovo-agent.md | 1.11 |
+| Copilot | adapters/copilot-prompt.md | 1.11 |
 
 ## Changelog
 
+- **1.11** (2026-08-05) — Four commit-boundary hardening additions, all
+  citing the new `commit_boundary_hardening` house amendment
+  (`../../icp-flows/ai-refinement/reference/ai-refinement-hybrid.md`), drawn
+  from a Rovo session retrospective: new Method step 0, API preflight —
+  read write-API stubs before the first call of the session, since parameter
+  naming for the same Jira REST operation varies by platform; Method step 1
+  gains field-capability testing (ADF → plain text →
+  description-with-gap-named, tested per custom field) in place of the
+  implicit "map or halt" framing, replacing the practice of defaulting
+  straight to the description fallback on ambiguous field metadata; Method
+  step 2 gains hierarchy-level validation against the target project's
+  live-queried configuration before any parent-link write, halting with
+  structurally valid alternatives on a mismatch instead of reaching the API
+  as a failed call; and new Method step 4a, a post-commit field audit that
+  re-fetches every created item (single or batch) and reports any
+  schema-required field, label, or date that didn't actually land. Flow
+  Diagram gains nodes for the preflight step, the hierarchy-validation
+  branch, and the audit step. Four new Review criteria (12–15) added,
+  appended rather than inserted, to keep prior changelog entries' criterion
+  citations stable. `truth-level` stays `to-review` — content change, gate
+  re-run still owed. Both adapters regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-08-05-rovo-session-friction-fixes.md`.
 - **1.10** (2026-07-31) — Bulk creation support. The "not a bulk-import or
   migration tool" boundary is **split rather than dropped**: importing,
   migrating, or editing issues that *already exist* stays refused at any

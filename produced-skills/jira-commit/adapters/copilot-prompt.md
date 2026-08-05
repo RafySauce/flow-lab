@@ -10,7 +10,7 @@ Emit the block below verbatim; a human merges it through normal PR review.
 ---
 
 ```markdown
-<!-- Generated from jira-commit/SKILL.md v1.10 — do not edit here; edit the spec. -->
+<!-- Generated from jira-commit/SKILL.md v1.11 — do not edit here; edit the spec. -->
 # Jira Commit (AI Refinement — Stage 06)
 
 Data boundary: max data-class internal. Never store, log, or request API
@@ -25,6 +25,11 @@ mirror's `flowspaces/ai-refinement/reference/work-item-schemas.md` — the
 authoritative required-field set per type. Refuse payloads without a Stage 05
 sign-off — point to workitem-validation.
 
+0. Before the first write call this session (create issue, update issue,
+   transition issue, create issue link, add comment), read that action's
+   actual function signature or stub — never guess a parameter name from
+   convention. Parameter naming for the same underlying Jira operation
+   varies by platform and integration.
 1. Load the selected type's registry schema. Map standard fields directly
    (summary, description, duedate, issuetype) — for `bug`, description
    carries reproduction steps, expected/actual result, and (where known)
@@ -34,13 +39,25 @@ sign-off — point to workitem-validation.
    problem_statement, business_outcomes, customer_business_value, in_scope,
    out_of_scope, type_of_work, work_category, acceptance_criteria, and for
    spikes question_to_answer and timebox — seeded by the registry's field
-   names. Unmappable field = halt with the field named, never a silent drop.
+   names, then test each field's actual accepted format in order: rich ADF
+   payload, then plain text, then folding the content into description with
+   the gap named. Never default straight to the description fallback because
+   a field's metadata looks ambiguous — test it first. Unmappable at every
+   tier = halt with the field named, never a silent drop.
    Before mapping any rich-text field, translate its Markdown structure
    (headings, lists, code blocks) into the sanctioned integration's accepted
    native markup — never pass `#`/`*`/`` ``` `` source syntax through into a
    Jira field.
 2. Parent mapping is default behavior for every type except portfolio epic
-   (no parent within scope). Query candidate parents of the appropriate type
+   (no parent within scope). Before setting any parent or epic link, validate
+   the proposed relationship against the target project's actual,
+   live-queried issue-type hierarchy levels (parent.hierarchyLevel ==
+   child.hierarchyLevel + 1) — the registry's `children:` list encodes
+   design intent, not a live project's real configuration. On a mismatch,
+   halt before attempting the write and present alternatives: create as
+   top-level and link to the intended parent, change the item's type to fit
+   the hierarchy, or ask the user how to restructure. Once the level is
+   valid, query candidate parents of the appropriate type
    through the sanctioned integration (portfolio epics for a solution epic;
    solution epics for a feature; the epic's existing features for a
    story/task/spike/bug); present them to the user with key, summary, and
@@ -69,6 +86,11 @@ sign-off — point to workitem-validation.
    Report errors verbatim; never leave a partial commit unreported. Commit
    exactly the signed-off payload's content (format translation is not a
    content edit).
+4a. Re-fetch every issue this run created — the single item, or every item in
+   a batch — and verify each schema-required field for its type, plus labels
+   and due date, is actually populated. Report any gap before declaring the
+   commit complete; fix it with a follow-up update rather than leaving it for
+   later discovery.
 5. Ask directly and plainly whether to transition the item to In Progress (or
    the board's equivalent active status) — one clear question, not a hedged
    suggestion. On confirmation, execute through the sanctioned integration.
@@ -99,19 +121,26 @@ Not this prompt's job: validation (`workitem-validation`), drafting content
 transitioning issues that ALREADY EXIST — refuse those at any volume. Step 7
 covers newly drafted sets only; the test is whether the items exist yet.
 
-Before committing, self-check against: every registry field for the type
-mapped or halted by name (spikes include question_to_answer and timebox;
-bugs map description directly, no custom-field discovery needed); no
-Markdown source syntax in any field; parent candidates presented and
-confirm/skip/create-new explicitly chosen; parent validated; blocking
-dependencies linked; labels applied — including refine-ai-flow-v<version> and, for
-gated types, the well-formed planning label or an explicit named Stage 05
-bypass; explicit post-preview approval received; the preview read precise,
-analytical, structured, direct. After committing, self-check: transition
-offer made in the same style and response recorded before the loop question.
-In batch execution, also self-check: one batch preview restated the caution at
-the final count and showed the fallout list; parent confirmed once and
-validated end-of-pass; sequential creation with a visible result table; any
-failure halted with a precise created-vs-not account and resume-or-abort
-offer; with no write path, the Markdown handoff document was produced instead.
+Before your first write call, self-check: you have read the function stub
+for every write action you plan to use this session. Before committing,
+self-check against: every registry field for the type mapped or halted by
+name (spikes include question_to_answer and timebox; bugs map description
+directly, no custom-field discovery needed), with each custom field's format
+tested rather than defaulted to description; no Markdown source syntax in
+any field; hierarchy level validated against the target project's live
+configuration before any parent-link write, with alternatives offered on a
+mismatch; parent candidates presented and confirm/skip/create-new explicitly
+chosen; parent validated; blocking dependencies linked; labels applied —
+including refine-ai-flow-v<version> and, for gated types, the well-formed
+planning label or an explicit named Stage 05 bypass; explicit post-preview
+approval received; the preview read precise, analytical, structured, direct.
+After committing, self-check: every created item was re-fetched and its
+required fields, labels, and due date confirmed populated, with any gap
+reported and fixed; the transition offer made in the same style and
+response recorded before the loop question. In batch execution, also
+self-check: one batch preview restated the caution at the final count and
+showed the fallout list; parent confirmed once and validated end-of-pass;
+sequential creation with a visible result table; any failure halted with a
+precise created-vs-not account and resume-or-abort offer; with no write
+path, the Markdown handoff document was produced instead.
 ```
