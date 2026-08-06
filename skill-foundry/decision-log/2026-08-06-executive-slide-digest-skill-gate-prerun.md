@@ -101,3 +101,46 @@ empty permitted-actions list.
 
 Reviewer at the gate itself: the operator, pending. This pre-run is
 agent-side preparation, not the human review.
+
+## Addendum (2026-08-06) — local simulated test run
+
+On operator instruction ("let's run the test here locally - make up mock
+data inputs from jira"), ran a synthetic end-to-end pass by hand — not a
+live Rovo/Copilot invocation. Built a two-initiative portfolio framing
+brief and mock Jira gather output (one Amber initiative with a real
+blocker, one Green initiative with none — the exact fixture shape both
+skills' Definition-of-done sections specify), applied
+`executive-slide-drafter`'s Method to draft it, applied Stage 4's
+align/publish check by hand, then applied `executive-slide-pptx-stylizer`'s
+Method with `pptxgenjs` to produce a real `.pptx` against
+`pptx-minimal-default-style.md`.
+
+**Findings:**
+
+- Stage 4's grounding check caught a real defect in the Stage 3 draft: the
+  drafter's Ask line for the Amber initiative stated a contract-extension
+  detail that did not trace to any Stage 2 gathered-material entry.
+  Corrected before styling — the flow's own grounding discipline working as
+  designed, not merely stated on paper.
+- `executive-slide-pptx-stylizer` Review criteria 1–2 (every approved
+  section present, nothing beyond it) verified via `markitdown` text
+  extraction against the approved content set — exact match, no invented
+  content, no dropped sections. Criterion 3 (missing-template note) present
+  on the title slide; RAG chip coloring implemented per
+  `pptx-minimal-default-style.md`'s color table.
+- File-level validation (`scripts/office/validate.py` from the `pptx`
+  skill) passed with no errors.
+- Visual QA (rendering slides to images) could not be completed —
+  LibreOffice headless conversion failed to load any file in this sandbox,
+  including a trivial one-slide test deck, confirming an environment
+  limitation rather than a defect in the generated file. Left open.
+
+This is still not the gate's required live test **on the target engine**
+— it stands in a general-purpose file-generation tool for the Copilot
+adapter, useful for catching content-shape and grounding defects but not
+for exercising the adapter's actual on-engine behavior. **Gate item 2
+stays OPEN** for that reason. Test artifacts (mock framing brief, gathered
+material, draft, approved content, generated `.pptx`) were kept in the
+session's scratch space, not committed to this repo — consistent with the
+flowspace scaffold's rule that `work/` per-run content is transient and
+only added at instantiation.
