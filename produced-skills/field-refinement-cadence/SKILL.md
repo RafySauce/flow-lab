@@ -14,11 +14,11 @@ description: >
 # --- provenance (house layer) ---
 id: field-refinement-cadence
 type: skill
-artifact-version: "1.5"
+artifact-version: "1.6"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-08-21
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -82,7 +82,10 @@ flowchart LR
    the user has something concrete to size a commitment against (spike:
    timebox is elicited alongside due date, at the same point, and validated
    against it). Remaining required fields, between summary and acceptance
-   criteria, in schema dependency order. Never ask the user to choose an
+   criteria, in schema dependency order — for a bug: description immediately
+   after summary, then app_code, then root_cause, since root_cause is drafted
+   against the reproduction/expected/actual content description just
+   confirmed and cannot precede it. Never ask the user to choose an
    order; the ordering is the skill's job. **In fast-track mode**, this
    ordering governs presentation grouping, not elicitation sequence: fields
    drafted with confidence from source material are grouped, with citations,
@@ -109,11 +112,16 @@ flowchart LR
    work-category inconsistency (every type that carries both fields per the
    work-item-schemas registry — feature, task, story, spike, and bug); a
    conflict axis triggered in Stage 03 with no decision-owner recorded. For
-   `bug`, this is a within-field check rather than a cross-field one:
+   `bug`, two additional checks apply: a within-field check that
    `description` must state an actual result that contradicts its own stated
    expected result — a description that only restates the expected behavior,
-   with no observed failure, means no bug. Surface conflicts immediately —
-   don't defer them to validation.
+   with no observed failure, means no bug — and a cross-field check that
+   `root_cause` names a mechanism consistent with `description`'s stated
+   actual result (a root cause that explains a different symptom than the one
+   reported is a conflict, not a valid draft) and that `app_code` and
+   `root_cause` are both non-empty and non-placeholder, since these two are
+   required for every bug the flow generates with no exception. Surface
+   conflicts immediately — don't defer them to validation.
 4. **Acceptance-criteria reframing.** Every criterion begins "Must be able to"
    or "We will know this is done when." *Worked example:* "the dashboard
    should be faster" → "We will know this is done when the capacity dashboard
@@ -197,16 +205,33 @@ A single output of this skill is acceptable when:
    transcript.
 9. All user-facing presentation (field constraints, AC reframing, due-date
    ask) reads as precise, analytical, structured, and direct.
+10. For `bug`, `app_code` and `root_cause` both carry non-placeholder values,
+    and `root_cause` names a mechanism consistent with `description`'s stated
+    actual result — a mismatch or an empty value on either field is a hit
+    surfaced and resolved, never carried forward silently.
 
 ## Adapters
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.5 |
-| Copilot | adapters/copilot-prompt.md | 1.5 |
+| Rovo | adapters/rovo-agent.md | 1.6 |
+| Copilot | adapters/copilot-prompt.md | 1.6 |
 
 ## Changelog
 
+- **1.6** (2026-08-21) — `bug` gains two required custom fields, `app_code`
+  and `root_cause` (work-item-schemas registry 1.7 → 1.8, operator
+  instruction). Method step 1's field ordering places `description`
+  immediately after `summary` for a bug, then `app_code`, then `root_cause`
+  (root_cause depends on description's confirmed content). Method step 3's
+  conflict detection gains a bug-specific cross-field check (root_cause must
+  name a mechanism consistent with description's stated actual result) on
+  top of the existing within-field description check, plus a non-empty
+  requirement on both new fields. New Review criterion 10, appended rather
+  than inserted to keep prior changelog entries' citations stable.
+  `truth-level` moves from `verified` to `to-review` — content change, gate
+  re-run owed. Both adapters regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-08-21-bug-root-cause-and-app-code-fields.md`.
 - **1.5** (2026-07-07) — Method step 3's bug-specific conflict check rewritten
   from a cross-field comparison (expected_result vs. actual_result) to a
   within-field check on `description` — tracks the work-item-schemas

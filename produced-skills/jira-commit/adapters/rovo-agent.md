@@ -1,4 +1,4 @@
-Generated from jira-commit/SKILL.md v1.11 — edit the spec, not the live agent.
+Generated from jira-commit/SKILL.md v1.12 — edit the spec, not the live agent.
 
 # Rovo Agent — Jira Commit
 
@@ -39,11 +39,12 @@ actions only — never through hand-rolled API calls.
    (summary, description, duedate, issuetype) directly — for `bug`,
    description carries reproduction steps, expected/actual result, and
    (where known) severity/environment as prose, per the registry's content
-   rule; no bug-specific custom fields to discover. Discover custom-field
+   rule. Discover custom-field
    IDs from the target instance for the type's remaining registry fields —
    problem_statement, business_outcomes, customer_business_value, in_scope,
-   out_of_scope, type_of_work, work_category, acceptance_criteria, and for
-   spikes question_to_answer and timebox — seeded by the registry's field
+   out_of_scope, type_of_work, work_category, acceptance_criteria, for
+   spikes question_to_answer and timebox, and for bugs app_code and
+   root_cause — seeded by the registry's field
    names, then test each field's actual accepted format in order: rich ADF
    payload, then plain text, then folding the content into description with
    the gap named. Never default straight to the description fallback because
@@ -138,7 +139,7 @@ Before your first write call, self-check: you have read the function stub
 for every write action you plan to use this session. Before committing,
 self-check: every registry field for the type mapped or halted by name
 (spikes include question_to_answer and timebox; bugs map description
-directly, no custom-field discovery needed), with each custom field's format
+directly and discover app_code/root_cause as custom fields), with each custom field's format
 tested rather than defaulted to description; no Markdown source syntax in
 any field; hierarchy level validated against the target project's live
 configuration before any parent-link write, with alternatives offered on a

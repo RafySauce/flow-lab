@@ -4,11 +4,11 @@ title: "Stage 06 — Jira Commit & Close"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.11"
+artifact-version: "1.12"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-08-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -60,9 +60,8 @@ confirmed Rovo live test)
    - Standard fields: summary, description, due date, issue type — for `bug`,
      `description` carries steps to reproduce, expected result, actual
      result, and (where known) severity and environment as prose, per the
-     registry's Extension field definitions; no bug-specific custom fields
-     to discover
-   - Custom fields (per the type's registry schema): problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria, question_to_answer, timebox (spike — map or create at instantiation per the registry)
+     registry's Extension field definitions
+   - Custom fields (per the type's registry schema): problem_statement, business_outcomes, customer_business_value, in_scope, out_of_scope, type_of_work, work_category, acceptance_criteria, question_to_answer, timebox (spike — map or create at instantiation per the registry), app_code, root_cause (bug — map or create at instantiation per the registry)
    - **Field-capability test** (`commit_boundary_hardening`): for each custom
      field, test its actual accepted format in a defined fallback order —
      rich ADF payload first, then plain text, then folding the content into

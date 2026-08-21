@@ -2,11 +2,11 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.24"
+artifact-version: "1.25"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-08-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -359,6 +359,19 @@ inconvenience.
 > pointer, not an archive — 1–3 sentences plus the decision-log citation
 > that carries the full rationale.
 
+Fifteenth gap (2026-08-21): generated `bug` items reached commit without
+stating which application was affected or why the defect occurred —
+`description`'s 1.3 simplification correctly folded reproduction detail into
+one field but left no home for either concern. Closed by adding `app_code`
+and `root_cause` as required custom fields on `bug` (work-item-schemas
+registry 1.7 → 1.8), with Stage 04 (1.6 → 1.7) eliciting them in dependency
+order, Stage 05 (1.7 → 1.8) validating their content rules, Stage 06 (1.11 →
+1.12) mapping and post-commit-auditing them, and `field-refinement-cadence`
+(1.5 → 1.6) and `jira-commit` (1.11 → 1.12) updated to match — both skills
+drop to `to-review`. None of this has run on-engine. Raised by the operator.
+Rationale:
+`decision-log/2026-08-21-bug-root-cause-and-app-code-fields.md`.
+
 **Gate closure (2026-08-01):** the flow and its six directly-built skills
 were re-gated and re-promoted to `truth-level: verified` on a confirmed Rovo
 run across the flow, closing the Rovo-path re-gate language on gaps seven
@@ -487,9 +500,9 @@ recorded in each skill card.
 |---|---|---|---|
 | `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.5 (nine-type input taxonomy, supporting-context steering: architecture material seeds the stakeholder sweep, prior completed items seed "tried before"); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
 | `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — 1.3 (SAD/topology integration-seam dependency sweep, prior-process risk seeding); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
-| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.3 (conditionally-scoped cadence: fast-track consolidation vs. one-at-a-time, communication_style citation); promoted 2026-07-03; deployment pending |
+| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | to-review — 1.6 (bug field ordering and conflict checks extended for app_code/root_cause); content change 2026-08-21, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
 | `workitem-validation` | `sp-workitem-validation` | 5 | to-review — 1.4 (completeness scan names any excerpt-only/inaccessible research grounding backing a required field); content change 2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
-| `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.11 (API preflight, hierarchy-level validation before parent-link writes, field-capability testing, post-commit field audit); content change 2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
+| `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.12 (API preflight, hierarchy-level validation before parent-link writes, field-capability testing, post-commit field audit, bug app_code/root_cause custom-field discovery); content change 2026-08-21, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
 | `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot adapter live test still outstanding |
 | `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | to-review — 1.1 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, dropping back to `to-review` pending re-gate); Copilot adapter live test still outstanding |
 
@@ -563,7 +576,7 @@ Raised by the operator; none of it has run on-engine. Rationale:
 | AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eleven house amendments (five on-engine-proven, six operator-raised) |
 | Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (to-review — 1.1) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation in ≤10-item sub-batches with halt-on-failure, Markdown handoff degrade path |
 | Session-Continuation Handoff | `reference/session-continuation-handoff.md` (to-review) | Document shape for resuming this flow's own progress in a fresh session when `session_budget_checkpoint` stops the current one: stage reached, items completed, items remaining, recommended priority order |
-| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions; sub_task out-of-scope declaration; extension field constraints; mandatory-label, hierarchy-level, and field-capability cross-cutting notes |
+| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions (bug now carries app_code/root_cause alongside description); sub_task out-of-scope declaration; extension field constraints; mandatory-label, hierarchy-level, and field-capability cross-cutting notes |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
 | Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (verified, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |
 | Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |

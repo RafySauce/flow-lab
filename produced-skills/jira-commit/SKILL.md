@@ -22,11 +22,11 @@ description: >
 # --- provenance (house layer) ---
 id: jira-commit
 type: skill
-artifact-version: "1.11"
+artifact-version: "1.12"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-08-21
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -116,11 +116,11 @@ flowchart LR
    `duedate`, `issuetype`) directly — for `bug`, `description` is where
    reproduction steps, expected/actual result, and (where known)
    severity/environment live, per the registry's content rule for that
-   field; no bug-specific custom fields to discover. For every remaining
+   field. For every remaining
    registry field for the type — problem_statement, business_outcomes,
    customer_business_value, in_scope, out_of_scope, type_of_work,
-   work_category, acceptance_criteria, and for spikes question_to_answer and
-   timebox — discover the per-instance custom-field ID, seeded by the
+   work_category, acceptance_criteria, for spikes question_to_answer and
+   timebox, and for bugs app_code and root_cause — discover the per-instance custom-field ID, seeded by the
    registry's field names, then **test the field's actual accepted format**
    in a defined fallback order: rich ADF payload first, then plain text,
    then folding the content into `description` with the gap explicitly
@@ -323,8 +323,8 @@ A single output of this skill is acceptable when:
 
 1. Every field in the selected type's registry schema maps to a resolved Jira
    field ID (spike runs include question_to_answer and timebox; bug runs map
-   `description` directly, no custom-field discovery needed), or the run
-   halted naming the unmapped field.
+   `description` directly and discover `app_code`/`root_cause` as custom
+   fields), or the run halted naming the unmapped field.
 2. No Markdown source syntax (heading markers, bullet/list markers, code
    fences) appears in any committed field — fetched-back content shows
    platform-native structure, not literal `#`/`*`/`` ``` `` characters.
@@ -380,11 +380,20 @@ A single output of this skill is acceptable when:
 
 | Engine | Artifact | Generated from spec version |
 |---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.11 |
-| Copilot | adapters/copilot-prompt.md | 1.11 |
+| Rovo | adapters/rovo-agent.md | 1.12 |
+| Copilot | adapters/copilot-prompt.md | 1.12 |
 
 ## Changelog
 
+- **1.12** (2026-08-21) — `bug` gains two required custom fields, `app_code`
+  and `root_cause` (work-item-schemas registry 1.7 → 1.8, operator
+  instruction: every generated bug must state which application it affects
+  and why the defect occurs). Method step 1's field-mapping list and Review
+  criterion 1 updated so both fields are discovered and format-tested exactly
+  like every other bug custom field — no `description`-fallback shortcut, no
+  silent drop. `truth-level` stays `to-review` — content change, gate re-run
+  still owed. Both adapters regenerated. See
+  `../../icp-flows/ai-refinement/decision-log/2026-08-21-bug-root-cause-and-app-code-fields.md`.
 - **1.11** (2026-08-05) — Four commit-boundary hardening additions, all
   citing the new `commit_boundary_hardening` house amendment
   (`../../icp-flows/ai-refinement/reference/ai-refinement-hybrid.md`), drawn

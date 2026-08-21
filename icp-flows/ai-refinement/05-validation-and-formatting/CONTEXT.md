@@ -4,11 +4,11 @@ title: "Stage 05 — Validation & Formatting"
 type: stage-context
 stage: 5
 review-intensity: light
-artifact-version: "1.7"
+artifact-version: "1.8"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-08-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -67,6 +67,12 @@ on a confirmed Rovo live test)
    - Spike only: question_to_answer is a single question; timebox states an
      explicit bound closing on or before the due date
      (`../reference/work-item-schemas.md`, extension field definitions)
+   - Bug only: app_code names a specific application/system code (not vague
+     or "unknown"); root_cause states a causal mechanism distinct from
+     description's symptom, or explicitly says the cause is unconfirmed and
+     names what's suspected — never blank, never a confident-sounding guess
+     presented as confirmed (`../reference/work-item-schemas.md`, extension
+     field definitions)
    - **Communication style** — drafted field text (problem statement,
      acceptance criteria, value statements, any free-text field) reads as
      precise, analytical, structured, and direct, per the persona's
