@@ -2,11 +2,11 @@
 id: work-item-schemas
 title: "Work Item Schemas — Refinable Set (House Extension)"
 type: specification
-artifact-version: "1.7"
+artifact-version: "1.8"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-08-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -73,7 +73,12 @@ clarifying that this registry's `children:` relationships encode design
 intent, not a live project's actual configured hierarchy or field metadata —
 both are now confirmed at Stage 06 commit time per the
 `commit_boundary_hardening` house amendment; no `fields:` changes for any
-type; see `../decision-log/2026-08-05-rovo-session-friction-fixes.md`.
+type; see `../decision-log/2026-08-05-rovo-session-friction-fixes.md`. **1.8**
+adds `app_code` and `root_cause` to `bug` as required custom fields (operator
+instruction: every bug the ai-refinement flow generates must state which
+application it affects and why the defect occurs, not only what was
+observed) — `bug` moves from three required fields to five; see
+`../decision-log/2026-08-21-bug-root-cause-and-app-code-fields.md`.
 
 ## Refinable set and out-of-scope types
 
@@ -88,7 +93,7 @@ Spike | Bug) → Sub-Task. This pipeline refines seven of the eight:
 | `story` | Yes | House extension below. |
 | `task` | Yes | House extension below. |
 | `spike` | Yes | House extension below. |
-| `bug` | Yes | House extension below — peer of `story`/`task`/`spike` under `feature`; reported defect captured as summary + description + acceptance criteria, same shape discipline as every other type. |
+| `bug` | Yes | House extension below — peer of `story`/`task`/`spike` under `feature`; reported defect captured as summary + description + app_code + root_cause + acceptance criteria, same shape discipline as every other type. |
 | `sub_task` | No | Execution breakdown created directly in Jira under an already-committed parent; carries no independent business value to elicit, so the pipeline adds nothing. If selected at Stage 01, redirect. |
 
 ## Mandatory labels (cross-cutting; house extension, 2026-07-15; revised 2026-07-28)
@@ -254,6 +259,10 @@ work_item_types:
       description: required # standard Jira field — steps to reproduce,
         # expected result, actual result, severity, and environment (where
         # known) are content within this one field, not separate fields
+      app_code: required # custom field — the specific application/system
+        # code the defect affects (1.8)
+      root_cause: required # custom field — why the defect occurs, distinct
+        # from description's symptom statement (1.8)
       customer_business_value: required
       acceptance_criteria: required
       type_of_work: required
@@ -287,6 +296,23 @@ field_definitions_extension:
       bug; should also state severity (blocker | critical | major | minor)
       and environment where known, folded into the same field rather than
       tracked separately
+  app_code: # bug-specific (1.8) — no other current type schemas this field
+    rule: must name the specific application or system code the reported
+      defect affects, using the same app/system-code convention Stage 01
+      already uses as a supporting-context search-term filter — not a vague
+      product family name, and never "unknown" or "TBD"; where the defect
+      genuinely spans more than one application, name all of them rather
+      than picking one arbitrarily
+  root_cause: # bug-specific (1.8) — no other current type schemas this field
+    rule: must state the underlying mechanism the defect traces to (a code
+      path, a configuration value, a race condition, an upstream dependency
+      failure, a data condition) — distinct from the symptom already
+      captured in description's actual-result statement; restating the
+      observed failure with no causal explanation does not satisfy this
+      rule. Where the cause is not yet confirmed, the field must say so
+      explicitly and name what is suspected pending investigation — a
+      confident-sounding guess presented as a confirmed cause is
+      fabrication, and an empty field is never acceptable
 ```
 
 ## Derivation rules (how the extension fields were chosen)
@@ -360,3 +386,20 @@ Recorded so the operator can ratify the *reasoning*, not just the field lists:
    `description` alone (see Extension field definitions, above) so Stage 04/05
    still check for it — the requirement to state reproduction steps and a
    result contradiction didn't go away, only the field boundary around it did.
+8. **`bug` gains `app_code` and `root_cause` as required custom fields —
+   operator instruction, not a house-derived addition.** The 1.3
+   simplification (rule 7, above) correctly folded reproduction detail,
+   expected/actual result, severity, and environment into `description`, but
+   left the item silent on two things a defect report needs for triage and
+   follow-through: which application it affects, and why it happens. Neither
+   belongs inside `description` — that field's content rule (Extension field
+   definitions) is already fully occupied by the reproduction/expected/actual
+   contradiction, and folding two more concerns into one field would recreate
+   the ambiguity 1.3 was written to remove. `app_code` and `root_cause` are
+   therefore separate required fields, not additional prose inside
+   `description`, the same reasoning that keeps `type_of_work`/`work_category`
+   (rule 5) as their own fields rather than folded into narrative text. Every
+   bug this flowspace generates must carry both, with no exception — a bug
+   item that reaches Stage 06 without them is a defect in the run, not an
+   acceptable gap. See
+   `../decision-log/2026-08-21-bug-root-cause-and-app-code-fields.md`.

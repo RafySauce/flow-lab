@@ -4,11 +4,11 @@ title: "Stage 04 — Field-by-Field Refinement"
 type: stage-context
 stage: 4
 review-intensity: light
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
 truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-08-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -33,6 +33,7 @@ related:
 | Field definitions (summary ≤ 10 words, AC starters) | `../reference/ai-refinement-hybrid.md` | Yes |
 | House amendment: due-date elicitation rule | `../reference/ai-refinement-hybrid.md` | Yes |
 | Extension field constraints (question_to_answer, timebox) | `../reference/work-item-schemas.md` | If type is spike |
+| Extension field constraints (app_code, root_cause) | `../reference/work-item-schemas.md` | If type is bug |
 
 ## Process
 
@@ -43,6 +44,9 @@ related:
    - Summary first (anchors everything)
    - For a spike: question_to_answer immediately after summary (every other
      field serves answering it)
+   - For a bug: description immediately after summary, then app_code, then
+     root_cause — root_cause is drafted against the reproduction/expected/
+     actual content just confirmed in description, so it cannot precede it
    - Acceptance criteria next-to-last (depends on all other fields)
    - Due date always last (elicited only after acceptance criteria exist, so
      the user has a concrete effort reference to commit against; a spike's
@@ -162,6 +166,11 @@ run's decision log.
 - [ ] Scope fields match Stage 03's confirmed scope package (where the schema
       carries them)
 - [ ] Question-to-answer and timebox meet their extension constraints (spike)
+- [ ] app_code and root_cause meet their extension constraints (bug) —
+      app_code names a specific application/system code, and root_cause
+      states a causal mechanism distinct from description's symptom (or
+      explicitly says the cause is unconfirmed and names what's suspected),
+      never left blank or fabricated as a confident-sounding guess
 - [ ] Due date traces to an explicit user commitment made after acceptance
       criteria were presented — never fabricated or defaulted, in any mode
 - [ ] Cross-field conflicts were checked and resolved

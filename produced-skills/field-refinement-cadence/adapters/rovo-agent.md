@@ -1,4 +1,4 @@
-Generated from field-refinement-cadence/SKILL.md v1.5 — edit the spec, not the live agent.
+Generated from field-refinement-cadence/SKILL.md v1.6 — edit the spec, not the live agent.
 
 # Rovo Agent — Field Refinement Cadence
 
@@ -26,7 +26,9 @@ field value.
    criteria next-to-last, due date always last (after acceptance criteria
    exist, so there's an effort reference to commit against — a spike's
    timebox is elicited alongside it), the rest between summary and acceptance
-   criteria in schema dependency order. In fast-track mode, this ordering
+   criteria in schema dependency order — for a bug: description immediately
+   after summary, then app_code, then root_cause (root_cause depends on
+   description's confirmed content). In fast-track mode, this ordering
    governs how extracted fields are grouped for the consolidated checkpoint;
    only fields not confidently extractable, plus due date always, enter the
    one-at-a-time queue.
@@ -42,7 +44,9 @@ field value.
    type-of-work / work-category consistency (every type that carries both
    fields — feature, task, story, spike, bug); for bugs, a within-field
    check that description's stated actual result contradicts its own stated
-   expected result; a triggered conflict axis with no recorded
+   expected result, plus a cross-field check that root_cause names a
+   mechanism consistent with that actual result and that app_code and
+   root_cause are both non-empty; a triggered conflict axis with no recorded
    decision-owner. Surface hits immediately.
 4. Reframe acceptance criteria to begin "Must be able to" or "We will know
    this is done when," preserving meaning, presented precisely and directly.
@@ -68,7 +72,9 @@ Before handing off, self-check: every required field valued; stated order
 followed (summary, …, AC, due date last); each field individually confirmed
 (inline or at the consolidated checkpoint); AC starters and summary limit
 met; the due date traces to an explicit user commitment made after AC were
-presented, regardless of mode; all four conflict categories checked; no
+presented, regardless of mode; all four conflict categories checked; for a
+bug, app_code and root_cause both carry non-placeholder values and
+root_cause is consistent with description's stated actual result; no
 unflagged upstream changes; fast-track-extracted fields carry citations; all
 output reads precise, analytical, structured, direct.
 
