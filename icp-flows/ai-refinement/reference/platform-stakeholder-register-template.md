@@ -14,11 +14,13 @@ generated-by-version: "1.3"
 data-class: public
 related:
   - "[[ai-refinement]]"
+  - "[[platform-stakeholder-register]]"
 ---
 
 # Stakeholder Register Template — Domain-Neutral
 
-The domain-neutral structure for a stakeholder register. Use this template to instantiate a stakeholder register
+The domain-neutral structure behind `platform-stakeholder-register.md` (the
+network-engineering instance). Use this template to instantiate a stakeholder register
 for any domain the `ai-refinement` flowspace is run against — copy it,
 replace the bracketed placeholders with the real domain's teams and
 tensions, and rename the copy per the domain (e.g.
@@ -26,9 +28,10 @@ tensions, and rename the copy per the domain (e.g.
 Stage 02's stakeholder sweep and Stage 03's coalition/conflict-axis
 annotation can read either instance without a contract change.
 
-Once a register is populated, suggest the user save it (engine memory and/or
-their source-repo) so future runs can load it as option (a) at Stage 01 — team
-and role names only, never named individuals.
+Use it too when a user isn't sure how to define their stakeholders: walk the
+six role-types with them. Once a register is populated, save it to the engine's
+memory if available (else hand it back as text) so future runs can load it at
+Stage 01 — team and role names only, never named individuals.
 
 If no instance exists yet for a domain, Stage 01's grounding check flags
 **ungrounded mode**: Stage 02 and Stage 03 ask the user directly who is

@@ -21,7 +21,7 @@ source: human+ai
 generated-by: skill-foundry
 generated-by-version: "1.1"
 data-class: public
-related: ["[[sp-scope-dependency-mapper]]", "[[ai-refinement]]"]
+related: ["[[sp-scope-dependency-mapper]]", "[[ai-refinement]]", "[[platform-stakeholder-register]]"]
 ---
 
 # Scope & Dependency Mapper

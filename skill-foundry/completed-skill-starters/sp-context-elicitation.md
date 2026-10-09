@@ -12,7 +12,7 @@ source: human+ai
 generated-by: flow-foundry
 generated-by-version: "1.1"
 data-class: public
-related: ["[[ai-refinement]]"]
+related: ["[[ai-refinement]]", "[[platform-stakeholder-register]]"]
 ---
 
 # Skill Primer Brief — Context Elicitation
@@ -38,7 +38,7 @@ unrefinable inputs.
 
 1. Structured question sequence — ordered prompts progressively narrowing from
    broad context to specific problem/value statements.
-2. Stakeholder sweep — walk the loaded stakeholder register (an instance of `platform-stakeholder-register-template.md`), tag the entries
+2. Stakeholder sweep — walk `platform-stakeholder-register.md` (or the user's own register), tag the entries
    whose needs or limits define the item, and use each tagged entry's "what they
    value most" to prompt for unvolunteered requirements.
 3. Pushback patterns — detect and reframe vague, circular, or overly broad

@@ -12,7 +12,7 @@ source: human+ai
 generated-by: flow-foundry
 generated-by-version: "1.1"
 data-class: public
-related: ["[[ai-refinement]]"]
+related: ["[[ai-refinement]]", "[[platform-stakeholder-register]]"]
 ---
 
 # Skill Primer Brief — Scope & Dependency Mapper

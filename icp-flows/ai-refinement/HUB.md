@@ -17,6 +17,7 @@ related:
   - "[[work-item-schemas]]"
   - "[[value-decomposition]]"
   - "[[bulk-child-creation]]"
+  - "[[platform-stakeholder-register]]"
 ---
 
 # AI-Augmented Refinement — Jira Work Item Pipeline
@@ -29,7 +30,7 @@ and dependencies, challenging incomplete requirements, and enforcing measurable
 outcomes across the enterprise platform and infrastructure domain. Requirements are
 grounded in the platform stakeholder register: every work item is tagged with
 the stakeholders whose needs define it, the coalition it satisfies, and the
-conflict axis it triggers (see `reference/platform-stakeholder-register-template.md`).
+conflict axis it triggers (see `reference/platform-stakeholder-register.md`).
 
 Default run = one fully refined work item committed to Jira. Where the user
 already holds the item set — a spreadsheet, an export, a pasted list, vendor
@@ -579,6 +580,7 @@ Raised by the operator; none of it has run on-engine. Rationale:
 | Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (verified — 1.1) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation in ≤10-item sub-batches with halt-on-failure, Markdown handoff degrade path |
 | Session-Continuation Handoff | `reference/session-continuation-handoff.md` (verified) | Document shape for resuming this flow's own progress in a fresh session when `session_budget_checkpoint` stops the current one: stage reached, items completed, items remaining, recommended priority order |
 | Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (verified, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions (bug now carries app_code/root_cause alongside description); sub_task out-of-scope declaration; extension field constraints; mandatory-label, hierarchy-level, and field-capability cross-cutting notes |
+| Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
 | Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (verified, house extension) | Domain-neutral register structure for instantiating a stakeholder register in any domain |
 | Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |
 | On-Engine Validation Checklist | `reference/on-engine-validation-checklist.md` (verified, house extension) | Per-type, per-check matrix for REC-09 (first on-engine validation run) — prepared, not executed |
