@@ -74,8 +74,7 @@ than letting it detonate mid-build.
   *Bites hardest on:* [the concrete decision this tension shows up in].
 
 Mark any tension that is a hard constraint (not a negotiable tradeoff) —
-e.g. a physical, legal, or safety limit — explicitly, the way the real
-instance flags "Growth vs. Physical Limits."
+e.g. a physical, legal, or safety limit — explicitly as a constraint.
 
 ---
 
