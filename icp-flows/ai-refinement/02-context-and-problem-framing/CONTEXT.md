@@ -4,7 +4,7 @@ title: "Stage 02 — Context & Problem Framing"
 type: stage-context
 stage: 2
 review-intensity: heavy
-artifact-version: "1.8"
+artifact-version: "1.9"
 status: living
 truth-level: verified
 created: 2026-07-03
@@ -93,7 +93,14 @@ related:
    degraded but functional. **This step is a hard carve-out: it is always run
    interactively, in every mode, register or no register.** Fast-track never
    extracts or skips the stakeholder sweep — misidentifying who a work item
-   affects costs more downstream than a wording tweak would.
+   affects costs more downstream than a wording tweak would. **Offer to save:**
+   when the user supplied stakeholders themselves (a register built from the
+   template, or direct answers in ungrounded mode), end the sweep by suggesting
+   they save them for next time — to the engine's memory if the session has
+   one, and/or as a `platform-stakeholder-register.md` instance in their
+   source-repo. Save only on explicit confirmation, at team/role level (no
+   named individuals or personal data), and say plainly where it was saved —
+   or, if neither destination exists, hand the register back as text to keep.
 3. **Challenge vague inputs** — apply the skill's pushback patterns when answers
    are too abstract. The persona's `challenge_incomplete_requirements` behavior
    drives this. Applies in every mode: a fast-track-extracted draft that reads

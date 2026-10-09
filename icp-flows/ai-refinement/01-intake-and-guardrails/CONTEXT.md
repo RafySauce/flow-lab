@@ -4,7 +4,7 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.16"
+artifact-version: "1.17"
 status: living
 truth-level: verified
 created: 2026-07-03
@@ -42,7 +42,7 @@ related:
 | OneDrive/SharePoint search results for the confirmed research scope (Copilot + live Microsoft Graph/OneDrive connector only, read-only, engine-native) | OneDrive/SharePoint (via native Graph lookup) | No |
 | User-supplied search-term filters (technology stack names, app/system codes, team names, team member names) — addition to or explicit override of agent-proposed terms | User | No |
 | User-stated time-frame for supporting-context research (defaults to the past 6 months if unspecified) | User | No |
-| Stakeholder register, if one is loaded for this domain | a domain instance of `platform-stakeholder-register-template.md` | No |
+| Stakeholder register, if one is loaded for this domain | the user's own register, or one built from `platform-stakeholder-register-template.md` (choice offered at step 11) | No |
 | Existing Jira labels for the target project/space (live query, for team_code inference) | Jira (via native lookup) | Yes |
 
 ## Process
@@ -350,13 +350,22 @@ is set-shaped and the user accepts bulk creation mode
       per-row due-date column is user-committed and used as given; otherwise
       one date is elicited explicitly for the batch. A date the agent derives
       from prose stays a reference point only, never a commitment.
-11. **Stakeholder-register grounding check** — confirm whether a stakeholder
-    register is loaded for this domain (a domain instance of
-    `../reference/platform-stakeholder-register-template.md`). If
-    none is loaded, flag **ungrounded mode**: Stage 02's stakeholder sweep and
-    Stage 03's coalition/conflict-axis annotation ask the user directly who is
-    affected and what tensions apply, instead of walking a register — a
-    degraded but functional path, not a blocked one.
+11. **Stakeholder-register grounding check and choice** — confirm whether a
+    stakeholder register is already loaded for this domain. If not, offer the
+    user a choice (never pick for them):
+    - **(a) Use my own register** — the user pastes it or points to their saved
+      copy (e.g. `platform-stakeholder-register.md` in their source-repo, or a
+      register saved to the engine's memory on an earlier run). Grounded mode.
+    - **(b) Build from the generic template** — walk
+      `../reference/platform-stakeholder-register-template.md` with the user,
+      who supplies the teams, coalitions, and tensions for their domain.
+      Grounded mode once populated.
+    - **(c) Skip it** — flag **ungrounded mode**: Stage 02's stakeholder sweep
+      and Stage 03's coalition/conflict-axis annotation ask the user directly
+      who is affected and what tensions apply, instead of walking a register —
+      a degraded but functional path, not a blocked one.
+    This repo ships no populated register; a populated one is the user's own
+    content and lives in their tenancy.
 12. **Confirm setup** — echo back: persona active (communication_style
     binding), item type selected (+ rationale, if agent-proposed), work-focus
     classification and supporting-context research result (documents in the

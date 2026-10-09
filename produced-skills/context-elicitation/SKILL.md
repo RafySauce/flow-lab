@@ -12,11 +12,11 @@ description: >
 # --- provenance (house layer) ---
 id: context-elicitation
 type: skill
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
 truth-level: verified
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -105,12 +105,18 @@ flowchart LR
    architecture material (a SAD, HLD/LLD, or topology diagram), use its
    integration points and named systems/components as additional candidate
    prompts — each cited to the document; document-seeded candidates propose,
-   the register walk and the user's confirmation decide. *Worked example:* a DC fabric-expansion item
-   where the user names only Systems/Server — the sweep surfaces Facilities
-   (13, Adjacent: power/cooling ceilings) and Cyber (6, Constraint-setter:
-   segmentation telemetry) before those arrive as surprises. If Stage 01
+   the register walk and the user's confirmation decide. *Worked example:* an
+   infrastructure-expansion item where the user names only the compute team —
+   the sweep surfaces the facilities owner (Adjacent: power/cooling ceilings)
+   and the security owner (Constraint-setter: segmentation telemetry) before
+   those arrive as surprises. If Stage 01
    flagged **ungrounded mode** (no register loaded for this domain), ask the
    user directly who is affected and how, instead of walking a register.
+   When the user supplied the stakeholders themselves (built from the generic
+   template, or direct answers in ungrounded mode), close the step by
+   suggesting they save them for future runs — to the engine's memory and/or
+   as a register file in their source-repo — only on explicit confirmation,
+   at team/role level, never named individuals, stating where it landed.
    **This step is a hard carve-out — it always runs interactively, in every
    mode, register or no register.** Fast-track mode never extracts or skips
    it: misidentifying who a work item affects costs more downstream than any
@@ -169,8 +175,9 @@ without a citation is treated the same as fabrication.
   `scope-dependency-mapper`.
 - **Not a field-cadence driver** — sequencing and refining the rest of the
   schema belongs to `field-refinement-cadence`.
-- **Not a stakeholder-register editor** — it consumes the register read-only;
-  register changes are the operator's.
+- **Not a stakeholder-register editor** — it consumes a loaded register
+  read-only; register changes are the operator's. The one write it makes is
+  the confirmed save-suggestion above, of stakeholders the user just supplied.
 - **Not a prioritizer** — it frames one item; whether the item is worth doing
   routes to Portfolio & Sourcing per the register's escalation rules.
 
@@ -204,6 +211,7 @@ A single output of this skill is acceptable when:
 
 ## Changelog
 
+- **1.7** (2026-10-09) — Operator-instructed: Stage 01 now offers a register choice (own register / generic template / skip), and this skill suggests saving user-supplied stakeholders to memory or the source-repo after the sweep (confirmation-gated, team/role level only). Worked example made domain-neutral. `truth-level` stays `verified` on operator instruction.
 - **1.6** (2026-07-31) — Reference-only correction: Method step 1 and Inputs
   and grounding both cited "nine" HUB "Common source inputs" types, which went
   stale when the taxonomy gained a tenth row (enumerated item set) with the

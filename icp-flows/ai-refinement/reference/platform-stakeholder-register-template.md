@@ -6,7 +6,7 @@ artifact-version: "1.0"
 status: living
 truth-level: verified
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -25,6 +25,10 @@ tensions, and rename the copy per the domain (e.g.
 `platform-stakeholder-register-<domain>.md`). Keep the same section shape so
 Stage 02's stakeholder sweep and Stage 03's coalition/conflict-axis
 annotation can read either instance without a contract change.
+
+Once a register is populated, suggest the user save it (engine memory and/or
+their source-repo) so future runs can load it as option (a) at Stage 01 — team
+and role names only, never named individuals.
 
 If no instance exists yet for a domain, Stage 01's grounding check flags
 **ungrounded mode**: Stage 02 and Stage 03 ask the user directly who is
