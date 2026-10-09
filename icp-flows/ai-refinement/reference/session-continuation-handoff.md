@@ -4,9 +4,9 @@ title: "Session-Continuation Handoff — Resuming AI Refinement in a Fresh Sessi
 type: specification
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-08-05
-updated: 2026-08-05
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: flow-foundry

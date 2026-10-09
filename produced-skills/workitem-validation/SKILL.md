@@ -16,9 +16,9 @@ id: workitem-validation
 type: skill
 artifact-version: "1.4"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: skill-foundry

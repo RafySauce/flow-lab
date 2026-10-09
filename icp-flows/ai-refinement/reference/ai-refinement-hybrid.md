@@ -4,9 +4,9 @@ title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
 artifact-version: "1.8"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-10-09
 owner: operator
 source: human+ai
 data-class: public
