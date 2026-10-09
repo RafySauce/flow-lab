@@ -154,13 +154,6 @@ A single run's output is acceptable when:
    and states why.
 5. Document body content is unchanged in every check run.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-| Rovo | adapters/rovo-agent.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-07-07) — Initial build from `sp-provenance-stamper`.

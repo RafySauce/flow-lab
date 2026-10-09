@@ -76,7 +76,7 @@ flowchart LR
 > the flow and all six ai-refinement-family skills, evidence in
 > `decision-log/2026-08-01-rovo-live-test-reverification.md` and
 > `skill-foundry/decision-log/2026-08-01-ai-refinement-skill-batch-reverification.md`.
-> Copilot-adapter live tests remain outstanding — see Known gaps.
+> Copilot live tests remain outstanding — see Known gaps.
 > **2026-08-05:** a content-only revision pass (Thirteenth gap, below) moved
 > `jira-commit` and `workitem-validation` back to `truth-level: to-review` —
 > the other four skills are unaffected and stay `verified`.
@@ -375,7 +375,7 @@ Rationale:
 **Gate closure (2026-08-01):** the flow and its six directly-built skills
 were re-gated and re-promoted to `truth-level: verified` on a confirmed Rovo
 run across the flow, closing the Rovo-path re-gate language on gaps seven
-through eleven. Copilot-adapter live tests remain outstanding for all six;
+through eleven. Copilot live tests remain outstanding for all six;
 `field-refinement-cadence` was never demoted. Evidence:
 `decision-log/2026-08-01-rovo-live-test-reverification.md`. **This gate
 closure is reopened by the Thirteenth gap below** for `jira-commit` and
@@ -471,10 +471,10 @@ from the static `refine-ai-built` to the versioned
 `refine-ai-flow-v<version>`, flagging an item as AI-produced and pending
 team review — removal signals review completion. Stages 01, 05, and 06,
 plus `jira-commit` and `workitem-validation`, updated to match and both
-skills' adapters regenerated; Stages 05/06 drop to `to-review` (content
+skills updated to match; Stages 05/06 drop to `to-review` (content
 change, no re-gate). New coupling: because the label now carries the
 flowspace's own version, a future HUB-only version bump still requires
-regenerating `jira-commit`'s adapters. None of this has run on-engine.
+updating `jira-commit`. None of this has run on-engine.
 Raised by the operator. Rationale:
 `decision-log/2026-07-28-provenance-label-versioning.md`.
 
@@ -492,19 +492,19 @@ The five skills forming the default per-item pipeline (Stages 2–6) were
 promoted `verified` 2026-07-03: evidence in
 `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-promotion.md`
 and `flow-foundry/decision-log/2026-07-03-ai-refinement-promotion.md`.
-Remaining gap: no adapter is published to a live engine yet — first
-on-engine invocation per adapter happens at deployment, the operator's act,
+Remaining gap: no skill is deployed to a live engine yet — first
+on-engine invocation per skill happens at deployment, the operator's act,
 recorded in each skill card.
 
-| Skill (spec + adapters) | Primer brief | Target stage | Status |
+| Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.5 (nine-type input taxonomy, supporting-context steering: architecture material seeds the stakeholder sweep, prior completed items seed "tried before"); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
-| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — 1.3 (SAD/topology integration-seam dependency sweep, prior-process risk seeding); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
+| `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.5 (nine-type input taxonomy, supporting-context steering: architecture material seeds the stakeholder sweep, prior completed items seed "tried before"); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot live test still outstanding |
+| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — 1.3 (SAD/topology integration-seam dependency sweep, prior-process risk seeding); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot live test still outstanding |
 | `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | to-review — 1.6 (bug field ordering and conflict checks extended for app_code/root_cause); content change 2026-08-21, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
 | `workitem-validation` | `sp-workitem-validation` | 5 | to-review — 1.4 (completeness scan names any excerpt-only/inaccessible research grounding backing a required field); content change 2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
 | `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.12 (API preflight, hierarchy-level validation before parent-link writes, field-capability testing, post-commit field audit, bug app_code/root_cause custom-field discovery); content change 2026-08-21, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
-| `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot adapter live test still outstanding |
-| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | to-review — 1.1 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, dropping back to `to-review` pending re-gate); Copilot adapter live test still outstanding |
+| `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot live test still outstanding |
+| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | to-review — 1.1 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, dropping back to `to-review` pending re-gate); Copilot live test still outstanding |
 
 Second gap (2026-07-03): the work-item schema registry originally covered
 only `solution_epic`/`feature`; `story`/`task`/`spike` schemas are

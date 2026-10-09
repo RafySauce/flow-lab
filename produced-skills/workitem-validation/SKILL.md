@@ -172,13 +172,6 @@ A single output of this skill is acceptable when:
    research-confidence tag is named in the report, alongside the field it
    backs — never silently treated as if the grounding were verified.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.4 |
-| Copilot | adapters/copilot-prompt.md | 1.4 |
-
 ## Changelog
 
 - **1.4** (2026-08-05) — Method step 1's completeness scan gains a

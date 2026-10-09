@@ -167,13 +167,6 @@ A single output of this skill is acceptable when:
    user-confirmed, and prior-process precedents were checked for
    type-and-area match before being mined.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.3 |
-| Copilot | adapters/copilot-prompt.md | 1.3 |
-
 ## Changelog
 
 - **1.3** (2026-07-21) — Supporting-context research consumption, tracking

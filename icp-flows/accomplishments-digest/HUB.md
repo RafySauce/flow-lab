@@ -52,7 +52,7 @@ flowchart LR
 > evidence in
 > `skill-foundry/decision-log/2026-07-15-accomplishments-digest-skill-batch-promotion.md`).
 > The simulated live tests are not engine runs — the first on-engine
-> invocation per adapter happens at deployment, which remains the operator's
+> invocation per skill happens at deployment, which remains the operator's
 > act at instantiation. See Known gaps. The diagram keeps the flat-chain
 > convention (`references/flow-diagram-guide.md` — no branching without a
 > documented topology split) even though Stage 6 is optional in practice:
@@ -118,7 +118,7 @@ promoted 2026-07-15, evidence in
 `skill-foundry/decision-log/2026-07-15-accomplishments-digest-skill-batch-promotion.md`
 (pre-run:
 `skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-gate-prerun.md`).
-Remaining gap: no adapter is published to a live engine yet — first
+Remaining gap: no skill is deployed to a live engine yet — first
 on-engine invocation and Copilot-connector sanctioning both happen at
 deployment, the operator's act.
 

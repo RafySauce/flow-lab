@@ -283,13 +283,6 @@ A human judges one output acceptable when:
    as a discrepancy for a human, not as an overruled statement.
 8. No remedy, design suggestion, or prioritisation appears anywhere in the output.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-08-01) — Initial build from `sp-fitness-and-dissatisfaction-profiler`.

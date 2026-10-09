@@ -326,13 +326,6 @@ live and export mode and diff the normalized sets. They must match. A
 difference is a normalization defect, not a source difference to work around
 downstream.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.2 |
-| Copilot | adapters/copilot-prompt.md | 1.2 |
-
 ## Changelog
 
 - **1.2** (2026-08-01) — Field-completion denominator redesigned: now the

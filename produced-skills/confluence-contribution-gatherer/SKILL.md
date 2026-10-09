@@ -165,13 +165,6 @@ A single output of this skill is acceptable when:
    plainly and is built from user-supplied pages instead — never a silent,
    unexplained gap in coverage.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.1** (2026-07-27) — Method step 1 gains an explicit degrade path for

@@ -163,13 +163,6 @@ questions), a run is acceptable when:
 5. The registry version cited equals the version Stage 01 loaded, and no
    platform write occurred.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-07-15) — Initial build from `sp-doc-planner`.

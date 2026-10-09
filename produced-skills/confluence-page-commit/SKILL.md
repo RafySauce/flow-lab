@@ -124,7 +124,7 @@ response, never assumed.
 - Sanctioned engines: **Rovo** — native Atlassian actions; content stays in
   Atlassian. Copilot-driven runs hand off at this boundary per
   mirroring-protocol §5; Copilot does not hold Confluence write
-  credentials, so no Copilot adapter exists (see Adapters).
+  credentials, so this skill is Rovo-only.
 
 ## What this skill is not
 
@@ -157,17 +157,6 @@ On a test space, a run is acceptable when:
    outside the Stage 03 plan is created.
 5. The report's page URL and version come from the platform response and
    resolve.
-
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-
-No Copilot adapter: Stage 06's data boundary gives Copilot no Confluence
-write path (mirroring-protocol §5 hands off to Rovo or the human), so an
-adapter would have no point of use — the `repo-context-enricher` precedent,
-inverted (don't build ahead of demand, at adapter granularity).
 
 ## Changelog
 

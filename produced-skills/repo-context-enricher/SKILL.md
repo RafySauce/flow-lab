@@ -125,8 +125,7 @@ different framing.
   sensitive than the handoff authorized.
 - Sanctioned engine: Copilot only. This is the reason Stage 1 of
   `accomplishments-docx-finisher` is Copilot-side at all — it needs
-  repository/file access Rovo doesn't have in this pairing. No Rovo adapter
-  is built for this skill.
+  repository/file access Rovo doesn't have in this pairing.
 
 ## What this skill is not
 
@@ -157,16 +156,6 @@ A single output of this skill is acceptable when:
 6. If no repo/file access was available in this session, the output states
    that plainly and any additions trace to user-supplied material — never a
    silent, unexplained gap in coverage.
-
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
-No Rovo adapter is built: this skill's whole reason for existing is
-repository/file access, which Rovo does not have in this flow pairing — see
-`../../decision-log/2026-07-14-accomplishments-digest-skill-batch.md`.
 
 ## Changelog
 

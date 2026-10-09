@@ -421,13 +421,6 @@ A single output of this skill is acceptable when:
 13. Parent linkage was confirmed once for the batch and validated at the end of
     the pass, with any differently-parented row surfaced individually.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.1 |
-| Copilot | adapters/copilot-prompt.md | 1.1 |
-
 ## Changelog
 
 - **1.1** (2026-08-05) — Added sub-batch chunking to step 10: sets over ten

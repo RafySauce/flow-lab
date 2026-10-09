@@ -166,13 +166,6 @@ A single output of this skill is acceptable when:
    initiative in run order, and a closing rollup slide only if at least one
    initiative carries a risk or ask.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-08-06) — Initial build from `sp-executive-slide-drafter`.

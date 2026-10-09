@@ -22,7 +22,7 @@ run to date (Rovo, NEADD-1827, a `spike`), which surfaced five defects since
 fixed in spec. Every fix, and every capability added since (communication
 style enforcement, the broadened input taxonomy, the domain-configurable
 stakeholder register, and fast-track mode) has only been validated by
-simulated invocation — running adapter instructions verbatim against
+simulated invocation — running skill instructions verbatim against
 synthetic scenarios. None of it has been re-confirmed on a live engine. This
 checklist is the operator's run sheet for closing that gap once the
 Confluence instantiation and Rovo deployment

@@ -147,13 +147,6 @@ A single output of this skill is acceptable when:
 6. Every theme traces to at least one Stage 2 or Stage 3 digest entry, or to
    Stage 1's own narrative — no fabricated content.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-07-14) — Initial build from `sp-accomplishments-drafter`.

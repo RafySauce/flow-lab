@@ -118,7 +118,7 @@ Non-obvious calls — a triage drop, a security flag, a structural choice — ge
 ```
 
 - **[`flow-foundry/`](flow-foundry/)** scaffolds flowspaces: stage decomposition, per-stage contracts (Inputs / Process / Outputs / Verify, plus two workplace extensions — Review and Data boundary), a Mermaid Stage Flow Diagram rendered natively by GitLab, a review-intensity map, and validation gates. Read its [CONTEXT.md](flow-foundry/CONTEXT.md) and [foundry-spec](flow-foundry/foundry-spec.md).
-- **[`skill-foundry/`](skill-foundry/)** authors skills as an **engine-neutral spec** plus per-engine adapters (Rovo agent definition, Copilot custom agent / prompt file). Read its [CONTEXT.md](skill-foundry/CONTEXT.md) and [foundry-spec](skill-foundry/foundry-spec.md).
+- **[`skill-foundry/`](skill-foundry/)** authors skills as an **engine-neutral spec** that any sanctioned engine (Rovo, Copilot) can run directly. Read its [CONTEXT.md](skill-foundry/CONTEXT.md) and [foundry-spec](skill-foundry/foundry-spec.md).
 
 Both foundries share the same intake/triage/review skeleton. Neither ever self-promotes its output.
 
@@ -159,7 +159,7 @@ The smallest path from browsing to a fully instantiated setup: pick a flow or sk
 5. **Hold the gates.** Data-classification check at intake. Human review before anything is `verified` — changes to verified content ride merge requests. Decision log entries for non-obvious calls.
 6. **Adapt the enums, keep the skeleton.** Your document types, data classes, and stage names will differ. The skeleton — triage front door, stage contracts, human gate, queues — is the part that transfers.
 
-You do **not** need Copilot or Rovo specifically. The specs are engine-neutral by design; the adapters are the only engine-specific parts, and writing a new adapter (for Claude, Gemini Enterprise, a local model) is a template exercise.
+You do **not** need Copilot or Rovo specifically. The specs are engine-neutral by design; a skill spec runs on any engine that can follow written instructions (Claude, Gemini Enterprise, a local model).
 
 ---
 
@@ -194,7 +194,7 @@ Read this section before using anything in this repository.
 
 - The [agentskills.io](https://agentskills.io) skill format (`SKILL.md` with `name`/`description` frontmatter) — the neutral skill packaging convention the skill-foundry's spec template is shaped after.
 - `AGENTS.md` as the cross-engine root-context convention recognized by GitHub Copilot and other coding agents.
-- GitHub Copilot customization surfaces (repository instructions, prompt files, custom agents) and Atlassian Rovo agents — see the adapters in [`skill-foundry/templates/`](skill-foundry/templates/).
+- GitHub Copilot customization surfaces (repository instructions, prompt files, custom agents) and Atlassian Rovo agents.
 
 **House practice (my own):**
 

@@ -197,13 +197,6 @@ A single output of this skill is acceptable when:
 7. The output **never duplicates or replaces** a flow's own in-flow session
    summary where one already exists.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-08-05) — Initial build from `sp-export-log`. Staged at

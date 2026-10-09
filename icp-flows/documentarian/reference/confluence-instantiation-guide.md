@@ -78,10 +78,10 @@ convention.
 
 **Agent deployment (once skills exist)**
 - [ ] Skills promoted through the skill-foundry's five-point gate before any
-      adapter deploys — this guide does not shortcut the gate
-- [ ] Rovo agents deployed per each skill's `adapters/rovo-agent.md`; Copilot
-      surfaces per `adapters/copilot-prompt.md`
-- [ ] First on-engine run per adapter observed and recorded (the gate's
+      skill deploys — this guide does not shortcut the gate
+- [ ] Rovo agents deployed from each skill's `SKILL.md` spec; Copilot
+      surfaces likewise
+- [ ] First on-engine run per skill observed and recorded (the gate's
       simulated tests are not engine runs)
 
 **Mirror**

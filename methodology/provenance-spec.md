@@ -98,7 +98,7 @@ Two additional fields, mandatory on `type: stage-context` only:
 | `flowspace` | An ICM-structured workflow workspace (the hub card of one) | `to-review` |
 | `stage-context` | A stage's `CONTEXT.md` within an instantiated flowspace — the six-field stage contract itself, not just its hub | `to-review` |
 | `flow-primer-brief` | Crystallized flowspace intent → flow-foundry intake | `to-review` |
-| `skill` | The card for a built skill (spec + adapters) | `to-review` |
+| `skill` | The card for a built skill (the spec) | `to-review` |
 | `skill-primer-brief` | Crystallized skill intent → skill-foundry intake | `to-review` |
 | `decision-log` | A logged non-obvious decision (triage drop, security flag, structural call) | `verified` (records an event) |
 | `exemplar` | A sanitized worked example kept for teaching | `verified` |

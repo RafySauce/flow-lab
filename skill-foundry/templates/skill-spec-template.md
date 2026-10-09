@@ -1,6 +1,6 @@
 # Skill Spec Template — the engine-neutral core
 
-The single source of truth for one skill. Shaped after the agentskills.io `SKILL.md` convention (frontmatter `name` + `description`, method in the body) so it stays portable; adapters translate it into engine configuration. File as `<skill-slug>/SKILL.md`, with a provenance card either as extended frontmatter (shown here) or a sibling `CARD.md` if the target loader demands minimal frontmatter.
+The single source of truth for one skill. Shaped after the agentskills.io `SKILL.md` convention (frontmatter `name` + `description`, method in the body) so it stays portable; any engine can run it directly. File as `<skill-slug>/SKILL.md`, with a provenance card either as extended frontmatter (shown here) or a sibling `CARD.md` if the target loader demands minimal frontmatter.
 
 ```markdown
 ---
@@ -81,13 +81,6 @@ that owns each excluded job.
 
 How a human judges one output of this skill acceptable. Specific and testable —
 these criteria ARE the live-test gate at promotion.
-
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
 
 ## Changelog
 

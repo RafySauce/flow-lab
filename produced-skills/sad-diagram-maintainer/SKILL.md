@@ -149,13 +149,6 @@ service and one changed interface, a run is acceptable when:
    redraw as an open-section marker, not touched.
 5. A seeded source/render drifted pair is flagged, not edited.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-| Rovo | adapters/rovo-agent.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-07-15) — Initial build from `sp-sad-diagram-maintainer`.

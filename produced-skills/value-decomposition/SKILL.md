@@ -252,13 +252,6 @@ A single output of this skill is acceptable when:
    the transcript shows the handoff to `bulk-child-creation` rather than this
    skill drafting or creating anything itself.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.2 |
-| Copilot | adapters/copilot-prompt.md | 1.2 |
-
 ## Changelog
 
 - **1.2** (2026-08-01) — Boundary cross-reference added ("Not the process

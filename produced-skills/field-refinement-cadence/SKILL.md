@@ -210,13 +210,6 @@ A single output of this skill is acceptable when:
     actual result — a mismatch or an empty value on either field is a hit
     surfaced and resolved, never carried forward silently.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.6 |
-| Copilot | adapters/copilot-prompt.md | 1.6 |
-
 ## Changelog
 
 - **1.6** (2026-08-21) — `bug` gains two required custom fields, `app_code`

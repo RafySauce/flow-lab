@@ -246,13 +246,6 @@ A single output of this skill is acceptable when:
 13. A request to use the score as a value or priority measure was declined,
     with an explanation of what it is instead.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-07-28) — Initial build from `sp-closure-scorer`.

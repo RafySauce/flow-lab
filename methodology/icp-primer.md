@@ -45,7 +45,7 @@ Keeping the two structurally separate matters because they require different kin
 | Term | Meaning here |
 |---|---|
 | **Flowspace** | An ICM-structured workspace for one repeatable workflow: a hub document, numbered stage folders, per-stage contracts, a review-intensity map. Built by the flow-foundry. |
-| **Skill** | A discrete, reusable AI capability definition: an engine-neutral spec plus per-engine adapters. Built by the skill-foundry. |
+| **Skill** | A discrete, reusable AI capability definition: an engine-neutral spec that any sanctioned engine can run directly. Built by the skill-foundry. |
 | **Foundry** | A production line that turns intent (or foreign material) into a house-standard artifact through triage → build → human review. |
 | **Primer-brief** | The clean-path intake artifact: crystallized intent, written down before building starts. `flow-primer-brief` feeds the flow-foundry; `skill-primer-brief` feeds the skill-foundry. |
 | **Foreign material** | Any starter not authored under this method — a vendor template, a colleague's prompt, a public repo, a README. Vetted before it is normalized. |
@@ -76,6 +76,6 @@ These are practitioner extensions, not part of the published methodology:
 
 This edition is shaped by three constraints, worth naming because they explain the structure:
 
-1. **The sanctioned engines are Copilot and Rovo.** No self-hosted models, no arbitrary agent frameworks, no control over model routing. Therefore: engine-neutral specs + thin adapters, and no execution-tier machinery.
+1. **The sanctioned engines are Copilot and Rovo.** No self-hosted models, no arbitrary agent frameworks, no control over model routing. Therefore: engine-neutral specs, and no execution-tier machinery.
 2. **The source of truth is GitLab.** An ICP instance lives in a single internal GitLab repository — the **source-repo** — that both engines ground on and operate against (Rovo via the Rovo GitLab connector, Copilot natively). Confluence, Jira, and ServiceNow stay in the toolchain as *external systems* — integration targets flows and skills read from and write to at declared data boundaries, not where the methodology's own documents live. Therefore: the source-repo model and protocol (`mirroring-protocol.md`).
 3. **The method must be public; the work must not be.** Therefore: this repo carries method and templates only, and the governance doc draws the line explicitly.

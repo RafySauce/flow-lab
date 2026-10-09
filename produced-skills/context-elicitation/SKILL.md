@@ -202,13 +202,6 @@ A single output of this skill is acceptable when:
     research-record gaps that matter (e.g., no SAD found) were named to the
     user, not papered over.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.6 |
-| Copilot | adapters/copilot-prompt.md | 1.6 |
-
 ## Changelog
 
 - **1.6** (2026-07-31) — Reference-only correction: Method step 1 and Inputs

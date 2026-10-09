@@ -247,13 +247,6 @@ A single output of this skill is acceptable when:
 30+ terms and confirm the operator recognizes the resulting distribution as
 plausible.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-07-28) — Initial build from `sp-objective-keyword-mapper`.

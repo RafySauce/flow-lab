@@ -1,19 +1,17 @@
 # Skill Foundry
 
-The production line for **skills** — discrete, reusable AI capability definitions. Each skill is authored once as an **engine-neutral spec** and then adapted to the engine that will run it: an Atlassian Rovo agent, a GitHub Copilot custom agent, or a Copilot prompt file. This folder is the *where*; [`foundry-spec.md`](foundry-spec.md) is the *how*.
+The production line for **skills** — discrete, reusable AI capability definitions. Each skill is authored once as an **engine-neutral spec** and runs directly on any sanctioned engine — an Atlassian Rovo agent, a GitHub Copilot custom agent, or a Copilot prompt file. This folder is the *where*; [`foundry-spec.md`](foundry-spec.md) is the *how*.
 
 ## Layout
 
 ```
 skill-foundry/
 ├── CONTEXT.md                   # this file — read before working in this folder
-├── foundry-spec.md              # the method: triage → vet → author → adapt → review
+├── foundry-spec.md              # the method: triage → vet → author → review
 ├── skill-foundry-architecture.md # the method, drawn: one Mermaid build diagram
 ├── templates/
 │   ├── skill-primer-brief-template.md  # intake path 1: crystallized intent
 │   ├── skill-spec-template.md          # the engine-neutral core spec
-│   ├── adapter-copilot.md              # emitting Copilot instructions/prompt files/agents
-│   ├── adapter-rovo.md                 # emitting Rovo agent definitions
 │   └── intake-vetting-checklist.md     # the foreign-material gate (shared with flow-foundry)
 ├── references/
 │   └── flow-diagram-guide.md    # Flow Diagram syntax, palette, GitLab/Confluence rendering check
@@ -36,7 +34,7 @@ the intake record's terminal home.
 ```
 skill-primer-brief (clean intent)        ┐
   ← from a person, or from the           │──>  backlog-skill-starters/
-     flow-foundry's Layer-3 gap triage   ┘         │  [triage → vet (if foreign) → author → adapt]
+     flow-foundry's Layer-3 gap triage   ┘         │  [triage → vet (if foreign) → author]
 foreign material (URL, prompt, repo)               ▼
                                               review-skills/    (foundry-staged, to-review)
                                                    │  [HUMAN GATE: five-point review]
@@ -49,9 +47,9 @@ foreign material (URL, prompt, repo)               ▼
 
 Truth-levels track the lifecycle exactly as in the flow-foundry: `claimed` → `to-review` → `verified`, human-promoted only. Staging a finished build in `review-skills/` is the foundry's last move; every move out of it is the operator's — including relocating the primer brief from the backlog to `completed-skill-starters/` when the skill is promoted.
 
-## One skill = one spec + N adapters
+## One skill = one spec
 
-The core spec ([`templates/skill-spec-template.md`](templates/skill-spec-template.md)) carries everything engine-independent: purpose, triggering intent, method, boundaries ("what this skill is not"), and review criteria. Adapters are thin, mechanical translations into engine configuration — if an adapter needs logic the spec doesn't have, the spec is incomplete, fix it there. This keeps capabilities portable across engines (and across employers' tool choices).
+The core spec ([`templates/skill-spec-template.md`](templates/skill-spec-template.md)) carries everything engine-independent: purpose, triggering intent, method, boundaries ("what this skill is not"), and review criteria. The spec is the whole skill: any engine runs it directly, so nothing engine-specific can hide logic the spec doesn't state. This keeps capabilities portable across engines (and across employers' tool choices).
 
 ## The demand loop
 

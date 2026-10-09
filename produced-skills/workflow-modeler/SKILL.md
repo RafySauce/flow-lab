@@ -263,13 +263,6 @@ A human judges one output acceptable when:
    typed exceptions — never a forced merge presented as a shared model.
 10. Run without delivery-team input, the skill **declines** and says why.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-08-01) — Initial build from `sp-workflow-modeler`.

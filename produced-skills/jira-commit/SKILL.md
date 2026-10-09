@@ -376,13 +376,6 @@ A single output of this skill is acceptable when:
     date were confirmed populated before the commit was declared complete;
     any gap found was reported and fixed, not left for later discovery.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.12 |
-| Copilot | adapters/copilot-prompt.md | 1.12 |
-
 ## Changelog
 
 - **1.12** (2026-08-21) — `bug` gains two required custom fields, `app_code`

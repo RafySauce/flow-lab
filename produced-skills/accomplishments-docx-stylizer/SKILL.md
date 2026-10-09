@@ -104,7 +104,7 @@ assumption.
 - Max data-class: internal (inherits Stage 1's classification; pure
   formatting, no new content sourced).
 - Sanctioned engine: Copilot only, consistent with Stage 1 — no engine
-  change mid-flow. No Rovo adapter is built for this skill.
+  change mid-flow.
 
 ## What this skill is not
 
@@ -131,17 +131,6 @@ A single output of this skill is acceptable when:
    appendix) — none blended into indistinguishable body text.
 5. Heading hierarchy and structure mirror the house accomplishments-document
    shape's theme organization.
-
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
-No Rovo adapter is built: Stage 2 stays Copilot-side to match Stage 1, and
-`.docx` generation from repo-context-enriched content has no Confluence-
-native point of use in this pairing — see
-`../../decision-log/2026-07-14-accomplishments-digest-skill-batch.md`.
 
 ## Changelog
 

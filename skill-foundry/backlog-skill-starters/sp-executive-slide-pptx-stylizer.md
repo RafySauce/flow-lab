@@ -73,7 +73,7 @@ PowerPoint template asset, if one has been sourced. Max `data-class:
 internal` (inherits Stage 4's classification; pure formatting, no new
 content sourced). Engine: Copilot only, matching the `accomplishments-docx-
 stylizer` precedent — file generation of this kind is not a Rovo-native
-action. No Rovo adapter.
+action. Copilot only.
 
 ## Demand source
 

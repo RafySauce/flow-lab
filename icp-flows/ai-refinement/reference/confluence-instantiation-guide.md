@@ -87,7 +87,7 @@ notice) at this step — it is safe only in employer tenancy.
 ## 4. Rovo agent deployment checklist (REC-02)
 
 - [ ] Decide: five separate per-stage agents (one per produced skill, per
-      each skill's existing `adapters/rovo-agent.md`), or a single
+      each skill's `SKILL.md` spec), or a single
       orchestrating agent embedding all six stages' logic and reading stage
       contracts from the Confluence pages as its instructions. The
       drift-analysis recommendation is the orchestrating agent, for the

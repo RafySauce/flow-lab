@@ -282,13 +282,6 @@ A human judges one output acceptable when:
 10. **No per-person figure appears anywhere**, and a direct request for one is
     declined with a stated reason.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-08-01) — Initial build from `sp-flow-capability-analyzer`.

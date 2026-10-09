@@ -245,8 +245,7 @@ skill.
   ServiceNow read connector at build time, per the employer's sanctioned-tool
   matrix — per `methodology/mirroring-protocol.md` §2, ServiceNow is already
   sanctioned as a *read* target in principle. Record the confirmed engine on
-  this skill's adapters once known; until then, both adapters ship and the
-  live-mode path states plainly that it depends on that confirmation.
+  this skill once known; until then the live-mode path states plainly that it depends on that confirmation.
 - **No write scope is requested or needed**, at this skill or anywhere in
   this flow.
 
@@ -318,13 +317,6 @@ instantiation:** compare this skill's output shape against
 `jira-portfolio-ingest`'s on a synthetic set — same field names, same
 report structure, same denominator rule — so Stage 01 truly never needs to
 branch on source system.
-
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
 
 ## Changelog
 

@@ -52,7 +52,7 @@ flowchart LR
 > its simulated live tests as the review record; evidence in
 > `skill-foundry/decision-log/2026-07-15-accomplishments-digest-skill-batch-promotion.md`).
 > The simulated live tests are not engine runs — the first on-engine
-> invocation per adapter happens at deployment, which remains the
+> invocation per skill happens at deployment, which remains the
 > operator's act at instantiation. See Known gaps.
 
 ## Stage table
@@ -106,9 +106,9 @@ Both skills demanded by Stages 1–2 are `truth-level: verified` — promoted
 `skill-foundry/decision-log/2026-07-15-accomplishments-digest-skill-batch-promotion.md`
 (pre-run:
 `skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-gate-prerun.md`).
-Remaining gap: no adapter is published to a live engine yet — first
+Remaining gap: no skill is deployed to a live engine yet — first
 on-engine invocation happens at deployment. Both skills declare Copilot as
-their only sanctioned engine (no Rovo adapter) — see
+their only sanctioned engine (no Rovo path) — see
 `skill-foundry/decision-log/2026-07-14-accomplishments-digest-skill-batch.md`.
 
 | Skill | Primer brief | Target stage | Status |
