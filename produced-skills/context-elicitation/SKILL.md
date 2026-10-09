@@ -22,7 +22,7 @@ source: human+ai
 generated-by: skill-foundry
 generated-by-version: "1.1"
 data-class: public
-related: ["[[sp-context-elicitation]]", "[[ai-refinement]]", "[[platform-stakeholder-register]]"]
+related: ["[[sp-context-elicitation]]", "[[ai-refinement]]"]
 ---
 
 # Context Elicitation
@@ -140,7 +140,7 @@ flowchart LR
 ## Inputs and grounding
 
 Reads: the selected work-item schema (from Stage 01), the platform stakeholder
-register (`reference/platform-stakeholder-register.md` or a domain instance of
+register (a domain instance of
 `platform-stakeholder-register-template.md` in the flowspace, if loaded), the
 selected mode (fast-track / full-interactive, from Stage 01), the user's
 conversational input, and — when present — the Stage 01-screened source

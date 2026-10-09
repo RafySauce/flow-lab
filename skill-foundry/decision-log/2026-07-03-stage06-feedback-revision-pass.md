@@ -21,8 +21,7 @@ related:
 # Decision Log — 2026-07-03 — Stage 06 Feedback Revision Pass
 
 **What was decided:** apply the five defects in the operator's Stage 06
-feedback package (first on-engine invocation, Rovo adapter, produced
-NEADD-1827 on the Perimeter Security Services board) as revisions to their
+feedback package (first on-engine invocation, Rovo adapter, produced a live ticket) as revisions to their
 named contract surfaces — `jira-commit` 1.2 → 1.3, `field-refinement-cadence`
 1.1 → 1.2 — regenerate all four affected adapters, and re-run the affected
 gate items, agent-side, recording the evidence here. **By whom:** agent, on
@@ -37,7 +36,7 @@ engine — that stays the operator's act.
 
 ## The five defects and their fixes
 
-1. **Formatting artifacts reaching Jira (jira-commit 1.3).** NEADD-1827's
+1. **Formatting artifacts reaching Jira (jira-commit 1.3).** The first on-engine run's
    description/AC fields contained literal `### Summary` etc. Stage 05's
    "no bold, no emojis" pass never translated structural Markdown; 1.2's
    field mapping passed it through unchanged. 1.3 adds a format-translation
@@ -45,13 +44,13 @@ engine — that stays the operator's act.
    only plain text is available) before any rich-text field is mapped, and
    step 3's dry-run preview now renders the translated form instead of
    echoing source text.
-2. **Silent parent assignment (jira-commit 1.3).** NEADD-1827 committed with
+2. **Silent parent assignment (jira-commit 1.3).** The first run's ticket committed with
    a parent link the user never confirmed. 1.2's linkage step validated that
    an assigned parent existed but never prompted a choice. 1.3 makes parent
    mapping a confirmed default for every type except `portfolio_epic`/
    `solution_epic`: query candidates, present them (key/summary/status), and
    require confirm/skip/create-new before setting the link.
-3. **Fabricated due date (field-refinement-cadence 1.2).** NEADD-1827's due
+3. **Fabricated due date (field-refinement-cadence 1.2).** The first run's due
    date was invented, not elicited. 1.2 adds an explicit due-date-elicitation
    Method step: acceptance criteria are presented as an effort reference
    first (ordering rule changed — AC moved from "last" to "next-to-last" so
@@ -59,7 +58,7 @@ engine — that stays the operator's act.
    a spike's timebox is validated against the confirmed date. A source
    deadline (e.g., a vendor advisory expiration) is surfaced as a reference
    point only, never accepted as the answer.
-4. **No post-creation transition offer (jira-commit 1.3).** NEADD-1827 sat in
+4. **No post-creation transition offer (jira-commit 1.3).** The first run's ticket sat in
    Backlog with no offer to advance it. This was a contract gap, not just an
    implementation gap (Stage 06's session-loop step never mentioned it). 1.3
    adds a new Method step 5 (session loop renumbered to step 6): offer to

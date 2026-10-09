@@ -253,8 +253,7 @@ A single output of this skill is acceptable when:
   mode-aware confirmation, communication_style compliance). Both adapters
   regenerated. Content change: pre-gate evidence re-run required — see
   `../../skill-foundry/decision-log/2026-07-03-communication-style-and-fast-track-skill-revision-pass.md`.
-- **1.2** (2026-07-03) — Operator-observed defect fix (Stage 06 feedback,
-  NEADD-1827): due date is now an explicit, elicited Method step (new step 5)
+- **1.2** (2026-07-03) — Operator-observed defect fix (Stage 06 feedback): due date is now an explicit, elicited Method step (new step 5)
   instead of an unspecified part of "one field at a time" — the skill never
   auto-generates or infers it, presents the confirmed acceptance criteria as
   an effort reference first, and validates a spike's timebox against the

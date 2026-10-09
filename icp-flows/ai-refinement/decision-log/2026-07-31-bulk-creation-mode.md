@@ -145,7 +145,7 @@ the flow was losing exactly the work it most wanted to govern.
      the created set against it at the **end of the pass** rather than before
      each create. The operator's reasoning, adopted here: a parent link is
      editable after creation, so an incorrect batch parent is a correction,
-     not the irreversible mis-assignment the amendment (NEADD-1827, defect 2)
+     not the irreversible mis-assignment the amendment (first on-engine run, defect 2)
      was written to prevent. What does not relax: the confirmation is still
      explicit rather than a silently carried-forward Stage 01 position, and a
      row naming a *different* parent falls out of the batch default and gets

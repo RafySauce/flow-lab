@@ -75,7 +75,7 @@ behavior. Fast-track mode in particular introduces new interaction shapes
 (mode proposal with rationale, consolidated presentation, source citation)
 that no prior on-engine run has ever exercised — the operator should weight
 the next on-engine run's coverage of fast-track especially heavily, the same
-way NEADD-1827's lesson was that simulated tests alone had not caught real
+way the first on-engine run's lesson was that simulated tests alone had not caught real
 defects.
 
 ## 1. Spec re-review — pass

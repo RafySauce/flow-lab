@@ -51,7 +51,6 @@ AI Refinement (parent page — maps to HUB.md)
   ├── Reference
   │   ├── AI Refinement — Hybrid Definition (reference/ai-refinement-hybrid.md)
   │   ├── Work Item Schemas — Refinable Set (reference/work-item-schemas.md)
-  │   ├── Platform Stakeholder Register (reference/platform-stakeholder-register.md)
   │   ├── Platform Stakeholder Register — Template (reference/platform-stakeholder-register-template.md)
   │   ├── Confluence Instantiation Guide (this page)
   │   └── On-Engine Validation Checklist (reference/on-engine-validation-checklist.md)

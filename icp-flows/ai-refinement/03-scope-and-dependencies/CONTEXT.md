@@ -17,7 +17,6 @@ data-class: public
 related:
   - "[[ai-refinement]]"
   - "[[scope-dependency-mapper]]"
-  - "[[platform-stakeholder-register]]"
 ---
 
 # Stage 03 — Scope & Dependencies
@@ -34,7 +33,7 @@ related:
 | Selected mode (fast-track / full-interactive) | Stage 01 | Yes |
 | Selected creation mode (bulk / single-item) | Stage 01 | Yes |
 | Stakeholder-register grounding status (grounded / ungrounded) | Stage 01 | Yes |
-| Stakeholder register (coalitions, conflict axes, escalation rules), if loaded | `../reference/platform-stakeholder-register.md` or a domain instance | If grounded |
+| Stakeholder register (coalitions, conflict axes, escalation rules), if loaded | a domain instance of `../reference/platform-stakeholder-register-template.md` | If grounded |
 | Supporting-context document set (typed + screened) + research record | Stage 01 | No |
 | Work-focus classification (engineering/enhancement, operations, or mixed) | Stage 01 | No |
 

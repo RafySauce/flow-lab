@@ -17,7 +17,6 @@ data-class: public
 related:
   - "[[ai-refinement]]"
   - "[[context-elicitation]]"
-  - "[[platform-stakeholder-register]]"
 ---
 
 # Stage 02 — Context & Problem Framing
@@ -35,7 +34,7 @@ related:
 | Selected creation mode (bulk / single-item) | Stage 01 | Yes |
 | Supporting-context document set (typed + screened) + research record (sought/found/not found) | Stage 01 | No |
 | Work-focus classification (engineering/enhancement, operations, or mixed) + rationale | Stage 01 | No |
-| Stakeholder register (role-types, "what they value most"), if loaded | `../reference/platform-stakeholder-register.md` or a domain instance | If grounded |
+| Stakeholder register (role-types, "what they value most"), if loaded | a domain instance of `../reference/platform-stakeholder-register-template.md` | If grounded |
 | Stakeholder-register grounding status (grounded / ungrounded) | Stage 01 | Yes |
 
 ## Process
@@ -162,8 +161,8 @@ schema requires for the selected work-item type — the failure this catches is
 drafting `business_outcomes` for a `feature` (which has no such field) or
 skipping a required field the type demands. Second trace: in grounded mode,
 every stakeholder tag resolves to a numbered entry in the loaded register
-(`../reference/platform-stakeholder-register.md` or a domain instance of the
-template); in ungrounded mode, every tag traces to the user's direct answer
+(a domain instance of the
+`../reference/platform-stakeholder-register-template.md`); in ungrounded mode, every tag traces to the user's direct answer
 instead. Running these checks leaves a one-line result in the run's decision log.
 
 - [ ] Problem statement is specific, not generic

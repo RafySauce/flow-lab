@@ -499,7 +499,7 @@ A single output of this skill is acceptable when:
   evidence re-run required — see
   `../../skill-foundry/decision-log/2026-07-03-communication-style-and-fast-track-skill-revision-pass.md`.
 - **1.3** (2026-07-03) — Operator-observed defect fixes from the first
-  on-engine run (Stage 06 feedback, NEADD-1827):
+  on-engine run (Stage 06 feedback):
   - **Format-translation gate** added to Method step 1 (and reflected in
     step 3's dry-run rendering): the payload's Markdown structure is now
     translated into the target platform's native markup (ADF for Jira Cloud)

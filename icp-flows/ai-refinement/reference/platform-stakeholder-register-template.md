@@ -14,14 +14,12 @@ generated-by-version: "1.3"
 data-class: public
 related:
   - "[[ai-refinement]]"
-  - "[[platform-stakeholder-register]]"
 ---
 
 # Stakeholder Register Template — Domain-Neutral
 
-The structure `platform-stakeholder-register.md` (the network-engineering
-instance) populates. Use this template to instantiate a stakeholder register
-for any other domain the `ai-refinement` flowspace is run against — copy it,
+The domain-neutral structure for a stakeholder register. Use this template to instantiate a stakeholder register
+for any domain the `ai-refinement` flowspace is run against — copy it,
 replace the bracketed placeholders with the real domain's teams and
 tensions, and rename the copy per the domain (e.g.
 `platform-stakeholder-register-<domain>.md`). Keep the same section shape so
@@ -51,7 +49,7 @@ degraded but functional path, not a blocked one.
 | 6 | **[Sponsor / leadership]** | Sponsor | ALL | [Strategic alignment, cost/value, portfolio concerns.] |
 
 Add rows as the domain requires — this is a starting shape, not a fixed
-count. The real network-engineering instance runs to 17 entries; a smaller
+count. A large organization may need a dozen or more entries; a smaller
 domain may need far fewer.
 
 ---

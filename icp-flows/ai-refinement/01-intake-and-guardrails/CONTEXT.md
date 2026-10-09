@@ -18,7 +18,6 @@ related:
   - "[[ai-refinement]]"
   - "[[ai-refinement-hybrid]]"
   - "[[work-item-schemas]]"
-  - "[[platform-stakeholder-register]]"
   - "[[value-decomposition]]"
   - "[[bulk-child-creation]]"
 ---
@@ -43,7 +42,7 @@ related:
 | OneDrive/SharePoint search results for the confirmed research scope (Copilot + live Microsoft Graph/OneDrive connector only, read-only, engine-native) | OneDrive/SharePoint (via native Graph lookup) | No |
 | User-supplied search-term filters (technology stack names, app/system codes, team names, team member names) — addition to or explicit override of agent-proposed terms | User | No |
 | User-stated time-frame for supporting-context research (defaults to the past 6 months if unspecified) | User | No |
-| Stakeholder register, if one is loaded for this domain | `../reference/platform-stakeholder-register.md` or a domain instance of `platform-stakeholder-register-template.md` | No |
+| Stakeholder register, if one is loaded for this domain | a domain instance of `platform-stakeholder-register-template.md` | No |
 | Existing Jira labels for the target project/space (live query, for team_code inference) | Jira (via native lookup) | Yes |
 
 ## Process
@@ -352,8 +351,8 @@ is set-shaped and the user accepts bulk creation mode
       one date is elicited explicitly for the batch. A date the agent derives
       from prose stays a reference point only, never a commitment.
 11. **Stakeholder-register grounding check** — confirm whether a stakeholder
-    register is loaded for this domain (`../reference/platform-stakeholder-register.md`
-    or a domain instance of `platform-stakeholder-register-template.md`). If
+    register is loaded for this domain (a domain instance of
+    `../reference/platform-stakeholder-register-template.md`). If
     none is loaded, flag **ungrounded mode**: Stage 02's stakeholder sweep and
     Stage 03's coalition/conflict-axis annotation ask the user directly who is
     affected and what tensions apply, instead of walking a register — a

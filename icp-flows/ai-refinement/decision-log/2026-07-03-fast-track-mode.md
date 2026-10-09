@@ -51,7 +51,7 @@ well-formed inputs.
 Before implementation, the operator and the agent worked through how
 fast-track mode could coexist with two already-hard-won constraints:
 `field-refinement-cadence`'s description of `confirm_each_step: true` as
-"non-negotiable," and the NEADD-1827-driven rule that due dates and parent
+"non-negotiable," and the first-on-engine-run-driven rule that due dates and parent
 mappings are never silently assigned. The resolved design, confirmed by the
 operator before any file was touched:
 
@@ -66,7 +66,7 @@ operator before any file was touched:
 3. Four hard carve-outs never fast-track, in any mode: `due_date` elicitation
    (Stage 04), Stage 06's parent-mapping confirmation, Stage 02's
    stakeholder sweep, and Stage 03's coalition/conflict-axis annotation. The
-   first two were already-established rules from the NEADD-1827 revision;
+   first two were already-established rules from the first on-engine-run revision;
    the latter two were added at the operator's explicit request during
    design negotiation, reasoning that misidentifying a stakeholder or a
    conflict costs more downstream than a wording tweak would.
@@ -92,7 +92,7 @@ not have to reverse-engineer it from the stage contract alone.
    the skill spec — rejected, since the skill's own description
    ("non-negotiable") would then directly contradict what Stage 04 actually
    does in fast-track mode, reintroducing exactly the kind of contract/skill
-   drift the NEADD-1827 revision fixed for Stage 06.
+   drift the first on-engine-run revision fixed for Stage 06.
 2. **Consolidation is Stages 03–05 only, anchored at Stage 05.** Rather than
    each of Stages 03, 04, 05 independently deciding what "consolidated"
    means, Stage 05's Review section is the single canonical definition all

@@ -21,7 +21,7 @@ source: human+ai
 generated-by: skill-foundry
 generated-by-version: "1.1"
 data-class: public
-related: ["[[sp-scope-dependency-mapper]]", "[[ai-refinement]]", "[[platform-stakeholder-register]]"]
+related: ["[[sp-scope-dependency-mapper]]", "[[ai-refinement]]"]
 ---
 
 # Scope & Dependency Mapper
@@ -76,9 +76,9 @@ flowchart LR
    none-blocking is credible. Then sweep the tagged stakeholders' *Adjacent*
    and *Constraint-setter* register entries for dependencies the user hasn't
    named — integration seams and guardrails are where unstated dependencies
-   live. *Worked example:* a badging-platform item tagged with Corporate
-   Services (5) must be checked against IAM (7) and HR/HRIS (14) — the Identity
-   Backbone coalition — for lifecycle-feed dependencies. When Stage 01's
+   live. *Worked example:* an access-management item tagged with its
+   producing team must be checked against the identity and HR systems-of-record
+   teams — an aligned coalition — for lifecycle-feed dependencies. When Stage 01's
    supporting-context set holds architecture material (a SAD, HLD/LLD, or
    topology diagram), additionally sweep its integration seams: every system
    boundary the diagram draws through this item's scope is a candidate

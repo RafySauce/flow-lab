@@ -21,8 +21,7 @@ related:
 
 **What was decided:** ratify and implement the five defects in the
 operator's Stage 06 feedback package (`ai-refinement-stage06-feedback`,
-operator-observed, first on-engine invocation via Rovo, produced NEADD-1827
-on the Perimeter Security Services board) — the flowspace-side half of the
+operator-observed, first on-engine invocation via Rovo, produced a live ticket) — the flowspace-side half of the
 revision; the skill-spec half (jira-commit 1.3, field-refinement-cadence 1.2)
 is logged in
 `../../skill-foundry/decision-log/2026-07-03-stage06-feedback-revision-pass.md`.
@@ -65,7 +64,7 @@ wasn't contradicting its contract, the contract itself was incomplete; one
    invariant: every refinable type traverses the Jira board workflow, so
    every refinable type needs the fields the board's column-transition rules
    demand, independent of which fields differ for scope-framing reasons. A
-   new derivation rule 5 states this explicitly, citing NEADD-1827 as the
+   new derivation rule 5 states this explicitly, citing the first on-engine run as the
    evidence. This keeps the registry's stated purpose intact — ratifying
    *reasoning*, not just a field list.
 3. **`type_of_work`/`work_category` ripple into field-refinement-cadence's

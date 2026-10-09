@@ -67,7 +67,7 @@ the `jira-commit`, `context-elicitation`, `scope-dependency-mapper`, and
    and a prose note in its authority-split paragraph flagging that this one
    list item — not the field lists — no longer follows "clipping wins on
    divergence." *Alternative considered:* amend the clipping's House
-   Amendments section instead (the mechanism used for the five NEADD-1827
+   Amendments section instead (the mechanism used for the five first-on-engine-run
    behavioral rules) — rejected: House Amendments are operational rules
    discovered through on-engine use, not new type/taxonomy additions; folding
    a schema change into that section would blur two different kinds of
