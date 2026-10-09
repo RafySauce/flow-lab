@@ -18,11 +18,10 @@ flowchart LR
     Triage -->|"Clean primer-brief<br/>or bare"| Author
     Reverse --> Author["Author engine-neutral spec<br/>(SKILL.md: Flow Diagram,<br/>method, boundaries,<br/>review criteria)"]:::process
 
-    Author --> Adapt["Emit adapters per engine<br/>(Copilot, Rovo)"]:::process
-    Adapt --> StampStage["Stamp provenance;<br/>stage to review-skills/<br/>(to-review)"]:::process
+    Author --> StampStage["Stamp provenance;<br/>stage to review-skills/<br/>(to-review)"]:::process
 
     StampStage --> Gate{"5-point review passes?<br/>(spec, live test, trigger,<br/>boundary, evidence)"}:::decision
-    Gate -->|Yes| Promote(["Verified skill in<br/>../produced-skills/;<br/>adapters deployed"]):::output
+    Gate -->|Yes| Promote(["Verified skill in<br/>../produced-skills/;<br/>deployed to engines"]):::output
     Gate -.->|No| Revise["Revise & re-stage"]:::process
     Revise -.-> Gate
 

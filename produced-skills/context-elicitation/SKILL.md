@@ -12,11 +12,11 @@ description: >
 # --- provenance (house layer) ---
 id: context-elicitation
 type: skill
-artifact-version: "1.6"
+artifact-version: "1.7"
 status: living
 truth-level: verified
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -105,12 +105,19 @@ flowchart LR
    architecture material (a SAD, HLD/LLD, or topology diagram), use its
    integration points and named systems/components as additional candidate
    prompts — each cited to the document; document-seeded candidates propose,
-   the register walk and the user's confirmation decide. *Worked example:* a DC fabric-expansion item
-   where the user names only Systems/Server — the sweep surfaces Facilities
-   (13, Adjacent: power/cooling ceilings) and Cyber (6, Constraint-setter:
-   segmentation telemetry) before those arrive as surprises. If Stage 01
+   the register walk and the user's confirmation decide. *Worked example:* an
+   infrastructure-expansion item where the user names only the compute team —
+   the sweep surfaces the facilities owner (Adjacent: power/cooling ceilings)
+   and the security owner (Constraint-setter: segmentation telemetry) before
+   those arrive as surprises. If Stage 01
    flagged **ungrounded mode** (no register loaded for this domain), ask the
    user directly who is affected and how, instead of walking a register.
+   When the user supplied the stakeholders themselves (their own register,
+   one built from the generic template, or direct answers in ungrounded mode),
+   close the step by saving them to the engine's memory when available —
+   telling the user it was saved — or else handing them back as text to keep.
+   Team/role level only, never named individuals. If the user isn't sure how
+   to define their stakeholders, offer to walk the six role-types with them.
    **This step is a hard carve-out — it always runs interactively, in every
    mode, register or no register.** Fast-track mode never extracts or skips
    it: misidentifying who a work item affects costs more downstream than any
@@ -140,8 +147,7 @@ flowchart LR
 ## Inputs and grounding
 
 Reads: the selected work-item schema (from Stage 01), the platform stakeholder
-register (`reference/platform-stakeholder-register.md` or a domain instance of
-`platform-stakeholder-register-template.md` in the flowspace, if loaded), the
+register (`reference/platform-stakeholder-register.md` or the user's own, if loaded), the
 selected mode (fast-track / full-interactive, from Stage 01), the user's
 conversational input, and — when present — the Stage 01-screened source
 material with its input-type tag (any of HUB "Common source inputs" rows 1–9;
@@ -169,8 +175,9 @@ without a citation is treated the same as fabrication.
   `scope-dependency-mapper`.
 - **Not a field-cadence driver** — sequencing and refining the rest of the
   schema belongs to `field-refinement-cadence`.
-- **Not a stakeholder-register editor** — it consumes the register read-only;
-  register changes are the operator's.
+- **Not a stakeholder-register editor** — it consumes a loaded register
+  read-only; register changes are the operator's. The one write it makes is
+  saving stakeholders the user just supplied to engine memory, as above.
 - **Not a prioritizer** — it frames one item; whether the item is worth doing
   routes to Portfolio & Sourcing per the register's escalation rules.
 
@@ -202,15 +209,9 @@ A single output of this skill is acceptable when:
     research-record gaps that matter (e.g., no SAD found) were named to the
     user, not papered over.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.6 |
-| Copilot | adapters/copilot-prompt.md | 1.6 |
-
 ## Changelog
 
+- **1.7** (2026-10-09) — Operator-instructed: Stage 01 now offers a register choice (bundled register / the user's own / neither → ungrounded mode, with help defining the six role-types on request), and this skill saves user-supplied stakeholders to engine memory after the sweep (text hand-back if no memory; team/role level only). Worked example made domain-neutral. `truth-level` stays `verified` on operator instruction.
 - **1.6** (2026-07-31) — Reference-only correction: Method step 1 and Inputs
   and grounding both cited "nine" HUB "Common source inputs" types, which went
   stale when the taxonomy gained a tenth row (enumerated item set) with the

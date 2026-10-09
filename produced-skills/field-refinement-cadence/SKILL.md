@@ -16,9 +16,9 @@ id: field-refinement-cadence
 type: skill
 artifact-version: "1.6"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-08-21
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -210,13 +210,6 @@ A single output of this skill is acceptable when:
     actual result — a mismatch or an empty value on either field is a hit
     surfaced and resolved, never carried forward silently.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.6 |
-| Copilot | adapters/copilot-prompt.md | 1.6 |
-
 ## Changelog
 
 - **1.6** (2026-08-21) — `bug` gains two required custom fields, `app_code`
@@ -260,8 +253,7 @@ A single output of this skill is acceptable when:
   mode-aware confirmation, communication_style compliance). Both adapters
   regenerated. Content change: pre-gate evidence re-run required — see
   `../../skill-foundry/decision-log/2026-07-03-communication-style-and-fast-track-skill-revision-pass.md`.
-- **1.2** (2026-07-03) — Operator-observed defect fix (Stage 06 feedback,
-  NEADD-1827): due date is now an explicit, elicited Method step (new step 5)
+- **1.2** (2026-07-03) — Operator-observed defect fix (Stage 06 feedback): due date is now an explicit, elicited Method step (new step 5)
   instead of an unspecified part of "one field at a time" — the skill never
   auto-generates or infers it, presents the confirmed acceptance criteria as
   an effort reference first, and validates a spike's timebox against the

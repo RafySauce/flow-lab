@@ -129,8 +129,7 @@ confirmations recorded.
 - Max data-class: internal. Archive actions move content within the tenant;
   nothing leaves the platform, and nothing is destroyed.
 - Sanctioned engines: **Rovo** — registry rows, page properties, and
-  archive actions are all Atlassian-side writes. No Copilot adapter (see
-  Adapters).
+  archive actions are all Atlassian-side writes, so this skill is Rovo-only.
 
 ## What this skill is not
 
@@ -161,17 +160,6 @@ archive line declined), a run is acceptable when:
 4. The next custody review date is recorded for the touched scope.
 5. The job summary reconciles all work-order lines (committed / waived /
    struck / archived / declined) with zero unaccounted entries.
-
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-
-No Copilot adapter: every write this skill makes (registry rows, page
-properties, archive moves) is Atlassian-side, per Stage 07's data boundary
-— an adapter without a write path has no point of use (the
-`confluence-page-commit` call, same batch).
 
 ## Changelog
 

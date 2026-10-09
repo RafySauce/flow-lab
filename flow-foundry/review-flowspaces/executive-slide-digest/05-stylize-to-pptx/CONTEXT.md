@@ -69,6 +69,6 @@ dropped. Result recorded as a one-line entry in the run's decision log.
   classification; pure formatting, no new content sourced).
 - **Sanctioned engine for this stage:** Copilot only — file generation of
   this kind is not a Rovo-native action, matching the
-  `accomplishments-docx-stylizer` precedent. No Rovo adapter.
+  `accomplishments-docx-stylizer` precedent. Copilot only.
 - A handoff into this stage from an engine outside this boundary is invalid —
   stop and re-route.

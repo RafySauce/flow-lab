@@ -115,9 +115,9 @@ guess what it might have meant or invent a plausible target.
 - Max data-class: internal.
 - Sanctioned engines: **Copilot** (custom agent on the internal mirror) —
   primary, since flowspace contracts mirror to the internal repo where this
-  skill's users work. A Rovo adapter (Confluence-native, for the primary
-  surface) is deferred as optional per the brief's demand — build it if a
-  Confluence-native reviewer becomes the actual point of use.
+  skill's users work. A Rovo (Confluence-native) surface is deferred as
+  optional per the brief's demand — add it if a Confluence-native reviewer
+  becomes the actual point of use.
 
 ## What this skill is not
 
@@ -141,15 +141,6 @@ deliberately weak field of each of the six kinds:
 3. Every finding names which of the six fields it is and the stage it's in.
 4. The report's header states explicitly that this is a pre-review, not gate
    3.
-
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Copilot | adapters/copilot-agent.md | 1.0 |
-
-Rovo adapter deferred — see "Data boundary" above; re-open when a
-Confluence-native reviewer is the actual point of use.
 
 ## Changelog
 

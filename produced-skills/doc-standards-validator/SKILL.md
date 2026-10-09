@@ -148,13 +148,6 @@ from a doctored enumeration list), a run is acceptable when:
 5. A user-accepted finding is recorded as accepted in the report, not
    deleted.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-07-15) — Initial build from `sp-doc-standards-validator`.

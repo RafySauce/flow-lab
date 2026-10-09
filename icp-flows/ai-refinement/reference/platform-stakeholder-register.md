@@ -60,7 +60,7 @@ entry is a taggable stakeholder on a Jira work item.
 | # | Stakeholder | Role-type | Domains | What they value most |
 |---|-------------|-----------|---------|----------------------|
 | 1 | **Network Engineering** | Producer | NE | A consistent, predictable transport fabric; fewer snowflakes; clean change windows and low MTTR. Standardization that keeps the network legible. |
-| 2 | **Data Center Networking** *(us)* | Producer | DC | Throughput, low east-west latency, non-blocking fabric at scale, and capacity headroom. Being consulted *early* on DC builds before power/space/cooling lock in. Not being the bottleneck for compute and storage. |
+| 2 | **Data Center Networking** | Producer | DC | Throughput, low east-west latency, non-blocking fabric at scale, and capacity headroom. Being consulted *early* on DC builds before power/space/cooling lock in. Not being the bottleneck for compute and storage. |
 | 3 | **Perimeter Security Engineering** | Producer / Constraint | PS | Enforceable, auditable edge control with minimal exception sprawl. Clear rule ownership. Not becoming the "yes to every firewall exception" desk. |
 | 4 | **Unified Communications** | Producer | VV | Call and meeting quality (jitter, loss, MOS), availability during high-visibility events, and seamless cross-device experience — especially for exec/VIP use. |
 | 5 | **Corporate Services (Badging/AV)** | Producer | CS | Access that works day-one and revokes day-zero; tight physical↔logical identity integration; low friction for employees; audit-ready access records. |

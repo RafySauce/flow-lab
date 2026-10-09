@@ -4,11 +4,11 @@ title: "Stage 01 — Intake & Guardrails"
 type: stage-context
 stage: 1
 review-intensity: heavy
-artifact-version: "1.16"
+artifact-version: "1.17"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -18,9 +18,9 @@ related:
   - "[[ai-refinement]]"
   - "[[ai-refinement-hybrid]]"
   - "[[work-item-schemas]]"
-  - "[[platform-stakeholder-register]]"
   - "[[value-decomposition]]"
   - "[[bulk-child-creation]]"
+  - "[[platform-stakeholder-register]]"
 ---
 
 # Stage 01 — Intake & Guardrails
@@ -43,7 +43,7 @@ related:
 | OneDrive/SharePoint search results for the confirmed research scope (Copilot + live Microsoft Graph/OneDrive connector only, read-only, engine-native) | OneDrive/SharePoint (via native Graph lookup) | No |
 | User-supplied search-term filters (technology stack names, app/system codes, team names, team member names) — addition to or explicit override of agent-proposed terms | User | No |
 | User-stated time-frame for supporting-context research (defaults to the past 6 months if unspecified) | User | No |
-| Stakeholder register, if one is loaded for this domain | `../reference/platform-stakeholder-register.md` or a domain instance of `platform-stakeholder-register-template.md` | No |
+| Stakeholder register, if one is loaded for this domain | the bundled `platform-stakeholder-register.md`, the user's own register, or one built from `platform-stakeholder-register-template.md` (choice offered at step 11) | No |
 | Existing Jira labels for the target project/space (live query, for team_code inference) | Jira (via native lookup) | Yes |
 
 ## Process
@@ -351,13 +351,23 @@ is set-shaped and the user accepts bulk creation mode
       per-row due-date column is user-committed and used as given; otherwise
       one date is elicited explicitly for the batch. A date the agent derives
       from prose stays a reference point only, never a commitment.
-11. **Stakeholder-register grounding check** — confirm whether a stakeholder
-    register is loaded for this domain (`../reference/platform-stakeholder-register.md`
-    or a domain instance of `platform-stakeholder-register-template.md`). If
-    none is loaded, flag **ungrounded mode**: Stage 02's stakeholder sweep and
-    Stage 03's coalition/conflict-axis annotation ask the user directly who is
-    affected and what tensions apply, instead of walking a register — a
-    degraded but functional path, not a blocked one.
+11. **Stakeholder-register grounding check and choice** — confirm whether a
+    stakeholder register is already loaded for this domain. If not, ask the
+    user which to use (never pick for them):
+    - **The bundled register** — `../reference/platform-stakeholder-register.md`,
+      the network-engineering instance. Grounded mode.
+    - **Their own register** — pasted, pointed to (e.g. a file in their
+      source-repo), or recalled from engine memory saved on an earlier run.
+      Grounded mode.
+    - **Neither provided** — flag **ungrounded mode**: Stage 02's stakeholder
+      sweep and Stage 03's coalition/conflict-axis annotation ask the user
+      directly who is affected and what tensions apply, instead of walking a
+      register — a degraded but functional path, not a blocked one.
+    If the user says they aren't sure how to define their stakeholders, offer
+    to help: walk the six role-types (Producer, Consumer, Constraint-setter,
+    Operator, Adjacent, Sponsor) using
+    `../reference/platform-stakeholder-register-template.md`, asking who
+    plays each one for this domain. The result is their own register.
 12. **Confirm setup** — echo back: persona active (communication_style
     binding), item type selected (+ rationale, if agent-proposed), work-focus
     classification and supporting-context research result (documents in the

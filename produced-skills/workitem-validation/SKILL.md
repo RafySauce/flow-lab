@@ -16,9 +16,9 @@ id: workitem-validation
 type: skill
 artifact-version: "1.4"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -171,13 +171,6 @@ A single output of this skill is acceptable when:
 8. Any required field backed by an `excerpt-only` or `inaccessible`
    research-confidence tag is named in the report, alongside the field it
    backs — never silently treated as if the grounding were verified.
-
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.4 |
-| Copilot | adapters/copilot-prompt.md | 1.4 |
 
 ## Changelog
 

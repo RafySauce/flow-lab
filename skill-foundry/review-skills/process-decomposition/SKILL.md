@@ -330,13 +330,6 @@ A single output of this skill is acceptable when:
    cleanly with no children created, exactly as `value-decomposition`'s own
    stop verdict.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-08-01) — Initial build from `sp-process-decomposition`.

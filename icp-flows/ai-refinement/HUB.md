@@ -4,9 +4,9 @@ title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
 artifact-version: "1.25"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-08-21
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -14,10 +14,10 @@ generated-by-version: "1.1"
 data-class: public
 related:
   - "[[ai-refinement-hybrid]]"
-  - "[[platform-stakeholder-register]]"
   - "[[work-item-schemas]]"
   - "[[value-decomposition]]"
   - "[[bulk-child-creation]]"
+  - "[[platform-stakeholder-register]]"
 ---
 
 # AI-Augmented Refinement — Jira Work Item Pipeline
@@ -27,7 +27,7 @@ step-by-step refinement with explicit confirmation and accountability at every
 field boundary. The pipeline enforces the Technical Product / Service Owner
 (TPSO) persona — prioritizing business and operational value, identifying risks
 and dependencies, challenging incomplete requirements, and enforcing measurable
-outcomes across the enterprise network infrastructure domain. Requirements are
+outcomes across the enterprise platform and infrastructure domain. Requirements are
 grounded in the platform stakeholder register: every work item is tagged with
 the stakeholders whose needs define it, the coalition it satisfies, and the
 conflict axis it triggers (see `reference/platform-stakeholder-register.md`).
@@ -76,10 +76,13 @@ flowchart LR
 > the flow and all six ai-refinement-family skills, evidence in
 > `decision-log/2026-08-01-rovo-live-test-reverification.md` and
 > `skill-foundry/decision-log/2026-08-01-ai-refinement-skill-batch-reverification.md`.
-> Copilot-adapter live tests remain outstanding — see Known gaps.
-> **2026-08-05:** a content-only revision pass (Thirteenth gap, below) moved
-> `jira-commit` and `workitem-validation` back to `truth-level: to-review` —
-> the other four skills are unaffected and stay `verified`.
+> Copilot live tests remain outstanding — see Known gaps.
+> **2026-10-09:** the operator declared the flow production-ready and
+> promoted it, its stage contracts, its reference documents, and all six
+> ai-refinement-family skills (plus `bulk-child-creation`) to
+> `truth-level: verified`, superseding the 2026-08-05/08-21 `to-review`
+> demotions recorded below. Evidence:
+> `flow-foundry/decision-log/2026-10-09-production-promotion.md`.
 
 ## Stage table
 
@@ -375,7 +378,7 @@ Rationale:
 **Gate closure (2026-08-01):** the flow and its six directly-built skills
 were re-gated and re-promoted to `truth-level: verified` on a confirmed Rovo
 run across the flow, closing the Rovo-path re-gate language on gaps seven
-through eleven. Copilot-adapter live tests remain outstanding for all six;
+through eleven. Copilot live tests remain outstanding for all six;
 `field-refinement-cadence` was never demoted. Evidence:
 `decision-log/2026-08-01-rovo-live-test-reverification.md`. **This gate
 closure is reopened by the Thirteenth gap below** for `jira-commit` and
@@ -471,10 +474,10 @@ from the static `refine-ai-built` to the versioned
 `refine-ai-flow-v<version>`, flagging an item as AI-produced and pending
 team review — removal signals review completion. Stages 01, 05, and 06,
 plus `jira-commit` and `workitem-validation`, updated to match and both
-skills' adapters regenerated; Stages 05/06 drop to `to-review` (content
+skills updated to match; Stages 05/06 drop to `to-review` (content
 change, no re-gate). New coupling: because the label now carries the
 flowspace's own version, a future HUB-only version bump still requires
-regenerating `jira-commit`'s adapters. None of this has run on-engine.
+updating `jira-commit`. None of this has run on-engine.
 Raised by the operator. Rationale:
 `decision-log/2026-07-28-provenance-label-versioning.md`.
 
@@ -492,19 +495,19 @@ The five skills forming the default per-item pipeline (Stages 2–6) were
 promoted `verified` 2026-07-03: evidence in
 `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-promotion.md`
 and `flow-foundry/decision-log/2026-07-03-ai-refinement-promotion.md`.
-Remaining gap: no adapter is published to a live engine yet — first
-on-engine invocation per adapter happens at deployment, the operator's act,
+Remaining gap: no skill is deployed to a live engine yet — first
+on-engine invocation per skill happens at deployment, the operator's act,
 recorded in each skill card.
 
-| Skill (spec + adapters) | Primer brief | Target stage | Status |
+| Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.5 (nine-type input taxonomy, supporting-context steering: architecture material seeds the stakeholder sweep, prior completed items seed "tried before"); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
-| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — 1.3 (SAD/topology integration-seam dependency sweep, prior-process risk seeding); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot adapter live test still outstanding |
-| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | to-review — 1.6 (bug field ordering and conflict checks extended for app_code/root_cause); content change 2026-08-21, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
-| `workitem-validation` | `sp-workitem-validation` | 5 | to-review — 1.4 (completeness scan names any excerpt-only/inaccessible research grounding backing a required field); content change 2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
-| `jira-commit` | `sp-jira-commit` | 6 | to-review — 1.12 (API preflight, hierarchy-level validation before parent-link writes, field-capability testing, post-commit field audit, bug app_code/root_cause custom-field discovery); content change 2026-08-21, re-gate owed; previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test |
-| `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot adapter live test still outstanding |
-| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | to-review — 1.1 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, dropping back to `to-review` pending re-gate); Copilot adapter live test still outstanding |
+| `context-elicitation` | `sp-context-elicitation` | 2 | verified — 1.5 (nine-type input taxonomy, supporting-context steering: architecture material seeds the stakeholder sweep, prior completed items seed "tried before"); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot live test still outstanding |
+| `scope-dependency-mapper` | `sp-scope-dependency-mapper` | 3 | verified — 1.3 (SAD/topology integration-seam dependency sweep, prior-process risk seeding); re-gated and promoted 2026-08-01 on a confirmed Rovo live test; Copilot live test still outstanding |
+| `field-refinement-cadence` | `sp-field-refinement-cadence` | 4 | verified — 1.6 (bug field ordering and conflict checks extended for app_code/root_cause); content change 2026-08-21; promoted 2026-10-09 on operator instruction (previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test) |
+| `workitem-validation` | `sp-workitem-validation` | 5 | verified — 1.4 (completeness scan names any excerpt-only/inaccessible research grounding backing a required field); content change 2026-08-05; promoted 2026-10-09 on operator instruction (previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test) |
+| `jira-commit` | `sp-jira-commit` | 6 | verified — 1.12 (API preflight, hierarchy-level validation before parent-link writes, field-capability testing, post-commit field audit, bug app_code/root_cause custom-field discovery); content change 2026-08-21; promoted 2026-10-09 on operator instruction (previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test) |
+| `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot live test still outstanding |
+| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | verified — 1.1 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, promoted 2026-10-09 on operator instruction); Copilot live test still outstanding |
 
 Second gap (2026-07-03): the work-item schema registry originally covered
 only `solution_epic`/`feature`; `story`/`task`/`spike` schemas are
@@ -514,7 +517,7 @@ fields were applied to `jira-commit` ahead of ratification. Rationale:
 `decision-log/2026-07-03-work-item-schema-extension.md`; revision evidence:
 `skill-foundry/decision-log/2026-07-03-ai-refinement-skill-revision-pass.md`.
 
-Third gap (2026-07-03): the first on-engine invocation (Rovo, NEADD-1827)
+Third gap (2026-07-03): the first on-engine invocation (Rovo)
 surfaced five defects at the commit boundary — raw Markdown reaching Jira
 fields, silent parent assignment, a fabricated due date, no
 status-transition offer, and missing board-required fields on
@@ -573,14 +576,14 @@ Raised by the operator; none of it has run on-engine. Rationale:
 
 | Artifact | Location | Covers |
 |---|---|---|
-| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (to-review — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eleven house amendments (five on-engine-proven, six operator-raised) |
-| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (to-review — 1.1) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation in ≤10-item sub-batches with halt-on-failure, Markdown handoff degrade path |
-| Session-Continuation Handoff | `reference/session-continuation-handoff.md` (to-review) | Document shape for resuming this flow's own progress in a fresh session when `session_budget_checkpoint` stops the current one: stage reached, items completed, items remaining, recommended priority order |
-| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (to-review, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions (bug now carries app_code/root_cause alongside description); sub_task out-of-scope declaration; extension field constraints; mandatory-label, hierarchy-level, and field-capability cross-cutting notes |
+| AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (verified — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eleven house amendments (five on-engine-proven, six operator-raised) |
+| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (verified — 1.1) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation in ≤10-item sub-batches with halt-on-failure, Markdown handoff degrade path |
+| Session-Continuation Handoff | `reference/session-continuation-handoff.md` (verified) | Document shape for resuming this flow's own progress in a fresh session when `session_budget_checkpoint` stops the current one: stage reached, items completed, items remaining, recommended priority order |
+| Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (verified, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions (bug now carries app_code/root_cause alongside description); sub_task out-of-scope declaration; extension field constraints; mandatory-label, hierarchy-level, and field-capability cross-cutting notes |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
-| Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (verified, house extension) | Domain-neutral register structure for instantiating in domains outside network engineering |
+| Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (verified, house extension) | Domain-neutral register structure for instantiating a stakeholder register in any domain |
 | Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |
 | On-Engine Validation Checklist | `reference/on-engine-validation-checklist.md` (verified, house extension) | Per-type, per-check matrix for REC-09 (first on-engine validation run) — prepared, not executed |
-| Platform Quirks | `reference/platform-quirks.md` (to-review, house extension) | Rovo/Copilot-specific execution observations — session state volatility, API parameter-naming differences, tool-inventory churn — evidence behind the `commit_boundary_hardening` house amendment, not the rule itself |
+| Platform Quirks | `reference/platform-quirks.md` (verified, house extension) | Rovo/Copilot-specific execution observations — session state volatility, API parameter-naming differences, tool-inventory churn — evidence behind the `commit_boundary_hardening` house amendment, not the rule itself |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |

@@ -6,7 +6,7 @@ artifact-version: "1.0"
 status: living
 truth-level: verified
 created: 2026-07-03
-updated: 2026-07-15
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -19,14 +19,19 @@ related:
 
 # Stakeholder Register Template — Domain-Neutral
 
-The structure `platform-stakeholder-register.md` (the network-engineering
-instance) populates. Use this template to instantiate a stakeholder register
-for any other domain the `ai-refinement` flowspace is run against — copy it,
+The domain-neutral structure behind `platform-stakeholder-register.md` (the
+network-engineering instance). Use this template to instantiate a stakeholder register
+for any domain the `ai-refinement` flowspace is run against — copy it,
 replace the bracketed placeholders with the real domain's teams and
 tensions, and rename the copy per the domain (e.g.
 `platform-stakeholder-register-<domain>.md`). Keep the same section shape so
 Stage 02's stakeholder sweep and Stage 03's coalition/conflict-axis
 annotation can read either instance without a contract change.
+
+Use it too when a user isn't sure how to define their stakeholders: walk the
+six role-types with them. Once a register is populated, save it to the engine's
+memory if available (else hand it back as text) so future runs can load it at
+Stage 01 — team and role names only, never named individuals.
 
 If no instance exists yet for a domain, Stage 01's grounding check flags
 **ungrounded mode**: Stage 02 and Stage 03 ask the user directly who is
@@ -51,7 +56,7 @@ degraded but functional path, not a blocked one.
 | 6 | **[Sponsor / leadership]** | Sponsor | ALL | [Strategic alignment, cost/value, portfolio concerns.] |
 
 Add rows as the domain requires — this is a starting shape, not a fixed
-count. The real network-engineering instance runs to 17 entries; a smaller
+count. A large organization may need a dozen or more entries; a smaller
 domain may need far fewer.
 
 ---
@@ -76,8 +81,7 @@ than letting it detonate mid-build.
   *Bites hardest on:* [the concrete decision this tension shows up in].
 
 Mark any tension that is a hard constraint (not a negotiable tradeoff) —
-e.g. a physical, legal, or safety limit — explicitly, the way the real
-instance flags "Growth vs. Physical Limits."
+e.g. a physical, legal, or safety limit — explicitly as a constraint.
 
 ---
 

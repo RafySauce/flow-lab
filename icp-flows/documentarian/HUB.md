@@ -4,9 +4,9 @@ title: "Documentarian — Documentation Production & Custody Pipeline"
 type: flowspace
 artifact-version: "1.2"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-15
-updated: 2026-08-05
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: flow-foundry

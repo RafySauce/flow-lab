@@ -4,9 +4,9 @@ title: "Platform Quirks — AI Refinement"
 type: specification
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-08-05
-updated: 2026-08-05
+updated: 2026-10-09
 owner: operator
 source: human+ai
 data-class: public
@@ -23,7 +23,7 @@ child Spike and closing a duplicate — not from repeated on-engine runs. Treat
 the specific quirks named here as illustrative examples of the *class* of
 problem, not an exhaustive or permanent list: platform behavior changes
 between runtime versions, and Copilot has not produced any of this file's
-observations at all (no Copilot adapter has had a live invocation yet — see
+observations at all (no Copilot skill has had a live invocation yet — see
 `HUB.md`'s Known gaps). Add to this file as future runs surface new
 platform-specific behavior; this is where that kind of finding belongs,
 distinct from the flow-design amendments in `ai-refinement-hybrid.md`. The

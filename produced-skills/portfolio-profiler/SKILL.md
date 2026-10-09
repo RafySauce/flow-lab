@@ -263,13 +263,6 @@ A single output of this skill is acceptable when:
 13. Every item is accounted for in every dimension — uncategorized items appear
     in an explicit uncategorized count rather than vanishing.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.2 |
-| Copilot | adapters/copilot-prompt.md | 1.2 |
-
 ## Changelog
 
 - **1.2** (2026-08-01) — Field-completion denominator redesigned upstream in

@@ -18,11 +18,11 @@ related:
 # On-Engine Validation Checklist — AI Refinement
 
 **Status: prepared, not executed.** The flowspace has exactly one on-engine
-run to date (Rovo, NEADD-1827, a `spike`), which surfaced five defects since
+run to date (Rovo, a `spike`), which surfaced five defects since
 fixed in spec. Every fix, and every capability added since (communication
 style enforcement, the broadened input taxonomy, the domain-configurable
 stakeholder register, and fast-track mode) has only been validated by
-simulated invocation — running adapter instructions verbatim against
+simulated invocation — running skill instructions verbatim against
 synthetic scenarios. None of it has been re-confirmed on a live engine. This
 checklist is the operator's run sheet for closing that gap once the
 Confluence instantiation and Rovo deployment
@@ -33,7 +33,7 @@ Confluence instantiation and Rovo deployment
 Run one full pipeline (Stage 01 → Stage 06) per refinable type, in both
 modes where the row says "both modes," recording pass/fail and any defect
 found. A defect found here becomes a revision pass, the same pattern used for
-NEADD-1827 — log it in a new decision-log entry, fix the spec, and re-run
+the first on-engine run — log it in a new decision-log entry, fix the spec, and re-run
 this same row.
 
 ## Per-type run matrix
@@ -45,7 +45,7 @@ this same row.
 | `feature` | [ ] | [ ] | Parent = solution epic; confirm candidate query returns real epics. |
 | `story` | [ ] | [ ] | Schema is `to-review` (REC-04) — confirm `type_of_work`/`work_category` screens exist before committing. |
 | `task` | [ ] | [ ] | Same schema caveat as `story`. |
-| `spike` | [ ] | [ ] | Schema is `to-review`; confirm `question_to_answer`/`timebox` custom fields exist or get created per the discovery step. This is the type that already failed once (NEADD-1827) — weight this row highest. |
+| `spike` | [ ] | [ ] | Schema is `to-review`; confirm `question_to_answer`/`timebox` custom fields exist or get created per the discovery step. This is the type that already failed once on a live run — weight this row highest. |
 | `bug` | [ ] | [ ] | New type (added 2026-07-07, simplified same day; `app_code`/`root_cause` added 2026-08-21); schema is `to-review` — confirm the `description` field (standard Jira field, no custom-field discovery needed) actually carries reproduction steps, expected result, and a contradicting actual result per the registry's `description` content rule, not a vague summary restated; confirm `app_code` and `root_cause` custom fields exist or get created per the discovery step, and that both are actually populated on the fetched-back issue, not silently dropped by an untested field-capability fallback. |
 
 ## Per-run check list (apply to every row above)

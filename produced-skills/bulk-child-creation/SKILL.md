@@ -23,9 +23,9 @@ id: bulk-child-creation
 type: skill
 artifact-version: "1.1"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-31
-updated: 2026-08-05
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -420,13 +420,6 @@ A single output of this skill is acceptable when:
     it so a fresh session could finish the job.
 13. Parent linkage was confirmed once for the batch and validated at the end of
     the pass, with any differently-parented row surfaced individually.
-
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.1 |
-| Copilot | adapters/copilot-prompt.md | 1.1 |
 
 ## Changelog
 

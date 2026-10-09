@@ -37,7 +37,7 @@ than editing this same clipping, reasoning that "editing it would destroy its
 evidentiary value." This decision reverses that instinct for a narrower
 class of change: the five rules being backported here are not new fields or
 new scope — they are behavior the flowspace already proved necessary through
-on-engine operation (four from NEADD-1827) and a drift analysis (the fifth,
+on-engine operation (four from the first on-engine run) and a drift analysis (the fifth,
 communication_style). The operator explicitly chose "edit the clipping
 directly" over a separate addendum-only file when asked. To preserve the
 evidentiary distinction the prior precedent was protecting, the amendments

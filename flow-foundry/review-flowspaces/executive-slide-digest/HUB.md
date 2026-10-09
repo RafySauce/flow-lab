@@ -50,7 +50,7 @@ flowchart LR
 > Stages 3 and 5 carry the `gap` color because their Layer-3 skills are built
 > but **not promoted** — both are staged at `truth-level: to-review` in
 > `skill-foundry/review-skills/`, awaiting the five-point gate
-> (`skill-foundry/foundry-spec.md` §5). Per the diagram guide, `gap`
+> (`skill-foundry/foundry-spec.md` §4). Per the diagram guide, `gap`
 > overrides the review-intensity color while the Stage table below carries
 > the real intensity. When the operator promotes both skills, these nodes
 > take their true `light` color. See Known gaps.
@@ -114,13 +114,13 @@ primer brief's explicit design call.
 > that carries the full rationale.
 
 Both Layer-3 skills demanded by Stages 3 and 5 are built — engine-neutral
-spec plus adapters, staged `truth-level: to-review` in
+spec, staged `truth-level: to-review` in
 `skill-foundry/review-skills/`. Evidence: `skill-foundry/decision-log/2026-
 08-06-executive-slide-digest-skill-batch.md` (build) and its companion
 `2026-08-06-executive-slide-digest-skill-gate-prerun.md` (five-point gate
 pre-run — item 2, the on-engine live test, is open; no engine access this
 session). Nothing is promoted, moved to `../../produced-skills/`, or
-deployed; that is the operator's call per `skill-foundry/foundry-spec.md` §5.
+deployed; that is the operator's call per `skill-foundry/foundry-spec.md` §4.
 
 | Skill | Primer brief | Target stage | Status |
 |---|---|---|---|

@@ -4,9 +4,9 @@ title: "Work Item Schemas — Refinable Set (House Extension)"
 type: specification
 artifact-version: "1.8"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-08-21
+updated: 2026-10-09
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -348,7 +348,7 @@ Recorded so the operator can ratify the *reasoning*, not just the field lists:
    item across workflow columns — every refinable type (`story`, `task`,
    `spike`, `bug`, in addition to `feature`) traverses that workflow once
    committed, so every refinable type requires both fields. (Operator-observed
-   defect, NEADD-1827: a spike committed without them could not be
+   defect, first on-engine run: a spike committed without them could not be
    transitioned off Backlog. See
    `../decision-log/2026-07-03-stage06-feedback-revision.md`.)
 6. **`portfolio_epic` mirrors `solution_epic`'s field set exactly — operator-

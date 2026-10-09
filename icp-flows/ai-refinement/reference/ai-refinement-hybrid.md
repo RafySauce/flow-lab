@@ -4,9 +4,9 @@ title: "AI Refinement — Hybrid Definition (Markdown + YAML)"
 type: clipping
 artifact-version: "1.8"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-03
-updated: 2026-08-05
+updated: 2026-10-09
 owner: operator
 source: human+ai
 data-class: public
@@ -237,7 +237,7 @@ triggers:
 ## House Amendments (2026-07-03; sixth added 2026-07-15; seventh added 2026-07-21, revised 2026-07-31; eighth added 2026-07-31; ninth through eleventh added 2026-08-05; eleventh revised same day)
 
 The first five rules below are house-authored, discovered through the
-flowspace's first on-engine invocation (Rovo, NEADD-1827) and the resulting
+flowspace's first on-engine invocation (Rovo) and the resulting
 feedback revision — none were in the original ingest. They are recorded here,
 rather than left implicit in stage contracts and skill specs, so a future
 revision of the real external source document can absorb them instead of
@@ -268,7 +268,7 @@ house_amendments:
       criteria exist to serve as an effort reference. Never auto-generated,
       inferred, or defaulted — a deadline named in source material is a
       reference point only, never a substitute for explicit user commitment.
-    origin: NEADD-1827, defect 3 (fabricated due date)
+    origin: first on-engine run, defect 3 (fabricated due date)
 
   post_commit_transition_offer:
     rule: >
@@ -276,7 +276,7 @@ house_amendments:
       transition the item to In Progress (or the board's equivalent active
       status). Offered once; no re-prompting; no transition without explicit
       "yes."
-    origin: NEADD-1827, defect 4 (no post-creation transition offer)
+    origin: first on-engine run, defect 4 (no post-creation transition offer)
 
   parent_mapping_confirmation:
     rule: >
@@ -285,7 +285,7 @@ house_amendments:
       must confirm a specific parent, skip (no parent yet), or request a new
       parent be created. A hierarchy position is never carried forward and
       set silently.
-    origin: NEADD-1827, defect 2 (silent parent assignment)
+    origin: first on-engine run, defect 2 (silent parent assignment)
 
   format_translation_gate:
     rule: >
@@ -294,7 +294,7 @@ house_amendments:
       (ADF) for Jira Cloud — before any rich-text field is committed. Raw
       Markdown syntax reaching a committed field is a defect, not an
       acceptable degradation.
-    origin: NEADD-1827, defect 1 (raw Markdown reaching Jira fields)
+    origin: first on-engine run, defect 1 (raw Markdown reaching Jira fields)
 
   communication_style_enforcement:
     rule: >

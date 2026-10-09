@@ -170,13 +170,6 @@ naming two real and one nonexistent Jira key), a run is acceptable when:
 6. Nothing was written to any platform, and the dossier header names Stage
    01's confirmed job type.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-07-15) — Initial build from `sp-doc-evidence-gatherer`.

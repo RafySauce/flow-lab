@@ -112,7 +112,7 @@ is reported, never fabricated from assumption.
   formatting, no new content sourced).
 - Sanctioned engine: Copilot only — file generation of this kind is not a
   Rovo-native action, matching the `accomplishments-docx-stylizer`
-  precedent. No Rovo adapter.
+  precedent.
 
 ## What this skill is not
 
@@ -143,18 +143,6 @@ A single output of this skill is acceptable when:
    lightweight title slide. For portfolio-rollup scope: a title/agenda
    slide, one slide per initiative in approved order, and the closing
    rollup slide only if Stage 4's approved content included one.
-
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
-No Rovo adapter is built: Stage 5 stays Copilot-side, matching the file-
-generation precedent set by `accomplishments-docx-stylizer` — `.pptx`
-generation from approved content has no Confluence-native point of use in
-this flow either. See
-`skill-foundry/decision-log/2026-08-06-executive-slide-digest-skill-batch.md`.
 
 ## Changelog
 

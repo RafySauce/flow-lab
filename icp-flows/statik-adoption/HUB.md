@@ -199,7 +199,7 @@ end-to-end live-test pass. Still open: no on-engine invocation for any of
 the six, and this flowspace design itself remains `to-review`. Evidence:
 `skill-foundry/decision-log/2026-08-01-statik-adoption-skill-batch-promotion.md`.
 
-| Skill (spec + adapters) | Primer brief | Target stage | Status |
+| Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
 | `fitness-and-dissatisfaction-profiler` | `sp-fitness-and-dissatisfaction-profiler` | 1–2 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
 | `demand-profiler` | `sp-demand-profiler` | 3 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |

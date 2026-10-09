@@ -264,13 +264,6 @@ A human judges one output acceptable when:
    distinction stated.
 10. A stale capability basis **stops the run**.
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-08-01) — Initial build from `sp-class-of-service-designer`.

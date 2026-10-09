@@ -154,13 +154,6 @@ remediation; escalation path planned open) and a seeded SOP `update` line
 5. Voice and formatting pass the standards baseline (instructional second
    person; no bold-as-structure, no emojis, no bare TODO/TBD).
 
-## Adapters
-
-| Engine | Artifact | Generated from spec version |
-|---|---|---|
-| Rovo | adapters/rovo-agent.md | 1.0 |
-| Copilot | adapters/copilot-prompt.md | 1.0 |
-
 ## Changelog
 
 - **1.0** (2026-07-15) — Initial build from `sp-doc-drafter`. Diagram-source

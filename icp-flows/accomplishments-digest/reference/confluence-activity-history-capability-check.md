@@ -43,7 +43,7 @@ re-probing.
    one `@mention`, and a review/approval cycle in the last 90 days, ideally
    spanning both a short window (last 7 days) and a longer one (60–90 days).
 2. **Query comment history** via the same interface `confluence-contribution-
-   gatherer`'s Rovo/Copilot adapter would use (native Confluence action or
+   gatherer`'s Rovo/Copilot deployment would use (native Confluence action or
    the sanctioned connector). Confirm: are comments from the full 90-day
    window returned, or does the result silently truncate to a shorter
    retention window?
