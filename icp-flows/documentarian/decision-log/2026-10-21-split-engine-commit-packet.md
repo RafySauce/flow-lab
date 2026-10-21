@@ -54,7 +54,30 @@ topology, run procedure, Fourth gap, reference rows). All four move
    06's results and is Rovo-only; the packet carries the rest of its inputs,
    including the doc-registry index location.
 
-## Open — operator decision needed
+## Resolved same day — Stage 02 opened to Copilot
+
+**Decision:** option (a). The operator sanctioned Copilot for Stage 02,
+read-only: "We can allow copilot to do discovery. It actually has more
+access to files like sharepoint, outlook, teams meeting summaries and chats,
+and other useful data. Read only sweeps are fine." **What it affects:**
+Stage 02 `CONTEXT.md` (1.0 → 1.1) and `doc-evidence-gatherer` (1.0 → 1.1),
+both `verified` → `to-review`; HUB stage table, topology note, Fourth gap,
+and skill-status row. **Added with it, by the agent, for the operator to
+confirm or amend:**
+
+- **H1 — Confirmed scope before any read.** Microsoft 365 reach is broad, so
+  the sweep is limited to sources tied to the job, in a date window, and
+  confirmed by the user first — the same confirm-then-hunt discipline as
+  ai-refinement's supporting-context research. No whole-mailbox or all-chats
+  sweep.
+- **H2 — Mail and chat get the strictest screen.** They carry the most
+  personal and off-topic content of any source. Distill to work facts, no
+  verbatim personal content, no unapproved attributions, cite by reference.
+- **H3 — Per-entry source surface.** Facts from Microsoft 365 can end up on a
+  Confluence page; tagging each entry's surface lets Stage 05's PII and
+  attribution check see that crossing.
+
+The original open item, kept for the record:
 
 - **Stage 02 is Rovo-only.** Evidence Gathering's data boundary sanctions
   only Rovo. A run that starts in the Agent Builder agent cannot gather

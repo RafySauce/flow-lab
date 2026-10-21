@@ -94,7 +94,7 @@ flowchart LR
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
 | 1 | Intake & Routing | heavy¹ | internal | Rovo, Copilot | inline — guardrails, job-type routing, registry pointers (`reference/doc-type-registry.md`, `reference/documentation-standards.md`) |
-| 2 | Evidence Gathering | light | internal | Rovo | `doc-evidence-gatherer` (verified, `produced-skills/`) |
+| 2 | Evidence Gathering | light | internal | Rovo, Copilot (read-only) | `doc-evidence-gatherer` (to-review — 1.1, Copilot sanctioned 2026-10-21, `produced-skills/`) |
 | 3 | Doc Plan & Template Match | heavy² | internal | Rovo, Copilot | `doc-planner` (verified, `produced-skills/`) |
 | 4 | Draft & Update | light | internal | Rovo, Copilot | `doc-drafter` (verified, `produced-skills/`); `sad-diagram-maintainer` (verified, `produced-skills/`) for the sad-update job type |
 | 5 | Standards Validation | light | internal | Rovo, Copilot | `doc-standards-validator` (verified, `produced-skills/`); `provenance-stamper` (verified, `produced-skills/`) referenced for mirror-side artifact stamping |
@@ -137,8 +137,10 @@ packet** (`reference/commit-packet.md`) for the job. The user carries it to
 Rovo, which runs Stage 06 per page (each with its own preview and approval)
 and Stage 07 once, from the packet alone, and returns a filled return slip.
 The packet carries its own executor brief because Rovo cannot read this flow
-(`methodology/engine-handoff-contract.md`). Stage 02 is also Rovo-only as
-written — see the Fourth gap.
+(`methodology/engine-handoff-contract.md`). Stage 02 is sanctioned for
+Copilot too (read-only), so the producing engine can run Stages 01–05 in
+full — and, with a live connector, also sweep SharePoint/OneDrive, Outlook,
+and Teams.
 
 **No fast-track analog.** ai-refinement's fast-track compresses field
 elicitation; here, Stage 4's open-section protocol is already the
@@ -227,7 +229,7 @@ had a true on-engine invocation. Evidence:
 
 | Skill | Primer brief | Target stage | Status |
 |---|---|---|---|
-| `doc-evidence-gatherer` | `sp-doc-evidence-gatherer` | 2 | verified — built and gated 2026-08-01; on-engine test pending |
+| `doc-evidence-gatherer` | `sp-doc-evidence-gatherer` | 2 | to-review — 1.1 (Copilot sanctioned for read-only sweeps incl. Microsoft 365 sources, 2026-10-21); previously built and gated 2026-08-01; on-engine test pending |
 | `doc-planner` | `sp-doc-planner` | 3 | verified — built and gated 2026-08-01; on-engine test pending |
 | `doc-drafter` | `sp-doc-drafter` | 4 | verified — built and gated 2026-08-01; on-engine test pending |
 | `sad-diagram-maintainer` | `sp-sad-diagram-maintainer` | 4 (sad-update jobs) | verified — built standalone (merge into `doc-drafter` declined), gated 2026-08-01; on-engine test pending |
@@ -252,12 +254,11 @@ early stages in a Copilot Agent Builder agent and commits through Rovo,
 which cannot read the source-repo. Closed for Stages 05–07 by the **commit
 packet** — `methodology/engine-handoff-contract.md` (1.0) and
 `reference/commit-packet.md` (1.0), with a Stage 05 split-engine exit and
-packet entries on Stages 06 and 07 (each 1.0 → 1.1, `to-review`). **Not
-closed:** Stage 02 (Evidence Gathering) is Rovo-only by its data boundary,
-so a fully Copilot-driven run cannot gather evidence without either an
-operator decision to sanction Copilot's read-only Confluence/Jira access
-there, or running Stage 02 in Rovo and handing its dossier into Stage 03. No
-boundary was widened in this pass. None of this has run on-engine. Raised by
+packet entries on Stages 06 and 07 (each 1.0 → 1.1, `to-review`). Stage 02
+(1.0 → 1.1) and `doc-evidence-gatherer` (1.0 → 1.1) now sanction Copilot
+for a read-only sweep, on operator decision, adding Microsoft 365 sources
+behind a confirmed-scope step and a strictest-screen rule for mail and chat;
+both move to `to-review`. None of this has run on-engine. Raised by
 the operator. Rationale:
 `decision-log/2026-10-21-split-engine-commit-packet.md`.
 
