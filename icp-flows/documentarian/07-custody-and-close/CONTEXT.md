@@ -4,11 +4,11 @@ title: "Stage 07 — Custody & Close"
 type: stage-context
 stage: 7
 review-intensity: heavy
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -18,6 +18,7 @@ related:
   - "[[documentarian]]"
   - "[[custody-model]]"
   - "[[sp-doc-custodian]]"
+  - "[[documentarian-commit-packet]]"
 ---
 
 # Stage 07 — Custody & Close
@@ -32,6 +33,7 @@ related:
 | Recorded open-section waivers | Stage 06 | If applicable |
 | Doc-registry index (current state) | `../reference/custody-model.md` → registry location set at instantiation | Yes |
 | Per-item archive confirmations | User | If archive lines exist |
+| Commit packet (work order, archive proposals, struck lines, audit preamble, registry index location) + Stage 06 results from this executor session | Producing engine via the user; Stage 06 | If split-engine run |
 
 ## Process
 
@@ -44,6 +46,15 @@ Runs once per job, after the Band ③ loop drains. This stage is the seam
 where standing agent-custodians eventually attach — its contract is written
 so a scheduled custodial run can execute it without a preceding Bands ②–③
 authoring pass (registry upkeep and review scheduling stand alone).
+
+**In a split-engine run**, this stage runs in the same Rovo session that ran
+Stage 06 from the commit packet (`../reference/commit-packet.md`). The
+packet supplies the Stage 03 work order, archive proposals, struck lines,
+audit preamble, and the registry index location; this session's own Stage 06
+results supply the committed URLs and waivers. Steps 1–5 run unchanged, and
+the step 5 job summary goes into the return slip. A job split across several
+packets runs this stage once, after the last packet, with the earlier
+packets' return slips supplied.
 
 1. **Registry bookkeeping** — update the doc-registry index per
    `../reference/custody-model.md`: one row per document touched this job
@@ -101,6 +112,8 @@ Running these checks leaves a one-line result in the run's decision log.
 - [ ] Next custody review date recorded for the touched scope
 - [ ] Job summary produced and matches the work order line-for-line
       (committed / waived / struck accounted for)
+- [ ] In a split-engine run, the job summary and archive record were written
+      into the return slip and shown to the user as the final output
 
 ## Review
 

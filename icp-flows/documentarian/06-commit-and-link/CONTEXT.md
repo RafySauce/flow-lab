@@ -4,11 +4,11 @@ title: "Stage 06 — Commit & Link"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -20,6 +20,7 @@ related:
   - "[[ai-refinement-handoff-contract]]"
   - "[[sp-confluence-page-commit]]"
   - "[[sp-servicenow-kb-commit]]"
+  - "[[documentarian-commit-packet]]"
 ---
 
 # Stage 06 — Commit & Link
@@ -35,6 +36,7 @@ related:
 | Target surface + ServiceNow staged-path acceptance (if applicable) | Stage 01 | Yes |
 | Candidate work items for ai-refinement (meeting jobs) | Stage 03 | If applicable |
 | User commit approval (per document) | User | Yes |
+| Commit packet — stands in for the Stage 01/03/05 rows above | Producing engine, carried by the user (Stage 05 step 6) | If split-engine run |
 
 ## Process
 
@@ -45,6 +47,18 @@ step 6. The ai-refinement handoff packaging (step 7) is inline per
 
 This is the commit boundary. Nothing writes to a shared platform before the
 rendered preview is explicitly approved.
+
+**Entering from a commit packet (split-engine run).** When Stages 01–05 ran
+on an engine outside this boundary, this stage starts from the commit packet
+(`../reference/commit-packet.md`): each Pages block supplies the validated
+document, its work-order line, its deferred open-section list, and its
+accepted findings. Steps 1–6 and 8 run per page, unchanged — the packet's
+executor brief restates them for an engine that cannot read this file. At
+the waiver gate (step 1), a "fill" means the user supplies the text, inserted
+verbatim; drafting it returns that page to the producing session. Step 7
+does not run here: candidate work items stay with the producing engine,
+which packages them once the return slip brings back the meeting page URL.
+Step 9's loop walks the packet's pages, then advances to Stage 07.
 
 1. **Open-section waiver gate** — if the deferred open-section list is
    non-empty, present it and obtain an explicit waiver before any commit: the
@@ -94,6 +108,7 @@ rendered preview is explicitly approved.
 | Recorded open-section waiver (if any) | Stage 07, run decision log | text |
 | ai-refinement handoff package (meeting jobs) | User → ai-refinement Stage 01 | per the handoff contract |
 | Loop/advance decision | Band ③ / Stage 07 | text |
+| Filled return slip, Stage 06 columns (split-engine run) | User → producing session; run decision log | table, per `../reference/commit-packet.md` Part E |
 
 ## Verify
 
@@ -122,6 +137,9 @@ log.
 - [ ] Handoff package (meeting jobs) shaped per the contract and delivered to
       the user, not to Jira
 - [ ] Page URL returned; loop/advance decision recorded
+- [ ] When entered from a commit packet, the version check (executor brief
+      rule 1) ran first, every page got its own preview and approval, and no
+      waived or filled section text was drafted by the executor
 
 ## Review
 
@@ -137,8 +155,10 @@ log.
 - **Max data-class this stage handles:** internal
 - **Sanctioned engines for this stage:** Rovo — the write path uses native
   Atlassian actions and the content stays in Atlassian. A Copilot-driven run
-  hands off to Rovo (or to the human) at this boundary per
-  mirroring-protocol §5; Copilot does not hold Confluence write credentials.
+  hands off to Rovo (or to the human) at this boundary through the commit
+  packet (`../reference/commit-packet.md`,
+  `methodology/engine-handoff-contract.md`); Copilot does not hold
+  Confluence write credentials.
 - Page URLs and links are `internal` — shareable within the organization.
 - API credentials are handled by the platform — never included in flowspace
   artifacts.

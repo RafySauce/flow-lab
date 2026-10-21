@@ -23,7 +23,8 @@ It holds **method, templates, and sanitized exemplars only**. No employer conten
 | `README.md` | The full orientation: methodology, house practice, foundry model, governance. Read it once per session. |
 | `methodology/icp-primer.md` | The methodology explainer with citations. The "why" behind every structure here. |
 | `methodology/provenance-spec.md` | The canonical frontmatter schema. Every artifact produced in this system is stamped against it. When a template and this spec disagree, the spec wins. |
-| `methodology/mirroring-protocol.md` | The source-repo protocol: GitLab as the sole source of truth, external-system integrations (Confluence/Jira/ServiceNow), the Rovo⇄Copilot handoff artifact. |
+| `methodology/mirroring-protocol.md` | The source-repo protocol: GitLab as the sole source of truth, external-system integrations (Confluence/Jira/ServiceNow), engine handoffs, and published copies (the interim mode while engines cannot reach GitLab). The filename is historical — nothing mirrors. |
+| `methodology/engine-handoff-contract.md` | The commit packet: how a flow hands signed-off work to an engine that cannot read this method (e.g. Agent Builder → Rovo), with a verbatim executor brief. |
 | `methodology/governance-and-audit.md` | The gates: data classification at intake, human-only verified promotion, decision logging, review evidence. |
 | `flow-foundry/` | Builds flowspaces. `foundry-spec.md` is the method; `templates/` are the molds; `backlog-flow-starters/` is the WIP queue; finished builds stage in `review-flowspaces/` for the human gate — promoted designs land in `icp-flows/`. |
 | `skill-foundry/` | Builds skills. `foundry-spec.md` is the method; `templates/` include the engine-neutral skill spec; `backlog-skill-starters/` is the WIP queue; finished builds stage in `review-skills/` for the human gate — promoted skills land in `produced-skills/`, and their primer brief moves to `completed-skill-starters/` at the same time. |
@@ -46,7 +47,8 @@ It holds **method, templates, and sanitized exemplars only**. No employer conten
 | Review a **finished** skill awaiting promotion | `skill-foundry/review-skills/` |
 | See a completed skill's intake record | `skill-foundry/completed-skill-starters/` |
 | Stamp or check frontmatter | `methodology/provenance-spec.md` |
-| Understand the source-repo model / engine handoffs | `methodology/mirroring-protocol.md` |
+| Understand the source-repo model / published copies | `methodology/mirroring-protocol.md` |
+| Hand finished work to another engine to commit (e.g. Rovo) | `methodology/engine-handoff-contract.md` + the flow's `reference/commit-packet.md` |
 | Know which gate applies | `methodology/governance-and-audit.md` |
 | Understand why any of this exists | `methodology/icp-primer.md` |
 | See why a past call was made | The relevant foundry's `decision-log/` (or the flowspace's own `decision-log/`) |

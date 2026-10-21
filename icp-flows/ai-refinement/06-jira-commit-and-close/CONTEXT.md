@@ -4,11 +4,11 @@ title: "Stage 06 — Jira Commit & Close"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.12"
+artifact-version: "1.13"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-10-09
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -18,6 +18,7 @@ related:
   - "[[ai-refinement]]"
   - "[[jira-commit]]"
   - "[[bulk-child-creation]]"
+  - "[[ai-refinement-commit-packet]]"
 ---
 
 # Stage 06 — Jira Commit & Close
@@ -37,6 +38,7 @@ related:
 | Selected creation mode (bulk / single-item) + bulk acknowledgment record | Stage 01 | Yes |
 | Per-item validation table + fallout list | Stage 05 | If bulk |
 | Batch-scope answers (intended parent, due-date anchor) | Stage 01 | If bulk |
+| Commit packet — stands in for every row above except the live queries and the user's choices | Producing engine, carried by the user (Stage 05 step 8) | If split-engine run |
 
 ## Process
 
@@ -44,6 +46,19 @@ related:
 `produced-skills/jira-commit/`, `to-review` as of 1.11 — content change
 2026-08-05, re-gate owed; previously re-gated and promoted 2026-08-01 on a
 confirmed Rovo live test)
+
+**Entering from a commit packet (split-engine run).** When Stages 01–05 ran
+in another engine, this stage starts from the commit packet
+(`../reference/commit-packet.md`) instead of in-session state: the packet's
+Items block is the Stage 05 signed-off payload, its labels are Stage 01's
+resolutions, and its dependency lists are Stage 03's. Steps 0–8 then run
+unchanged — the packet's executor brief restates them for an engine that
+cannot read this file. Two differences only: the parent confirmation
+(step 2) is taken here even though the packet names an intended parent, and
+a "create a new parent" answer stops that item rather than spawning a Band ②
+run, because refinement lives in the producing engine. The executor's last
+act is the filled return slip; the session loop (step 9) stays with the
+producing engine.
 
 0. **API preflight — before the first write call of the session.** Read the
    actual function signature or stub for every write API this run will call
@@ -182,15 +197,16 @@ confirmed Rovo live test)
    about what landed in Jira.
 
    **No write path available at all** (neither a native engine action nor a
-   sanctioned connector — the same condition Stage 06 already handles for
-   single items): in bulk mode, offer to produce a **Markdown handoff
-   document** carrying the full drafted set — one section per item with every
-   field under its schema name, the labels that would have been applied, the
-   intended parent, the underspecified rows with their named gaps, and the
-   suggested set kept separate — structured so a fresh session can pick it up
-   and finish the job without re-deriving anything, and stating plainly at the
-   top that nothing was created and why. This is a valid terminal output of
-   the stage, not a failure state.
+   sanctioned connector), in either mode: offer to produce the **commit
+   packet** (`../reference/commit-packet.md`) — the executor brief, every
+   item with every field under its schema name, the labels that would have
+   been applied, the intended parent, the fallout and underspecified rows
+   with their named gaps, and the suggested set kept separate — so another
+   engine, or a fresh session, can finish the job without re-deriving
+   anything. It states plainly at the top that nothing was created and why.
+   This is a valid terminal output of the stage, not a failure state. (Until
+   2026-10-21 this was a bulk-only "Markdown handoff document"; the packet is
+   its generalization.)
 7. **Confirm success** — return the created issue key and URL to the user; in
    bulk mode, the completed result table for the whole set.
 
@@ -249,7 +265,8 @@ confirmed Rovo live test)
 | API response confirmation | Run decision log | JSON |
 | Session summary (if closing) | User / audit | Structured summary |
 | Batch result table (item, key, URL, status) + not-created list | User; run decision log | Structured per-item table |
-| Markdown handoff document (bulk mode, no write path) | User / a fresh session | Markdown file |
+| Commit packet (no write path, either mode) | User → an executor engine or a fresh session | Markdown, per `../reference/commit-packet.md` |
+| Filled return slip (when entered from a commit packet) | User → producing session; run decision log | Table, per `../reference/commit-packet.md` Part E |
 | Post-commit field audit result (per created item) | User; run decision log | Structured pass/gap list |
 
 ## Verify
@@ -303,9 +320,12 @@ Running these checks leaves a one-line result in the run's decision log.
 - [ ] In bulk mode, creation was sequential with a running result table, and
       any failure halted the batch with a precise account of what was and was
       not created plus a resume-or-abort offer — no silent continuation
-- [ ] In bulk mode with no write path, the Markdown handoff document was
-      produced, stated plainly that nothing was created and why, and carried
-      the full set structured for a fresh session to finish
+- [ ] With no write path (either mode), the commit packet was produced,
+      stated plainly that nothing was created and why, and carried the full
+      set structured for another engine or a fresh session to finish
+- [ ] When entered from a commit packet, the version check (executor brief
+      rule 1) ran before anything else, the parent was confirmed here, and
+      the return slip was filled and shown as the final output
 - [ ] Every created item (single item, or each item in a bulk set) was
       re-fetched and its schema-required fields, labels, and due date were
       confirmed actually populated before the commit was declared complete;
@@ -338,5 +358,7 @@ Running these checks leaves a one-line result in the run's decision log.
   levels) and the post-commit field-audit re-fetch are additional read-only
   calls, the same access class as the existing parent-candidate query —
   neither is a write action.
+- A commit packet carries `internal` content and is delivered by its named
+  owner, never pasted outside the sanctioned engines.
 - A handoff into this stage from an engine outside this boundary is invalid —
   stop and re-route.

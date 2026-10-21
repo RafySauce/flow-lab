@@ -4,11 +4,11 @@ title: "Stage 05 — Validation & Formatting"
 type: stage-context
 stage: 5
 review-intensity: light
-artifact-version: "1.8"
+artifact-version: "1.9"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-10-09
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -17,6 +17,7 @@ data-class: public
 related:
   - "[[ai-refinement]]"
   - "[[workitem-validation]]"
+  - "[[ai-refinement-commit-packet]]"
 ---
 
 # Stage 05 — Validation & Formatting
@@ -90,6 +91,19 @@ on a confirmed Rovo live test)
    - **Warn-and-bypass**: a missing or malformed mandatory label (step 2) — present the specific defect (which label, why it's malformed) and let the user either fix it (an updated Stage 01 resolution or a Stage 06 override) or explicitly accept the bypass and proceed. A bypass is always recorded in the validation report as a named exception — never a silent pass. This tier exists only for the mandatory-label check; nothing else moves into it without a spec amendment. When in doubt between halt and auto-correct, halt.
 6. **Validation report** — produce a structured pass/fail report for user review, naming any accepted mandatory-label bypass explicitly.
 7. **User sign-off** — user confirms the validated, formatted work item is ready for Jira commit.
+8. **Split-engine exit — when this engine cannot write to Jira.** If the
+   engine running this session has no Jira write path (for example, a
+   Copilot Agent Builder flow agent with read-only Jira access), do not
+   advance into Stage 06 here. After sign-off, emit the **commit packet**
+   defined in `../reference/commit-packet.md` — the shared executor brief
+   from `methodology/engine-handoff-contract.md` verbatim, then the header,
+   the signed-off items, the fallout list (bulk), the decisions left to the
+   user, and a blank return slip — and hand it to the user to carry to the
+   executor (today, Rovo), which runs Stage 06 from it. State plainly that
+   nothing has been created. At most ten items per packet; a larger set
+   splits into numbered, self-contained packets. When the user pastes the
+   return slip back, record the keys and URLs in the run's decision log and
+   continue the session loop (Stage 06 step 9) from here.
 
 **In bulk creation mode**, every check above runs **per item across the batch**
 — completeness, mandatory labels, constraints, formatting, and the
@@ -130,6 +144,7 @@ proceeding.
 | Validation report (incl. any named label bypass and any named research-confidence gap) | User / run decision log | Structured pass/fail |
 | User sign-off confirmation | Stage 06 | Boolean |
 | Per-item validation table + fallout list (bulk mode) | Stage 06; user | Structured per-item pass/fail |
+| Commit packet (split-engine run — no Jira write path in this engine) | User → executor's Stage 06 | Markdown, per `../reference/commit-packet.md` |
 
 ## Verify
 
@@ -166,6 +181,10 @@ stages. Running this check leaves a one-line result in the run's decision log.
       items remain labelled as such through the report
 - [ ] Context-remaining marker was stated at stage exit, with the correct
       threshold advisory (or handoff, past 80%) attached if usage warranted it
+- [ ] In a split-engine run, the commit packet was emitted only after
+      sign-off, its Items block matches the signed-off payload
+      field-for-field, it carries the executor brief verbatim, and it states
+      that nothing has been created
 
 ## Review
 

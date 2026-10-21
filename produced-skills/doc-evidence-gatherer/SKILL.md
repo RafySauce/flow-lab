@@ -2,8 +2,8 @@
 name: doc-evidence-gatherer
 description: >
   Builds the documentarian Stage 02 evidence dossier: a read-only, cited,
-  job-type-steered sweep of Jira, Confluence, transcripts, and delivered-work
-  artifacts, in the mode the confirmed job type selects (closeout, modernize,
+  job-type-steered sweep of Jira, Confluence, transcripts, delivered-work
+  artifacts, and (on Copilot) SharePoint/OneDrive, Outlook, and Teams, in the mode the confirmed job type selects (closeout, modernize,
   tree-audit, sad-update, meeting). Every entry carries a resolvable source
   link; gaps become explicit open evidence questions. Invoke at documentarian
   Stage 02 once the job type is confirmed. Do NOT use to gather one
@@ -13,11 +13,11 @@ description: >
 # --- provenance (house layer) ---
 id: doc-evidence-gatherer
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-08-01
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -73,6 +73,14 @@ flowchart LR
 
 ## Method
 
+0. **Confirm the sweep scope before any read.** Propose the concrete scope
+   across the surfaces this engine can reach — Stage 01's Jira items and
+   Confluence spaces, plus, on Copilot with a live connector, the Microsoft
+   365 sources tied to this job (the named meeting's recap or transcript,
+   mail and chat threads about the named work, the team channel, the
+   SharePoint/OneDrive folders the user names) inside a date window around
+   the work. Never a whole-mailbox, all-chats, or whole-site sweep. The user
+   confirms, trims, or redirects; each widening is confirmed again.
 1. **Select the mode from the confirmed job type.** The Stage 01
    confirmation is the input, not a guess: `closeout`, `modernize`,
    `tree-audit`, `sad-update`, or `meeting`. The dossier header records the
@@ -101,8 +109,17 @@ flowchart LR
    confirm it exists — a key that doesn't resolve is flagged, never listed
    as if real. Separate decisions from discussion. Carry **no attributions
    the Stage 01 screen did not approve**.
+5a. **Microsoft 365 sources (Copilot only).** A Teams recap or transcript
+   can be a `meeting` job's source directly. For `closeout` and
+   `sad-update`, mail, chat, and SharePoint design documents add decisions
+   and outcomes that never reached Jira or Confluence — with the
+   outcome-vs-plan distinction applied hardest to chat. **Mail and chat get
+   the strictest screen of any source:** distill to work facts; never quote
+   personal or off-topic content; no names or attributions the Stage 01
+   screen did not approve; cite by reference rather than pasting.
 6. **Assemble the dossier.** Every entry carries its source link (Jira key,
-   page URL, transcript line reference) and a confidence note where the
+   page URL, transcript line reference, mail/chat/file reference), its
+   source surface (Jira, Confluence, SharePoint/OneDrive, Outlook, Teams), and a confidence note where the
    evidence is indirect ("the close-out comments indicate…"). Gaps the
    evidence cannot answer are emitted as explicit **open evidence
    questions** — each stating what's missing and why it matters — the input
@@ -124,8 +141,8 @@ the plan as an outcome.
 
 Reads: the Stage 01 outputs (confirmed job type + rationale, screened source
 material references, acknowledged responsibility flag) and the Jira
-project(s) / Confluence space(s) the user confirmed for the sweep, plus
-user-provided transcripts. Grounding rules: every dossier entry cites a
+project(s) / Confluence space(s) the user confirmed for the sweep, the
+confirmed Microsoft 365 sources (Copilot), plus user-provided transcripts. Grounding rules: every dossier entry cites a
 resolvable source; quote before paraphrase where wording matters (outcome
 vs. plan); when the sources are silent, say so as an open evidence question
 rather than inferring. Nothing outside the Stage 01-screened scope is swept.
@@ -135,10 +152,12 @@ rather than inferring. Nothing outside the Stage 01-screened scope is swept.
 - Max data-class: internal. If the sweep surfaces `confidential` content
   (customer detail in an incident record, credentials in a comment), stop,
   flag it, and re-scope with the user before continuing.
-- Sanctioned engines: **Rovo** for the Jira/Confluence sweep (the gathered
-  content stays in Atlassian); **Copilot** contributes repo context for
-  `sad-update` jobs via a mirroring-protocol §5 handoff — it does not run
-  the Atlassian sweep.
+- Sanctioned engines: **Rovo** and **Copilot**, read-only on every surface.
+  Rovo reads Jira and Confluence natively. Copilot reads Jira and Confluence
+  through read-only connectors, repo context for `sad-update`, and
+  SharePoint/OneDrive, Outlook, and Teams where a live connector exists.
+  (Widened 2026-10-21 on operator decision; previously Copilot did not run
+  the Atlassian sweep.)
 
 ## What this skill is not
 
@@ -172,4 +191,11 @@ naming two real and one nonexistent Jira key), a run is acceptable when:
 
 ## Changelog
 
+- **1.1** (2026-10-21) — Copilot sanctioned for the full read-only sweep, on
+  operator decision, so a Copilot Agent Builder run can gather evidence
+  before handing off to Rovo through the commit packet. Added a
+  scope-confirmation step (0), Microsoft 365 sources with a strictest-screen
+  rule for mail and chat (5a), and a per-entry source surface. Content change
+  — `truth-level` moves to `to-review`, gate re-run owed. Rationale:
+  `../../icp-flows/documentarian/decision-log/2026-10-21-split-engine-commit-packet.md`.
 - **1.0** (2026-07-15) — Initial build from `sp-doc-evidence-gatherer`.
