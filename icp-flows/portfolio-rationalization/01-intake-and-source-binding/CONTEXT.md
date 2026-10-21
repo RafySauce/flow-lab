@@ -240,7 +240,7 @@ by itself explain a mismatch here.
 - Assignee names enter here and persist through Stage 06. They are permitted at
   `internal` and are the flow's only sustained personal-data surface.
 - Real portfolio content never enters this public design repo — it lives only in
-  the instance, per `methodology/mirroring-protocol.md`.
+  the instance, per `methodology/source-repo-protocol.md`.
 - **Connected-space discovery is the one narrow exception to the single-project
   scope above.** It may read specific named issues in a different project or
   space than the one bound at step 3 — but only the exact parent keys the

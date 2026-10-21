@@ -24,7 +24,7 @@ How documentarian's `meeting` job type hands candidate work items to the
 creates Jira work items.** It documents; when documentation work surfaces
 work, the work goes to the flow built to refine it. This contract keeps that
 handoff compatible with what ai-refinement Stage 01 actually accepts, and
-follows the mirroring-protocol §5 handoff shape (the same pattern as
+follows the source-repo-protocol §4 handoff shape (the same pattern as
 accomplishments-digest's `handoff-to-copilot-template.md`).
 
 ## What ai-refinement receives
@@ -41,7 +41,7 @@ replaces it.
 ## Package shape
 
 One file per meeting job, `handoffs/YYYY-MM-DD-documentarian-s6.md` at
-instantiation (mirroring-protocol §5 naming):
+instantiation (source-repo-protocol §4 naming):
 
 ```markdown
 ---
@@ -86,7 +86,7 @@ One block per candidate:
 - **The suggested type is a proposal.** ai-refinement Stage 01 treats it
   exactly like its own agent-proposed type: rationale shown, user confirms or
   overrides. Nothing in this package pre-commits a type or a schema.
-- **The handoff carries state, never instructions** (mirroring-protocol §5) —
+- **The handoff carries state, never instructions** (source-repo-protocol §4) —
   the receiving stage's own `CONTEXT.md` is its contract.
 - **Problem-shaped, not task-shaped.** Candidates state the problem and who
   it affects; ai-refinement Stage 02's elicitation does its own recovery

@@ -36,7 +36,7 @@ Assist the triage front door shared by both foundries: classify an incoming star
 
 ## Inputs and data boundary
 
-Reads backlog folders and, for foreign material, external sources. Max data-class: internal. Engine: **Rovo agent** when backlogs live in Confluence (native), Copilot adapter for the mirror side.
+Reads backlog folders and, for foreign material, external sources. Max data-class: internal. Engine: **Rovo agent** when backlogs live in Confluence (native), Copilot adapter for the source-repo side.
 
 ## Demand source
 

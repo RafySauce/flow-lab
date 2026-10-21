@@ -2,11 +2,11 @@
 id: documentation-standards
 title: "Documentation Standards — Stage 05 Baseline"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -30,7 +30,7 @@ baseline records the delta at instantiation.
 - Page title pattern: `<System/Area> — <Doc Type Label> — <Specific subject>`
   (e.g., "Edge Network — Runbook — BGP session flap"). Title derives from the
   registry row's id where one exists; if you can't compute one from the
-  other, the mapping is broken (same rule as mirroring-protocol §2).
+  other, the mapping is broken.
 - No dates in titles except `meeting-notes` (which lead with `YYYY-MM-DD`).
 - One document, one subject — a title needing "and" is usually two documents.
 
@@ -46,15 +46,23 @@ baseline records the delta at instantiation.
 - The common metadata block present and complete: `doc-type`, `owner`,
   `source-evidence`, `last-verified`, `review-by`, `status`.
 
-## Labels and page properties (Confluence primary)
+## Labels and page properties (governed Confluence pages)
 
 - Doc-type label per the registry (`doc-sop`, `doc-mop`, `doc-runbook`,
   `doc-sad`, `doc-kb-article`, `doc-meeting-notes`).
 - Lifecycle labels: `servicenow-pending` (Stage 06 staged path),
   `archive-candidate` (audit finding, pre-confirmation), `archived`
   (post-Stage-07 execution).
-- Provenance labels per mirroring-protocol §2 (`src-human-ai`,
-  `dc-internal`, truth-level label) on instantiated instances.
+- Provenance label `documentarian-flow-v<version>`, where `<version>` is the
+  `documentarian` flowspace's `HUB.md` `artifact-version` (the same rule as
+  `ai-refinement`'s `refine-ai-flow-v<version>` on Jira items). Applied by the
+  Confluence commit on create and update; an update replaces any earlier
+  `documentarian-flow-v*` label, so a page carries one. It flags the page as
+  AI-produced and pending team review, and the team removes it once they have
+  reviewed. It sits alongside, not in place of, the AI-contribution disclosure
+  a published deliverable carries across the boundary (source-repo-protocol §2).
+  If the tenant rejects a `.` in labels, use `-` (`v1-3`) and record the
+  choice in the instantiated guide.
 
 ## Link hygiene
 

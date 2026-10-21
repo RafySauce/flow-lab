@@ -13,11 +13,11 @@ description: >
 # --- provenance (house layer) ---
 id: confluence-page-commit
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-08-01
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -80,15 +80,19 @@ flowchart LR
    macro).
 2. **Rendered dry-run preview.** Present the document as it will land:
    content with open-section markers visible, page title, target space and
-   parent position, labels, page properties (doc type, owner, review-by),
-   and every Jira remote link to be created. Obtain explicit approval for
+   parent position, labels (including the provenance label
+   `<flow>-flow-v<version>` — the producing flow's `HUB.md` `artifact-version`,
+   e.g. `documentarian-flow-v1.3` — with its meaning: AI-produced, pending
+   team review, removed by the team once reviewed), page properties (doc type,
+   owner, review-by), and every Jira remote link to be created. Obtain explicit approval for
    this document — one document, one approval, recorded. No approval, no
    write: a declined or absent approval returns the document to the user
    with nothing committed.
 3. **Commit.** Create or update the page via native Rovo Confluence actions
    first; the sanctioned Atlassian integration is the fallback for engines
    without them. Set labels, properties, and parent position per the
-   work-order line. **Update semantics are version-safe:** fetch the
+   work-order line, and apply the provenance label; on `update`, replace any
+   earlier `<flow>-flow-v*` label so the page carries one. **Update semantics are version-safe:** fetch the
    current version, apply, report the new version; a mid-flight edit by
    someone else is a stop-and-show — present the conflict, never
    force-write over a colleague's change.
@@ -123,7 +127,8 @@ response, never assumed.
   never present in flowspace artifacts.
 - Sanctioned engines: **Rovo** — native Atlassian actions; content stays in
   Atlassian. Copilot-driven runs hand off at this boundary per
-  mirroring-protocol §5; Copilot does not hold Confluence write
+  source-repo-protocol §4 (a blind Rovo receiver gets the commit packet,
+  `methodology/engine-handoff-contract.md`); Copilot does not hold Confluence write
   credentials, so this skill is Rovo-only.
 
 ## What this skill is not
@@ -148,7 +153,8 @@ On a test space, a run is acceptable when:
 
 1. A `create` line lands a page whose rendered content matches the approved
    preview exactly — no raw Markdown artifacts — with correct parent,
-   labels, properties, and both planned remote links.
+   labels (one provenance label carrying the producing flow's version),
+   properties, and both planned remote links.
 2. An `update` line against a page edited mid-flight by another account
    stops and surfaces the conflict instead of writing.
 3. A simulated link-creation failure after the page write is reported as a
@@ -160,4 +166,5 @@ On a test space, a run is acceptable when:
 
 ## Changelog
 
+- **1.1** (2026-10-21) — Applies the provenance label `<flow>-flow-v<version>` on create and update, shown in the preview with its meaning, mirroring `jira-commit`'s `refine-ai-flow-v<version>`. Citation fix: handoff boundary now points to `source-repo-protocol.md` §4 and the commit packet. `truth-level` back to `to-review`; gate re-run owed.
 - **1.0** (2026-07-15) — Initial build from `sp-confluence-page-commit`.

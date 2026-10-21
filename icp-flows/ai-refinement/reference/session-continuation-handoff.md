@@ -29,7 +29,7 @@ carries *candidate work items* from one flow into another's intake. This
 document carries *this flow's own progress* — items already committed, items
 mid-draft, and what the agent already knows about the ones not yet started —
 so a fresh session can pick up without re-deriving anything, following the
-same mirroring-protocol §5 handoff shape (state, never instructions).
+same source-repo-protocol §4 handoff shape (state, never instructions).
 
 ## When this fires
 
@@ -44,7 +44,7 @@ trigger differs.
 ## Package shape
 
 One file per handoff, `handoffs/YYYY-MM-DD-ai-refinement-session-<n>.md` at
-instantiation (mirroring-protocol §5 naming):
+instantiation (source-repo-protocol §4 naming):
 
 ```markdown
 ---
@@ -94,7 +94,7 @@ date not yet elicited>
 
 ## Rules
 
-- **The handoff carries state, never instructions** (mirroring-protocol §5) —
+- **The handoff carries state, never instructions** (source-repo-protocol §4) —
   the receiving session re-enters at the named stage using that stage's own
   `CONTEXT.md` as its contract; this document is not a substitute
   instruction set.

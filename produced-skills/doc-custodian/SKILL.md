@@ -66,7 +66,7 @@ flowchart LR
 - **Does not fire on (near-misses):** deciding what to archive (audit
   findings nominate, Stage 03 plans, the human confirms per item — this
   skill executes and records); committing document content
-  (`confluence-page-commit`); provenance frontmatter on mirror artifacts
+  (`confluence-page-commit`); provenance frontmatter on source-repo artifacts
   (`provenance-stamper`, referenced separately by the stage); shortcutting
   a scheduled custodial run straight into Stage 07 (custodial runs enter at
   Stage 01 as `tree-audit` jobs, per the custody model); deleting anything,
@@ -140,7 +140,7 @@ confirmations recorded.
 - **Not the committer** — document content writes are
   `confluence-page-commit`'s; this skill touches registry rows and custody
   properties only.
-- **Not the provenance stamper** — mirror-artifact frontmatter is
+- **Not the provenance stamper** — source-repo-artifact frontmatter is
   `provenance-stamper`'s.
 - **Not yet the standing custodian** — until the operator schedules
   custodial runs, this skill runs only inside a Stage 07 close; the

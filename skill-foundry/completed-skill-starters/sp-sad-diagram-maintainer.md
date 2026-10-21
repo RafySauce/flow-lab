@@ -64,8 +64,8 @@ regenerating it lossily.
 ## Inputs and data boundary
 
 Reads the SAD page's diagram sources (Confluence attachment/macro body or
-mirror file) and the `sad-update` dossier. Max data-class: `internal`.
-Engines: Copilot for mirror-side source edits, Rovo where the source lives in
+source-repo file) and the `sad-update` dossier. Max data-class: `internal`.
+Engines: Copilot for diagram-source edits in the source-repo, Rovo where the source lives in
 Confluence macros — the build confirms which surface holds sources per
 tenant.
 

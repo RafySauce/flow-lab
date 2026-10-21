@@ -153,4 +153,4 @@ against, per the brief's own framing. Deferred, not dropped.
 | Closest analog flowspace | `../../../icp-flows/accomplishments-digest/HUB.md` | The Jira/Confluence-to-document pattern this flow's stage shape and two-heavy-gate design borrow from |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |
-| Mirroring Protocol | `methodology/mirroring-protocol.md` | Source-repo and handoff conventions |
+| Source-Repo Protocol | `methodology/source-repo-protocol.md` | Source-repo and handoff conventions |

@@ -2,15 +2,15 @@
 id: start-here
 title: "Start Here — Running a Flow or Skill Right Now"
 type: specification
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: draft
 created: 2026-07-27
-updated: 2026-07-31
+updated: 2026-10-21
 owner: operator
 source: human+ai
 data-class: public
-related: ["[[icp-primer]]", "[[mirroring-protocol]]"]
+related: ["[[icp-primer]]", "[[source-repo-protocol]]"]
 ---
 
 # Start Here — Running a Flow or Skill Right Now
@@ -50,6 +50,7 @@ session context (don't ask the user to enumerate this themselves):
 | Confluence read/write | A native connector or MCP/tool-use Confluence integration | No live query or write; ask the user to paste relevant page content directly |
 | OneDrive/SharePoint read (Copilot only) | A live Microsoft Graph/OneDrive connector, present only when the host engine is Copilot | No live query; `ai-refinement`'s supporting-context research step skips the OneDrive/SharePoint surface and relies on the Confluence/Jira scope and the context prompt instead |
 | GitLab/GitHub repo write | Repo write access in this session (e.g., a connected repo the agent can commit to) | No commit; produce file content as chat output for the user to save/commit themselves |
+| Write path to Jira or Confluence | Derived from the two rows above: absent when neither has write access | No write; at the flow's commit stage, offer the commit packet (`methodology/engine-handoff-contract.md`, the flow's `reference/commit-packet.md`) so a write-capable engine can finish the job, instead of a bare chat dump |
 | Local file / chat output | Always available | This is the universal fallback — every flow can always produce a complete result this way |
 
 Do this once per session, not once per flow — carry the result forward so

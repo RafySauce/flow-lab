@@ -251,7 +251,7 @@ silently. A halt is a valid, complete output of this skill.
   permitted at `internal` and are the flow's only sustained personal-data
   surface.
 - Real portfolio content never enters this public design repo — instance data
-  lives in employer tenancy per `methodology/mirroring-protocol.md`.
+  lives in employer tenancy per `methodology/source-repo-protocol.md`.
 - **Sanctioned engines:** Rovo and Copilot both. Not a constraint — Rovo's
   native Jira actions suit live mode, Copilot suits export mode, and the
   degrade path needs neither.

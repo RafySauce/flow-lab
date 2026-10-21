@@ -293,13 +293,15 @@ deep into an already-heavy session is exactly where this offer matters most.
 
 ## Surfaces
 
-- **Primary:** Confluence — `<space set at instantiation; confirm the Mermaid
-  macro is installed per the setup questionnaire, else the hub page notes
-  "diagram: see mirror">`
-- **Mirror:** `<internal repo>` → `flowspaces/ai-refinement/`
+- **Source-repo:** `<internal repo>` → `flowspaces/ai-refinement/` — the sole
+  source of truth (`methodology/source-repo-protocol.md` §1).
+- **Published copy (interim):** where Rovo runs the flow, a read-only,
+  version-stamped Confluence page tree (§6) — `<space set at instantiation;
+  confirm the Mermaid macro is installed per the setup questionnaire, else the
+  hub page notes "diagram: see source-repo">`
 
 This public copy is the sanitized *design*; instantiation happens in employer
-tenancy per `methodology/mirroring-protocol.md`. At instantiation, add the
+tenancy per `methodology/source-repo-protocol.md`. At instantiation, add the
 per-stage `work/` folders (Layer-4, transient) and the `handoffs/` folder —
 they are deliberately absent from this design copy because they only ever hold
 per-run content.

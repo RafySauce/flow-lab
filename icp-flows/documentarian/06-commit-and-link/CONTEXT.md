@@ -4,7 +4,7 @@ title: "Stage 06 — Commit & Link"
 type: stage-context
 stage: 6
 review-intensity: heavy
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
 truth-level: to-review
 created: 2026-07-15
@@ -75,11 +75,17 @@ Step 9's loop walks the packet's pages, then advances to Stage 07.
 3. **Dry-run preview** — present the document in rendered form: content, the
    open-section markers as they will appear, page title, target space and
    parent position, labels and page properties (doc type, owner, review-by),
-   and the Jira remote links to be created. Obtain explicit approval.
+   and the Jira remote links to be created. The labels include the provenance
+   label `documentarian-flow-v<version>` (this flowspace's `HUB.md`
+   `artifact-version`, stated here at the start of the step); say what it
+   means — the page is AI-produced and pending team review, and the team
+   removes the label once they have reviewed it. Obtain explicit approval.
 4. **Commit** — create or update the Confluence page through the engine's
    native Confluence capabilities (Rovo actions first; the sanctioned
    Atlassian integration is the fallback for engines without them). Set
-   labels, page properties, and parent position per the work-order line.
+   labels, page properties, and parent position per the work-order line, and
+   apply the provenance label. On `update`, replace any earlier
+   `documentarian-flow-v*` label so the page carries exactly one.
 5. **Jira linkage** — create the remote links per the line's Jira-link plan
    (page ↔ item, both directions where the tenant supports it). Every link
    traces to the plan; no discovered-along-the-way links without user
@@ -125,6 +131,8 @@ log.
 - [ ] Open-section waiver obtained (or sections filled) before commit —
       recorded
 - [ ] No raw Markdown syntax in the committed page
+- [ ] Provenance label `documentarian-flow-v<version>` shown in the preview
+      and present on the committed page (one per page)
 - [ ] Rendered dry-run preview shown (content, markers, position, labels,
       properties, planned links) and explicitly approved
 - [ ] Committed content matches the Stage 05 validated document

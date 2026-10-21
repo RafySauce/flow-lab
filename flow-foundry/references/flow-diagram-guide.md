@@ -10,7 +10,7 @@ boundary, and Layer-3 status; the diagram is the at-a-glance sequence map.
 This is a house practice reinstated from the homelab implementation this foundry
 was ported from (see `foundry-spec.md` changelog) — the original work edition
 dropped it as "diagrams optional, Confluence rendering varies." With GitLab as
-the sole source of truth (`methodology/mirroring-protocol.md`), that concern is
+the sole source of truth (`methodology/source-repo-protocol.md`), that concern is
 gone entirely: **the diagram is a gate-checked requirement, and there is one
 rendering surface to confirm.**
 

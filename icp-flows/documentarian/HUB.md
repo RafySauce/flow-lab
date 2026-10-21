@@ -97,7 +97,7 @@ flowchart LR
 | 2 | Evidence Gathering | light | internal | Rovo, Copilot (read-only) | `doc-evidence-gatherer` (to-review — 1.1, Copilot sanctioned 2026-10-21, `produced-skills/`) |
 | 3 | Doc Plan & Template Match | heavy² | internal | Rovo, Copilot | `doc-planner` (verified, `produced-skills/`) |
 | 4 | Draft & Update | light | internal | Rovo, Copilot | `doc-drafter` (verified, `produced-skills/`); `sad-diagram-maintainer` (verified, `produced-skills/`) for the sad-update job type |
-| 5 | Standards Validation | light | internal | Rovo, Copilot | `doc-standards-validator` (verified, `produced-skills/`); `provenance-stamper` (verified, `produced-skills/`) referenced for mirror-side artifact stamping |
+| 5 | Standards Validation | light | internal | Rovo, Copilot | `doc-standards-validator` (verified, `produced-skills/`); `provenance-stamper` (verified, `produced-skills/`) referenced for source-repo artifact stamping |
 | 6 | Commit & Link | heavy¹ | internal | Rovo | `confluence-page-commit` (verified, `produced-skills/`); ServiceNow write path deferred (`sp-servicenow-kb-commit`); ai-refinement handoff packaging inline per `reference/ai-refinement-handoff-contract.md` |
 | 7 | Custody & Close | heavy³ | internal | Rovo | `doc-custodian` (verified, `produced-skills/`); archive-confirmation dialogue inline |
 
@@ -164,17 +164,21 @@ order. All five converge on the same Bands ③–④.
 
 ## Surfaces
 
-- **Primary:** Confluence — `<documentation space set at instantiation;
-  confirm the Mermaid macro is installed per the setup questionnaire, else
-  the hub page notes "diagram: see mirror">`
-- **Designed-for secondary:** ServiceNow KB (`kb_knowledge`) — declared, not
+- **Source-repo:** `<internal repo>` → `flows/documentarian/` — the sole
+  source of truth (`methodology/source-repo-protocol.md` §1).
+- **Deliverable destination:** Confluence — `<documentation space set at
+  instantiation>`, an external system (§2).
+- **Published copy (interim):** where Rovo must read the flow, a read-only,
+  version-stamped Confluence page tree (§6). Confirm the Mermaid macro is
+  installed per the setup questionnaire, else the hub page notes "diagram:
+  see source-repo".
+- **Designed-for secondary destination:** ServiceNow KB (`kb_knowledge`) — declared, not
   connected. No sanctioned ServiceNow integration exists yet; until one does,
   ServiceNow-destined documents stop at Stage 6 as Confluence-staged, labeled
   for later transfer. See Known gaps.
-- **Mirror:** `<internal repo>` → `flows/documentarian/`.
 
 This public copy is the sanitized *design*; instantiation happens in employer
-tenancy per `methodology/mirroring-protocol.md`. At instantiation, add the
+tenancy per `methodology/source-repo-protocol.md`. At instantiation, add the
 per-stage `work/` folders (Layer-4, transient) and the `handoffs/` folder —
 deliberately absent from this design copy because they only ever hold per-run
 content.
@@ -276,5 +280,5 @@ the operator. Rationale:
 | Flow Primer Brief | `flow-foundry/backlog-flow-starters/fp-documentarian.md` | Original crystallized intent this flowspace was built from |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |
-| Source-Repo Protocol | `methodology/mirroring-protocol.md` | Source-repo rules, engine handoffs (§4), published copies (§6) |
+| Source-Repo Protocol | `methodology/source-repo-protocol.md` | Source-repo rules, engine handoffs (§4), published copies (§6) |
 | Engine Handoff Contract | `methodology/engine-handoff-contract.md` | Commit-packet shape and the verbatim executor brief for a blind executor |

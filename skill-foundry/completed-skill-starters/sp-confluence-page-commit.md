@@ -64,7 +64,8 @@ Receives the validated document, waiver record, and the work-order line's
 placement/link plan. Writes to the target Confluence space and Jira remote
 links. Max data-class: `internal`. Engine: **Rovo** (native Atlassian
 actions; content stays in Atlassian); Copilot-driven runs hand off at this
-boundary per mirroring-protocol §5.
+boundary per source-repo-protocol §4 (commit packet,
+`methodology/engine-handoff-contract.md`, for a blind Rovo receiver).
 
 ## Demand source
 

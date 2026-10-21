@@ -2,11 +2,11 @@
 id: ai-refinement-confluence-instantiation-guide
 title: "Confluence Instantiation Guide — AI Refinement"
 type: specification
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-08-01
+updated: 2026-10-21
 owner: operator
 source: human+ai
 data-class: public
@@ -16,12 +16,12 @@ related:
 
 # Confluence Instantiation Guide — AI Refinement
 
-**Status: prepared, not executed.** This guide exists because the flowspace's
-own dual-surface design (`methodology/mirroring-protocol.md`) names Confluence
-as the primary surface and this git tree as the Copilot mirror, but the
-primary surface has never been instantiated — only the mirror exists. This
-document is the operator's checklist for doing that instantiation and for
-deploying the produced skills as live Rovo agents. No step in this guide has
+**Status: prepared, not executed.** This guide exists because Rovo cannot yet
+read the source-repo, so it runs the flow from a **published copy** — a
+read-only, version-stamped Confluence page tree (`methodology/source-repo-protocol.md`
+§6). The source-repo stays the single source of truth. This document is the
+operator's checklist for publishing that copy and for deploying the produced
+skills as live Rovo agents. No step in this guide has
 been executed by any agent session; publishing to Confluence, creating Rovo
 agent definitions, and granting them Jira actions are all actions this repo
 cannot take on its own.
@@ -35,13 +35,13 @@ write to, a Rovo agent-authoring surface, and a target Jira project to grant
 actions against. Treat every checkbox below as a manual action log, not
 something to script here.
 
-## 2. Page-tree structure (target shape)
+## 2. Published-copy page tree (target shape)
 
-Mirrors `methodology/mirroring-protocol.md` §2's structure-mapping table,
-applied to this flowspace:
+The published copy reproduces this flowspace as follows (the `←` names the
+source file each page is made from; pages are never edited in place):
 
 ```
-AI Refinement (parent page — maps to HUB.md)
+AI Refinement (parent page — made from HUB.md; carries its artifact-version)
   ├── Stage 01 — Intake and Guardrails (01-intake-and-guardrails/CONTEXT.md)
   ├── Stage 02 — Context and Problem Framing (02-context-and-problem-framing/CONTEXT.md)
   ├── Stage 03 — Scope and Dependencies (03-scope-and-dependencies/CONTEXT.md)
@@ -59,30 +59,32 @@ AI Refinement (parent page — maps to HUB.md)
       └── (one child page per icp-flows/ai-refinement/decision-log/ entry)
 ```
 
-Naming rule (per the mirroring protocol): page title and git path both derive
-from the artifact `id` in each file's frontmatter. Restore the redacted
+Naming rule: page title and source-repo path both derive from the artifact
+`id` in each file's frontmatter. Stamp the parent page with the `HUB.md`
+`artifact-version` it was made from (source-repo-protocol §6). Restore the redacted
 internal policy link (`reference/ai-refinement-hybrid.md`'s responsibility
 notice) at this step — it is safe only in employer tenancy.
 
-## 3. Migration checklist (REC-01)
+## 3. Publish checklist (REC-01)
 
 - [ ] Confluence space chosen and access confirmed.
 - [ ] Mermaid-rendering macro installed in the target space, or the
-      `HUB.md` diagram gets a "diagram: see mirror" fallback note (per
-      `flow-foundry/foundry-spec.md` §2 question 4 and
-      `methodology/mirroring-protocol.md` §2).
-- [ ] `HUB.md` → parent page, with provenance frontmatter mapped to page
-      properties + labels + Status macro (mirroring-protocol §2, §7).
+      `HUB.md` diagram gets a "diagram: see source-repo" fallback note (per
+      `flow-foundry/foundry-spec.md` §2 question 4).
+- [ ] `HUB.md` → parent page, its `artifact-version` shown at the top
+      (source-repo-protocol §6). Frontmatter stays literal YAML in the
+      source-repo; there is no page-property mapping.
 - [ ] Each stage `CONTEXT.md` → numbered child page, section headings
       preserved (Inputs / Process / Outputs / Verify / Review / Data
       boundary).
 - [ ] `reference/` files → Reference child page tree, including the two new
       prep artifacts and the stakeholder-register template.
 - [ ] `decision-log/` entries → Decision Log child pages, one per entry.
-- [ ] `MIRROR-STATE.md` established in the mirror per mirroring-protocol §3,
-      stamped with this instantiation as the first sync.
-- [ ] Drift check (mirroring-protocol §4) run once immediately after initial
-      sync to confirm the two surfaces agree before any live use.
+- [ ] Version note in source-repo-protocol §6 updated with the published
+      version.
+- [ ] Stamped version compared with the source `HUB.md` before any live use;
+      repeat on every republish (the commit packet's version check catches a
+      stale copy at run time).
 
 ## 4. Rovo agent deployment checklist (REC-02)
 

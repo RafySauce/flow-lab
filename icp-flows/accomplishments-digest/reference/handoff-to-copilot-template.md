@@ -18,7 +18,7 @@ related: ["[[accomplishments-digest]]", "[[accomplishments-docx-finisher]]"]
 # Handoff Template — Accomplishments Digest → Docx Finisher
 
 The flow-specific instantiation of the generic handoff shape in
-`methodology/mirroring-protocol.md` §5, filled with the fields Stage 6
+`methodology/source-repo-protocol.md` §4, filled with the fields Stage 6
 (Handoff to Copilot) needs to populate and Stage 1 of
 `accomplishments-docx-finisher` needs to receive. File a completed copy per
 run at `handoffs/YYYY-MM-DD-accomplishments-digest-to-docx-finisher.md`.
@@ -41,7 +41,7 @@ data-class: internal
 ## State
 
 - Stage 5 (Align & Publish) complete: <date>. Published document:
-  <Confluence page URL> / <mirror path>.
+  <Confluence page URL> / <source-repo path>.
 - Review period: <start date> – <end date>. Audience: <stated audience>.
 - Document status: human-approved, published — this is not a draft.
 
@@ -65,7 +65,7 @@ data-class: internal
 - <any other unresolved items specific to this run>
 ```
 
-## Rules (inherited from mirroring-protocol §5, restated for this pair)
+## Rules (inherited from source-repo-protocol §4, restated for this pair)
 
 - The handoff names its human owner — never anonymous or agent-owned.
 - The receiving flowspace's Stage 1 `CONTEXT.md` is the contract; this

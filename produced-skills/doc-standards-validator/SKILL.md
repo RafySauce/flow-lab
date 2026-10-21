@@ -62,7 +62,7 @@ flowchart LR
 - **Does not fire on (near-misses):** work-item validation
   (`workitem-validation` — Jira payloads, a different schema family);
   fixing what it finds (failures return the line to Stage 04); provenance
-  frontmatter checks on mirror artifacts (`provenance-stamper`, referenced
+  frontmatter checks on source-repo artifacts (`provenance-stamper`, referenced
   separately by the stage); judging content quality or evidence fidelity —
   that is Stage 04's citation discipline; resolving, softening, or hiding
   an open-section marker, ever.
@@ -126,8 +126,8 @@ the operator).
   nothing, not even typos.
 - **Not `workitem-validation`** — Jira work-item payloads are that skill's
   schema family; governed documents are this one's.
-- **Not the provenance checker** — frontmatter/page-property compliance on
-  mirror artifacts is `provenance-stamper`.
+- **Not the provenance checker** — frontmatter compliance on
+  source-repo artifacts is `provenance-stamper`.
 - **Not a content judge** — evidence fidelity and citation discipline are
   Stage 04's contract; this skill checks shape, standards, and open-section
   accounting.

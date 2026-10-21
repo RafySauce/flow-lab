@@ -13,11 +13,11 @@ description: >
 # --- provenance (house layer) ---
 id: provenance-stamper
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-07
-updated: 2026-07-07
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -57,7 +57,7 @@ flowchart LR
 ## Triggering intent
 
 - **Fires on:** "stamp this," "is this schema-compliant," creating any new
-  ICP artifact, and a batch check across a folder or Confluence page tree.
+  ICP artifact, and a batch check across a folder of the source-repo.
 - **Does not fire on (near-misses):** promoting `truth-level` to `verified`
   (validation reports *invalid* or *compliant*, never *verified* — that
   promotion is evidence-bound and human, per `governance-and-audit.md` §4);
@@ -83,8 +83,8 @@ flowchart LR
    set, `generated-by-version` must be asked or supplied alongside it — never
    one without the other.
 3. **New artifact — write the compliant block.** Assemble the inferred and
-   asked fields into the frontmatter (or, on Confluence, the page properties
-   and labels, per the mapping table in `methodology/mirroring-protocol.md`)
+   asked fields into the frontmatter — always literal YAML; there is no
+   Confluence page-property mapping (`methodology/source-repo-protocol.md` §1) —
    and write it. Never write `truth-level: verified` at this step regardless
    of what's asked — a freshly stamped artifact is never born verified.
 4. **Existing artifact — validate.** Check every required field is present,
@@ -98,8 +98,7 @@ flowchart LR
    decision-log entry or Confluence sign-off naming reviewer and date); (6)
    `data-class` above `public` is invalid in this repository. Report every
    violation naming its rule number and quoting the offending field verbatim
-   — never a paraphrase. Applies identically to Confluence page
-   properties/labels, per the same mapping table. If asked directly to
+   — never a paraphrase. If asked directly to
    upgrade a passing check to `truth-level: verified`, decline and say why
    (rule 5, the human-only gate) — compliant is not the same claim as
    verified.
@@ -122,9 +121,10 @@ stamp is worse than an unstamped field because it looks done.
 
 - Max data-class: internal (it reads document bodies far enough to infer
   `type`, which may expose internal content in the process).
-- Sanctioned engines: **both** — Copilot (prompt file, for the internal
-  mirror and this public repo) and Rovo (agent, for the Confluence
-  page-properties side), per the employer matrix.
+- Sanctioned engines: **Copilot** (prompt file, for the source-repo and this
+  public repo), per the employer matrix. Rovo has no role here: frontmatter is
+  always literal YAML, and the Confluence provenance label is applied by
+  `confluence-page-commit`.
 
 ## What this skill is not
 
@@ -156,4 +156,5 @@ A single run's output is acceptable when:
 
 ## Changelog
 
+- **1.1** (2026-10-21) — Step 3 drops the Confluence page-property/label mapping (retired; frontmatter is always literal YAML, `methodology/source-repo-protocol.md` §1). Engines narrowed to Copilot: Rovo's "page-properties side" had no mapping left; Rovo's version-label stamp lives in `confluence-page-commit` 1.1.
 - **1.0** (2026-07-07) — Initial build from `sp-provenance-stamper`.

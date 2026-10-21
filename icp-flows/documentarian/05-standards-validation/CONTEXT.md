@@ -37,8 +37,8 @@ related:
 
 `Layer-3: TBD — skill-primer-brief filed (sp-doc-standards-validator).
 provenance-stamper (verified, produced-skills/) is referenced for the
-mirror-side pass: stamping/validating frontmatter on any artifact of this
-run that lands in the git mirror.`
+source-repo pass: stamping/validating frontmatter on any artifact of this
+run that lands in the source-repo.`
 
 Validation reports; it never edits and never resolves an open section.
 
