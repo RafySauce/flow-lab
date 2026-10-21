@@ -4,8 +4,8 @@
 
 | Flow & Overview Doc | Users | Inputs | Outputs |
 |---|---|---|---|
-| [`ai-refinement`](ai-refinement/HUB.md) | Anyone raising or decomposing a work item (TPSO lens) | A rough idea, or a decided item set for bulk mode | One committed Jira work item, or a reviewed batch of child items |
-| [`documentarian`](documentarian/HUB.md) | Engineering team leads and platform owners maintaining operational docs | Evidence from Jira, Confluence, transcripts, delivered work | A created, updated, or archived SOP, MOP, runbook, SAD, KB article, or meeting page |
+| [`ai-refinement`](ai-refinement/HUB.md) *(to-review)* | Anyone raising or decomposing a work item (TPSO lens) | A rough idea, or a decided item set for bulk mode | One committed Jira work item, or a reviewed batch of child items |
+| [`documentarian`](documentarian/HUB.md) *(to-review)* | Engineering team leads and platform owners maintaining operational docs | Evidence from Jira, Confluence, transcripts, delivered work | A created, updated, or archived SOP, MOP, runbook, SAD, KB article, or meeting page |
 | [`accomplishments-digest`](accomplishments-digest/HUB.md) | Engineers prepping for a performance review | A review period and the engineer's own framing of what mattered | A theme-grouped draft accomplishments document |
 | [`accomplishments-docx-finisher`](accomplishments-docx-finisher/HUB.md) | The same engineer, once their draft is approved | An approved `accomplishments-digest` document | A finished, house-branded `.docx` |
 | [`portfolio-rationalization`](portfolio-rationalization/HUB.md) *(to-review)* | Portfolio and delivery managers running a backlog hygiene review | A live Jira project/space, or an export | A prioritized disposition packet — close/merge/rewrite/keep recommendations with evidence |

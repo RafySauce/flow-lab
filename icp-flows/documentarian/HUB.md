@@ -2,11 +2,11 @@
 id: documentarian
 title: "Documentarian — Documentation Production & Custody Pipeline"
 type: flowspace
-artifact-version: "1.2"
+artifact-version: "1.3"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-10-09
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -28,6 +28,8 @@ related:
   - "[[sp-confluence-page-commit]]"
   - "[[sp-doc-custodian]]"
   - "[[sp-servicenow-kb-commit]]"
+  - "[[documentarian-commit-packet]]"
+  - "[[engine-handoff-contract]]"
 ---
 
 # Documentarian — Documentation Production & Custody Pipeline
@@ -127,6 +129,17 @@ archive and lifecycle calls are judgment, not mechanics.
   drains — registry bookkeeping, freshness stamping, confirmed archive moves,
   session close.
 
+**Split-engine runs** (2026-10-21). Stages 06–07 are Rovo-only. When an
+earlier stage runs on another engine — today, a Copilot Agent Builder flow
+agent with read-only Confluence/Jira access — Band ③ loops Stages 04→05
+across every work-order line first, and Stage 05 then emits one **commit
+packet** (`reference/commit-packet.md`) for the job. The user carries it to
+Rovo, which runs Stage 06 per page (each with its own preview and approval)
+and Stage 07 once, from the packet alone, and returns a filled return slip.
+The packet carries its own executor brief because Rovo cannot read this flow
+(`methodology/engine-handoff-contract.md`). Stage 02 is also Rovo-only as
+written — see the Fourth gap.
+
 **No fast-track analog.** ai-refinement's fast-track compresses field
 elicitation; here, Stage 4's open-section protocol is already the
 collaboration dial — richer evidence means fewer open sections, thinner
@@ -187,7 +200,10 @@ content.
    with labels, page properties, position, and Jira remote links. Meeting
    jobs additionally package candidate work items per
    `reference/ai-refinement-handoff-contract.md`. The loop returns to Stage 4
-   while work-order lines remain.
+   while work-order lines remain. In a split-engine run, Stages 4–5 run over
+   every line first and Stage 5 emits the commit packet; Rovo runs Stage 6
+   per page from it, and the producing engine packages any meeting
+   candidates once the return slip brings back the page URL.
 5. Stage 7 closes the job: doc-registry index updated, freshness and
    review-by dates stamped per `reference/custody-model.md`, archive moves
    executed only on per-item human confirmation, next custody review
@@ -231,6 +247,20 @@ Confluence, deploying Rovo agents, and the first on-engine run per skill
 happen at instantiation, per `reference/confluence-instantiation-guide.md`
 (prepared, not executed).
 
+Fourth gap (2026-10-21): split-engine runs. The operator runs this flow's
+early stages in a Copilot Agent Builder agent and commits through Rovo,
+which cannot read the source-repo. Closed for Stages 05–07 by the **commit
+packet** — `methodology/engine-handoff-contract.md` (1.0) and
+`reference/commit-packet.md` (1.0), with a Stage 05 split-engine exit and
+packet entries on Stages 06 and 07 (each 1.0 → 1.1, `to-review`). **Not
+closed:** Stage 02 (Evidence Gathering) is Rovo-only by its data boundary,
+so a fully Copilot-driven run cannot gather evidence without either an
+operator decision to sanction Copilot's read-only Confluence/Jira access
+there, or running Stage 02 in Rovo and handing its dossier into Stage 03. No
+boundary was widened in this pass. None of this has run on-engine. Raised by
+the operator. Rationale:
+`decision-log/2026-10-21-split-engine-commit-packet.md`.
+
 ## Reference material (Layer-3)
 
 | Artifact | Location | Covers |
@@ -239,9 +269,11 @@ happen at instantiation, per `reference/confluence-instantiation-guide.md`
 | Documentation Standards | `reference/documentation-standards.md` (verified, house-drafted) | The Stage 5 baseline: naming, structure, labeling, link hygiene, staleness thresholds, archive criteria |
 | Collaborative Sections Protocol | `reference/collaborative-sections-protocol.md` (verified, house-drafted) | Open-section marker syntax, ownership, resolution rules, and the Stage 6 waiver gate |
 | AI-Refinement Handoff Contract | `reference/ai-refinement-handoff-contract.md` (verified, house-drafted) | The meeting job type's candidate-work-item output, shaped as ai-refinement Stage 01 input |
+| Commit Packet | `reference/commit-packet.md` (to-review) | Split-engine handoff into Rovo's Stages 06–07: header, validated pages with work-order lines, open sections, archive proposals, decisions left to the user, return slip — prefixed by the shared executor brief from `methodology/engine-handoff-contract.md` |
 | Custody Model | `reference/custody-model.md` (verified, house-drafted) | Doc-registry index shape, freshness signals, archive procedure, standing-custodian operating notes |
 | Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified, house-drafted) | Page-tree structure, property mapping, and operator checklist for Confluence migration and Rovo deployment — prepared, not executed |
 | Flow Primer Brief | `flow-foundry/backlog-flow-starters/fp-documentarian.md` | Original crystallized intent this flowspace was built from |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |
-| Mirroring Protocol | `methodology/mirroring-protocol.md` | Confluence⇄git mapping; handoff artifact shape (§5) |
+| Source-Repo Protocol | `methodology/mirroring-protocol.md` | Source-repo rules, engine handoffs (§4), published copies (§6) |
+| Engine Handoff Contract | `methodology/engine-handoff-contract.md` | Commit-packet shape and the verbatim executor brief for a blind executor |

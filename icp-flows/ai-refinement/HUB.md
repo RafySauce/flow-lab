@@ -2,11 +2,11 @@
 id: ai-refinement
 title: "AI-Augmented Refinement — Jira Work Item Pipeline"
 type: flowspace
-artifact-version: "1.25"
+artifact-version: "1.26"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-03
-updated: 2026-10-09
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -18,6 +18,8 @@ related:
   - "[[value-decomposition]]"
   - "[[bulk-child-creation]]"
   - "[[platform-stakeholder-register]]"
+  - "[[ai-refinement-commit-packet]]"
+  - "[[engine-handoff-contract]]"
 ---
 
 # AI-Augmented Refinement — Jira Work Item Pipeline
@@ -83,6 +85,9 @@ flowchart LR
 > `truth-level: verified`, superseding the 2026-08-05/08-21 `to-review`
 > demotions recorded below. Evidence:
 > `flow-foundry/decision-log/2026-10-09-production-promotion.md`.
+> **2026-10-21:** this HUB and Stages 05–06 return to `to-review` for the
+> split-engine commit packet (Sixteenth gap); every other stage and all
+> skills keep their 10-09 `verified` status.
 
 ## Stage table
 
@@ -145,9 +150,19 @@ past 80%, via `reference/session-continuation-handoff.md`.
   provided context, **stops at the edge of the evidence** rather than padding
   thin rows, presents the whole set for one review, and creates it
   sequentially — halting on failure with a running result table, and degrading
-  to a Markdown handoff document when no write path works. An item the pass
+  to a commit packet (`reference/commit-packet.md`) when no write path works. An item the pass
   reports as underspecified can be routed into an ordinary Band ② run; the two
   bands are alternatives for a given set, not stages of one another.
+
+- **Split-engine runs** (2026-10-21): when the engine running Stages 01–05
+  cannot write to Jira — today, a Copilot Agent Builder flow agent with
+  read-only Jira access — Stage 05 ends by emitting a **commit packet**
+  (`reference/commit-packet.md`) instead of advancing. The user carries it to
+  an engine that can write — today, Rovo — which runs Stage 06 from the
+  packet alone and returns a filled return slip. The packet carries its own
+  executor brief because the executor cannot read this flow
+  (`methodology/engine-handoff-contract.md`). The session loop stays with
+  the producing engine.
 
 ## Common source inputs
 
@@ -341,7 +356,9 @@ per-run content.
    rules (no bold, no emojis).
 5. Stage 6 presents the finished artifact for final human approval, then
    commits it to Jira. The user may loop back to Stage 2 for the next item
-   or end the session.
+   or end the session. In a split-engine run, Stage 5 emits the commit
+   packet and Stage 6 runs in the executor from it; the user pastes the
+   return slip back to continue the loop.
 
    In bulk creation mode, steps 3–5 are replaced by Band ③'s single pass:
    `bulk-child-creation` ingests and normalizes the set, drafts each item's
@@ -351,7 +368,7 @@ per-run content.
    with an accuracy warning, presents everything for one review, and creates
    the approved set sequentially — halting on failure with a running result
    table, validating parent linkage at the end of the pass, and degrading to a
-   Markdown handoff document when no write path is available.
+   commit packet when no write path is available.
 
 Human inspects at every stage boundary — that's the method, not an
 inconvenience.
@@ -361,6 +378,18 @@ inconvenience.
 > Per `methodology/governance-and-audit.md` §5a: each entry below is a
 > pointer, not an archive — 1–3 sentences plus the decision-log citation
 > that carries the full rationale.
+
+Sixteenth gap (2026-10-21): the operator runs Stages 01–05 in a Copilot
+Agent Builder agent (static SharePoint copy, read-only Jira/Confluence) and
+commits through Rovo, which cannot read the source-repo and holds an older
+Confluence copy of this flow (1.21). Closed by the **commit packet**: a new
+shared `methodology/engine-handoff-contract.md` (1.0) with a verbatim
+executor brief, this flow's `reference/commit-packet.md` (1.0), a Stage 05
+split-engine exit (1.8 → 1.9), and a Stage 06 packet entry that also
+replaces the bulk-only Markdown handoff document (1.12 → 1.13). Both stages
+and this HUB move to `to-review`; no skill content changed. None of this
+has run on-engine. Raised by the operator. Rationale:
+`decision-log/2026-10-21-split-engine-commit-packet.md`.
 
 Fifteenth gap (2026-08-21): generated `bug` items reached commit without
 stating which application was affected or why the defect occurred —
@@ -578,6 +607,7 @@ Raised by the operator; none of it has run on-engine. Rationale:
 |---|---|---|
 | AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (verified — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eleven house amendments (five on-engine-proven, six operator-raised) |
 | Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (verified — 1.1) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation in ≤10-item sub-batches with halt-on-failure, Markdown handoff degrade path |
+| Commit Packet | `reference/commit-packet.md` (to-review) | Split-engine handoff at the commit boundary: header, signed-off items under schema names, fallout, decisions left to the user, return slip — prefixed by the shared executor brief from `methodology/engine-handoff-contract.md`; also Stage 06's no-write-path output in either mode |
 | Session-Continuation Handoff | `reference/session-continuation-handoff.md` (verified) | Document shape for resuming this flow's own progress in a fresh session when `session_budget_checkpoint` stops the current one: stage reached, items completed, items remaining, recommended priority order |
 | Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (verified, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions (bug now carries app_code/root_cause alongside description); sub_task out-of-scope declaration; extension field constraints; mandatory-label, hierarchy-level, and field-capability cross-cutting notes |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |

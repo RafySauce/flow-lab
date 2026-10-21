@@ -4,11 +4,11 @@ title: "Stage 05 — Standards Validation"
 type: stage-context
 stage: 5
 review-intensity: light
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -19,6 +19,7 @@ related:
   - "[[documentation-standards]]"
   - "[[doc-type-registry]]"
   - "[[sp-doc-standards-validator]]"
+  - "[[documentarian-commit-packet]]"
 ---
 
 # Stage 05 — Standards Validation
@@ -61,6 +62,18 @@ Validation reports; it never edits and never resolves an open section.
    failure. Failures return the line to Stage 4 for correction; the loop
    repeats until the report is clean or the user explicitly accepts a listed
    finding as-is (recorded).
+6. **Split-engine exit — when this engine is outside Stage 06's boundary.**
+   Stage 06 and 07 are Rovo-only. If this session runs on another engine
+   (for example, a Copilot Agent Builder flow agent with read-only
+   Confluence access), do not loop line-by-line into Stage 06. Instead, loop
+   Stages 04→05 across every work-order line, then emit one **commit packet**
+   per `../reference/commit-packet.md` — the shared executor brief from
+   `methodology/engine-handoff-contract.md` verbatim, the header, every
+   validated page with its work-order line, open-section list, and accepted
+   findings, the archive proposals, the decisions left to the user, and a
+   blank return slip — and hand it to the user to carry to Rovo. State
+   plainly that nothing has been committed. At most ten pages per packet; a
+   larger job splits into numbered, self-contained packets.
 
 ## Outputs
 
@@ -69,6 +82,7 @@ Validation reports; it never edits and never resolves an open section.
 | Validation findings report (pass/fail per check, findings listed) | Stage 06, user | structured checklist |
 | Enumerated deferred open-section list | Stage 06 (waiver gate) | list |
 | Validated document/diff (unchanged content — validation never edits) | Stage 06 | as received from Stage 04 |
+| Commit packet (split-engine run, once every line is validated) | User → Rovo's Stages 06–07 | Markdown, per `../reference/commit-packet.md` |
 
 ## Verify
 
@@ -88,6 +102,10 @@ run's decision log.
       finding
 - [ ] Update-line diffs confirmed in-scope
 - [ ] Any user-accepted finding recorded as accepted, not deleted
+- [ ] In a split-engine run, the commit packet was emitted only after every
+      line validated, each page's content is byte-identical to the validated
+      document, its open-section list matches the in-document markers, and
+      it carries the executor brief verbatim
 
 ## Review
 
