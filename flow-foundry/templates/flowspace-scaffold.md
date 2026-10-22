@@ -1,6 +1,6 @@
 # Flowspace Scaffold — the output shape
 
-What the flow-foundry produces for one flowspace. This folder tree, as markdown with YAML frontmatter, *is* the instance form — an instantiated flowspace lives in the source-repo, the internal GitLab repository that is the sole source of truth (`methodology/mirroring-protocol.md`).
+What the flow-foundry produces for one flowspace. This folder tree, as markdown with YAML frontmatter, *is* the instance form — an instantiated flowspace lives in the source-repo, the internal GitLab repository that is the sole source of truth (`methodology/source-repo-protocol.md`).
 
 ```
 <flowspace-slug>/
@@ -13,7 +13,7 @@ What the flow-foundry produces for one flowspace. This folder tree, as markdown 
 ├── …
 ├── reference/              # Layer-3 material: stable rules, style guides, skill pointers
 ├── decision-log/           # this instance's logged calls, YYYY-MM-DD-<slug>.md
-└── handoffs/               # Rovo⇄Copilot handoff records (mirroring-protocol §4)
+└── handoffs/               # Rovo⇄Copilot handoff records (source-repo-protocol §4)
 ```
 
 ## HUB.md skeleton

@@ -21,11 +21,11 @@ description: >
 # --- provenance (house layer) ---
 id: bulk-child-creation
 type: skill
-artifact-version: "1.1"
+artifact-version: "1.2"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-31
-updated: 2026-10-09
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -311,7 +311,10 @@ flowchart LR
     separate. Structure it so a fresh session can pick it up and finish the
     job without re-deriving anything, and state plainly at the top that nothing
     was created and why. This is a valid terminal output of the skill, not a
-    failure state.
+    failure state. Where the run comes from `ai-refinement` Stage 06, emit that
+    flow's commit packet instead (`icp-flows/ai-refinement/reference/commit-packet.md`):
+    it is a superset of this document and adds the executor brief a blind
+    receiver needs.
 
 ## Inputs and grounding
 
@@ -423,6 +426,8 @@ A single output of this skill is acceptable when:
 
 ## Changelog
 
+- **1.2** (2026-10-21) — Step 12 points to the `ai-refinement` commit packet
+  as the superset of the Markdown handoff document for runs from Stage 06.
 - **1.1** (2026-08-05) — Added sub-batch chunking to step 10: sets over ten
   items split into sequential sub-batches of at most ten, each issued as one
   consolidated creation pass, with the running result table spanning every

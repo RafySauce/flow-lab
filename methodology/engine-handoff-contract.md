@@ -11,7 +11,7 @@ owner: operator
 source: human+ai
 data-class: public
 related:
-  - "[[mirroring-protocol]]"
+  - "[[source-repo-protocol]]"
   - "[[governance-and-audit]]"
   - "[[ai-refinement-commit-packet]]"
   - "[[documentarian-commit-packet]]"
@@ -28,13 +28,13 @@ The shape this answers is a fragmented toolchain, observed in practice
 Builder, grounded on a static SharePoint copy of a flow) can **read** Jira,
 Confluence, and ServiceNow but cannot **write** to them; Rovo can write to
 Jira and Confluence but has no access to the source-repo and, at best, a
-stale published copy of one flow (`mirroring-protocol.md` §6). The human
+stale published copy of one flow (`source-repo-protocol.md` §6). The human
 carries the work between them by hand. The **commit packet** is what they
 carry.
 
 ## Why this handoff carries instructions
 
-`mirroring-protocol.md` §4's handoff rule is "state, never instructions" —
+`source-repo-protocol.md` §4's handoff rule is "state, never instructions" —
 the receiving engine grounds on the source-repo and treats the receiving
 stage's `CONTEXT.md` as its contract. That premise fails here: the executor
 has no contract to read except what the packet brings. So a commit packet
@@ -213,7 +213,7 @@ belong in the run's decision log.
 
 | Handoff | Crosses | Carries instructions? | Defined in |
 |---|---|---|---|
-| Same-repo engine handoff | One engine to another, both grounded on the source-repo | No — state only | `mirroring-protocol.md` §4 |
+| Same-repo engine handoff | One engine to another, both grounded on the source-repo | No — state only | `source-repo-protocol.md` §4 |
 | **Commit packet** | Producing engine to a blind executor, at the commit boundary | **Yes — the commit stage's rules, restated** | This document |
 | Flow-to-flow intake | One flow's output into another flow's Stage 01 | No | e.g. `icp-flows/documentarian/reference/ai-refinement-handoff-contract.md` |
 | Session continuation | One session to a fresh one, same flow | No | e.g. `icp-flows/ai-refinement/reference/session-continuation-handoff.md` |

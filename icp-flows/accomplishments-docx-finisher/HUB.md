@@ -67,16 +67,18 @@ flowchart LR
 
 ## Surfaces
 
-- **Primary:** Copilot-side, grounded in the internal git mirror — this
-  flowspace has no independent Confluence page tree; it exists to serve the
-  Rovo-primary `accomplishments-digest` flow's optional Stage 6 handoff.
-- **Mirror:** `<internal repo>` → `flows/accomplishments-docx-finisher/`.
+- **Engine:** Copilot-side, grounded on the source-repo (interim: a static
+  document copy, `methodology/source-repo-protocol.md` §6) — this flowspace
+  has no Confluence page tree; it exists to serve the Rovo-primary
+  `accomplishments-digest` flow's optional Stage 6 handoff.
+- **Source-repo:** `<internal repo>` → `flows/accomplishments-docx-finisher/` —
+  the sole source of truth.
 - **Terminal output:** a `.docx` file, not a Confluence page. Once Stage 3
   shares it, the artifact leaves the ICP structure entirely — there is no
   Stage 4 within this flowspace.
 
 This public copy is the sanitized *design*; instantiation happens in employer
-tenancy per `methodology/mirroring-protocol.md`. At instantiation, add the
+tenancy per `methodology/source-repo-protocol.md`. At instantiation, add the
 per-stage `work/` folders (Layer-4, transient) and the `handoffs/` folder
 that receives `accomplishments-digest`'s Stage 6 output — deliberately absent
 here since they only ever hold per-run content.
@@ -132,4 +134,4 @@ fallback, `reference/docx-minimal-default-style.md`, wired into
 | Docx Minimal Default Style | `reference/docx-minimal-default-style.md` | Stage 2's brand-neutral fallback until a house Word template is sourced |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |
-| Mirroring Protocol | `methodology/mirroring-protocol.md` | Handoff artifact shape (§5) this flowspace consumes |
+| Source-Repo Protocol | `methodology/source-repo-protocol.md` | Handoff artifact shape (§4) this flowspace consumes |

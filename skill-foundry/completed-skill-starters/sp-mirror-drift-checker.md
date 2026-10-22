@@ -12,7 +12,7 @@ source: human+ai
 generated-by: flow-foundry
 generated-by-version: "1.0"
 data-class: public
-related: ["[[mirroring-protocol]]"]
+related: ["[[source-repo-protocol]]"]
 ---
 
 # Skill Primer Brief — Mirror Drift Checker
@@ -23,13 +23,13 @@ related: ["[[mirroring-protocol]]"]
 > `decision-log/2026-07-07-skill-starter-triage-drop.md`.
 >
 > **Obsolete by architecture change, 2026-07-16:** GitLab is now the sole
-> source of truth (`mirroring-protocol.md` 2.0) — there is no mirror and never
+> source of truth (`source-repo-protocol.md` 2.0) — there is no mirror and never
 > will be, so the re-file condition above is permanently false. Do not rebuild.
 > See `flow-foundry/decision-log/2026-07-16-gitlab-sole-source-of-truth.md`.
 
 ## Purpose
 
-Automate the comparison half of the mirroring protocol's drift check (`methodology/mirroring-protocol.md` §4): compare the Confluence primary against the git mirror and produce a findings report. Replaces a manual weekly walk-through.
+Automate the comparison half of the mirroring protocol's drift check (`methodology/source-repo-protocol.md`, old §4, retired in 2.0): compare the Confluence primary against the git mirror and produce a findings report. Replaces a manual weekly walk-through.
 
 ## Triggering intent
 
@@ -49,7 +49,7 @@ Reads the Confluence ICP space and the internal mirror repo. Max data-class: wha
 
 ## Demand source
 
-`methodology/mirroring-protocol.md` §4 names this gap explicitly; every instantiated flowspace inherits it.
+`methodology/source-repo-protocol.md` (old §4, retired in 2.0) named this gap explicitly; every instantiated flowspace inherits it.
 
 ## Definition of done
 

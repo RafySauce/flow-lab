@@ -180,7 +180,7 @@ credentials pasted into a ticket by someone in a hurry.
   only sustained personal-data surface, and the reason Stage 02 outputs a
   distribution rather than a named ranking.
 - **Nothing from a real portfolio ever enters this public repo** — instance
-  data lives in employer tenancy, per `methodology/mirroring-protocol.md`.
+  data lives in employer tenancy, per `methodology/source-repo-protocol.md`.
 
 ## 8. Hierarchy linkage and connected-space discovery
 

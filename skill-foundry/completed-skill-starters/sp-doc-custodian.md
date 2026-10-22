@@ -34,7 +34,7 @@ human confirmed, and its standing-run mode proposes rather than acts.
 - **Does not fire on:** deciding what to archive (audit findings nominate,
   Stage 03 plans, the human confirms per item — this skill executes and
   records); committing document content (`confluence-page-commit`);
-  provenance frontmatter on mirror artifacts (`provenance-stamper`,
+  provenance frontmatter on source-repo artifacts (`provenance-stamper`,
   referenced separately); deleting anything, ever.
 
 ## Method sketch

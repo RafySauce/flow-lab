@@ -15,6 +15,8 @@ related: ["[[provenance-spec]]"]
 
 # Skill Primer Brief — Provenance Stamper
 
+> **Superseded in part, 2026-10-21:** item 3 (Confluence side) and the Rovo adapter describe the retired page-property mapping. The built skill (`produced-skills/provenance-stamper` 1.1) is Copilot-only; the Confluence version label is applied by `confluence-page-commit`.
+
 ## Purpose
 
 Stamp and validate provenance frontmatter per `methodology/provenance-spec.md`: fill a compliant block for a new artifact (inferring what's inferable, asking for what isn't), and check existing artifacts against the schema including the conditional rules.

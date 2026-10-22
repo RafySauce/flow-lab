@@ -37,7 +37,7 @@ exclusion re-check.
 ## Process
 
 Package the published document and framing context as a handoff artifact per
-`methodology/mirroring-protocol.md` §5, using the flow-specific instantiation
+`methodology/source-repo-protocol.md` §4, using the flow-specific instantiation
 at `../reference/handoff-to-copilot-template.md`. The handoff carries state
 and pointers only — it never grants the receiving flowspace license to add
 new accomplishments, only to enrich presentation and supporting evidence
@@ -49,7 +49,7 @@ never carries instructions overriding the receiving stage's own contract).
 ## Outputs
 
 A **handoff file**: `handoffs/YYYY-MM-DD-accomplishments-digest-to-docx-finisher.md`,
-following the mirroring-protocol §5 shape. Contains: state (Stage 5 complete,
+following the source-repo-protocol §4 shape. Contains: state (Stage 5 complete,
 document location), inputs for the receiving flowspace's Stage 1 (document
 content/link, exclusion list, any repo/file-access scope authorized for
 enrichment, style/template preference if known), and open questions the
@@ -68,7 +68,7 @@ catches. Result recorded as a one-line entry in the run's decision log.
 - **Reviewer:** the engineer.
 - **Intensity:** `light` — mechanical packaging of already-approved content;
   no new judgment happens here (the judgment already happened at Stage 5).
-- **Evidence:** the handoff file itself, committed to the mirror, is the
+- **Evidence:** the handoff file itself, committed to the source-repo, is the
   evidence — no separate sign-off beyond confirming it correctly points at
   the Stage 5 published document.
 
@@ -80,4 +80,4 @@ catches. Result recorded as a one-line entry in the run's decision log.
   on the Confluence-primary side) — the receiving engine (Copilot) is named
   in the handoff itself, not this stage.
 - A handoff into a stage whose Data boundary excludes the receiving engine
-  is invalid — stop and re-route (mirroring-protocol §5).
+  is invalid — stop and re-route (source-repo-protocol §4).

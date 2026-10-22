@@ -125,7 +125,7 @@ both. See `03p-current-state-analysis/CONTEXT.md`.
 
 - **Source-repo:** `<internal GitLab repo>` → `flowspaces/portfolio-rationalization/`
   — set at instantiation; the sole source of truth for the instance
-  (`methodology/mirroring-protocol.md`).
+  (`methodology/source-repo-protocol.md`).
 - **External systems touched:** **Jira** — one project or space per cycle,
   **read-only**, at Stage 01 only (live-binding path). No Confluence
   dependency. No stage writes to any external system.

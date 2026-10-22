@@ -101,7 +101,7 @@ flowchart LR
 4. **`sad-update` mode** — gather the delivered feature's evidence: the
    feature's Jira items, linked design docs or ADRs, and (where a repo is in
    scope and Copilot is the engine) the delivering change's repo context via
-   a mirroring-protocol §5 handoff. Identify which existing SAD pages and
+   a source-repo-protocol §4 handoff. Identify which existing SAD pages and
    diagram sources reference the touched components.
 5. **`meeting` mode** — distill the screened transcript/summary into
    decisions made, actions agreed, topics discussed, and Jira items

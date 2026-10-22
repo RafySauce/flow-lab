@@ -26,11 +26,11 @@ description: >
 # --- provenance (house layer) ---
 id: servicenow-ticket-ingest
 type: skill
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-08-01
-updated: 2026-08-01
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -240,11 +240,11 @@ skill.
   aggregate-only personal-data surface, consistent with
   `board-evidence-requirements.md` §5.
 - Real ServiceNow content never enters this public design repo — instance
-  data lives in employer tenancy per `methodology/mirroring-protocol.md`.
+  data lives in employer tenancy per `methodology/source-repo-protocol.md`.
 - **Sanctioned engine:** whichever of Rovo or Copilot carries the sanctioned
   ServiceNow read connector at build time, per the employer's sanctioned-tool
-  matrix — per `methodology/mirroring-protocol.md` §2, ServiceNow is already
-  sanctioned as a *read* target in principle. Record the confirmed engine on
+  matrix — per `methodology/source-repo-protocol.md` §2, ServiceNow is an
+  external system skills may *read* from in principle. Record the confirmed engine on
   this skill once known; until then the live-mode path states plainly that it depends on that confirmation.
 - **No write scope is requested or needed**, at this skill or anywhere in
   this flow.
@@ -320,6 +320,7 @@ branch on source system.
 
 ## Changelog
 
+- **1.1** (2026-10-21) — Corrected the `source-repo-protocol.md` §2 citation: ServiceNow is an external system skills may read from in principle, not "already sanctioned".
 - **1.0** (2026-08-01) — Initial build from `sp-servicenow-ticket-ingest`,
   mirroring `jira-portfolio-ingest`'s trust-boundary discipline and output
   shape (normalized item set, field-availability report, completion

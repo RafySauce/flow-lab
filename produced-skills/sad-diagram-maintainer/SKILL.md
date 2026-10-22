@@ -106,7 +106,7 @@ edit.
 ## Inputs and grounding
 
 Reads: the SAD page's diagram sources (Confluence attachment/macro body or
-mirror-repo file — the build confirms which surface holds sources per
+source-repo file — the build confirms which surface holds sources per
 tenant at instantiation) and the `sad-update` line's cited dossier entries.
 Grounding rules: every edit cites its evidence entry; where the evidence
 doesn't say how a new element connects, ask or emit an open-section marker
@@ -116,7 +116,7 @@ never reconstructed from the rendered image.
 ## Data boundary
 
 - Max data-class: internal.
-- Sanctioned engines: **Copilot** for mirror-side source edits, **Rovo**
+- Sanctioned engines: **Copilot** for diagram sources in the source-repo, **Rovo**
   where the source lives in Confluence macros — which surface holds the
   sources is confirmed per tenant at instantiation.
 

@@ -21,7 +21,7 @@ to add bands.
 This requirement was dropped when this foundry was first ported from the homelab
 skill-foundry ("Confluence rendering varies" — see `foundry-spec.md` changelog) and
 is now reinstated. With GitLab as the sole source of truth
-(`methodology/mirroring-protocol.md`) the old concern is gone: GitLab renders
+(`methodology/source-repo-protocol.md`) the old concern is gone: GitLab renders
 Mermaid natively, and rendering is confirmed by viewing the rendered `.md` at
 review time — see the rendering section in the sibling flow-foundry guide.
 

@@ -33,7 +33,7 @@ related:
 | Doc-type template for the matched type | `../reference/doc-type-registry.md` | Yes |
 | Open-section marker protocol | `../reference/collaborative-sections-protocol.md` | Yes |
 | Existing page content (update lines) | Confluence (read) | If applicable |
-| Existing diagram source (sad-update lines) | Confluence page / mirror repo | If applicable |
+| Existing diagram source (sad-update lines) | Confluence page / source-repo | If applicable |
 
 ## Process
 

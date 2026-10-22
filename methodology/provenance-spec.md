@@ -41,7 +41,7 @@ related: []                         # sibling document ids
 ---
 ```
 
-In an instantiated source-repo and in this repo alike, these fields are literal YAML frontmatter — the single surface means there is no page-property mapping (see `mirroring-protocol.md`).
+In an instantiated source-repo and in this repo alike, these fields are literal YAML frontmatter — the single surface means there is no page-property mapping (see `source-repo-protocol.md`).
 
 ---
 
@@ -123,6 +123,6 @@ Rules any validator (or reviewing human) must apply beyond the flat field list:
 
 ## Changelog
 
-- **1.2** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `mirroring-protocol.md` 2.0): removed the Confluence page-property/label mapping (frontmatter is always literal YAML) and the Confluence sign-off variant of review evidence (rule 5 — decision-log entry only). Schema fields unchanged.
+- **1.2** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `source-repo-protocol.md` 2.0): removed the Confluence page-property/label mapping (frontmatter is always literal YAML) and the Confluence sign-off variant of review evidence (rule 5 — decision-log entry only). Schema fields unchanged.
 - **1.1** (2026-07-15) — Added `stage-context` to the Type enum and the Stage-context extension fields (`stage`, `review-intensity`), documenting the schema every instantiated flowspace's stage `CONTEXT.md` has been stamped with since the ai-refinement and documentarian builds — the spec had not yet caught up to house practice.
 - **1.0** (2026-07-02) — Initial work edition. Derived from the private homelab DNA spec v1.5: kept identity, lifecycle, provenance, and `related`; dropped Obsidian graph fields (`aliases`, entity `## Connections`), homelab classification (`domain`, `phase`, `systems`), and the `execution-tier` routing field; added `owner`, `data-class`, and the review-evidence rule.

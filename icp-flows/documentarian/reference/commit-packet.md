@@ -2,7 +2,7 @@
 id: documentarian-commit-packet
 title: "Commit Packet — Documentarian to a Confluence Executor"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
 truth-level: to-review
 created: 2026-10-21
@@ -50,6 +50,7 @@ Add to the contract's header:
 ```markdown
 - **Job type:** <closeout | modernize | sad-update | tree-audit | meeting>
 - **Registry version:** doc-type-registry v<version>
+- **Provenance label for every page:** documentarian-flow-v<flow-version>
 - **Target space:** <space name — the executor resolves the key live>
 - **Doc-registry index location:** <Confluence page, per the custody model>
 - **Pages in this packet:** <count> (<create / update / archive counts>)
@@ -77,6 +78,11 @@ Per page, in work-order order (Stage 06):
   links. One approval per page.
 - Jira links: create exactly the remote links listed for the page, both
   directions where the site supports it. No others.
+- Labels: apply every label listed per page exactly as written, including
+  documentarian-flow-v<flow-version>. In the preview, say what that label
+  means: the page is AI-produced and pending team review, and the team
+  removes the label once they have reviewed it. On an update, replace any
+  earlier documentarian-flow-v* label; a page carries one.
 - ServiceNow-destined pages: commit to Confluence as staged, add the label
   servicenow-pending, and say plainly that the ServiceNow write is a known gap.
 - Create no Jira work items. Candidate work items are not in this packet.
@@ -104,7 +110,7 @@ formatted; the executor translates.
 - **Action:** <create | update — existing page: <title/URL>, sections in scope: <list>>
 - **Doc type / template:** <sop | mop | runbook | sad | kb-article | meeting-notes> / <template ref>
 - **Space + parent position:** <space name> / under <parent page title>
-- **Labels:** <label set for the doc type, per documentation-standards>
+- **Labels:** <label set for the doc type, per documentation-standards>, documentarian-flow-v<flow-version>
 - **Page properties:** doc-type=<>, owner=<>, source-evidence=<links>,
   last-verified=<YYYY-MM-DD>, review-by=<YYYY-MM-DD>, status=<active | servicenow-pending>
 - **Jira remote links:** <keys> | none
@@ -167,6 +173,7 @@ their source, and hands them to ai-refinement Stage 01.
 
 ## Changelog
 
+- **1.1** (2026-10-21) — Header and commit-stage specifics gain the `documentarian-flow-v<flow-version>` provenance label, mirroring `ai-refinement`'s Jira label; applied on create and update by the executor.
 - **1.0** (2026-10-21) — Initial build, alongside
   `methodology/engine-handoff-contract.md` 1.0. Gives a Copilot-driven run a
   concrete shape for the Stage 06 hand-to-Rovo boundary the data-boundary

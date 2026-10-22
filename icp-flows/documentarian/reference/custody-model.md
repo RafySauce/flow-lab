@@ -2,11 +2,11 @@
 id: custody-model
 title: "Custody Model — Registry, Freshness, and the Standing Custodian"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -30,8 +30,8 @@ run.
 ## The doc-registry index
 
 One index per governed documentation scope (typically one per Confluence
-space), living as a page in that space (primary) and mirrored per
-mirroring-protocol §2. One row per governed document:
+space), living as a page in that space (an external-system surface,
+source-repo-protocol §2). One row per governed document:
 
 | Field | Content |
 |---|---|

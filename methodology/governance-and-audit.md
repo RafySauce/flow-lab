@@ -9,7 +9,7 @@ created: 2026-07-02
 updated: 2026-08-05
 source: human+ai
 data-class: public
-related: ["[[provenance-spec]]", "[[mirroring-protocol]]"]
+related: ["[[provenance-spec]]", "[[source-repo-protocol]]"]
 ---
 
 # Governance and Audit
@@ -42,7 +42,7 @@ External starters (vendor prompts, public repos, colleagues' templates, READMEs)
 
 `truth-level: verified` is promoted only by a human, only with evidence:
 
-- **Who** reviewed, **when**, and **what they checked** — recorded as a decision-log entry. A merge-request approval naming the reviewer is acceptable *supplementary* evidence alongside it (see `mirroring-protocol.md` §3), but does not by itself satisfy the rule — it still needs who/when/what-checked.
+- **Who** reviewed, **when**, and **what they checked** — recorded as a decision-log entry. A merge-request approval naming the reviewer is acceptable *supplementary* evidence alongside it (see `source-repo-protocol.md` §3), but does not by itself satisfy the rule — it still needs who/when/what-checked.
 - For flowspaces: the three validation gates in `flow-foundry/foundry-spec.md` (structural completeness, Layer-3 status declared, human dry-run).
 - For skills: the review checklist in `skill-foundry/foundry-spec.md`, including a live test on the target engine.
 - The `Verify` field of a stage contract defines the check; **running it leaves a record** — a one-line result in the run's decision log, not a silent nod.
@@ -114,6 +114,6 @@ The audit pass produces one decision-log entry summarizing findings and actions.
   check, not a full re-gate). Raised directly by the operator, applying the
   Interpretable Context Methodology (ICM) sibling project's routing-file
   discipline. Rationale: `flow-foundry/decision-log/2026-08-05-pointer-section-discipline.md`.
-- **1.2** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `mirroring-protocol.md` 2.0): sanctioned-tool matrix wording now names external systems rather than mirror surfaces; supplementary review evidence is MR approval rather than Confluence change-comments; the audit pass's mirror drift check (moot with one surface) is replaced by structural re-validation of promoted flowspaces; CQL-driven sampling replaced by frontmatter greps.
-- **1.1** (2026-07-03) — Noted CQL-driven drift/classification sampling and Confluence version change-comments as supplementary (not sufficient) review evidence, per `mirroring-protocol.md` §7. *(Superseded by 1.2.)*
+- **1.2** (2026-07-16) — Aligned with the architecture correction (GitLab as sole source of truth, `source-repo-protocol.md` 2.0): sanctioned-tool matrix wording now names external systems rather than mirror surfaces; supplementary review evidence is MR approval rather than Confluence change-comments; the audit pass's mirror drift check (moot with one surface) is replaced by structural re-validation of promoted flowspaces; CQL-driven sampling replaced by frontmatter greps.
+- **1.1** (2026-07-03) — Noted CQL-driven drift/classification sampling and Confluence version change-comments as supplementary (not sufficient) review evidence, per `source-repo-protocol.md` §7. *(Superseded by 1.2.)*
 - **1.0** (2026-07-02) — Initial gates.

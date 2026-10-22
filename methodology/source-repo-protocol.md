@@ -1,8 +1,8 @@
 ---
-id: mirroring-protocol
+id: source-repo-protocol
 title: "Source-Repo Protocol — GitLab as the Sole Source of Truth"
 type: specification
-artifact-version: "3.0"
+artifact-version: "3.1"
 status: living
 truth-level: to-review
 created: 2026-07-02
@@ -19,9 +19,9 @@ related: ["[[icp-primer]]", "[[provenance-spec]]", "[[governance-and-audit]]", "
 
 This protocol governs the *employer-internal* instance. This public repo is not an instance; it holds method only.
 
-> **Supersession note (v2.0).** Versions 1.x of this document specified a dual-surface architecture — Confluence as primary, an internal git repo as a regenerated Copilot mirror — with a structure mapping, a manual sync procedure, a drift check, and Confluence-native mechanics. That architecture is retired. Downstream documents that still cite the old §2 (structure mapping), §3 (sync), §4 (drift check), or §7 (Confluence-native mechanics) describe machinery that no longer exists; they are queued for foundry-routed revision. The decision is logged in `flow-foundry/decision-log/2026-07-16-gitlab-sole-source-of-truth.md`.
+> **Supersession note (v2.0).** Versions 1.x of this document specified a dual-surface architecture — Confluence as primary, an internal git repo as a regenerated Copilot mirror — with a structure mapping, a manual sync procedure, a drift check, and Confluence-native mechanics. That architecture is retired. Downstream documents that cited the old §2 (structure mapping), §3 (sync), §4 (drift check), or §7 (Confluence-native mechanics) described machinery that no longer exists; they were swept in 3.1. The decision is logged in `flow-foundry/decision-log/2026-07-16-gitlab-sole-source-of-truth.md`.
 >
-> **Interim note (v3.0).** The filename keeps the old "mirroring" name only so that existing references resolve; nothing here mirrors or syncs. v3.0 records the operating reality while engines are blocked from the source-repo: published copies (§6) and the commit packet for blind executors (§4, `engine-handoff-contract.md`). A rename and a pass over the citing documents are queued separately.
+> **Interim note (v3.0).** This file was `mirroring-protocol.md` until 3.1; nothing here mirrors or syncs. v3.0 records the operating reality while engines are blocked from the source-repo: published copies (§6) and the commit packet for blind executors (§4, `engine-handoff-contract.md`).
 
 ---
 
@@ -126,6 +126,7 @@ Rules:
 
 ## Changelog
 
+- **3.1** (2026-10-21) — **Renamed** `mirroring-protocol.md` → `source-repo-protocol.md`, `id` `mirroring-protocol` → `source-repo-protocol`. Section numbers unchanged. Citing documents swept in the same change: handoff citations that read §5 now read §4; documents describing the retired structure mapping, sync, drift check, and "mirror" were rewritten to the source-repo / published-copy model. Decision logs are append-only and keep the old name. Rationale: `flow-foundry/decision-log/2026-10-21-source-repo-protocol-rename-and-citation-sweep.md`.
 - **3.0** (2026-10-21) — **Interim operating mode recorded.** Engines cannot yet reach the source-repo; flows run from hand-published copies, and Rovo commits work produced by a Copilot Agent Builder agent. §1 now separates the target state (engines ground on GitLab) from the interim (published copies); §4 splits into same-repo handoffs (state only, unchanged) and the **commit packet** for blind executors (new `engine-handoff-contract.md`); new §6 defines published copies — read-only, version-stamped, published by hand after merge — with a version note. Section numbers 1–5 kept stable for existing citations; filename and `id` kept, rename queued. Raised by the operator. Rationale: `flow-foundry/decision-log/2026-10-21-engine-handoff-contract-and-published-copies.md`.
 - **2.0** (2026-07-16) — **Architecture correction: GitLab is the sole source of truth.** Retitled from "Mirroring Protocol — Atlassian Primary ⇄ Copilot Git Mirror" to "Source-Repo Protocol" (filename and `id` kept stable so existing references resolve); operator confirmed **source-repo** as the house term for the instance repository, and that Rovo's read access to it is via the Rovo GitLab connector. Removed the Confluence-primary/git-mirror split and everything that existed to serve it: the structure mapping (old §2), the sync procedure and `MIRROR-STATE.md` (old §3), the drift check (old §4), and Confluence-native mechanics (old §7). Added: external-systems section (Confluence/Jira/ServiceNow as integration targets), git-native change discipline. Kept: the Rovo⇄Copilot handoff artifact (simplified to single-surface paths) and the what-does-not-enter rules. Rationale and impact: `flow-foundry/decision-log/2026-07-16-gitlab-sole-source-of-truth.md`.
 - **1.1** (2026-07-03) — Added §7, Confluence-native mechanics. *(Superseded by 2.0.)*

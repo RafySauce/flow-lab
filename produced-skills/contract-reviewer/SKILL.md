@@ -66,7 +66,7 @@ flowchart LR
 
 1. **Read the contracts.** Load every stage's `CONTEXT.md` (the six-field
    stage contract) across the flowspace tree, on whichever surface holds it —
-   the internal git mirror or the Confluence page tree — plus the flowspace's
+   the source-repo or a published Confluence copy — plus the flowspace's
    `HUB.md` stage table for cross-checking.
 2. **Test each of the six fields**, per stage:
    - **Inputs** — does it name artifacts and locations? "Whatever the
@@ -104,8 +104,8 @@ the attempted draft is evidence, not a read-through impression.
 
 ## Inputs and grounding
 
-Reads: the flowspace's stage `CONTEXT.md` files (git mirror or Confluence page
-tree) and its `HUB.md` stage table. Grounding rules: every finding quotes the
+Reads: the flowspace's stage `CONTEXT.md` files (source-repo or published Confluence
+copy) and its `HUB.md` stage table. Grounding rules: every finding quotes the
 actual contract text, never a summary of the flaw; if a Layer-3 reference
 doesn't resolve to an existing file or page, report exactly that — do not
 guess what it might have meant or invent a plausible target.
@@ -113,9 +113,9 @@ guess what it might have meant or invent a plausible target.
 ## Data boundary
 
 - Max data-class: internal.
-- Sanctioned engines: **Copilot** (custom agent on the internal mirror) —
-  primary, since flowspace contracts mirror to the internal repo where this
-  skill's users work. A Rovo (Confluence-native) surface is deferred as
+- Sanctioned engines: **Copilot** (custom agent grounded on the source-repo, or on
+  a static document copy while it cannot reach it) — primary, since flowspace
+  contracts live in the source-repo where this skill's users work. A Rovo (Confluence-native) surface is deferred as
   optional per the brief's demand — add it if a Confluence-native reviewer
   becomes the actual point of use.
 

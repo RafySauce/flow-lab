@@ -41,7 +41,7 @@ Emit a findings report per stage, severity-ranked, quoting the failing text.
 
 ## Inputs and data boundary
 
-Reads flowspace trees (mirror or Confluence). Max data-class: internal. Engine: **Copilot** (custom agent on the mirror) primary; Rovo adapter optional.
+Reads flowspace trees (source-repo or published Confluence copy). Max data-class: internal. Engine: **Copilot** (custom agent on the source-repo) primary; Rovo adapter optional.
 
 ## Demand source
 

@@ -74,14 +74,18 @@ flowchart LR
 
 ## Surfaces
 
-- **Primary:** `<Confluence space set at instantiation>` — an `Accomplishments`
-  page tree, one page per review cycle per engineer. Confirm the Mermaid macro
-  is installed in the target space before this diagram ships to the Confluence
-  primary; absent that, the page notes "diagram: see mirror."
-- **Mirror:** `<internal repo>` → `flows/accomplishments-digest/`.
+- **Source-repo:** `<internal repo>` → `flows/accomplishments-digest/` — the
+  sole source of truth (`methodology/source-repo-protocol.md` §1).
+- **Deliverable destination:** `<Confluence space set at instantiation>` — an
+  `Accomplishments` page tree, one page per review cycle per engineer (an
+  external system, §2).
+- **Published copy (interim):** where Rovo must read the flow, a read-only,
+  version-stamped Confluence copy (§6). Confirm the Mermaid macro is installed
+  in the target space before this diagram ships there; absent that, the page
+  notes "diagram: see source-repo."
 
 This public copy is the sanitized *design*; instantiation happens in employer
-tenancy per `methodology/mirroring-protocol.md`. At instantiation, add the
+tenancy per `methodology/source-repo-protocol.md`. At instantiation, add the
 per-stage `work/` folders (Layer-4, transient, one set per review cycle) and
 the `handoffs/` folder — deliberately absent here since they only ever hold
 per-run content.
@@ -146,9 +150,9 @@ Stage 6 is `Layer-3: inline`, not a skill gap. Rationale:
 | Artifact | Location | Covers |
 |---|---|---|
 | Flow Primer Brief | `flow-foundry/backlog-flow-starters/fp-accomplishments-digest.md` | Original crystallized intent this flowspace was built from |
-| Handoff Template | `reference/handoff-to-copilot-template.md` | Flow-specific instantiation of the mirroring-protocol §5 handoff shape, for Stage 6 |
+| Handoff Template | `reference/handoff-to-copilot-template.md` | Flow-specific instantiation of the source-repo-protocol §4 handoff shape, for Stage 6 |
 | Confluence Activity-History Capability Check | `reference/confluence-activity-history-capability-check.md` | One-time-per-tenant probe resolving Stage 3's flagged capability check |
 | Companion flowspace | `../accomplishments-docx-finisher/HUB.md` | Receives Stage 6's handoff; produces the stylized Word document |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |
-| Mirroring Protocol | `methodology/mirroring-protocol.md` | Handoff artifact shape (§5) this flowspace's Stage 6 follows |
+| Source-Repo Protocol | `methodology/source-repo-protocol.md` | Handoff artifact shape (§4) this flowspace's Stage 6 follows |

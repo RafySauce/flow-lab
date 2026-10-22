@@ -2,11 +2,11 @@
 id: collaborative-sections-protocol
 title: "Collaborative Sections Protocol — Open-Section Markers"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -44,10 +44,10 @@ content:
   and any evidence-supported fragments, and the marker covers exactly the
   missing part.
 
-On the Confluence primary, the marker renders as the same blockquote (or the
+On the Confluence page, the marker renders as the same blockquote (or the
 tenant's task/status macro where one is confirmed at instantiation — the
 custody model records the choice); the text form above is canonical in the
-mirror.
+source-repo.
 
 ## Lifecycle
 

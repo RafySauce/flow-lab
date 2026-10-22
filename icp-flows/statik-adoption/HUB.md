@@ -148,7 +148,7 @@ they are documented here instead of drawn as edges.
   is a human act, deliberately outside the flow's write boundary.
 
 This public copy is the sanitized *design*; instantiation happens in employer
-tenancy per `methodology/mirroring-protocol.md`. At instantiation, add the
+tenancy per `methodology/source-repo-protocol.md`. At instantiation, add the
 per-stage `work/` folders (Layer-4, transient) and the `handoffs/` folder — they
 are deliberately absent from this design copy because they only ever hold
 per-run content.

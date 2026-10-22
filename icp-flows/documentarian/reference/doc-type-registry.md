@@ -2,11 +2,11 @@
 id: doc-type-registry
 title: "Doc-Type Registry — Governed Documentation Types"
 type: specification
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -30,7 +30,8 @@ operator ratifies the section sets and cadences, and confirms the
 deferred write path is built.
 
 Every governed document carries the **common metadata block** (as Confluence
-page properties in the primary; a frontmatter-style block in the mirror):
+page properties on the governed Confluence page; a frontmatter-style block
+where the document also lands in the source-repo):
 `doc-type`, `owner`, `source-evidence` (links), `last-verified`, `review-by`,
 `status` (active / archived / servicenow-pending).
 

@@ -40,7 +40,7 @@ related:
 `Layer-3: TBD — skill-primer-brief filed (sp-doc-custodian). The
 archive-confirmation dialogue (step 3) is inline — the judgment protocol is
 this flowspace's own. provenance-stamper (verified, produced-skills/) is
-referenced for stamping any run artifacts landing in the git mirror.`
+referenced for stamping any run artifacts landing in the source-repo.`
 
 Runs once per job, after the Band ③ loop drains. This stage is the seam
 where standing agent-custodians eventually attach — its contract is written

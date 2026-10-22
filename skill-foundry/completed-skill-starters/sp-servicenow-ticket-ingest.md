@@ -2,11 +2,11 @@
 id: sp-servicenow-ticket-ingest
 title: "Skill Primer Brief — ServiceNow Ticket Ingest"
 type: skill-primer-brief
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-08-01
-updated: 2026-08-01
+updated: 2026-10-21
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -114,8 +114,8 @@ mapping in `icp-flows/statik-adoption/reference/board-evidence-requirements.md`
 (to be added alongside the existing Jira mapping). Max data-class: `internal`,
 matching `jira-portfolio-ingest`'s ceiling, and subject to the employer's
 sanctioned-tool matrix's ruling on ServiceNow read access at build time —
-per `methodology/mirroring-protocol.md` §2, ServiceNow is already sanctioned
-as a *read* target in principle (unlike the KB-commit write path, which
+per `methodology/source-repo-protocol.md` §2, ServiceNow is an external
+system skills may *read* from in principle (unlike the KB-commit write path, which
 remains deferred for lack of a sanctioned write integration). Engine: whichever
 of Rovo or Copilot carries the sanctioned ServiceNow read connector at build
 time — record on this brief when known, same discipline as the deferred

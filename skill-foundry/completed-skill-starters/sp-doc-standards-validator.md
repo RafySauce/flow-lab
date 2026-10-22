@@ -30,7 +30,7 @@ content and never resolves an open section.
   Stage 04 draft/diff.
 - **Does not fire on:** work-item validation (`workitem-validation` — Jira
   payloads, different schema family); fixing what it finds (failures return
-  to Stage 04); provenance frontmatter checks on mirror artifacts (that's
+  to Stage 04); provenance frontmatter checks on source-repo artifacts (that's
   `provenance-stamper`, referenced separately by the stage); judging content
   quality or correctness — evidence fidelity is Stage 04's citation
   discipline; this skill checks shape, standards, and honesty of the

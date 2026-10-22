@@ -62,7 +62,7 @@ Reads Jira projects and Confluence spaces scoped at Stage 01/02, plus
 user-provided transcripts. Max data-class: `internal`; a sweep that surfaces
 `confidential` content stops and re-scopes. Engine: **Rovo** for the
 Atlassian sweep (data stays in Atlassian); Copilot contributes repo context
-for `sad-update` via a mirroring-protocol §5 handoff.
+for `sad-update` via a source-repo-protocol §4 handoff.
 
 ## Demand source
 

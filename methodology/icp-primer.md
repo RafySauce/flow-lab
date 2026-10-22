@@ -8,7 +8,7 @@ created: 2026-07-02
 updated: 2026-07-16
 source: human+ai
 data-class: public
-related: ["[[provenance-spec]]", "[[mirroring-protocol]]", "[[governance-and-audit]]"]
+related: ["[[provenance-spec]]", "[[source-repo-protocol]]", "[[governance-and-audit]]"]
 ---
 
 # ICP Primer
@@ -77,5 +77,5 @@ These are practitioner extensions, not part of the published methodology:
 This edition is shaped by three constraints, worth naming because they explain the structure:
 
 1. **The sanctioned engines are Copilot and Rovo.** No self-hosted models, no arbitrary agent frameworks, no control over model routing. Therefore: engine-neutral specs, and no execution-tier machinery.
-2. **The source of truth is GitLab.** An ICP instance lives in a single internal GitLab repository — the **source-repo** — that both engines ground on and operate against (Rovo via the Rovo GitLab connector, Copilot natively). Confluence, Jira, and ServiceNow stay in the toolchain as *external systems* — integration targets flows and skills read from and write to at declared data boundaries, not where the methodology's own documents live. Therefore: the source-repo model and protocol (`mirroring-protocol.md`).
+2. **The source of truth is GitLab.** An ICP instance lives in a single internal GitLab repository — the **source-repo** — that both engines ground on and operate against (Rovo via the Rovo GitLab connector, Copilot natively). Confluence, Jira, and ServiceNow stay in the toolchain as *external systems* — integration targets flows and skills read from and write to at declared data boundaries, not where the methodology's own documents live. Therefore: the source-repo model and protocol (`source-repo-protocol.md`).
 3. **The method must be public; the work must not be.** Therefore: this repo carries method and templates only, and the governance doc draws the line explicitly.

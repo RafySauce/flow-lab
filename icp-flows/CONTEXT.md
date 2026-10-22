@@ -29,4 +29,4 @@ decision-log entry per `methodology/governance-and-audit.md`.
 
 In this public repo, only sanitized, generic flowspace *designs*
 (`data-class: public`) live here. Instantiated flowspaces carrying real work
-content live in employer tenancy per `../methodology/mirroring-protocol.md`.
+content live in employer tenancy per `../methodology/source-repo-protocol.md`.
