@@ -23,7 +23,7 @@ related:
 > Revision intake for an existing, promoted flowspace (`icp-flows/accomplishments-digest`,
 > 1.3), not a new flow. It arrived as conversation (`foundry-spec.md` §1 case 4) and
 > is written down here so the revision has an intake record before any stage is
-> touched. The operator made the four structural calls listed under
+> touched. The operator made the six structural calls listed under
 > "Decided" on 2026-10-27. Everything else below is the agent's proposal, still
 > open for the operator to amend.
 
@@ -44,6 +44,8 @@ the same cadence as the base flow: once per review cycle per engineer.
 | D2 | Which engine carries the run | **Decide at runtime** | The running engine probes what it can reach (the `START-HERE.md` capability-probe pattern, applied per stage) and runs each gather stage it can reach. A stage whose source it can't reach degrades and says so rather than failing. For the Word output, the engine offers to build the `.docx` itself or asks the engineer for a template to use (see "Word output" below). |
 | D3 | Where cross-source correlation happens | **Its own Correlate stage** | A new stage between gather and draft merges evidence about the same piece of work into one accomplishment, and the engineer reviews the groups before any prose is written. |
 | D4 | How ServiceNow volume shows up | **An "Operational load" section plus counts inside themes** | The document shape and drafter gain a short, contextualized load section. Counts also appear as supporting evidence under related outcome themes, never as a headline. |
+| D5 | Word styling: its own flow or a skill | **A skill, not a flow** ("a flow seems a bit heavy") | The companion `accomplishments-docx-finisher` flowspace is retired. Stage 9 of this flow calls `accomplishments-docx-stylizer` directly on the Stage 8 approved document. |
+| D6 | Correlate review intensity | **Heavy** ("once the context is loaded up, we need to confirm it is correct so the report generates correctly") | Stage 6 is a heavy human gate: the engineer confirms the correlated groups before any drafting happens. |
 
 ## Trigger and cadence
 
@@ -59,17 +61,17 @@ review. One run produces one document for one review cycle.
 | 3 | Gather — Confluence & Collaboration | Unchanged. | light |
 | 4 | Gather — Microsoft 365 *(new)* | A targeted, read-only search of the engineer's own mail, Teams chats and meeting recaps, and SharePoint/OneDrive. It is scoped to the review period and keyed on Stage 1's themes and on ticket/INC numbers. It never sweeps a whole mailbox. It pulls recognition (thank-yous, kudos), resolution threads, and recap action items the engineer owned. Mail and chat get the strictest screen of any source. | light |
 | 5 | Gather — ServiceNow *(new)* | A read-only pull of INCs, CTASKs, SCTASKs, and problem tasks the engineer resolved or closed in the period. Keeps "resolved by" separate from "assigned at some point". Adds context: priority mix, median time to resolve, problem tasks that led to a permanent fix, and reopened records flagged. | light |
-| 6 | Correlate *(new)* | Matches evidence across all available digests on shared identifiers (INC/CHG/PRB numbers, Jira keys, page links) and on Stage 1 themes. One piece of work found in several sources becomes one accomplishment group with all its citations. Unmatched items stay visible as singletons. Nothing is dropped silently. | heavy (?) |
+| 6 | Correlate *(new)* | Matches evidence across all available digests on shared identifiers (INC/CHG/PRB numbers, Jira keys, page links) and on Stage 1 themes. One piece of work found in several sources becomes one accomplishment group with all its citations. Unmatched items stay visible as singletons. Nothing is dropped silently. The engineer confirms the groups before drafting. | heavy |
 | 7 | Draft *(was 4)* | Synthesizes correlated groups into the revised house shape, including the Operational load section. | light |
 | 8 | Align & Publish *(was 5)* | Unchanged in role. Its exclusion trace now also covers Microsoft 365 and ServiceNow content. | heavy |
-| 9 | Word output *(was 6, revised)* | Optional. The engine checks whether it can produce a `.docx`. If it can, it offers the engineer two choices: build it from the minimal default style, or use a template the engineer provides. If it can't, it packages the handoff for an engine that can. | light |
+| 9 | Word output *(was 6, revised)* | Optional. Calls the `accomplishments-docx-stylizer` skill on the Stage 8 approved document (never the Stage 7 draft). The engine checks whether it can produce a `.docx`. If it can, it asks the engineer to choose: build from the minimal default style, or use a template the engineer provides. If it can't, it says so and leaves the published Stage 8 document as the deliverable. The engineer gives the `.docx` a quick check that no content was dropped or added before sharing it. | light |
 
-**Correlate's review intensity is marked `(?)`.** It is a mid-flow stage, so
-the U-curve default would be light. I've proposed heavy because grouping is
-where a wrong merge (two different incidents treated as one) or an over-merge
-(inflating one fix into a theme) gets locked in before drafting. That is a
-judgment boundary, not mechanical execution. The operator decides; either
-way, the reason gets logged.
+**Correlate is heavy, which deviates from the U-curve.** It is a mid-flow
+stage, so the default would be light. The operator chose heavy (D6) because
+grouping is where a wrong merge (two different incidents treated as one) or
+an over-merge (inflating one fix into a theme) gets locked in, and everything
+the report says flows from it. That makes it a judgment boundary, not
+mechanical execution. The deviation gets logged at build.
 
 ## Data profile
 
@@ -119,7 +121,7 @@ operator approves this brief:
 |---|---|---|
 | `sp-m365-accomplishments-gatherer` | A scoped, screened, cited Microsoft 365 recognition and resolution digest for one engineer and one period | 4 |
 | `sp-servicenow-accomplishments-gatherer` | A per-person, read-only ServiceNow resolution digest with load context (priority mix, time to resolve, problem fixes, reopen flags) | 5 |
-| `sp-accomplishments-correlator` | Cross-source matching on shared IDs and themes into reviewed accomplishment groups | 6 (only if Correlate is a skill, not inline; see Open questions) |
+| `sp-accomplishments-correlator` | Cross-source matching on shared IDs and themes into reviewed accomplishment groups | 6 |
 
 **Revisions to verified artifacts.** Each one returns that artifact to
 `to-review` until it passes the gate again:
@@ -128,30 +130,37 @@ operator approves this brief:
   digests, and drafts the Operational load section.
 - `reference/accomplishments-document-shape.md`: adds the Operational load
   section, and folds recognition into the collaboration evidence.
-- `accomplishments-docx-finisher` and its stylizer skill: affected by D2's Word
-  behavior (see below).
+- `accomplishments-docx-stylizer`: re-pointed from the finisher's Stage 2 to
+  this flow's Stage 9. It takes the approved document directly, is no longer
+  locked to Copilot, and asks build-from-default or use-your-template instead
+  of picking silently.
+- `accomplishments-docx-finisher` (flowspace): retired per D5. It is marked
+  `status: deprecated` with a pointer to this flow's Stage 9. Removal from
+  `icp-flows/` is the operator's act.
+- `repo-context-enricher` (the finisher's Stage 1 skill): loses its only
+  consumer. Proposed: mark it deprecated. Its job (adding repo and file
+  evidence late) is better done up front, now that the gather stages cover
+  Microsoft 365 files.
 
-## Word output (D2, operator wording)
+## Word output (D2 and D5, operator wording)
 
 > "Decide at runtime. The engine running it can check what is available and
 > produce the Word document. It should offer to build it or request a
 > template to use for the output."
+>
+> "Word styling seems like it would be skill vs its own flow, a flow seems a
+> bit heavy."
 
-Agent's reading, for the operator to confirm:
+How the build applies this:
 
 1. The `.docx` is no longer tied to Copilot. Whichever engine is running
-   checks whether it can produce Word output. If it can, it produces the
-   document itself rather than always handing off.
+   checks whether it can produce Word output, and if it can, it produces the
+   document in Stage 9 of this flow. There is no handoff to a second flow.
 2. Before stylizing, it asks one question: build from the minimal default
-   (`accomplishments-docx-finisher/reference/docx-minimal-default-style.md`)
-   or use a template the engineer provides. Today the finisher picks the house
-   template silently when one exists and falls back with a flag when one
-   doesn't.
-3. The finisher's enrichment step (adding repo and file evidence) stays
-   evidence-only, per its existing J1 assumption. The finisher's heavy
-   final review stays. Only the engine lock and the template choice change.
-
-What this implies structurally is an open question below.
+   style, or use a template the engineer provides. The default style moves
+   from the finisher's `reference/` folder into this flow's `reference/` folder.
+3. Styling only. Stage 9 adds no content. The real content gate stays at
+   Stage 8, and Stage 9 ends with a quick check that the `.docx` matches it.
 
 ## Source-repo
 
@@ -169,11 +178,14 @@ What this implies structurally is an open question below.
 1. `accomplishments-digest` HUB 1.3 → 2.0: diagram, stage table, Known gaps,
    and renumbered stage folders 01–09, with new `CONTEXT.md` contracts for
    Stages 4, 5, and 6, and revised contracts for Stages 1, 7, 8, and 9.
+   The Stage 6 handoff template is replaced by the Stage 9 contract.
 2. A revised `reference/accomplishments-document-shape.md`.
 3. Two (or three) skill-primer-briefs in `skill-foundry/backlog-skill-starters/`,
    plus a revision note for `accomplishments-drafter`.
-4. Whatever the Word-output decision requires in
-   `accomplishments-docx-finisher` (see Open question 1).
+4. A revision to `accomplishments-docx-stylizer` (back to `to-review`), the
+   default style moved into this flow, and deprecation notices on
+   `accomplishments-docx-finisher` and `repo-context-enricher`. Catalogs
+   (`icp-flows/CONTEXT.md`, `produced-skills/CONTEXT.md`) are updated to match.
 5. A decision-log entry in `icp-flows/accomplishments-digest/decision-log/`
    recording D1 through D4 and the version bump.
 6. Staged to `flow-foundry/review-flowspaces/` at `to-review`. Promotion stays
@@ -187,25 +199,19 @@ new accomplishments invented at the Word step; no employer content in this repo.
 
 Surfaced for the operator, not decided here:
 
-1. **Word output structure.** Should a) the finisher stay a separate companion
-   flow that loses its Copilot lock and gains the build-or-template question,
-   or b) be folded into this flow's Stage 9, retiring the companion? The
-   agent recommends (a). It is the smaller change, and it keeps the
-   finisher's heavy final review intact.
-2. **Correlate review intensity.** Heavy, as proposed, or light with the
-   check moved to Stage 8?
-3. **Correlate as skill or inline.** Matching on shared IDs is reusable,
-   which argues for a skill (and brief 3 above). If it's inline, there's one
-   less artifact to verify. The agent leans toward a skill.
-4. **ServiceNow identity field.** Is `resolved_by`, `closed_by`, or
+1. **Correlate as skill or inline.** Matching on shared IDs is reusable,
+   which argues for a skill (brief 3 above). If it's inline, there's one
+   less artifact to verify. The build proceeds as a skill unless the operator
+   says otherwise.
+2. **ServiceNow identity field.** Is `resolved_by`, `closed_by`, or
    `assigned_to` at closure the right "this was the engineer's work" signal
    in the target instance? This varies by tenant, so it should be decided at
    instantiation with a probe, like the Confluence activity-history check.
-5. **Mail scope default.** Does the search cover only mail the engineer sent
+3. **Mail scope default.** Does the search cover only mail the engineer sent
    and received, or also shared and team mailboxes they monitor? The agent
    recommends personal only by default, with shared mailboxes opted in by
    name at Stage 1.
-6. **Stage renumbering.** Renumbering 4–6 → 7–9 touches every cross-reference
+4. **Stage renumbering.** Renumbering 4–6 → 7–9 touches every cross-reference
    in both flowspaces and in skill specs. That is mechanical, but it is a
    wide diff. The alternative is non-sequential numbering, which breaks the
    house convention. The agent recommends renumbering.
