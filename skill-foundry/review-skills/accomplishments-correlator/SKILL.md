@@ -3,9 +3,10 @@ name: accomplishments-correlator
 description: >
   Takes an engineer's own gather digests (Jira, Confluence, Microsoft 365,
   ServiceNow) plus the Stage 1 framing brief and builds accomplishment groups:
-  one piece of work with all of its evidence. Matches first on hard
-  identifiers (INC/CHG/PRB/PTASK numbers, Jira keys, page links, file
-  references), then on Stage 1 themes labeled `inferred`; everything else
+  one piece of work with all of its evidence. Matches first on the hard
+  identifier types the engineer chooses (INC/CHG/PRB/PTASK numbers, Jira keys,
+  page links, file references; a by-type count of what the digests contain is
+  offered first, and the step is optional), then on Stage 1 themes labeled `inferred`; everything else
   stays a visible singleton, and look-alikes with no shared identifier are
   flagged "possible duplicate", never merged. Then presents the groups for the
   engineer's heavy confirmation and records every merge, split, drop, and
@@ -47,13 +48,14 @@ engineer.
 ```mermaid
 flowchart LR
     Start(["Trigger: framing brief + gather digests,<br/>or standalone request"]):::start --> I["Step 1 — Inventory and count<br/>Every digest present or declared skipped;<br/>count every entry"]:::process
-    I --> M["Step 2 — Match on identifiers<br/>INC/CHG/PRB/PTASK, Jira keys,<br/>page and file links"]:::process
-    M --> T["Step 3 — Match on themes<br/>Stage 1 themes only; labeled inferred"]:::process
-    T --> S["Step 4 — Singletons and duplicates<br/>Unmatched stays visible; look-alikes<br/>flagged, never merged"]:::process
-    S --> L["Step 5 — Attach load context<br/>ServiceNow load as evidence; summary<br/>carried whole"]:::process
-    L --> G{"Step 6 — Engineer confirms<br/>Merge, split, re-theme, drop,<br/>promote; quote choices"}:::decision
+    I --> X["Step 2 — Choose identifiers<br/>Callout: items seen, by type;<br/>engineer opts in, optional"]:::process
+    X --> M["Step 3 — Match on identifiers<br/>INC/CHG/PRB/PTASK, Jira keys,<br/>page and file links"]:::process
+    M --> T["Step 4 — Match on themes<br/>Stage 1 themes only; labeled inferred"]:::process
+    T --> S["Step 5 — Singletons and duplicates<br/>Unmatched stays visible; look-alikes<br/>flagged, never merged"]:::process
+    S --> L["Step 6 — Attach load context<br/>ServiceNow load as evidence; summary<br/>carried whole"]:::process
+    L --> G{"Step 7 — Engineer confirms<br/>Merge, split, re-theme, drop,<br/>promote; quote choices"}:::decision
     G -.->|"changes requested"| M
-    G --> V["Step 7 — Verify<br/>Count in = count out;<br/>top items mapped"]:::process
+    G --> V["Step 8 — Verify<br/>Count in = count out;<br/>top items mapped"]:::process
     V --> Output(["Output: confirmed correlation map<br/>(work/06-correlation-map.md)"]):::output
 
     classDef start fill:#1e293b,stroke:#94a3b8,color:#f1f5f9
@@ -84,30 +86,44 @@ flowchart LR
    not acceptable: stop and ask the engineer to run or explicitly skip that
    stage. Give every entry in every present digest a stable working ref
    (`J-1`, `C-1`, `M-1`, `S-1`, in digest order) and record the per-digest
-   entry counts. These counts are the baseline for step 7. The ServiceNow
+   entry counts. These counts are the baseline for step 8. The ServiceNow
    digest's assigned-but-not-resolved list is carried separately as context
-   (see step 5), not counted as evidence entries.
-2. **Match on hard identifiers.** Pull every identifier from every entry:
+   (see step 6), not counted as evidence entries.
+2. **Choose identifiers (optional, engineer's call).** Do not assume which
+   identifiers to match on. First scan the digests for identifiers already
+   present and report, from those digests only (no new query), what was seen
+   over the framing brief's period, by type, for example: "Over <period>
+   I see 31 ServiceNow records (INC 22, CTASK 6, PRB 3), 14 Jira keys, 5
+   Confluence page links, and 3 SharePoint file references across your
+   digests." Then ask which types to match on. Offer: all types seen, a
+   chosen subset, or none (skip identifier matching and group by themes and
+   singletons only). Match only on the types chosen. If the engineer already
+   made this choice in an earlier stage (for example Stage 1's per-source
+   opt-ins), restate it and ask only to confirm. An unchosen type still keeps
+   its entries visible as ordinary entries; it just forms no identifier link.
+   The counts describe what is in the digests, never a claim about the
+   engineer's total work.
+3. **Match on chosen identifiers.** Pull each chosen-type identifier from every entry:
    INC/CHG/PRB/PTASK/CTASK/SCTASK numbers, Jira keys, Confluence page links
    or IDs, SharePoint/OneDrive file references. Entries sharing an identifier
    join one group, including transitively (A shares a key with B, B shares an
    incident number with C: one group, with the chain shown). Match basis:
    `identifier`, naming the identifier. Match on the exact identifier string
    only; "similar number" or "same prefix" is not a match.
-3. **Match on themes.** For groups and entries still unattached, place them
+4. **Match on themes.** For groups and entries still unattached, place them
    under a Stage 1 theme or top item only when the link is clear in the
    entries' own content. Match basis: `inferred`, with a one-line reason.
    An `inferred` link must read as visibly weaker than an `identifier`
    link everywhere it is shown (label, ordering, and a "confirm this link"
-   prompt in step 6). An inferred match never overrides or splits an
+   prompt in step 7). An inferred match never overrides or splits an
    identifier match.
-4. **Keep singletons; flag look-alikes.** Anything unmatched stays as its own
+5. **Keep singletons; flag look-alikes.** Anything unmatched stays as its own
    group, match basis `singleton`. Never merge on similarity alone: two
    entries with similar descriptions but no shared identifier and no clear
    theme link stay separate and carry "possible duplicate: engineer to
    decide" pointing at each other. Nothing is dropped here; only the engineer
    drops.
-5. **Attach load context.** ServiceNow records attach to the groups they
+6. **Attach load context.** ServiceNow records attach to the groups they
    support as evidence entries, and counts may appear against a theme as
    supporting detail. The ServiceNow load summary (counts by type, priority
    mix, median time to resolve, problem-led fixes, reopens) is carried whole
@@ -115,7 +131,7 @@ flowchart LR
    assigned-but-not-resolved list is carried whole as its own section. Load
    figures are evidence, never a headline, and are never compared with peers
    or a team average.
-6. **Present for confirmation (heavy gate).** Show the groups ordered with
+7. **Present for confirmation (heavy gate).** Show the groups ordered with
    Stage 1 top items first, then other themes, then singletons. For each group:
    working title, theme, match basis, every evidence entry with source and
    citation, and any flags. Ask the engineer to: confirm, merge, split,
@@ -127,30 +143,30 @@ flowchart LR
    plainly that the map is right. Do not treat silence, a skim, or "looks
    fine" on a partial view as confirmation, and do not proceed to output
    without an explicit confirmation of the full map.
-7. **Verify and write the map.** Run two checks and show the results.
+8. **Verify and write the map.** Run two checks and show the results.
    *Coverage:* every entry counted in step 1 appears in exactly one group or
    is listed as dropped by the engineer; count in equals count out, per
    digest and in total. *Top items:* every Stage 1 top item maps to at least
    one confirmed group or carries a "narrative only" flag the engineer
-   accepted. A failed check goes back to step 6, never forward. Then write
+   accepted. A failed check goes back to step 7, never forward. Then write
    `work/06-correlation-map.md` and a one-line decision-log entry naming the
    result and the engineer's merges, splits, and drops.
 
 **Worked example A: one incident, three sources.** `INC0012345` appears in
 the ServiceNow digest (resolved, P2), in a Teams recap entry ("agreed the
 root-cause fix for INC0012345 ships Thursday"), and in a thank-you email
-entry that names the same incident. Step 2 produces one group, basis
+entry that names the same incident. With INC numbers chosen in step 2, step 3 produces one group, basis
 `identifier: INC0012345`, three entries. The engineer is asked only to
 confirm it and, if they want, pick a quote from the email.
 
 **Worked example B: two look-alikes.** Two ServiceNow entries read "Core
 switch port flapping, site A" and "Core switch port flapping, site B" with
-different INC numbers, and neither is linked to anything else. Step 4 keeps
+different INC numbers, and neither is linked to anything else. Step 5 keeps
 two singleton groups, each flagged "possible duplicate: engineer to decide."
 The skill does not merge them, and does not pick which is real.
 
 **Worked example C: weak versus strong.** A Confluence page on "firewall
-rule cleanup" and a Jira epic on the same theme share no key or link. Step 3
+rule cleanup" and a Jira epic on the same theme share no key or link. Step 4
 may place both under the Stage 1 theme "network hygiene," labeled `inferred`
 with its reason, as two entries in one theme group. It is never presented
 as the same strength as an incident-number match.
@@ -199,7 +215,7 @@ this skill works only on material already gathered.
 - **Not an auto-merger.** It never merges on similarity alone, never lets an
   inferred match look as strong as an identifier match, and never drops an
   entry. Only the engineer drops.
-- **Not self-confirming.** The confirmation in step 6 is the engineer's;
+- **Not self-confirming.** The confirmation in step 7 is the engineer's;
   the skill cannot supply, assume, or imply it.
 
 ## Review criteria
@@ -223,10 +239,13 @@ A single output of this skill is acceptable when:
 7. Every disposition (keep, merged, split, dropped), every approved quote, and
    the engineer's explicit confirmation of the full map are recorded; no
    recognition quote is named that the engineer did not pick.
-8. Simulated run 1: one incident present in three sources yields exactly one
+8. Identifier types were offered with a by-type count callout drawn from the
+   digests and matched only on the types the engineer chose (or none); the
+   choice is recorded in the map.
+9. Simulated run 1: one incident present in three sources yields exactly one
    group. Simulated run 2: two look-alike incidents with different numbers
    yield two groups plus a duplicate flag.
 
 ## Changelog
 
-- **1.0** (2026-10-27) — Initial build from `sp-accomplishments-correlator`.
+- **1.0** (2026-10-27) — Initial build; identifier types are operator-selectable (step 2) per review feedback.

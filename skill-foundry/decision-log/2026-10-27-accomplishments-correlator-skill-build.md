@@ -43,7 +43,12 @@ intent was transcribed, not re-opened.
    engineer picks it, per the flow's data profile.
 6. **Reduced-input path:** with no file access, digests are pasted; missing
    versus skipped digests are asked about, never assumed.
-7. **No collision found** with `accomplishments-drafter`,
+7. **Identifier types are operator-selected, not assumed** (operator feedback,
+   2026-10-27): new step 2 reports counts by type from the digests only and
+   asks which types to match on (all, a subset, or none). It is optional and
+   restates any choice already made in Stage 1. Open question: whether Stage 1
+   should also carry this opt-out earlier (not changed here).
+8. **No collision found** with `accomplishments-drafter`,
    `portfolio-rationalization`, or the gatherer skills; each boundary is
    stated in "What this skill is not."
 
