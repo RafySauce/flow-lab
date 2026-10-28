@@ -48,9 +48,18 @@ intent was transcribed, not re-opened.
    asks which types to match on (all, a subset, or none). It is optional and
    restates any choice already made in Stage 1. Open question: whether Stage 1
    should also carry this opt-out earlier (not changed here).
-8. **No collision found** with `accomplishments-drafter`,
+8. **Context-agnostic** (operator feedback): behavior is identical whether fed
+   by Stage 6 or called standalone. Evidence and context (period, themes, top
+   items, exclusions) are whatever is handed in; absent context is asked for
+   once, then the dependent steps are reduced and said so.
+9. **No collision found** with `accomplishments-drafter`,
    `portfolio-rationalization`, or the gatherer skills; each boundary is
    stated in "What this skill is not."
+
+## Cleanup items (end of build)
+
+- Consider carrying the identifier-type opt-out into Stage 1's per-source
+  opt-ins (operator: add as a cleanup item).
 
 ## Owed for promotion (operator)
 
