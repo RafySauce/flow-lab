@@ -8,7 +8,7 @@ artifact-version: "1.0"
 status: living
 truth-level: to-review
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -48,7 +48,10 @@ piece of evidence about it from every source.
    Jira keys, Confluence page links, and SharePoint file references that appear in
    more than one digest. For example, an INC record, the thank-you email
    that names it, and the Teams recap where its root-cause fix was decided
-   become one group.
+   become one group. Match only on the identifier types the engineer chose:
+   restate any choice from the framing brief, or, if none was set, show a
+   count by type from the digests and ask (all, a subset, or none). The
+   choice is recorded in the map.
 2. **Then match on themes.** Group remaining entries under Stage 1's themes
    and top items when the link is clear. Mark each theme-based match
    `inferred` so it is visibly weaker than an identifier match.
@@ -65,7 +68,9 @@ Then present the groups to the engineer for confirmation, ordered with
 Stage 1 top items first. The engineer can merge, split, re-theme, drop, or
 promote groups, choose any verbatim recognition quote they want used, and
 confirm that each top item has a group (or accept a "narrative only" flag).
-`Layer-3: TBD — brief filed (sp-accomplishments-correlator)`.
+`Layer-3: accomplishments-correlator` (1.0, `to-review`, staged in
+`skill-foundry/review-skills/accomplishments-correlator/`; until it passes the gate,
+this stage runs inline as described above).
 
 ## Outputs
 

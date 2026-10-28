@@ -4,11 +4,11 @@ title: "Stage 03 — Gather — Confluence & Collaboration"
 type: stage-context
 stage: 3
 review-intensity: light
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-08
-updated: 2026-07-15
+updated: 2026-10-27
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -24,10 +24,14 @@ related:
 ## Inputs
 
 Stage 1's framing brief (`work/01-framing-brief.md`) — period and self-
-identified top items. Independent of Stage 2's output (no dependency between
-the two gather stages; either can run first, or in parallel).
+identified top items. Independent of the other gather stages (2, 4, 5): no
+dependency between them; any can run first, or in parallel.
 
 ## Process
+
+If Stage 1's capability probe found Confluence unreachable on this engine, or the
+engineer left it out of scope, write a one-line declared-skip digest and stop.
+Stage 6 carries the skip forward as a gap. Otherwise:
 
 Query Confluence for pages the engineer authored or substantially co-authored
 within the period — design docs, RFCs, postmortems, process docs, runbooks —
@@ -67,7 +71,7 @@ a one-line entry in the run's decision log.
 - **Intensity:** `light` — constrained execution against a defined query and
   grouping method; no framing judgment happens here.
 - **Evidence:** the digest is available for the engineer to skim before
-  Stage 4 drafts from it; no formal sign-off required at this boundary.
+  Stage 6 correlates it; no formal sign-off required at this boundary.
 
 ## Data boundary
 

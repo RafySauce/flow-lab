@@ -4,11 +4,11 @@ title: "Stage 02 — Gather — Jira"
 type: stage-context
 stage: 2
 review-intensity: light
-artifact-version: "1.0"
+artifact-version: "1.1"
 status: living
-truth-level: verified
+truth-level: to-review
 created: 2026-07-08
-updated: 2026-07-15
+updated: 2026-10-27
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -30,6 +30,10 @@ identity/account and the project(s)/board(s) they work in.
 
 ## Process
 
+If Stage 1's capability probe found Jira unreachable on this engine, or the
+engineer left it out of scope, write a one-line declared-skip digest and stop.
+Stage 6 carries the skip forward as a gap. Otherwise:
+
 Query Jira for work items the engineer closed, resolved, or was the primary
 assignee/driver on within the period. Group results by theme (feature area,
 initiative, or problem domain — not by issue type or sprint), and for each
@@ -37,7 +41,7 @@ theme reframe from ticket titles to outcomes: "shipped X, which enabled Y" or
 "resolved Z, cutting <impact>" rather than a bare list of ticket keys and
 summaries. Ticket counts are supporting evidence, not the headline. Flag any
 theme where the tracker data looks thin relative to what the engineer's Stage
-1 framing implied — that's a signal for Stage 4 to lean more on the narrative,
+1 framing implied — that's a signal for Stages 6–7 to lean more on the narrative,
 not a gap to silently paper over. `Layer-3: jira-accomplishments-gatherer`
 (skill spec in `produced-skills/jira-accomplishments-gatherer/`, `verified`).
 
@@ -63,8 +67,8 @@ one-line entry in the run's decision log.
 - **Intensity:** `light` — constrained execution against a defined query and
   grouping method; no framing judgment happens here.
 - **Evidence:** the digest is available for the engineer to skim before
-  Stage 4 drafts from it; no formal sign-off required at this boundary (that
-  weight sits at Stage 5).
+  Stage 6 correlates it; no formal sign-off required at this boundary (that
+  weight sits at Stages 6 and 8).
 
 ## Data boundary
 

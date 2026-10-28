@@ -151,8 +151,9 @@ Once the user names or picks one:
      host engine isn't Copilot, or no live Microsoft Graph/OneDrive connector
      is present, skip the OneDrive/SharePoint proposal entirely and record it
      as a gap; the Confluence/Jira scope and the context prompt still apply.
-   - `repo-context-enricher` → ask the user to paste the relevant commits/PRs
-     instead of searching the repo live.
+   - `accomplishments-digest` Stages 4–5 (Microsoft 365, ServiceNow) → record
+     a declared skip, or let the user paste the material (or a ServiceNow
+     export), labeled plainly as reduced input rather than a live search.
    - Any skill without a stated degrade path and a hard dependency on an
      unavailable system: say so plainly and ask the user how they'd like to
      proceed, rather than silently skipping a step.

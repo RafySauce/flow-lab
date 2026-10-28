@@ -6,8 +6,8 @@
 |---|---|---|---|
 | [`ai-refinement`](ai-refinement/HUB.md) *(to-review)* | Anyone raising or decomposing a work item (TPSO lens) | A rough idea, or a decided item set for bulk mode | One committed Jira work item, or a reviewed batch of child items |
 | [`documentarian`](documentarian/HUB.md) *(to-review)* | Engineering team leads and platform owners maintaining operational docs | Evidence from Jira, Confluence, transcripts, delivered work | A created, updated, or archived SOP, MOP, runbook, SAD, KB article, or meeting page |
-| [`accomplishments-digest`](accomplishments-digest/HUB.md) | Engineers prepping for a performance review | A review period and the engineer's own framing of what mattered | A theme-grouped draft accomplishments document |
-| [`accomplishments-docx-finisher`](accomplishments-docx-finisher/HUB.md) | The same engineer, once their draft is approved | An approved `accomplishments-digest` document | A finished, house-branded `.docx` |
+| [`accomplishments-digest`](accomplishments-digest/HUB.md) *(to-review)* | Engineers prepping for a performance review | A review period, the engineer's own framing of what mattered, and whichever of Jira, Confluence, Microsoft 365, and ServiceNow the session can reach | A confirmed, theme-grouped accomplishments document (with Operational load when ServiceNow ran), plus an optional styled `.docx` |
+| [`accomplishments-docx-finisher`](accomplishments-docx-finisher/HUB.md) *(deprecated)* | Replaced by `accomplishments-digest` Stage 9 (Word Output) | — | — |
 | [`portfolio-rationalization`](portfolio-rationalization/HUB.md) *(to-review)* | Portfolio and delivery managers running a backlog hygiene review | A live Jira project/space, or an export | A prioritized disposition packet — close/merge/rewrite/keep recommendations with evidence |
 | [`statik-adoption`](statik-adoption/HUB.md) *(to-review)* | Service owners, delivery managers, or coaches | One named service's Jira/ServiceNow board, or conversation where no board exists | A socialized, agreed Kanban system design |
 

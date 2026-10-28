@@ -8,7 +8,7 @@ artifact-version: "1.0"
 status: living
 truth-level: to-review
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -64,7 +64,9 @@ engineer can choose to quote it at Stage 6 or 8. Mail and chat get the
 strictest screen of any source. If an item surfaces `confidential` or
 `restricted` content (customer data, credentials, security architecture),
 halt, flag it, and re-scope with the engineer before continuing.
-`Layer-3: TBD — brief filed (sp-m365-accomplishments-gatherer)`.
+`Layer-3: m365-accomplishments-gatherer` (1.0, `to-review`, staged in
+`skill-foundry/review-skills/m365-accomplishments-gatherer/`; until it passes the gate,
+this stage runs inline as described above).
 
 ## Outputs
 
