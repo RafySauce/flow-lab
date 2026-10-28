@@ -63,7 +63,7 @@ all — it needs repository/file access Rovo doesn't have in this pairing).
 ## Demand source
 
 `accomplishments-docx-finisher` flowspace, Stage 1 — flagged gap, see
-`flow-foundry/review-flowspaces/accomplishments-docx-finisher/01-receive-and-enrich/CONTEXT.md`.
+`icp-flows/accomplishments-docx-finisher/01-receive-and-enrich/CONTEXT.md`.
 
 ## Definition of done
 

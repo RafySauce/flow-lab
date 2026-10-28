@@ -65,7 +65,7 @@ planning works from already-gathered material; no platform writes.
 Documentarian flowspace, Stage 03
 (`03-doc-plan-and-template-match/CONTEXT.md`) — Layer-3 gap flagged at
 scaffold triage
-(`flow-foundry/review-flowspaces/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
+(`icp-flows/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
 
 ## Definition of done
 

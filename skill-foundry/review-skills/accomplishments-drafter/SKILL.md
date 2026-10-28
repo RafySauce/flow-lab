@@ -109,7 +109,7 @@ flowchart LR
    *dropped* are excluded from here on and must never reappear. The gather
    digests are not read directly; the map already carries their evidence.
 2. **Structure by theme**, per
-   `flow-foundry/review-flowspaces/accomplishments-digest/reference/accomplishments-document-shape.md`
+   `icp-flows/accomplishments-digest/reference/accomplishments-document-shape.md`
    — themes/initiatives as the top-level structure, never "Jira,"
    "Confluence," "Microsoft 365," or "ServiceNow" as section headers. Each
    confirmed group becomes **one** outcome-framed bullet, or a short bullet

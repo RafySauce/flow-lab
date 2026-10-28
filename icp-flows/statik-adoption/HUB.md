@@ -88,7 +88,7 @@ flowchart LR
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Service Framing & Source Binding | heavy | internal | Rovo, Copilot | `jira-portfolio-ingest` (verified, `produced-skills/`) or `servicenow-ticket-ingest` (verified, `produced-skills/`) for board/ticket binding + inline service framing and fitness-criteria elicitation |
+| 1 | Service Framing & Source Binding | heavy | internal | Rovo, Copilot | `jira-portfolio-ingest` (verified, `produced-skills/`) or `servicenow-ticket-ingest` (to-review — 1.1, `produced-skills/`) for board/ticket binding + inline service framing and fitness-criteria elicitation |
 | 2 | Sources of Dissatisfaction | heavy¹ | internal | Rovo, Copilot | `fitness-and-dissatisfaction-profiler` (verified, `produced-skills/`) |
 | 3 | Demand Analysis | light | internal | Rovo, Copilot | `demand-profiler` (verified, `produced-skills/`) |
 | 4 | Capability Analysis | light | internal | Rovo, Copilot | `flow-capability-analyzer` (verified, `produced-skills/`) |
@@ -207,7 +207,7 @@ the six, and this flowspace design itself remains `to-review`. Evidence:
 | `workflow-modeler` | `sp-workflow-modeler` | 5 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
 | `class-of-service-designer` | `sp-class-of-service-designer` | 6 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
 | `kanban-system-designer` | `sp-kanban-system-designer` | 7 | verified — 1.0; gated 2026-08-01 on a simulated run; on-engine test pending |
-| `servicenow-ticket-ingest` | `sp-servicenow-ticket-ingest` | 1 (ServiceNow-tracked services) | verified — 1.0; built and gated 2026-08-01 on a simulated run; on-engine test pending |
+| `servicenow-ticket-ingest` | `sp-servicenow-ticket-ingest` | 1 (ServiceNow-tracked services) | to-review — 1.1; built and gated 2026-08-01 on a simulated run; dropped in the 2026-10-21 citation sweep (`flow-foundry/decision-log/2026-10-21-source-repo-protocol-rename-and-citation-sweep.md`), gate re-run owed; on-engine test pending |
 
 **ServiceNow ingest — built and promoted 2026-08-01.** Stage 01 now accepts
 a live-ServiceNow or export source mode (`reference/board-evidence-requirements.md`

@@ -65,7 +65,7 @@ content, Rovo for Confluence-native material.
 
 Documentarian flowspace, Stage 04 (`04-draft-and-update/CONTEXT.md`) —
 Layer-3 gap flagged at scaffold triage
-(`flow-foundry/review-flowspaces/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
+(`icp-flows/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
 
 ## Definition of done
 

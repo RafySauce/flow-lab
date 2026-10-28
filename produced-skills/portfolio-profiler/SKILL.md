@@ -183,7 +183,7 @@ Status only; never counted into the item set above). Rules for the
 denominator and for degraded signals come from the flowspace's
 `reference/export-and-field-requirements.md` §3–4, §8 (hierarchy linkage) —
 design copy:
-`flow-foundry/review-flowspaces/portfolio-rationalization/reference/export-and-field-requirements.md`.
+`icp-flows/portfolio-rationalization/reference/export-and-field-requirements.md`.
 The hierarchy itself — Portfolio Epic → Solution Epic → Feature →
 Story/Task/Spike/Bug — comes from
 `icp-flows/ai-refinement/reference/work-item-schemas.md` (read, never

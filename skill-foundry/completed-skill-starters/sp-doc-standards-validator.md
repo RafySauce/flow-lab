@@ -62,7 +62,7 @@ pure read-and-report against written specs.
 
 Documentarian flowspace, Stage 05 (`05-standards-validation/CONTEXT.md`) —
 Layer-3 gap flagged at scaffold triage
-(`flow-foundry/review-flowspaces/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
+(`icp-flows/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
 
 ## Definition of done
 

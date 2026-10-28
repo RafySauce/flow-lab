@@ -55,7 +55,7 @@ readable prose.
    page the drafter pulled supporting detail from, not just the headline
    item itself.
 6. Use the house shape at
-   `flow-foundry/review-flowspaces/accomplishments-digest/reference/accomplishments-document-shape.md`
+   `icp-flows/accomplishments-digest/reference/accomplishments-document-shape.md`
    as the structural template.
 
 ## Inputs and data boundary
@@ -70,7 +70,7 @@ here the way it does for the two gatherer skills.
 ## Demand source
 
 `accomplishments-digest` flowspace, Stage 4 — flagged gap, see
-`flow-foundry/review-flowspaces/accomplishments-digest/04-draft/CONTEXT.md`.
+`icp-flows/accomplishments-digest/07-draft/CONTEXT.md`.
 
 ## Definition of done
 

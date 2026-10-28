@@ -73,7 +73,7 @@ tenant.
 
 Documentarian flowspace, Stage 04 (`04-draft-and-update/CONTEXT.md`),
 `sad-update` job type — Layer-3 gap flagged at scaffold triage
-(`flow-foundry/review-flowspaces/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
+(`icp-flows/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
 
 ## Definition of done
 

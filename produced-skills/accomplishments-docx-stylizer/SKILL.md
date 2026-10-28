@@ -66,7 +66,7 @@ flowchart LR
 
 1. **Read the enriched content set,** preserving the section/theme structure
    from `accomplishments-digest`'s house document shape
-   (`flow-foundry/review-flowspaces/accomplishments-digest/reference/accomplishments-document-shape.md`)
+   (`icp-flows/accomplishments-digest/reference/accomplishments-document-shape.md`)
    — the Word version must read as the same document in a different format,
    never a re-authored one. Every section present in the input must appear
    in the output; dropping one to fit a template layout is a defect.
@@ -75,7 +75,7 @@ flowchart LR
    shape. **If no house template has been sourced yet** — an
    instantiation-time asset this design does not assume exists — apply the
    concrete fallback defined in
-   `flow-foundry/review-flowspaces/accomplishments-docx-finisher/reference/docx-minimal-default-style.md`
+   `icp-flows/accomplishments-docx-finisher/reference/docx-minimal-default-style.md`
    (heading sizes, one neutral accent color, body type, margins) rather than
    inventing a look. Flag the missing house template as the explicit note
    that reference defines, above the document title — a stylizer that

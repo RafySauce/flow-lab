@@ -68,7 +68,7 @@ executes confirmed archive moves. Max data-class: `internal`. Engine:
 
 Documentarian flowspace, Stage 07 (`07-custody-and-close/CONTEXT.md`) —
 Layer-3 gap flagged at scaffold triage
-(`flow-foundry/review-flowspaces/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
+(`icp-flows/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
 The custody model's standing-custodian operating notes
 (`reference/custody-model.md`) are this skill's future-mode constraints.
 

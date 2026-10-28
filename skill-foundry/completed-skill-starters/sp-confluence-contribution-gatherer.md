@@ -66,7 +66,7 @@ Copilot-side integration is also sanctioned.
 ## Demand source
 
 `accomplishments-digest` flowspace, Stage 3 — flagged gap, see
-`flow-foundry/review-flowspaces/accomplishments-digest/03-gather-confluence/CONTEXT.md`.
+`icp-flows/accomplishments-digest/03-gather-confluence/CONTEXT.md`.
 
 ## Definition of done
 

@@ -39,7 +39,7 @@ was enriched versus original.
 
 1. Read the enriched content set, preserving section/theme structure from
    `accomplishments-digest`'s house document shape
-   (`flow-foundry/review-flowspaces/accomplishments-digest/reference/accomplishments-document-shape.md`).
+   (`icp-flows/accomplishments-digest/reference/accomplishments-document-shape.md`).
 2. Apply the target instance's house Word template if one exists; if not,
    fall back to a clean minimal default (consistent heading hierarchy, one
    accent color at most, legible body type) and flag the missing house
@@ -63,7 +63,7 @@ classification; pure formatting, no new content sourced). Engine: Copilot.
 ## Demand source
 
 `accomplishments-docx-finisher` flowspace, Stage 2 — flagged gap, see
-`flow-foundry/review-flowspaces/accomplishments-docx-finisher/02-stylize-to-word/CONTEXT.md`.
+`icp-flows/accomplishments-docx-finisher/02-stylize-to-word/CONTEXT.md`.
 
 ## Definition of done
 

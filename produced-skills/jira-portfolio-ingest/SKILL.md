@@ -152,7 +152,7 @@ flowchart LR
    every count in Stage 02 would be wrong with it.
 6. **Map the source's fields onto the canonical set** in the flowspace's
    `reference/export-and-field-requirements.md` §2 (design copy:
-   `flow-foundry/review-flowspaces/portfolio-rationalization/reference/export-and-field-requirements.md`).
+   `icp-flows/portfolio-rationalization/reference/export-and-field-requirements.md`).
    Jira field names vary by configuration; this mapping is what makes live and
    export modes produce identical downstream shapes. **Present the map for
    confirmation — never auto-accept it.** Worked example of the failure: an

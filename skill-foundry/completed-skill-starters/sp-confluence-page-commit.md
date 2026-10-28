@@ -71,7 +71,7 @@ boundary per source-repo-protocol §4 (commit packet,
 
 Documentarian flowspace, Stage 06 (`06-commit-and-link/CONTEXT.md`) —
 Layer-3 gap flagged at scaffold triage
-(`flow-foundry/review-flowspaces/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
+(`icp-flows/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
 
 ## Definition of done
 

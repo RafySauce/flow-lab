@@ -67,7 +67,7 @@ a Copilot-side Jira integration is also sanctioned.
 ## Demand source
 
 `accomplishments-digest` flowspace, Stage 2 — flagged gap, see
-`flow-foundry/review-flowspaces/accomplishments-digest/02-gather-jira/CONTEXT.md`.
+`icp-flows/accomplishments-digest/02-gather-jira/CONTEXT.md`.
 
 ## Definition of done
 
