@@ -17,9 +17,9 @@ id: confluence-contribution-gatherer
 type: skill
 artifact-version: "1.1"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-14
-updated: 2026-07-27
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: skill-foundry

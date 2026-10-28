@@ -4,9 +4,9 @@ title: "Skill Primer Brief — ServiceNow Ticket Ingest"
 type: skill-primer-brief
 artifact-version: "1.1"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-08-01
-updated: 2026-10-21
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry

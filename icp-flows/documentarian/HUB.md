@@ -96,8 +96,8 @@ flowchart LR
 | 2 | Evidence Gathering | light | internal | Rovo, Copilot (read-only) | `doc-evidence-gatherer` (to-review — 1.1, Copilot sanctioned 2026-10-21, `produced-skills/`) |
 | 3 | Doc Plan & Template Match | heavy² | internal | Rovo, Copilot | `doc-planner` (verified, `produced-skills/`) |
 | 4 | Draft & Update | light | internal | Rovo, Copilot | `doc-drafter` (verified, `produced-skills/`); `sad-diagram-maintainer` (verified, `produced-skills/`) for the sad-update job type |
-| 5 | Standards Validation | light | internal | Rovo, Copilot | `doc-standards-validator` (verified, `produced-skills/`); `provenance-stamper` (to-review — 1.1, `produced-skills/`) referenced for source-repo artifact stamping |
-| 6 | Commit & Link | heavy¹ | internal | Rovo | `confluence-page-commit` (to-review — 1.1, `produced-skills/`); ServiceNow write path deferred (`sp-servicenow-kb-commit`); ai-refinement handoff packaging inline per `reference/ai-refinement-handoff-contract.md` |
+| 5 | Standards Validation | light | internal | Rovo, Copilot | `doc-standards-validator` (verified, `produced-skills/`); `provenance-stamper` (verified — 1.1, `produced-skills/`) referenced for source-repo artifact stamping |
+| 6 | Commit & Link | heavy¹ | internal | Rovo | `confluence-page-commit` (verified — 1.1, `produced-skills/`); ServiceNow write path deferred (`sp-servicenow-kb-commit`); ai-refinement handoff packaging inline per `reference/ai-refinement-handoff-contract.md` |
 | 7 | Custody & Close | heavy³ | internal | Rovo | `doc-custodian` (verified, `produced-skills/`); archive-confirmation dialogue inline |
 
 ¹ First stage and commit boundary — heavy per the U-curve default,
@@ -237,7 +237,7 @@ had a true on-engine invocation. Evidence:
 | `doc-drafter` | `sp-doc-drafter` | 4 | verified — built and gated 2026-08-01; on-engine test pending |
 | `sad-diagram-maintainer` | `sp-sad-diagram-maintainer` | 4 (sad-update jobs) | verified — built standalone (merge into `doc-drafter` declined), gated 2026-08-01; on-engine test pending |
 | `doc-standards-validator` | `sp-doc-standards-validator` | 5 | verified — built and gated 2026-08-01; on-engine test pending |
-| `confluence-page-commit` | `sp-confluence-page-commit` | 6 | to-review — 1.1 (provenance label, 2026-10-21); previously built and gated 2026-08-01; dropped in the 2026-10-21 citation sweep (`flow-foundry/decision-log/2026-10-21-source-repo-protocol-rename-and-citation-sweep.md`), gate re-run owed; on-engine test pending |
+| `confluence-page-commit` | `sp-confluence-page-commit` | 6 | verified — 1.1 (provenance label, 2026-10-21); built and gated 2026-08-01, re-promoted 2026-10-28 on operator instruction (`flow-foundry/decision-log/2026-10-28-operator-re-promotion.md`); on-engine test pending |
 | `doc-custodian` | `sp-doc-custodian` | 7 | verified — built and gated 2026-08-01; on-engine test pending |
 | `servicenow-kb-commit` | `sp-servicenow-kb-commit` | 6 (ServiceNow path) | **deferred** — designed-for gap; no sanctioned ServiceNow integration exists; brief filed 2026-07-15 so the gap stays registry-visible |
 
@@ -269,13 +269,13 @@ the operator. Rationale:
 
 | Artifact | Location | Covers |
 |---|---|---|
-| Doc-Type Registry | `reference/doc-type-registry.md` (to-review — 1.1, house-drafted) | Schema registry for the six governed doc types (sop, mop, runbook, sad, kb-article, meeting-notes): required sections, metadata, surface mapping, default open sections; out-of-scope table |
-| Documentation Standards | `reference/documentation-standards.md` (to-review — 1.1, house-drafted) | The Stage 5 baseline: naming, structure, labeling, link hygiene, staleness thresholds, archive criteria |
-| Collaborative Sections Protocol | `reference/collaborative-sections-protocol.md` (to-review — 1.1, house-drafted) | Open-section marker syntax, ownership, resolution rules, and the Stage 6 waiver gate |
+| Doc-Type Registry | `reference/doc-type-registry.md` (verified — 1.1, house-drafted) | Schema registry for the six governed doc types (sop, mop, runbook, sad, kb-article, meeting-notes): required sections, metadata, surface mapping, default open sections; out-of-scope table |
+| Documentation Standards | `reference/documentation-standards.md` (verified — 1.1, house-drafted) | The Stage 5 baseline: naming, structure, labeling, link hygiene, staleness thresholds, archive criteria |
+| Collaborative Sections Protocol | `reference/collaborative-sections-protocol.md` (verified — 1.1, house-drafted) | Open-section marker syntax, ownership, resolution rules, and the Stage 6 waiver gate |
 | AI-Refinement Handoff Contract | `reference/ai-refinement-handoff-contract.md` (verified, house-drafted) | The meeting job type's candidate-work-item output, shaped as ai-refinement Stage 01 input |
 | Commit Packet | `reference/commit-packet.md` (to-review) | Split-engine handoff into Rovo's Stages 06–07: header, validated pages with work-order lines, open sections, archive proposals, decisions left to the user, return slip — prefixed by the shared executor brief from `methodology/engine-handoff-contract.md` |
-| Custody Model | `reference/custody-model.md` (to-review — 1.1, house-drafted) | Doc-registry index shape, freshness signals, archive procedure, standing-custodian operating notes |
-| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (to-review — 1.1, house-drafted) | Page-tree structure, property mapping, and operator checklist for Confluence migration and Rovo deployment — prepared, not executed |
+| Custody Model | `reference/custody-model.md` (verified — 1.1, house-drafted) | Doc-registry index shape, freshness signals, archive procedure, standing-custodian operating notes |
+| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified — 1.1, house-drafted) | Page-tree structure, property mapping, and operator checklist for Confluence migration and Rovo deployment — prepared, not executed |
 | Flow Primer Brief | `flow-foundry/backlog-flow-starters/fp-documentarian.md` | Original crystallized intent this flowspace was built from |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |

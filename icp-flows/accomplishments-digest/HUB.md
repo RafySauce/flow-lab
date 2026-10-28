@@ -71,8 +71,8 @@ flowchart LR
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
 | 1 | Frame | heavy | internal | Rovo, Copilot | inline — human judgment + capability probe, no skill |
-| 2 | Gather — Jira | light | internal | Rovo (Copilot if sanctioned) | `jira-accomplishments-gatherer` (to-review — 1.1, `produced-skills/`) |
-| 3 | Gather — Confluence & Collaboration | light | internal | Rovo (Copilot if sanctioned) | `confluence-contribution-gatherer` (to-review — 1.1, `produced-skills/`) |
+| 2 | Gather — Jira | light | internal | Rovo (Copilot if sanctioned) | `jira-accomplishments-gatherer` (verified — 1.1, `produced-skills/`) |
+| 3 | Gather — Confluence & Collaboration | light | internal | Rovo (Copilot if sanctioned) | `confluence-contribution-gatherer` (verified — 1.1, `produced-skills/`) |
 | 4 | Gather — Microsoft 365 | light | internal (after screen) | runtime — any engine sanctioned for Graph | `m365-accomplishments-gatherer` (1.0, to-review, `skill-foundry/review-skills/`) |
 | 5 | Gather — ServiceNow | light | internal | runtime — any engine sanctioned for ServiceNow; export mode on any | `servicenow-accomplishments-gatherer` (1.0, to-review, `skill-foundry/review-skills/`) |
 | 6 | Correlate | heavy | internal | any sanctioned for internal | `accomplishments-correlator` (1.0, to-review, `skill-foundry/review-skills/`) |
@@ -141,8 +141,8 @@ Rationale: `decision-log/2026-10-27-m365-servicenow-revision.md`.
 
 | Skill | Brief | Target stage | Status |
 |---|---|---|---|
-| `jira-accomplishments-gatherer` | `sp-jira-accomplishments-gatherer` | 2 | to-review — 1.1 (chat-session degrade path, 2026-07-27, `icp-flows/ai-refinement/decision-log/2026-07-27-chat-session-degrade-paths.md`); gate re-run owed; deployment pending |
-| `confluence-contribution-gatherer` | `sp-confluence-contribution-gatherer` | 3 | to-review — 1.1 (chat-session degrade path, 2026-07-27, `icp-flows/ai-refinement/decision-log/2026-07-27-chat-session-degrade-paths.md`); gate re-run owed; deployment pending |
+| `jira-accomplishments-gatherer` | `sp-jira-accomplishments-gatherer` | 2 | verified — 1.1 (chat-session degrade path, 2026-07-27); re-promoted 2026-10-28 on operator instruction (`flow-foundry/decision-log/2026-10-28-operator-re-promotion.md`); deployment pending |
+| `confluence-contribution-gatherer` | `sp-confluence-contribution-gatherer` | 3 | verified — 1.1 (chat-session degrade path, 2026-07-27); re-promoted 2026-10-28 on operator instruction (`flow-foundry/decision-log/2026-10-28-operator-re-promotion.md`); deployment pending |
 | `m365-accomplishments-gatherer` | `sp-m365-accomplishments-gatherer` | 4 | built 1.0 — staged to-review, awaiting gate |
 | `servicenow-accomplishments-gatherer` | `sp-servicenow-accomplishments-gatherer` | 5 | built 1.0 — staged to-review, awaiting gate |
 | `accomplishments-correlator` | `sp-accomplishments-correlator` | 6 | built 1.0 — staged to-review, awaiting gate |
