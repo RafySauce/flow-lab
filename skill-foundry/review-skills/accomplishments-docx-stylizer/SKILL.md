@@ -2,8 +2,8 @@
 name: accomplishments-docx-stylizer
 description: >
   Styles an engineer's approved accomplishments document as a Word (.docx) file,
-  using either the flow's minimal default style or a template the engineer
-  provides, then checks that the .docx matches the approved document. Invoke at
+  using the flow's minimal default style, a template the engineer provides,
+  or an example accomplishments document the engineer wants it to look like, then checks that the .docx matches the approved document. Invoke at
   Stage 9 (Word Output) of accomplishments-digest, given the document Stage 8
   published, or when someone asks for a Word version of an approved
   accomplishments document. Do NOT use to draft, edit, enrich, or add evidence
@@ -41,8 +41,8 @@ approved document, and any sanctioned engine that can write a `.docx` can run it
 flowchart LR
     Start(["Trigger: Stage 8 approved document,<br/>Word version wanted"]):::start --> C{"Step 1 — Capability check<br/>Can this engine write a .docx?"}:::decision
     C -->|No| H["Say so and stop;<br/>the approved document stands"]:::halt
-    C -->|Yes| Q["Step 2 — Ask one question<br/>Default style or your own template?"]:::process
-    Q --> S["Step 3 — Stylize<br/>Apply the style, add no content,<br/>map any missing template styles"]:::process
+    C -->|Yes| Q["Step 2 — Ask one question<br/>Default style, template,<br/>or example doc?"]:::process
+    Q --> S["Step 3 — Stylize<br/>Apply the style, add no content,<br/>map any missing styles"]:::process
     S --> V["Step 4 — Check<br/>Headings, bullets and text<br/>match the approved document"]:::process
     V --> Output(["Output: styled .docx<br/>with style note appendix"]):::output
 
@@ -58,6 +58,7 @@ flowchart LR
 - **Fires on:** Stage 9 of `accomplishments-digest`, given Stage 8's published
   document. Also direct requests such as "make a Word version of my
   accomplishments" or "put the approved accomplishments doc into our template",
+  "format it like this example",
   provided the document follows the accomplishments document shape and has
   already been approved by the engineer.
 - **Does not fire on (near-misses):**
@@ -77,14 +78,16 @@ flowchart LR
    such as rich text pasted into chat and called a Word file. Tell the engineer
    the approved Stage 8 document stands as the deliverable, and that this step
    can be re-run on an engine that can write `.docx`.
-2. **Ask one question, and wait for the answer.** Offer exactly two choices:
+2. **Ask one question, and wait for the answer.** Offer exactly three choices:
    **(a) build from the default style**
    (`flow-foundry/review-flowspaces/accomplishments-digest/reference/docx-minimal-default-style.md`
    in this repo, or the flow's `reference/` copy when run inside an instance), or
    **(b) use your own template** (a `.dotx` or a styled `.docx` the engineer
-   supplies). Never pick silently, and do not assume a template exists.
-   If the engineer picks (b) and no template arrives, ask once more or fall
-   back to (a) only with their say-so.
+   supplies), or **(c) match an example** (an accomplishments `.docx` the
+   engineer supplies, whose look they want reproduced). Never pick silently,
+   and do not assume a template or example exists. If the engineer picks (b)
+   or (c) and nothing arrives, ask once more or fall back to (a) only with
+   their say-so.
 3. **Stylize.** Apply the chosen style to the approved document:
    - *Default style:* follow the rule table in the default-style reference
      (title, prepared-for line, section headings, body, bullets, one accent
@@ -95,7 +98,17 @@ flowchart LR
      styles. Where the template lacks a style an element needs, use the
      nearest style, and list each mapping in the style note appendix. Never
      invent branding, logos, or colors the template does not define.
-   - *Either way:* no content is added, removed, or reworded, and section
+   - *Example document:* treat the example as a style source only. Read its
+     formatting (fonts, sizes, colors, heading and bullet styles, spacing,
+     margins, header and footer) and apply it to the approved content the same
+     way as a template, including the nearest-style mappings. Never copy the
+     example's text, names, dates or figures into the output, and never let
+     its layout add, drop, or reorder sections. If the example uses
+     formatting that cannot be reproduced (an embedded logo or font the
+     engine lacks), say so and list the substitution in the appendix. Because
+     the example is the engineer's own file, treat it at its own data class and
+     do not echo its content in chat.
+   - *Any style:* no content is added, removed, or reworded, and section
      and theme order is preserved. Sections the approved document omitted
      stay omitted. Do not add a section to fill a template's layout.
    - Name the file `<engineer>-accomplishments-<period>.docx`.
@@ -129,10 +142,11 @@ approved document.
 ## Inputs and grounding
 
 - **Reads:** Stage 8's published accomplishments document (required);
-  the default-style reference, or the engineer's template (one of the two,
-  by the engineer's choice); Stage 1's framing brief for the exclusion list
+  the default-style reference, the engineer's template, or the engineer's
+  example document (one of the three, by the engineer's choice); Stage 1's framing brief for the exclusion list
   (optional, used only by the check in step 4).
-- **Must not invent:** content, branding, or template styles. A template
+- **Must not invent:** content, branding, or template styles, and must not
+  carry any text from an example document into the output. A template
   gap is a listed mapping in the appendix, never a silent guess. If the
   input does not look like an approved document in the accomplishments
   shape, say so and ask rather than styling it.
@@ -153,8 +167,8 @@ approved document.
 - **Not an enricher.** It adds no evidence, citations, or repo and file
   context (that job went away with the retired `repo-context-enricher` and
   finisher flow).
-- **Not a branding designer.** It uses the default style or the engineer's
-  template; it does not design house branding.
+- **Not a branding designer.** It uses the default style, the engineer's
+  template, or the engineer's example; it does not design house branding.
 - **Not the human review.** The engineer still opens the `.docx` and
   confirms it reads the same before sharing. The step 4 check supports
   that review and does not replace it.
@@ -172,14 +186,16 @@ A single run of this skill is acceptable when:
 2. The `.docx` headings and bullet count match the Stage 8 document
    one-for-one, and the body text is unchanged.
 3. The style note appendix states which style was applied (default, or
-   template with its file name) and lists every style mapping made.
-4. With a template that lacks a heading style, the skill mapped it to the
+   template or example with its file name) and lists every style mapping made.
+4. With an example document, only its formatting was reproduced and none of
+   its text appears in the output.
+5. With a template that lacks a heading style, the skill mapped it to the
    nearest style and listed the mapping, rather than inventing a style.
-5. On an engine that cannot write `.docx`, the skill stopped cleanly with a
+6. On an engine that cannot write `.docx`, the skill stopped cleanly with a
    plain statement and produced no degraded file.
-6. No content was added, removed, or reworded, other than the style note
+7. No content was added, removed, or reworded, other than the style note
    appendix, and sections the approved document omitted stayed omitted.
-7. The run ended with the one-line check result.
+8. The run ended with the one-line check result.
 
 ## Changelog
 
@@ -187,7 +203,8 @@ A single run of this skill is acceptable when:
   from `sp-accomplishments-docx-stylizer-revision`. Input is now Stage 8's
   published document (was the finisher's enriched content set); flagged-addition
   markers and the Enrichment notes appendix are dropped; a capability check
-  runs first; the engineer is asked to choose the default style or a template;
+  runs first; the engineer is asked to choose the default style, a template, or an example
+  accomplishments document to match;
   the Copilot-only constraint is removed; the default style now lives in the
   flow's `reference/docx-minimal-default-style.md`; adds a closing check
   that the `.docx` matches the approved document. Returns to `to-review`.
