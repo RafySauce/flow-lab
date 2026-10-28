@@ -3,10 +3,11 @@ id: accomplishments-docx-finisher
 title: "Accomplishments Docx Finisher — Copilot Word Styling Companion"
 type: flowspace
 artifact-version: "1.2"
-status: living
-truth-level: to-review
+status: replaced
+superseded-by: "accomplishments-digest"
+truth-level: deprecated
 created: 2026-07-08
-updated: 2026-08-05
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -20,6 +21,13 @@ related:
 ---
 
 # Accomplishments Docx Finisher — Copilot Word Styling Companion
+
+> **Deprecated (2026-10-28).** Replaced by Stage 9 (Word Output) of
+> [`accomplishments-digest`](../accomplishments-digest/HUB.md) 2.0, which calls
+> `accomplishments-docx-stylizer` directly. Its repo-enrichment step was not
+> carried over: evidence now enters through the digest's gather stages, before
+> the human gates. Kept for the record; do not start new runs here. Rationale:
+> `../accomplishments-digest/decision-log/2026-10-27-m365-servicenow-revision.md`.
 
 A companion flowspace to `accomplishments-digest`: it never starts on its
 own, only on a handoff from that flow's Stage 6, and its whole job is to turn

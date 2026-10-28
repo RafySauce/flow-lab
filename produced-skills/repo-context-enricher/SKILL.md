@@ -15,10 +15,10 @@ description: >
 id: repo-context-enricher
 type: skill
 artifact-version: "1.1"
-status: living
-truth-level: to-review
+status: dead
+truth-level: deprecated
 created: 2026-07-14
-updated: 2026-07-27
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: skill-foundry
@@ -28,6 +28,13 @@ related: ["[[sp-repo-context-enricher]]", "[[accomplishments-docx-finisher]]"]
 ---
 
 # Repo Context Enricher
+
+> **Deprecated (2026-10-28).** Its only consumer was Stage 1 of
+> `accomplishments-docx-finisher`, which `accomplishments-digest` 2.0 retired.
+> No replacement: evidence now enters through the digest's gather stages
+> (2–5) before the human gates, rather than after them. Kept for the record;
+> do not invoke. Rationale:
+> `../../icp-flows/accomplishments-digest/decision-log/2026-10-27-m365-servicenow-revision.md`.
 
 Stage 1 of `accomplishments-docx-finisher`, the reason this companion
 flowspace is Copilot-side at all — it needs repository/file access Rovo
