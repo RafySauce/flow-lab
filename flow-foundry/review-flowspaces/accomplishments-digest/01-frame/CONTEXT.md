@@ -8,7 +8,7 @@ artifact-version: "2.0"
 status: living
 truth-level: to-review
 created: 2026-07-08
-updated: 2026-10-27
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -52,7 +52,14 @@ Then scope the sources (new in 2.0):
    scope: Jira account, Microsoft 365 identity, ServiceNow user. Also get any
    shared mailboxes or Teams channels to include, which must be opted in by
    name. The personal mailbox is the default.
-4. **Exclusions as filters.** Turn the exclusion list into search filters
+4. **Identifier types (optional).** Ask which work identifiers Stage 6
+   should match evidence on: INC/CHG/PRB/PTASK numbers, Jira keys,
+   Confluence page links, SharePoint file references. The answer can be all
+   of them (the default), a subset, or none (theme matching only). Skip this
+   step if the engineer has no preference; Stage 6 offers the same choice,
+   with counts by type, once the digests exist, and restates whatever was
+   chosen here.
+5. **Exclusions as filters.** Turn the exclusion list into search filters
    that the gather stages apply before reading content. For mail and chat,
    these exclusions are always added, whatever the engineer names:
    HR, medical, personal, and compensation threads.
@@ -65,7 +72,8 @@ A **framing brief**: period (start date, end date), audience, a 3–5 item list
 of self-identified top contributions (one sentence each, in the engineer's own
 words), the exclusion list (including the mandatory mail and chat
 exclusions), the capability-probe result per gather stage, the sources in
-scope, and the per-source identities and opt-ins. Lands in the run's working
+scope, the per-source identities and opt-ins, and the identifier types
+chosen for Stage 6 (or "not set"). Lands in the run's working
 folder as `work/01-framing-brief.md` (Layer-4, transient).
 
 ## Verify

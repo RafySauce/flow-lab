@@ -6,7 +6,7 @@ artifact-version: "2.0"
 status: living
 truth-level: to-review
 created: 2026-07-08
-updated: 2026-10-27
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -53,8 +53,10 @@ flowchart LR
     classDef gap fill:#7f1d1d,stroke:#f87171,color:#fee2e2
 ```
 
-> Stages 4, 5, and 6 are colored `gap` because each leans on a skill that
-> exists only as a filed brief. Their intended review intensity is in the
+> Stages 4, 5, and 6 still carry the `gap` color from when their skills
+> existed only as filed briefs. All three skills are now built and staged for
+> review (see Known gaps); the diagram refresh is deferred to a later update
+> pass. Their intended review intensity is in the
 > node label and the Stage table. The diagram keeps the flat-chain convention
 > (`references/flow-diagram-guide.md`). In practice, Stages 2–5 have no
 > dependency on each other and can run in any order or in parallel. Each one
@@ -71,12 +73,12 @@ flowchart LR
 | 1 | Frame | heavy | internal | Rovo, Copilot | inline — human judgment + capability probe, no skill |
 | 2 | Gather — Jira | light | internal | Rovo (Copilot if sanctioned) | `jira-accomplishments-gatherer` (verified, `produced-skills/`) |
 | 3 | Gather — Confluence & Collaboration | light | internal | Rovo (Copilot if sanctioned) | `confluence-contribution-gatherer` (verified, `produced-skills/`) |
-| 4 | Gather — Microsoft 365 | light | internal (after screen) | runtime — any engine sanctioned for Graph | TBD — brief filed (`sp-m365-accomplishments-gatherer`) |
-| 5 | Gather — ServiceNow | light | internal | runtime — any engine sanctioned for ServiceNow; export mode on any | TBD — brief filed (`sp-servicenow-accomplishments-gatherer`) |
-| 6 | Correlate | heavy | internal | any sanctioned for internal | TBD — brief filed (`sp-accomplishments-correlator`) |
-| 7 | Draft | light | internal | any sanctioned for internal | `accomplishments-drafter` (verified 1.0; revision brief `sp-accomplishments-drafter-revision`) |
+| 4 | Gather — Microsoft 365 | light | internal (after screen) | runtime — any engine sanctioned for Graph | `m365-accomplishments-gatherer` (1.0, to-review, `skill-foundry/review-skills/`) |
+| 5 | Gather — ServiceNow | light | internal | runtime — any engine sanctioned for ServiceNow; export mode on any | `servicenow-accomplishments-gatherer` (1.0, to-review, `skill-foundry/review-skills/`) |
+| 6 | Correlate | heavy | internal | any sanctioned for internal | `accomplishments-correlator` (1.0, to-review, `skill-foundry/review-skills/`) |
+| 7 | Draft | light | internal | any sanctioned for internal | `accomplishments-drafter` (verified 1.0 in `produced-skills/`; 2.0 revision to-review in `skill-foundry/review-skills/`) |
 | 8 | Align & Publish | heavy | internal | Rovo, Copilot | inline — human judgment, no skill |
-| 9 | Word Output (optional) | light | internal | runtime — any that can produce `.docx` | `accomplishments-docx-stylizer` (verified 1.0; revision brief `sp-accomplishments-docx-stylizer-revision`) |
+| 9 | Word Output (optional) | light | internal | runtime — any that can produce `.docx` | `accomplishments-docx-stylizer` (verified 1.0 in `produced-skills/`; 2.0 revision to-review in `skill-foundry/review-skills/`) |
 
 **Engine selection is at runtime (2.0).** No single engine carries the whole
 run. Stage 1 probes what the running engine can reach, and each gather stage
@@ -141,15 +143,18 @@ Rationale: `decision-log/2026-10-27-m365-servicenow-revision.md`.
 |---|---|---|---|
 | `jira-accomplishments-gatherer` | `sp-jira-accomplishments-gatherer` | 2 | verified — deployment pending |
 | `confluence-contribution-gatherer` | `sp-confluence-contribution-gatherer` | 3 | verified — deployment pending |
-| `m365-accomplishments-gatherer` | `sp-m365-accomplishments-gatherer` | 4 | gap — brief filed, not built |
-| `servicenow-accomplishments-gatherer` | `sp-servicenow-accomplishments-gatherer` | 5 | gap — brief filed, not built |
-| `accomplishments-correlator` | `sp-accomplishments-correlator` | 6 | gap — brief filed, not built |
-| `accomplishments-drafter` | `sp-accomplishments-drafter-revision` | 7 | verified 1.0; revision filed (correlation-map input, Operational load) |
-| `accomplishments-docx-stylizer` | `sp-accomplishments-docx-stylizer-revision` | 9 | verified 1.0; revision filed (direct input, build-or-template ask, engine-agnostic) |
+| `m365-accomplishments-gatherer` | `sp-m365-accomplishments-gatherer` | 4 | built 1.0 — staged to-review, awaiting gate |
+| `servicenow-accomplishments-gatherer` | `sp-servicenow-accomplishments-gatherer` | 5 | built 1.0 — staged to-review, awaiting gate |
+| `accomplishments-correlator` | `sp-accomplishments-correlator` | 6 | built 1.0 — staged to-review, awaiting gate |
+| `accomplishments-drafter` | `sp-accomplishments-drafter-revision` | 7 | verified 1.0; 2.0 revision staged to-review, awaiting gate (correlation-map input, Operational load) |
+| `accomplishments-docx-stylizer` | `sp-accomplishments-docx-stylizer-revision` | 9 | verified 1.0; 2.0 revision staged to-review, awaiting gate (direct input, build-or-template ask, engine-agnostic) |
 
-Until each gap skill is built, its stage runs inline from its `CONTEXT.md`
-Process field. Until the two revisions pass the gate, the 1.0 skills run with
-the new behavior inline, as each stage's Layer-3 line describes.
+All five skills were built on 2026-10-27 and staged in
+`skill-foundry/review-skills/` at `to-review`; build rationale is in
+`skill-foundry/decision-log/2026-10-27-*`. Until each new skill passes the
+gate, its stage runs inline from its `CONTEXT.md` Process field. Until the
+two 2.0 revisions pass, the verified 1.0 skills run with the new behavior
+inline, as each stage's Layer-3 line describes.
 
 Per-tenant probes: the Confluence activity-history depth check
 (`reference/confluence-activity-history-capability-check.md`, Stage 3) and,

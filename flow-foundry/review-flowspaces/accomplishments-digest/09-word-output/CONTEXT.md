@@ -8,7 +8,7 @@ artifact-version: "2.0"
 status: living
 truth-level: to-review
 created: 2026-07-08
-updated: 2026-10-27
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -51,9 +51,9 @@ engineer supplies a Word template (`.dotx` or a styled `.docx`).
    shape needs, map it to the nearest style and list the mapping in an
    appendix. Don't invent branding.
 
-`Layer-3: accomplishments-docx-stylizer` (revision brief filed:
-`sp-accomplishments-docx-stylizer-revision`; until that revision passes the
-gate, the verified 1.0 skill applies with steps 1 and 2 run inline).
+`Layer-3: accomplishments-docx-stylizer` (2.0 revision, `to-review`, staged
+in `skill-foundry/review-skills/accomplishments-docx-stylizer/`; until 2.0 passes the gate,
+the verified 1.0 in `produced-skills/` applies with steps 1 and 2 run inline).
 
 ## Outputs
 

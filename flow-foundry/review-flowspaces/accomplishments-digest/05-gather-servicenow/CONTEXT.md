@@ -8,7 +8,7 @@ artifact-version: "1.0"
 status: living
 truth-level: to-review
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -62,7 +62,9 @@ service or problem domain (the assignment group's service or the configuration i
 so Stage 6 can match them to themes. Short descriptions are paraphrased.
 Any record whose short description carries a customer name, hostname, or IP
 is cited by number only.
-`Layer-3: TBD — brief filed (sp-servicenow-accomplishments-gatherer)`.
+`Layer-3: servicenow-accomplishments-gatherer` (1.0, `to-review`, staged in
+`skill-foundry/review-skills/servicenow-accomplishments-gatherer/`; until it passes the gate,
+this stage runs inline as described above).
 
 ## Outputs
 

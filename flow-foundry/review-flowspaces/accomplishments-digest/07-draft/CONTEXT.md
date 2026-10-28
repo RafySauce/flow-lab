@@ -8,7 +8,7 @@ artifact-version: "2.0"
 status: living
 truth-level: to-review
 created: 2026-07-08
-updated: 2026-10-27
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -51,10 +51,10 @@ with peers. Where volume supports an outcome theme, cite it there as
 evidence too. Match tone and detail level to Stage 1's stated audience.
 Carry every gap flag (thin coverage, skipped or unreachable source) forward
 as an explicit note rather than smoothing it over.
-`Layer-3: accomplishments-drafter` (revision brief filed:
-`sp-accomplishments-drafter-revision`; the verified 1.0 skill does not yet
-read a correlation map or draft Operational load, so until the revision
-passes the gate, those two parts run inline as described above).
+`Layer-3: accomplishments-drafter` (2.0 revision, `to-review`, staged in
+`skill-foundry/review-skills/accomplishments-drafter/`; the verified 1.0 in
+`produced-skills/` does not read a correlation map or draft Operational load,
+so until 2.0 passes the gate, those two parts run inline as described above).
 
 ## Outputs
 
