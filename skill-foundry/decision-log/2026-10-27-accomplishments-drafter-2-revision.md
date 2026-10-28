@@ -23,4 +23,5 @@ related:
 - **Halts on an unconfirmed map** (review criterion 10), not drafting best-effort — Stage 6 is a heavy gate precisely so prose is never built on unconfirmed groups.
 - **Never regroups:** a wrong-looking group goes back to Stage 6 rather than being fixed in the drafter, keeping the correlator/drafter boundary clean.
 - **Operational load uses only figures the load summary states**, never recomputed, and excludes assigned-but-not-resolved records, so the section cannot become a scoreboard.
+- **Recognition is warned about, then opt-out-able** (operator, 2026-10-28): if the map holds colleague recognition and no choice is recorded, the drafter pauses to tell the engineer before drafting; omitted items leave no trace. Review calls 2 and 3 (Operational-load placement, `review-skills/` staging) approved; Mermaid compilation deferred to an update thread.
 - **Diagram and Method kept one-for-one;** Mermaid compilation not run this session (see report); GitLab rendering unconfirmed.

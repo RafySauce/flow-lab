@@ -56,9 +56,12 @@ the result shareable.
 flowchart LR
     Start(["Trigger: Stage 1 framing brief +<br/>Stage 6 confirmed correlation map"]):::start --> R{"Map carries the engineer's<br/>explicit confirmation?"}:::decision
     R -->|No| H0["Halt — send back to Stage 6;<br/>never draft from an unconfirmed map"]:::halt
-    R -->|Yes| S["Step 2 — Structure by theme<br/>One group = one bullet or short cluster;<br/>dropped groups stay out"]:::process
+    R -->|Yes| W{"Recognition evidence in map and<br/>no opt-in/opt-out recorded?"}:::decision
+    W -->|Yes| Q["Step 4 — Warn the engineer first;<br/>wait for include or omit"]:::halt
+    W -->|No| S
+    Q --> S["Step 2 — Structure by theme<br/>One group = one bullet or short cluster;<br/>dropped groups stay out"]:::process
     S --> E["Step 3 — Emphasize Stage 1 top items<br/>First placement within their theme"]:::process
-    E --> C["Step 4 — Place recognition<br/>Paraphrased unless a quote<br/>was approved at Stage 6"]:::process
+    E --> C["Step 4 — Place recognition<br/>Unless opted out; paraphrased unless<br/>a quote was approved at Stage 6"]:::process
     C --> L{"ServiceNow ran and<br/>map has a load summary?"}:::decision
     L -->|Yes| O["Step 5 — Draft Operational load<br/>Counts with context; no headline,<br/>no peer comparison"]:::process
     L -->|No| M
@@ -121,7 +124,16 @@ flowchart LR
    in anonymously among lesser items. A top item the map flags "narrative
    only" is written from Stage 1's own words and is not given tracker-style
    supporting detail it does not have.
-4. **Place recognition with care.** Recognition evidence (thank-yous, kudos)
+4. **Warn before using recognition; honor an opt-out.** Recognition
+   evidence (thank-yous, kudos, callouts by colleagues) is about other people's
+   words, so the engineer decides whether it appears. Check the framing brief
+   and the map for a recorded choice (include / omit, whole or per item).
+   If recognition evidence exists and **no choice is recorded**, stop before
+   drafting and tell the engineer plainly that colleague recognition is in
+   the map, where it would appear, and that it can be omitted entirely or
+   per item; then wait for the answer. Omitted recognition is left out of
+   the draft completely (not hinted at) and is not a gap to note. When
+   included, recognition evidence (thank-yous, kudos)
    goes under the theme it supports, or into the "Collaboration & scope
    beyond individual tickets" section when it spans themes. Paraphrase by
    default ("recognized by the network team for the cutover"). Use a
@@ -214,8 +226,9 @@ A single output of this skill is acceptable when:
 3. No group the engineer dropped at Stage 6 appears anywhere in the draft.
 4. Every Stage 1 self-identified top item receives first placement or a
    clearly visible lead position within its theme.
-5. Recognition is paraphrased, except for quotes the map records as
-   engineer-approved.
+5. Recognition appears only if the engineer opted in (or did not opt out
+   after being warned), and is paraphrased except for quotes the map records
+   as engineer-approved; omitted recognition leaves no trace in the draft.
 6. The Operational load section appears if and only if ServiceNow ran; it
    uses only figures from the load summary, never opens with or headlines a
    bare count, contains no peer or team comparison, and counts no
@@ -237,7 +250,8 @@ A single output of this skill is acceptable when:
   reappear; unconfirmed map halts). Adds recognition handling (paraphrase
   unless engineer-approved quote) and the Operational load section (counts
   with context, no headline, no peer comparison, omitted when ServiceNow was
-  skipped). Gaps from any skipped source join Notes. Unchanged: top-item
+  skipped). Recognition is warned about before use and can be opted out of.
+  Gaps from any skipped source join Notes. Unchanged: top-item
   emphasis, audience matching, exclusion-list check, no fabricated content.
   Returns to `to-review` for the gate. Built from
   `sp-accomplishments-drafter-revision`.
