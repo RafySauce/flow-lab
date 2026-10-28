@@ -87,13 +87,18 @@ flowchart LR
 > `flow-foundry/decision-log/2026-10-09-production-promotion.md`.
 > **2026-10-21:** this HUB and Stages 05–06 return to `to-review` for the
 > split-engine commit packet (Sixteenth gap); every other stage and all
-> skills keep their 10-09 `verified` status.
+> skills keep their 10-09 `verified` status, except `bulk-child-creation`,
+> which the same day's citation sweep dropped to `to-review` (1.2; see
+> `flow-foundry/decision-log/2026-10-21-source-repo-protocol-rename-and-citation-sweep.md`).
+> **2026-10-28:** `bulk-child-creation` 1.2 and the Confluence instantiation
+> guide are re-promoted `verified` on operator instruction
+> (`flow-foundry/decision-log/2026-10-28-operator-re-promotion.md`).
 
 ## Stage table
 
 | # | Stage | Review intensity | Max data-class | Sanctioned engines | Layer-3 |
 |---|---|---|---|---|---|
-| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all seven refinable types); plus two conditional handoffs — to `value-decomposition` (verified, `produced-skills/`) when the user asks to decompose (or "break down") a selected parent-level item, and to `bulk-child-creation` (verified, `produced-skills/`) when the input is set-shaped and the user accepts bulk creation mode |
+| 1 | Intake & Guardrails | heavy¹ | internal | Rovo, Copilot | inline — guardrails, persona from `reference/ai-refinement-hybrid.md`; schemas from `reference/work-item-schemas.md` (registry for all seven refinable types); plus two conditional handoffs — to `value-decomposition` (verified, `produced-skills/`) when the user asks to decompose (or "break down") a selected parent-level item, and to `bulk-child-creation` (verified — 1.2, `produced-skills/`) when the input is set-shaped and the user accepts bulk creation mode |
 | 2 | Context & Problem Framing | heavy¹ | internal | Rovo, Copilot | `context-elicitation` (verified, `produced-skills/`) |
 | 3 | Scope & Dependencies | light² | internal | Rovo, Copilot | `scope-dependency-mapper` (verified, `produced-skills/`) |
 | 4 | Field-by-Field Refinement | light² | internal | Rovo, Copilot | `field-refinement-cadence` (verified, `produced-skills/`) |
@@ -538,7 +543,7 @@ recorded in each skill card.
 | `workitem-validation` | `sp-workitem-validation` | 5 | verified — 1.4 (completeness scan names any excerpt-only/inaccessible research grounding backing a required field); content change 2026-08-05; promoted 2026-10-09 on operator instruction (previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test) |
 | `jira-commit` | `sp-jira-commit` | 6 | verified — 1.12 (API preflight, hierarchy-level validation before parent-link writes, field-capability testing, post-commit field audit, bug app_code/root_cause custom-field discovery); content change 2026-08-21; promoted 2026-10-09 on operator instruction (previously re-gated and promoted 2026-08-01 on a confirmed Rovo live test) |
 | `value-decomposition` | `sp-value-decomposition` | 1 (conditional handoff, not the stage's default path) | verified — 1.1 (built 2026-07-15; wired into Stage 01's CONTEXT.md 1.13 and this table 2026-07-30, wording covering "break down" phrasing added same day — see Ninth gap; 1.1 added the bulk-creation branch for a large accepted child set; re-gated and promoted 2026-08-01 on a confirmed Rovo live test); Copilot live test still outstanding |
-| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | verified — 1.1 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, promoted 2026-10-09 on operator instruction); Copilot live test still outstanding |
+| `bulk-child-creation` | `sp-bulk-child-creation` | 1 (conditional handoff into Band ③, replacing Band ② for that set) | verified — 1.2 (built 2026-07-31, gated and promoted 2026-08-01 on a confirmed Rovo live test; 1.1 added ≤10-item sub-batch chunking 2026-08-05, promoted 2026-10-09 on operator instruction; 1.2 citation sweep 2026-10-21 dropped it to `to-review`; re-promoted 2026-10-28 on operator instruction (`flow-foundry/decision-log/2026-10-28-operator-re-promotion.md`)); Copilot live test still outstanding |
 
 Second gap (2026-07-03): the work-item schema registry originally covered
 only `solution_epic`/`feature`; `story`/`task`/`spike` schemas are
@@ -590,7 +595,7 @@ the two epic types); Stages 01/05/06 resolve, gate, and apply them, with
 `jira-commit` and `workitem-validation` updated and dropped to `to-review`.
 Raised by the operator. Also records a value-delivery decomposition
 capability designed but not built, handed off as
-`skill-foundry/backlog-skill-starters/sp-value-decomposition.md`. Rationale:
+`skill-foundry/completed-skill-starters/sp-value-decomposition.md`. Rationale:
 `decision-log/2026-07-15-provenance-and-planning-labels.md`.
 
 Sixth gap (2026-07-21): a seventh house amendment,
@@ -608,13 +613,13 @@ Raised by the operator; none of it has run on-engine. Rationale:
 | Artifact | Location | Covers |
 |---|---|---|
 | AI Refinement — Hybrid Definition | `reference/ai-refinement-hybrid.md` (verified — clipping + house amendments) | Guardrails, persona (incl. communication_style enforcement), hierarchy, source schemas (solution_epic, feature), workflow cadence, triggers, eleven house amendments (five on-engine-proven, six operator-raised) |
-| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (verified — 1.1) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation in ≤10-item sub-batches with halt-on-failure, Markdown handoff degrade path |
+| Bulk Child Creation | `produced-skills/bulk-child-creation/SKILL.md` (verified — 1.2) | Band ③'s single pass: set recognition and the set-versus-item test, the separate bulk acknowledgment, list/spreadsheet ingest, required-field drafting with the stop-at-the-evidence rule, separated suggested items, sequential creation in ≤10-item sub-batches with halt-on-failure, Markdown handoff degrade path |
 | Commit Packet | `reference/commit-packet.md` (to-review) | Split-engine handoff at the commit boundary: header, signed-off items under schema names, fallout, decisions left to the user, return slip — prefixed by the shared executor brief from `methodology/engine-handoff-contract.md`; also Stage 06's no-write-path output in either mode |
 | Session-Continuation Handoff | `reference/session-continuation-handoff.md` (verified) | Document shape for resuming this flow's own progress in a fresh session when `session_budget_checkpoint` stops the current one: stage reached, items completed, items remaining, recommended priority order |
 | Work Item Schemas — Refinable Set | `reference/work-item-schemas.md` (verified, house extension) | Schema registry for all seven refinable types; story/task/spike/portfolio_epic/bug extensions (bug now carries app_code/root_cause alongside description); sub_task out-of-scope declaration; extension field constraints; mandatory-label, hierarchy-level, and field-capability cross-cutting notes |
 | Platform Stakeholder Register | `reference/platform-stakeholder-register.md` (claimed clipping — network-engineering instance) | Stakeholder role-types, coalitions, conflict axes, escalation routing |
 | Platform Stakeholder Register — Template | `reference/platform-stakeholder-register-template.md` (verified, house extension) | Domain-neutral register structure for instantiating a stakeholder register in any domain |
-| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |
+| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified — 1.2, house extension) | Page-tree structure, mapping rules, and operator checklist for REC-01/02/10 (Confluence migration, Rovo agent deployment) — prepared, not executed |
 | On-Engine Validation Checklist | `reference/on-engine-validation-checklist.md` (verified, house extension) | Per-type, per-check matrix for REC-09 (first on-engine validation run) — prepared, not executed |
 | Platform Quirks | `reference/platform-quirks.md` (verified, house extension) | Rovo/Copilot-specific execution observations — session state volatility, API parameter-naming differences, tool-inventory churn — evidence behind the `commit_boundary_hardening` house amendment, not the rule itself |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |

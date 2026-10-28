@@ -28,8 +28,8 @@ It holds **method, templates, and sanitized exemplars only**. No employer conten
 | `methodology/governance-and-audit.md` | The gates: data classification at intake, human-only verified promotion, decision logging, review evidence. |
 | `flow-foundry/` | Builds flowspaces. `foundry-spec.md` is the method; `templates/` are the molds; `backlog-flow-starters/` is the WIP queue; finished builds stage in `review-flowspaces/` for the human gate — promoted designs land in `icp-flows/`. |
 | `skill-foundry/` | Builds skills. `foundry-spec.md` is the method; `templates/` include the engine-neutral skill spec; `backlog-skill-starters/` is the WIP queue; finished builds stage in `review-skills/` for the human gate — promoted skills land in `produced-skills/`, and their primer brief moves to `completed-skill-starters/` at the same time. |
-| `icp-flows/` | DONE queue for flowspaces: designs that passed the three gates and were promoted `verified` by the operator. Human-placed only. |
-| `produced-skills/` | DONE queue for skills: specs that passed the five-point gate and were promoted `verified` by the operator. Human-placed only. |
+| `icp-flows/` | DONE queue for flowspaces: designs that passed the three gates and were promoted `verified` by the operator. Human-placed only. An item here can sit at `to-review` after a later content change, pending the operator's re-gate; its own frontmatter is authoritative, not its folder. |
+| `produced-skills/` | DONE queue for skills: specs that passed the five-point gate and were promoted `verified` by the operator. Human-placed only. An item here can sit at `to-review` after a later content change, pending the operator's re-gate; its own frontmatter is authoritative, not its folder. |
 
 ## Find it fast
 

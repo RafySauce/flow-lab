@@ -77,7 +77,7 @@ the build decides when the deferral lifts.
 
 Documentarian flowspace, Stage 06 (`06-commit-and-link/CONTEXT.md`), step 6
 — the declared ServiceNow designed-for gap, flagged at scaffold triage
-(`flow-foundry/review-flowspaces/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
+(`icp-flows/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
 
 ## Definition of done
 

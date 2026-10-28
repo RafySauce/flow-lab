@@ -4,9 +4,9 @@ title: "Skill Primer Brief — Doc Custodian"
 type: skill-primer-brief
 artifact-version: "1.0"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: flow-foundry
@@ -68,7 +68,7 @@ executes confirmed archive moves. Max data-class: `internal`. Engine:
 
 Documentarian flowspace, Stage 07 (`07-custody-and-close/CONTEXT.md`) —
 Layer-3 gap flagged at scaffold triage
-(`flow-foundry/review-flowspaces/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
+(`icp-flows/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
 The custody model's standing-custodian operating notes
 (`reference/custody-model.md`) are this skill's future-mode constraints.
 

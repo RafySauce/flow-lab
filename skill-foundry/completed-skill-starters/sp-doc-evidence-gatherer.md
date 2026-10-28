@@ -68,7 +68,7 @@ for `sad-update` via a source-repo-protocol §4 handoff.
 
 Documentarian flowspace, Stage 02 (`02-evidence-gathering/CONTEXT.md`) —
 Layer-3 gap flagged at scaffold triage
-(`flow-foundry/review-flowspaces/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
+(`icp-flows/documentarian/decision-log/2026-07-15-scaffold-triage.md`).
 
 ## Definition of done
 

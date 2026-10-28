@@ -13,7 +13,7 @@
 
 > **Before you invoke one:** these are complete, engine-neutral designs — you can run one directly in a chat session referencing this repo. Point your agent at [`START-HERE.md`](../START-HERE.md) first: it checks what your session actually has access to (Jira, Confluence, a connected repo, or none of it) and runs the flow within those limits, producing chat/markdown output wherever a live system isn't connected. For full, persistent, audited execution — real Jira/Confluence writes, git history as the audit trail, human-gated promotion — each flow assumes an employer-side source-repo (the GitLab instance that is the sole source of truth for that flow); see [`README.md`'s "Using what's already built"](../README.md#using-whats-already-built) for that deeper path.
 
-Each flow's `HUB.md` frontmatter and opening paragraph are the source of truth for the summaries above; if they ever disagree, the `HUB.md` wins.
+Each flow's `HUB.md` frontmatter and opening paragraph are the source of truth for the summaries above; if they ever disagree, the `HUB.md` wins. Every live flow is currently `to-review` at the HUB level (each HUB's status notes say which stages and skills are `verified`); promotion of a HUB to `verified` is the operator's act.
 
 ---
 

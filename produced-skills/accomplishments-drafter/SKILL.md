@@ -77,7 +77,7 @@ flowchart LR
    framing; a draft built without it reads as an automated tracker export
    with the engineer's voice missing.
 2. **Structure by theme**, per
-   `flow-foundry/review-flowspaces/accomplishments-digest/reference/accomplishments-document-shape.md`
+   `icp-flows/accomplishments-digest/reference/accomplishments-document-shape.md`
    — themes/initiatives as the top-level structure, never "Jira" and
    "Confluence" as section headers. Where the same working area appears in
    both digests under slightly different names, merge under one theme

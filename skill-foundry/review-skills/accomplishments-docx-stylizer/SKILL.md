@@ -80,7 +80,7 @@ flowchart LR
    can be re-run on an engine that can write `.docx`.
 2. **Ask one question, and wait for the answer.** Offer exactly three choices:
    **(a) build from the default style**
-   (`flow-foundry/review-flowspaces/accomplishments-digest/reference/docx-minimal-default-style.md`
+   (`icp-flows/accomplishments-digest/reference/docx-minimal-default-style.md`
    in this repo, or the flow's `reference/` copy when run inside an instance), or
    **(b) use your own template** (a `.dotx` or a styled `.docx` the engineer
    supplies), or **(c) match an example** (an accomplishments `.docx` the

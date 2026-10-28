@@ -180,7 +180,7 @@ percentages with their absolute counts and the age ranking from
 `portfolio-profiler`; the mapping record — area, confidence band, score,
 secondary match, degraded-mapping flags — from `objective-keyword-mapper`; the
 model itself, the flowspace's `reference/close-score-model.md` (design copy:
-`flow-foundry/review-flowspaces/portfolio-rationalization/reference/close-score-model.md`);
+`icp-flows/portfolio-rationalization/reference/close-score-model.md`);
 and the instance's status→adjustment mapping plus calibration ratification
 status from the instance `decision-log/`.
 

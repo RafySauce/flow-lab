@@ -61,18 +61,18 @@ flowchart LR
     end
     subgraph J["② Job Framing — once per job"]
         style J fill:#0f172a,stroke:#475569,stroke-width:1px,color:#e2e8f0
-        S2["2. Evidence Gathering<br/>review: light"]:::gap
-        S3["3. Doc Plan &amp; Template Match<br/>review: heavy"]:::gap
+        S2["2. Evidence Gathering<br/>review: light"]:::light
+        S3["3. Doc Plan &amp; Template Match<br/>review: heavy"]:::heavy
     end
     subgraph D["③ Per-Document Pipeline — repeats per document"]
         style D fill:#0f172a,stroke:#475569,stroke-width:1px,color:#e2e8f0
-        S4["4. Draft &amp; Update<br/>review: light"]:::gap
-        S5["5. Standards Validation<br/>review: light"]:::gap
-        S6["6. Commit &amp; Link<br/>review: heavy"]:::gap
+        S4["4. Draft &amp; Update<br/>review: light"]:::light
+        S5["5. Standards Validation<br/>review: light"]:::light
+        S6["6. Commit &amp; Link<br/>review: heavy"]:::heavy
     end
     subgraph C["④ Custody &amp; Close — once per job"]
         style C fill:#0f172a,stroke:#475569,stroke-width:1px,color:#e2e8f0
-        S7["7. Custody &amp; Close<br/>review: heavy"]:::gap
+        S7["7. Custody &amp; Close<br/>review: heavy"]:::heavy
     end
     S1 --> S2 --> S3 --> S4 --> S5 --> S6
     S6 --> S7
@@ -83,11 +83,10 @@ flowchart LR
     classDef gap   fill:#7f1d1d,stroke:#f87171,color:#fee2e2
 ```
 
-> Stages 2–7 are colored `gap`, not by their review intensity: each stage's
-> Layer-3 is `TBD — skill-primer-brief filed` (see Known gaps), and the
-> diagram guide has `gap` override intensity on the diagram while the Stage
-> table keeps the true intensities. Stage 1 is inline Layer-3 and carries its
-> real `heavy` color.
+> Every stage is colored by its review intensity. Stages 2–7 were once
+> colored `gap` while their Layer-3 skills were `TBD — skill-primer-brief
+> filed`; all six skills are now built (see the Stage table), so no stage
+> carries the `gap` override. Stage 1 is inline Layer-3.
 
 ## Stage table
 
@@ -97,8 +96,8 @@ flowchart LR
 | 2 | Evidence Gathering | light | internal | Rovo, Copilot (read-only) | `doc-evidence-gatherer` (to-review — 1.1, Copilot sanctioned 2026-10-21, `produced-skills/`) |
 | 3 | Doc Plan & Template Match | heavy² | internal | Rovo, Copilot | `doc-planner` (verified, `produced-skills/`) |
 | 4 | Draft & Update | light | internal | Rovo, Copilot | `doc-drafter` (verified, `produced-skills/`); `sad-diagram-maintainer` (verified, `produced-skills/`) for the sad-update job type |
-| 5 | Standards Validation | light | internal | Rovo, Copilot | `doc-standards-validator` (verified, `produced-skills/`); `provenance-stamper` (verified, `produced-skills/`) referenced for source-repo artifact stamping |
-| 6 | Commit & Link | heavy¹ | internal | Rovo | `confluence-page-commit` (verified, `produced-skills/`); ServiceNow write path deferred (`sp-servicenow-kb-commit`); ai-refinement handoff packaging inline per `reference/ai-refinement-handoff-contract.md` |
+| 5 | Standards Validation | light | internal | Rovo, Copilot | `doc-standards-validator` (verified, `produced-skills/`); `provenance-stamper` (verified — 1.1, `produced-skills/`) referenced for source-repo artifact stamping |
+| 6 | Commit & Link | heavy¹ | internal | Rovo | `confluence-page-commit` (verified — 1.1, `produced-skills/`); ServiceNow write path deferred (`sp-servicenow-kb-commit`); ai-refinement handoff packaging inline per `reference/ai-refinement-handoff-contract.md` |
 | 7 | Custody & Close | heavy³ | internal | Rovo | `doc-custodian` (verified, `produced-skills/`); archive-confirmation dialogue inline |
 
 ¹ First stage and commit boundary — heavy per the U-curve default,
@@ -238,7 +237,7 @@ had a true on-engine invocation. Evidence:
 | `doc-drafter` | `sp-doc-drafter` | 4 | verified — built and gated 2026-08-01; on-engine test pending |
 | `sad-diagram-maintainer` | `sp-sad-diagram-maintainer` | 4 (sad-update jobs) | verified — built standalone (merge into `doc-drafter` declined), gated 2026-08-01; on-engine test pending |
 | `doc-standards-validator` | `sp-doc-standards-validator` | 5 | verified — built and gated 2026-08-01; on-engine test pending |
-| `confluence-page-commit` | `sp-confluence-page-commit` | 6 | verified — built and gated 2026-08-01; on-engine test pending |
+| `confluence-page-commit` | `sp-confluence-page-commit` | 6 | verified — 1.1 (provenance label, 2026-10-21); built and gated 2026-08-01, re-promoted 2026-10-28 on operator instruction (`flow-foundry/decision-log/2026-10-28-operator-re-promotion.md`); on-engine test pending |
 | `doc-custodian` | `sp-doc-custodian` | 7 | verified — built and gated 2026-08-01; on-engine test pending |
 | `servicenow-kb-commit` | `sp-servicenow-kb-commit` | 6 (ServiceNow path) | **deferred** — designed-for gap; no sanctioned ServiceNow integration exists; brief filed 2026-07-15 so the gap stays registry-visible |
 
@@ -270,13 +269,13 @@ the operator. Rationale:
 
 | Artifact | Location | Covers |
 |---|---|---|
-| Doc-Type Registry | `reference/doc-type-registry.md` (verified, house-drafted) | Schema registry for the six governed doc types (sop, mop, runbook, sad, kb-article, meeting-notes): required sections, metadata, surface mapping, default open sections; out-of-scope table |
-| Documentation Standards | `reference/documentation-standards.md` (verified, house-drafted) | The Stage 5 baseline: naming, structure, labeling, link hygiene, staleness thresholds, archive criteria |
-| Collaborative Sections Protocol | `reference/collaborative-sections-protocol.md` (verified, house-drafted) | Open-section marker syntax, ownership, resolution rules, and the Stage 6 waiver gate |
+| Doc-Type Registry | `reference/doc-type-registry.md` (verified — 1.1, house-drafted) | Schema registry for the six governed doc types (sop, mop, runbook, sad, kb-article, meeting-notes): required sections, metadata, surface mapping, default open sections; out-of-scope table |
+| Documentation Standards | `reference/documentation-standards.md` (verified — 1.1, house-drafted) | The Stage 5 baseline: naming, structure, labeling, link hygiene, staleness thresholds, archive criteria |
+| Collaborative Sections Protocol | `reference/collaborative-sections-protocol.md` (verified — 1.1, house-drafted) | Open-section marker syntax, ownership, resolution rules, and the Stage 6 waiver gate |
 | AI-Refinement Handoff Contract | `reference/ai-refinement-handoff-contract.md` (verified, house-drafted) | The meeting job type's candidate-work-item output, shaped as ai-refinement Stage 01 input |
 | Commit Packet | `reference/commit-packet.md` (to-review) | Split-engine handoff into Rovo's Stages 06–07: header, validated pages with work-order lines, open sections, archive proposals, decisions left to the user, return slip — prefixed by the shared executor brief from `methodology/engine-handoff-contract.md` |
-| Custody Model | `reference/custody-model.md` (verified, house-drafted) | Doc-registry index shape, freshness signals, archive procedure, standing-custodian operating notes |
-| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified, house-drafted) | Page-tree structure, property mapping, and operator checklist for Confluence migration and Rovo deployment — prepared, not executed |
+| Custody Model | `reference/custody-model.md` (verified — 1.1, house-drafted) | Doc-registry index shape, freshness signals, archive procedure, standing-custodian operating notes |
+| Confluence Instantiation Guide | `reference/confluence-instantiation-guide.md` (verified — 1.1, house-drafted) | Page-tree structure, property mapping, and operator checklist for Confluence migration and Rovo deployment — prepared, not executed |
 | Flow Primer Brief | `flow-foundry/backlog-flow-starters/fp-documentarian.md` | Original crystallized intent this flowspace was built from |
 | Provenance spec | `methodology/provenance-spec.md` | Frontmatter rules for all artifacts |
 | Governance & Audit | `methodology/governance-and-audit.md` | Gate requirements |

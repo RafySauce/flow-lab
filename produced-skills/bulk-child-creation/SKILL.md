@@ -23,9 +23,9 @@ id: bulk-child-creation
 type: skill
 artifact-version: "1.2"
 status: living
-truth-level: to-review
+truth-level: verified
 created: 2026-07-31
-updated: 2026-10-21
+updated: 2026-10-28
 owner: operator
 source: human+ai
 generated-by: skill-foundry
